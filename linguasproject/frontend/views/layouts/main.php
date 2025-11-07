@@ -9,6 +9,7 @@ use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\Nav;
 use yii\bootstrap5\NavBar;
+use yii\helpers\Url;
 
 AppAsset::register($this);
 ?>
@@ -25,41 +26,105 @@ AppAsset::register($this);
 <body class="d-flex flex-column h-100">
 <?php $this->beginBody() ?>
 
-<header>
-    <?php
-    NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar navbar-expand-md navbar-dark bg-dark fixed-top',
-        ],
-    ]);
-    $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'Contact', 'url' => ['/site/contact']],
-    ];
-    if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-    }
+<header style="background: #2ed06e;" class="header navbar-area">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-12">
+                <div class="nav-inner">
+                    <!-- Start Navbar -->
+                    <nav class="navbar navbar-expand-lg">
+                        <!-- Logo: usa Url::to para caminho correcto -->
+                        <a class="navbar-brand" href="<?= Yii::$app->homeUrl ?>">
+                            <img src="<?= Url::to('@web/assets/images/logo/white-logo.svg') ?>" alt="<?= Html::encode(Yii::$app->name) ?>">
+                        </a>
 
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav me-auto mb-2 mb-md-0'],
-        'items' => $menuItems,
-    ]);
-    if (Yii::$app->user->isGuest) {
-        echo Html::tag('div',Html::a('Login',['/site/login'],['class' => ['btn btn-link login text-decoration-none']]),['class' => ['d-flex']]);
-    } else {
-        echo Html::beginForm(['/site/logout'], 'post', ['class' => 'd-flex'])
-            . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout text-decoration-none']
-            )
-            . Html::endForm();
-    }
-    NavBar::end();
-    ?>
+                        <!-- Botão mobile -->
+                        <button class="navbar-toggler mobile-menu-btn" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="toggler-icon"></span>
+                            <span class="toggler-icon"></span>
+                            <span class="toggler-icon"></span>
+                        </button>
+
+                        <!-- Menu (dinâmico com PHP; mantém as funcionalidades) -->
+                        <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
+                            <ul id="nav" class="navbar-nav ms-auto">
+                                <?php
+                                // items estáticos (podes adicionar dinamicamente se quiseres)
+                                $menuItems = [
+                                    ['label' => 'Home', 'url' => ['/site/index']],
+                                    ['label' => 'About', 'url' => ['/site/about']],
+                                    ['label' => 'Contact', 'url' => ['/site/contact']],
+                                ];
+
+                                // Renderiza os itens estáticos
+                                foreach ($menuItems as $item) {
+                                    $label = Html::encode($item['label']);
+                                    $url = Url::to($item['url']);
+                                    // marca "active" só se quiseres podes detectar rota actual
+                                    echo '<li class="nav-item">' . Html::a($label, $url, ['class' => 'nav-link']) . '</li>';
+                                }
+                                ?>
+
+                                <!-- Exemplos de dropdowns do template (estáticos) -->
+                                <li class="nav-item">
+                                    <a class="dd-menu collapsed" href="javascript:void(0)" data-bs-toggle="collapse"
+                                       data-bs-target="#submenu-1-1" aria-controls="navbarSupportedContent"
+                                       aria-expanded="false">Pages</a>
+                                    <ul class="sub-menu collapse" id="submenu-1-1">
+                                        <li class="nav-item"><?= Html::a('About Us', ['/site/about'], ['class' => 'nav-link']) ?></li>
+                                        <li class="nav-item"><?= Html::a('Our Pricing', ['/site/pricing'], ['class' => 'nav-link']) ?></li>
+                                        <li class="nav-item"><?= Html::a('Sign In', ['/site/login'], ['class' => 'nav-link']) ?></li>
+                                        <li class="nav-item"><?= Html::a('Sign Up', ['/site/signup'], ['class' => 'nav-link']) ?></li>
+                                        <li class="nav-item"><?= Html::a('Reset Password', ['/site/request-password-reset'], ['class' => 'nav-link']) ?></li>
+                                        <li class="nav-item"><?= Html::a('Mail Success', ['/site/mail-success'], ['class' => 'nav-link']) ?></li>
+                                        <li class="nav-item"><?= Html::a('404 Error', ['/site/error'], ['class' => 'nav-link']) ?></li>
+                                    </ul>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="dd-menu collapsed" href="javascript:void(0)" data-bs-toggle="collapse"
+                                       data-bs-target="#submenu-1-2" aria-controls="navbarSupportedContent"
+                                       aria-expanded="false">Blog</a>
+                                    <ul class="sub-menu collapse" id="submenu-1-2">
+                                        <li class="nav-item"><?= Html::a('Blog Grid', ['/blog/index'], ['class' => 'nav-link']) ?></li>
+                                        <li class="nav-item"><?= Html::a('Blog Single', ['/blog/view', 'id' => 1], ['class' => 'nav-link']) ?></li>
+                                    </ul>
+                                </li>
+
+                                <?php if (Yii::$app->user->isGuest): ?>
+                                    <li class="nav-item"><?= Html::a('Signup', ['/site/signup'], ['class' => 'nav-link']) ?></li>
+                                    <li class="nav-item"><?= Html::a('Login', ['/site/login'], ['class' => 'nav-link']) ?></li>
+                                <?php else: ?>
+                                    <li class="nav-item">
+                                        <!-- mostra nome do utilizador sem dropdown complexo -->
+                                        <a class="nav-link" href="javascript:void(0)"><?= Html::encode(Yii::$app->user->identity->username) ?></a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <?= Html::beginForm(['/site/logout'], 'post', ['class' => 'd-inline']) .
+                                        Html::submitButton('Logout', ['class' => 'btn btn-link nav-link p-0 text-start']) .
+                                        Html::endForm() ?>
+                                    </li>
+                                <?php endif; ?>
+                            </ul>
+                        </div> <!-- navbar collapse -->
+
+                        <!-- Botão da direita (mantém o estilo do template) -->
+                        <div class="button home-btn">
+                            <a href="<?= Yii::$app->user->isGuest ? Url::to(['/site/signup']) : Url::to(['/dashboard/index']) ?>" class="btn">
+                                <?= Yii::$app->user->isGuest ? 'Try for free' : 'Dashboard' ?>
+                            </a>
+                        </div>
+                    </nav>
+                    <!-- End Navbar -->
+                </div>
+            </div>
+        </div> <!-- row -->
+    </div> <!-- container -->
 </header>
+
 
 <main role="main" class="flex-shrink-0">
     <div class="container">
