@@ -13,7 +13,6 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/main.css',
-        'css/site.css',
         'css/bootstrap.min.css',
         'css/glightbox.min.css',
         'css/LineIcons.3.0.css',

@@ -59,7 +59,6 @@ class SignupForm extends Model
         $user->generateEmailVerificationToken();
 
         $boolsave = $user->save();
-        $boolemail = $this->sendEmail($user);
 
         //Criar uma isntancia do Utilizado r
         //cchave estrangeira no utilizador = $user->id;
@@ -72,6 +71,8 @@ class SignupForm extends Model
         $utilizador->data_inscricao = date('Y-m-d H:i:s');
         $utilizador->iduser = $user->id;
         $boolutilizadorsave = $utilizador->save();
+
+
 
         var_dump($boolutilizadorsave);
         die();

@@ -35,7 +35,7 @@ AppAsset::register($this);
                     <nav class="navbar navbar-expand-lg">
                         <!-- Logo: usa Url::to para caminho correcto -->
                         <a class="navbar-brand" href="<?= Yii::$app->homeUrl ?>">
-                            <img src="<?= Url::to('@web/assets/images/logo/white-logo.svg') ?>" alt="<?= Html::encode(Yii::$app->name) ?>">
+                            <img src="img/logo.jpg " alt="<?= Html::encode(Yii::$app->name) ?>">
                         </a>
 
                         <!-- Botão mobile -->
@@ -54,8 +54,10 @@ AppAsset::register($this);
                                 // items estáticos (podes adicionar dinamicamente se quiseres)
                                 $menuItems = [
                                     ['label' => 'Home', 'url' => ['/site/index']],
-                                    ['label' => 'About', 'url' => ['/site/about']],
-                                    ['label' => 'Contact', 'url' => ['/site/contact']],
+                                    ['label' => 'Línguas', 'url' => ['/site/about']],
+                                    ['label' => 'Cursos', 'url' => ['/site/contact']],
+                                    ['label' => 'Feedback', 'url' => ['/site/contact']],
+                                    ['label' => 'Perfil', 'url' => ['/site/contact']],
                                 ];
 
                                 // Renderiza os itens estáticos
@@ -67,54 +69,14 @@ AppAsset::register($this);
                                 }
                                 ?>
 
-                                <!-- Exemplos de dropdowns do template (estáticos) -->
-                                <li class="nav-item">
-                                    <a class="dd-menu collapsed" href="javascript:void(0)" data-bs-toggle="collapse"
-                                       data-bs-target="#submenu-1-1" aria-controls="navbarSupportedContent"
-                                       aria-expanded="false">Pages</a>
-                                    <ul class="sub-menu collapse" id="submenu-1-1">
-                                        <li class="nav-item"><?= Html::a('About Us', ['/site/about'], ['class' => 'nav-link']) ?></li>
-                                        <li class="nav-item"><?= Html::a('Our Pricing', ['/site/pricing'], ['class' => 'nav-link']) ?></li>
-                                        <li class="nav-item"><?= Html::a('Sign In', ['/site/login'], ['class' => 'nav-link']) ?></li>
-                                        <li class="nav-item"><?= Html::a('Sign Up', ['/site/signup'], ['class' => 'nav-link']) ?></li>
-                                        <li class="nav-item"><?= Html::a('Reset Password', ['/site/request-password-reset'], ['class' => 'nav-link']) ?></li>
-                                        <li class="nav-item"><?= Html::a('Mail Success', ['/site/mail-success'], ['class' => 'nav-link']) ?></li>
-                                        <li class="nav-item"><?= Html::a('404 Error', ['/site/error'], ['class' => 'nav-link']) ?></li>
-                                    </ul>
-                                </li>
 
-                                <li class="nav-item">
-                                    <a class="dd-menu collapsed" href="javascript:void(0)" data-bs-toggle="collapse"
-                                       data-bs-target="#submenu-1-2" aria-controls="navbarSupportedContent"
-                                       aria-expanded="false">Blog</a>
-                                    <ul class="sub-menu collapse" id="submenu-1-2">
-                                        <li class="nav-item"><?= Html::a('Blog Grid', ['/blog/index'], ['class' => 'nav-link']) ?></li>
-                                        <li class="nav-item"><?= Html::a('Blog Single', ['/blog/view', 'id' => 1], ['class' => 'nav-link']) ?></li>
-                                    </ul>
-                                </li>
-
-                                <?php if (Yii::$app->user->isGuest): ?>
-                                    <li class="nav-item"><?= Html::a('Signup', ['/site/signup'], ['class' => 'nav-link']) ?></li>
-                                    <li class="nav-item"><?= Html::a('Login', ['/site/login'], ['class' => 'nav-link']) ?></li>
-                                <?php else: ?>
-                                    <li class="nav-item">
-                                        <!-- mostra nome do utilizador sem dropdown complexo -->
-                                        <a class="nav-link" href="javascript:void(0)"><?= Html::encode(Yii::$app->user->identity->username) ?></a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <?= Html::beginForm(['/site/logout'], 'post', ['class' => 'd-inline']) .
-                                        Html::submitButton('Logout', ['class' => 'btn btn-link nav-link p-0 text-start']) .
-                                        Html::endForm() ?>
-                                    </li>
-                                <?php endif; ?>
                             </ul>
                         </div> <!-- navbar collapse -->
 
                         <!-- Botão da direita (mantém o estilo do template) -->
                         <div class="button home-btn">
                             <a href="<?= Yii::$app->user->isGuest ? Url::to(['/site/signup']) : Url::to(['/dashboard/index']) ?>" class="btn">
-                                <?= Yii::$app->user->isGuest ? 'Try for free' : 'Dashboard' ?>
+                                <?= Yii::$app->user->isGuest ? 'Login' : 'Dashboard' ?>
                             </a>
                         </div>
                     </nav>
@@ -127,7 +89,7 @@ AppAsset::register($this);
 
 
 <main role="main" class="flex-shrink-0">
-    <div class="container">
+    <div>
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
