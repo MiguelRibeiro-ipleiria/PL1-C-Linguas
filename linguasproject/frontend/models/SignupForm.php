@@ -5,7 +5,7 @@ namespace frontend\models;
 use Yii;
 use yii\base\Model;
 use common\models\User;
-
+use backend\models\Utilizador;
 /**
  * Signup form
  */
@@ -14,7 +14,9 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $password;
-
+    public $data_nascimento;
+    public $telefone;
+    public $nacionalidade;
 
     /**
      * {@inheritdoc}
@@ -56,7 +58,27 @@ class SignupForm extends Model
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
 
-        return $user->save() && $this->sendEmail($user);
+        $boolsave = $user->save();
+        $boolemail = $this->sendEmail($user);
+
+        //Criar uma isntancia do Utilizado r
+        //cchave estrangeira no utilizador = $user->id;
+       // utilizador->save();
+
+        $utilizador = new Utilizador();
+        $utilizador->data_nascimento = $this->data_nascimento;
+        $utilizador->numero_telefone = $this->telefone;
+        $utilizador->nacionalidade = $this->nacionalidade;
+        $utilizador->data_inscricao = date('Y-m-d H:i:s');
+        $utilizador->iduser = $user->id;
+        $boolutilizadorsave = $utilizador->save();
+
+        var_dump($boolutilizadorsave);
+        die();
+
+        return $boolutilizadorsave && $boolemail && $boolsave;
+
+
     }
 
     /**
