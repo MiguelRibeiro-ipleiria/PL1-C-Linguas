@@ -1,27 +1,29 @@
 <?php
 
 namespace backend\models;
-
 use common\models\User;
+use common\models\Idioma;
 use Yii;
 
 /**
  * This is the model class for table "utilizador".
  *
- * @property int $idutilizador
- * @property string|null $data_nascimento
- * @property int|null $numero_telefone
+ * @property int $id
+ * @property string $data_nascimento
+ * @property int $numero_telefone
  * @property string $nacionalidade
  * @property string $data_inscricao
- * @property int|null $iduser
+ * @property int $user_id
+ * @property int|null $idioma_id
  *
- * @property Aula[] $aulas
+ * @property Aula[] $aulaIdaulas
  * @property Comentario[] $comentarios
- * @property Curso[] $cursos
+ * @property Curso[] $cursoIdcursos
  * @property Feedback[] $feedbacks
- * @property User $iduser0
+ * @property Idioma $idioma
  * @property Inscricao[] $inscricaos
  * @property Resultado[] $resultados
+ * @property User $user
  */
 class Utilizador extends \yii\db\ActiveRecord
 {
@@ -41,14 +43,13 @@ class Utilizador extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['data_nascimento', 'numero_telefone', 'iduser'], 'default', 'value' => null],
-            [['idutilizador', 'nacionalidade', 'data_inscricao'], 'required'],
-            [['idutilizador', 'numero_telefone', 'iduser'], 'integer'],
+            [['idioma_id'], 'default', 'value' => null],
+            [['data_nascimento', 'numero_telefone', 'nacionalidade', 'data_inscricao', 'user_id'], 'required'],
             [['data_nascimento', 'data_inscricao'], 'safe'],
+            [['numero_telefone', 'user_id', 'idioma_id'], 'integer'],
             [['nacionalidade'], 'string', 'max' => 25],
-            [['iduser'], 'unique'],
-            [['idutilizador'], 'unique'],
-            [['iduser'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['iduser' => 'id']],
+            [['idioma_id'], 'exist', 'skipOnError' => true, 'targetClass' => Idioma::class, 'targetAttribute' => ['idioma_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -58,23 +59,24 @@ class Utilizador extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idutilizador' => 'Idutilizador',
+            'id' => 'ID',
             'data_nascimento' => 'Data Nascimento',
             'numero_telefone' => 'Numero Telefone',
             'nacionalidade' => 'Nacionalidade',
             'data_inscricao' => 'Data Inscricao',
-            'iduser' => 'Iduser',
+            'user_id' => 'User ID',
+            'idioma_id' => 'Idioma ID',
         ];
     }
 
     /**
-     * Gets query for [[Aulas]].
+     * Gets query for [[AulaIdaulas]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getAulas()
+    public function getAulaIdaulas()
     {
-        return $this->hasMany(Aula::class, ['idaula' => 'aula_id'])->viaTable('resultado', ['utilizador_id' => 'idutilizador']);
+        return $this->hasMany(Aula::class, ['id' => 'aula_idaula'])->viaTable('resultado', ['utilizador_id' => 'id']);
     }
 
     /**
@@ -84,17 +86,17 @@ class Utilizador extends \yii\db\ActiveRecord
      */
     public function getComentarios()
     {
-        return $this->hasMany(Comentario::class, ['utilizador_id' => 'idutilizador']);
+        return $this->hasMany(Comentario::class, ['utilizador_id' => 'id']);
     }
 
     /**
-     * Gets query for [[Cursos]].
+     * Gets query for [[CursoIdcursos]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getCursos()
+    public function getCursoIdcursos()
     {
-        return $this->hasMany(Curso::class, ['idcurso' => 'curso_id'])->viaTable('inscricao', ['utilizador_id' => 'idutilizador']);
+        return $this->hasMany(Curso::class, ['id' => 'curso_idcurso'])->viaTable('inscricao', ['utilizador_id' => 'id']);
     }
 
     /**
@@ -104,17 +106,17 @@ class Utilizador extends \yii\db\ActiveRecord
      */
     public function getFeedbacks()
     {
-        return $this->hasMany(Feedback::class, ['utilizador_id' => 'idutilizador']);
+        return $this->hasMany(Feedback::class, ['utilizador_id' => 'id']);
     }
 
     /**
-     * Gets query for [[Iduser0]].
+     * Gets query for [[Idioma]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getIduser0()
+    public function getIdioma()
     {
-        return $this->hasOne(User::class, ['id' => 'iduser']);
+        return $this->hasOne(Idioma::class, ['id' => 'idioma_id']);
     }
 
     /**
@@ -124,7 +126,7 @@ class Utilizador extends \yii\db\ActiveRecord
      */
     public function getInscricaos()
     {
-        return $this->hasMany(Inscricao::class, ['utilizador_id' => 'idutilizador']);
+        return $this->hasMany(Inscricao::class, ['utilizador_id' => 'id']);
     }
 
     /**
@@ -134,7 +136,17 @@ class Utilizador extends \yii\db\ActiveRecord
      */
     public function getResultados()
     {
-        return $this->hasMany(Resultado::class, ['utilizador_id' => 'idutilizador']);
+        return $this->hasMany(Resultado::class, ['utilizador_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[User]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
 }

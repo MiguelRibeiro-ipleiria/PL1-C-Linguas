@@ -5,6 +5,7 @@ namespace frontend\models;
 use Yii;
 use yii\base\Model;
 use common\models\User;
+use common\models\Idioma;
 use backend\models\Utilizador;
 /**
  * Signup form
@@ -17,6 +18,9 @@ class SignupForm extends Model
     public $data_nascimento;
     public $telefone;
     public $nacionalidade;
+    public $idioma_id;
+    public $user_id;
+
 
     /**
      * {@inheritdoc}
@@ -37,6 +41,16 @@ class SignupForm extends Model
 
             ['password', 'required'],
             ['password', 'string', 'min' => Yii::$app->params['user.passwordMinLength']],
+
+            [['data_nascimento', 'telefone', 'nacionalidade'], 'required'],
+            [['data_nascimento'], 'safe'],
+            [['telefone'], 'integer'],
+            [['nacionalidade'], 'string', 'max' => 25],
+
+            // Verificações de relação (FK)
+            ['idioma_id', 'integer'],
+            [['idioma_id'], 'exist', 'skipOnError' => true, 'targetClass' => Idioma::class, 'targetAttribute' => ['idioma_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -58,21 +72,22 @@ class SignupForm extends Model
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
 
-        $boolsave = $user->save();
+        $boolusersave = $user->save();
 
         //Criar uma isntancia do Utilizado r
         //cchave estrangeira no utilizador = $user->id;
        // utilizador->save();
+
 
         $utilizador = new Utilizador();
         $utilizador->data_nascimento = $this->data_nascimento;
         $utilizador->numero_telefone = $this->telefone;
         $utilizador->nacionalidade = $this->nacionalidade;
         $utilizador->data_inscricao = date('Y-m-d H:i:s');
-        $utilizador->iduser = $user->id;
+        $utilizador->user_id = $user->id;
         $boolutilizadorsave = $utilizador->save();
 
-        return $boolutilizadorsave && $boolsave;
+        return $boolutilizadorsave && $boolusersave;
 
 
     }
