@@ -150,6 +150,12 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->auth_key;
     }
 
+    public function getUtilizador()
+    {
+        return $this->hasOne(\backend\models\Utilizador::class, ['user_id' => 'id']);
+    }
+
+
     /**
      * {@inheritdoc}
      */

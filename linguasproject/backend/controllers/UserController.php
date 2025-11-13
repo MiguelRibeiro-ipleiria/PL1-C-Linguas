@@ -1,7 +1,6 @@
 <?php
 
 namespace backend\controllers;
-
 use common\models\User;
 use common\models\UserSearch;
 use yii\web\Controller;
@@ -38,14 +37,25 @@ class UserController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new UserSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        if (\Yii::$app->user->can('ReadUser')) {
+            $searchModel = new UserSearch();
+            $dataProvider = $searchModel->search($this->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
+        return $this->redirect(['no_permisson']);
+    }
+    public function actionNo_permisson()
+    {
+        return $this->render('//site/no_permisson', [
+            'message' => 'Não tem permissão para aceder a esta página.'
         ]);
     }
+
+
 
     /**
      * Displays a single User model.
