@@ -72,12 +72,7 @@ class SignupForm extends Model
         $utilizador->iduser = $user->id;
         $boolutilizadorsave = $utilizador->save();
 
-
-
-        var_dump($boolutilizadorsave);
-        die();
-
-        return $boolutilizadorsave && $boolemail && $boolsave;
+        return $boolutilizadorsave && $boolsave;
 
 
     }
