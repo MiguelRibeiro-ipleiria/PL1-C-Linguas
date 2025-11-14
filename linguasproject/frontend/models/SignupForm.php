@@ -54,6 +54,17 @@ class SignupForm extends Model
         ];
     }
 
+
+    public function attributeLabels()
+    {
+        return [
+            'data_nascimento' => 'Data de Nascimento',
+            'numero_telefone' => 'Numero Telefone',
+            'nacionalidade' => 'Nacionalidade',
+            'idioma_id' => 'Quer ser Formador?',
+        ];
+    }
+
     /**
      * Signs user up.
      *
@@ -83,6 +94,7 @@ class SignupForm extends Model
         $utilizador->data_nascimento = $this->data_nascimento;
         $utilizador->numero_telefone = $this->telefone;
         $utilizador->nacionalidade = $this->nacionalidade;
+        $utilizador->idioma_id = $this->idioma_id;
         $utilizador->data_inscricao = date('Y-m-d H:i:s');
         $utilizador->user_id = $user->id;
         $boolutilizadorsave = $utilizador->save();

@@ -13,8 +13,11 @@
                 <img src="<?=$assetDir?>/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Alexander Pierce</a>
+                <a href="#" class="d-block">
+                    <?= Yii::$app->user->identity->username ?>
+                </a>
             </div>
+
         </div>
 
         <!-- SidebarSearch Form -->
@@ -29,46 +32,24 @@
                 </div>
             </div>
         </div> -->
-
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <?php
             echo \hail812\adminlte\widgets\Menu::widget([
                 'items' => [
-                    [
-                        'label' => 'Starter Pages',
-                        'icon' => 'tachometer-alt',
-                        'badge' => '<span class="right badge badge-info">2</span>',
-                        'items' => [
-                            ['label' => 'Active Page', 'url' => ['site/index'], 'iconStyle' => 'far'],
-                            ['label' => 'Inactive Page', 'iconStyle' => 'far'],
-                        ]
-                    ],
-                    ['label' => 'Simple Link', 'icon' => 'th', 'badge' => '<span class="right badge badge-danger">New</span>'],
-                    ['label' => 'Yii2 PROVIDED', 'header' => true],
+                    ['label' => 'CONTA', 'header' => true],
                     ['label' => 'Login', 'url' => ['site/login'], 'icon' => 'sign-in-alt', 'visible' => Yii::$app->user->isGuest],
-                    ['label' => 'Gii',  'icon' => 'file-code', 'url' => ['/gii'], 'target' => '_blank'],
-                    ['label' => 'Debug', 'icon' => 'bug', 'url' => ['/debug'], 'target' => '_blank'],
-                    ['label' => 'MULTI LEVEL EXAMPLE', 'header' => true],
-                    ['label' => 'Utilizadores', 'url' => ['/user/index']],
-                    [
-                        'label' => 'Level1',
-                        'items' => [
-                            ['label' => 'Level2', 'iconStyle' => 'far'],
-                            [
-                                'label' => 'Level2',
-                                'iconStyle' => 'far',
-                                'items' => [
-                                    ['label' => 'Level3', 'iconStyle' => 'far', 'icon' => 'dot-circle'],
-                                    ['label' => 'Level3', 'iconStyle' => 'far', 'icon' => 'dot-circle'],
-                                    ['label' => 'Level3', 'iconStyle' => 'far', 'icon' => 'dot-circle']
-                                ]
-                            ],
-                            ['label' => 'Level2', 'iconStyle' => 'far']
-                        ]
-                    ],
-                    ['label' => 'Level1'],
-                    ['label' => 'LABELS', 'header' => true],
+                    ['label' => 'Informações da conta',  'icon' => 'user', 'url' => ['/gii'], 'target' => '_blank'],
+                    ['label' => 'ADMISTRAÇÃO', 'header' => true],
+                    ['label' => 'Utilizadores',  'icon' => 'user','url' => ['/user/index']],
+                    ['label' => 'Tipos de exercicio',  'icon' => 'tasks'],
+                    ['label' => 'PAINEL CONTROLO', 'header' => true],
+                    ['label' => 'Idiomas',  'icon' => 'language', 'url' => ['/idioma/index']],
+                    ['label' => 'Cursos',  'icon' => 'book'],
+                    ['label' => 'Aulas',  'icon' => 'chalkboard-teacher'],
+                    ['label' => 'RESOURCES', 'header' => true],
+                    ['label' => 'imagens' ,  'icon' => 'image','url' => ['/image/index']],
+                    ['label' => 'audio',  'icon' => 'music'],
                     ['label' => 'Important', 'iconStyle' => 'far', 'iconClassAdded' => 'text-danger'],
                     ['label' => 'Warning', 'iconClass' => 'nav-icon far fa-circle text-warning'],
                     ['label' => 'Informational', 'iconStyle' => 'far', 'iconClassAdded' => 'text-info'],

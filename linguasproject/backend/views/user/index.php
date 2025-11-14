@@ -31,9 +31,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'username',
-            'auth_key',
-            'password_hash',
-            'password_reset_token',
             'utilizador.data_inscricao',
             'utilizador.numero_telefone',
             'utilizador.nacionalidade',

@@ -16,10 +16,9 @@ class UserSearch extends User
      */
     // Campos da tabela relacionada (Utilizador)
     public $data_nascimento;
+    public $data_inscricao;
     public $numero_telefone;
     public $nacionalidade;
-    public $data_inscricao;
-
     public function rules()
     {
         return [
@@ -49,7 +48,7 @@ class UserSearch extends User
     public function search($params, $formName = null)
     {
         $query = User::find()
-            ->joinWith(['utilizador']); // relação definida em User.php: getUtilizador()
+            ->joinWith(['utilizador']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -77,7 +76,7 @@ class UserSearch extends User
             ->andFilterWhere(['like', 'utilizador.data_inscricao', $this->data_inscricao])
             ->andFilterWhere(['like', 'utilizador.numero_telefone', $this->numero_telefone])
             ->andFilterWhere(['like', 'utilizador.nacionalidade', $this->nacionalidade])
-            ->andFilterWhere(['like', 'utilizador.data_nascimento', $this->data_nascimento]);
+        ->andFilterWhere(['like', 'utilizador.data_nascimento', $this->data_nascimento]);
 
         return $dataProvider;
     }

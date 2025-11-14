@@ -2321,7 +2321,7 @@ ol {
 .services {
   position: relative;
   z-index: 0;
-  background-color: #fff;
+  background-color: #1165b8;
 }
 
 .services .section-title {
@@ -3753,6 +3753,8 @@ blockquote span {
   -webkit-transition: all 0.4s ease;
   transition: all 0.4s ease;
   text-align: center;
+
+
 }
 
 .team .single-team img {
@@ -5103,3 +5105,4 @@ blockquote span {
 .footer .copyright-area p a:hover {
   color: #2ed06e;
 }
+

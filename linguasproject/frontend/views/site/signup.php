@@ -6,11 +6,12 @@
 
 use yii\bootstrap5\Html;
 use yii\bootstrap5\ActiveForm;
+use common\models\Idioma;
 
 $this->title = 'Signup';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-signup">
+<div class="site-signup mt-5">
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>Please fill out the following fields to signup:</p>
@@ -31,8 +32,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model, 'nacionalidade')->textInput(['autofocus' => true])?>
 
+                <?= $form->field($model, 'idioma_id')->dropDownList(\yii\helpers\ArrayHelper::map(Idioma::find()->asArray()->all(), 'id', 'lingua_descricao'), ['prompt' => 'Selecione um idioma']) ?>
 
-            <div class="form-group">
+                <div class="form-group">
                     <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
                 </div>
 

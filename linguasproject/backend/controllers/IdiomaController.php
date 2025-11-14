@@ -1,25 +1,21 @@
 <?php
 
 namespace backend\controllers;
-use common\models\User;
-use common\models\UserSearch;
+
+use common\models\Idioma;
+use common\models\IdiomaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use Yii;
-
 
 /**
- * UserController implements the CRUD actions for User model.
+ * IdiomaController implements the CRUD actions for Idioma model.
  */
-class UserController extends Controller
+class IdiomaController extends Controller
 {
     /**
      * @inheritDoc
      */
-
-
-
     public function behaviors()
     {
         return array_merge(
@@ -36,35 +32,24 @@ class UserController extends Controller
     }
 
     /**
-     * Lists all User models.
+     * Lists all Idioma models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        if (\Yii::$app->user->can('ReadUser')) {
-            $searchModel = new UserSearch();
-            $dataProvider = $searchModel->search($this->request->queryParams);
+        $searchModel = new IdiomaSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
 
-            return $this->render('index', [
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
-            ]);
-        }
-        return $this->redirect(['no_permisson']);
-    }
-    public function actionNo_permisson()
-    {
-        return $this->render('//site/no_permisson', [
-            'message' => 'Não tem permissão para aceder a esta página.'
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
-
-
     /**
-     * Displays a single User model.
-     * @param int $id
+     * Displays a single Idioma model.
+     * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -76,13 +61,13 @@ class UserController extends Controller
     }
 
     /**
-     * Creates a new User model.
+     * Creates a new Idioma model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new User();
+        $model = new Idioma();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
@@ -98,9 +83,9 @@ class UserController extends Controller
     }
 
     /**
-     * Updates an existing User model.
+     * Updates an existing Idioma model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $id
+     * @param int $id ID
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -118,9 +103,9 @@ class UserController extends Controller
     }
 
     /**
-     * Deletes an existing User model.
+     * Deletes an existing Idioma model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id
+     * @param int $id ID
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -132,15 +117,15 @@ class UserController extends Controller
     }
 
     /**
-     * Finds the User model based on its primary key value.
+     * Finds the Idioma model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $id
-     * @return User the loaded model
+     * @param int $id ID
+     * @return Idioma the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = User::findOne(['id' => $id])) !== null) {
+        if (($model = Idioma::findOne(['id' => $id])) !== null) {
             return $model;
         }
 

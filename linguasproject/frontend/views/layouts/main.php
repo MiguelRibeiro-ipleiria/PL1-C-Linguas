@@ -19,6 +19,7 @@ AppAsset::register($this);
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
@@ -35,7 +36,7 @@ AppAsset::register($this);
                     <nav class="navbar navbar-expand-lg">
                         <!-- Logo: usa Url::to para caminho correcto -->
                         <a class="navbar-brand" href="<?= Yii::$app->homeUrl ?>">
-                            <img src="img/logo.jpg " alt="<?= Html::encode(Yii::$app->name) ?>">
+                            <img src="img/logo.jpg" alt="<?= Html::encode(Yii::$app->name) ?>">
                         </a>
 
                         <!-- Botão mobile -->
@@ -55,7 +56,7 @@ AppAsset::register($this);
                                 $menuItems = [
                                     ['label' => 'Home', 'url' => ['/site/index']],
                                     ['label' => 'Línguas', 'url' => ['/site/about']],
-                                    ['label' => 'Cursos', 'url' => ['/site/contact']],
+                                    ['label' => 'Cursos', 'url' => ['site/cursos']],
                                     ['label' => 'Feedback', 'url' => ['/site/contact']],
                                     ['label' => 'Perfil', 'url' => ['/site/contact']],
                                 ];
@@ -75,9 +76,22 @@ AppAsset::register($this);
 
                         <!-- Botão da direita (mantém o estilo do template) -->
                         <div class="button home-btn">
-                            <a href="<?= Yii::$app->user->isGuest ? Url::to(['/site/signup']) : Url::to(['/dashboard/index']) ?>" class="btn">
-                                <?= Yii::$app->user->isGuest ? 'Login' : 'Dashboard' ?>
-                            </a>
+                            <?php
+                            if (Yii::$app->user->isGuest) {
+                                $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
+                            }
+
+                            if (Yii::$app->user->isGuest) {
+                                echo Html::tag('div',Html::a('Login',['/site/login'],['class' => ['btn btn-link login text-decoration-none']]),['class' => ['d-flex']]);
+                            } else {
+                                echo Html::beginForm(['/site/logout'], 'post', ['class' => 'd-flex'])
+                                    . Html::submitButton(
+                                        'Logout',
+                                        ['class' => 'btn btn-link logout text-decoration-none']
+                                    )
+                                    . Html::endForm();
+                            }
+                            ?>
                         </div>
                     </nav>
                     <!-- End Navbar -->
@@ -89,13 +103,12 @@ AppAsset::register($this);
 
 
 <main role="main" class="flex-shrink-0">
-    <div>
+    <div class="mt-5">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
         <?= $content ?>
-    </div>
 </main>
 
 <footer class="footer mt-auto py-3 text-muted">
