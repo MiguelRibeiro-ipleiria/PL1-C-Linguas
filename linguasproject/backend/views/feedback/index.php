@@ -13,35 +13,40 @@ use yii\grid\GridView;
 $this->title = 'Feedbacks';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="feedback-index">
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title"><?= Html::encode($this->title) ?></h3>
+        <div class="card-tools">
+            <?= Html::a('Create Feedback', ['create'], ['class' => 'btn btn-success btn-sm']) ?>
+        </div>
+    </div>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="card-body p-0">
+        <div class="table-responsive">
 
-    <p>
-        <?= Html::a('Create Feedback', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+            <?= GridView::widget([
+                'dataProvider' => $dataProvider,
+                'tableOptions' => [
+                    'class' => 'table m-0',
+                ],
+                'layout' => "{items}\n<div class='card-footer clearfix'>{pager}</div>",
+                'columns' => [
+                    'id',
+                    'assunto_feedback',
+                    'descricao_feedback:ntext',
+                    'hora_criada',
+                    'utilizador_id',
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+                    [
+                        'class' => ActionColumn::className(),
+                        'header' => 'Ações',
+                        'urlCreator' => function ($action, Feedback $model) {
+                            return Url::toRoute([$action, 'id' => $model->id]);
+                        },
+                    ],
+                ],
+            ]); ?>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'assunto_feedback',
-            'descricao_feedback',
-            'hora_criada',
-            'utilizador_id',
-            [
-                'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Feedback $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id' => $model->id]);
-                 }
-            ],
-        ],
-    ]); ?>
-
-
+        </div>
+    </div>
 </div>
