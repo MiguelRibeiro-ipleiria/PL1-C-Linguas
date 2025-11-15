@@ -46,6 +46,16 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
             ],
+            [
+                'label' => 'Role',
+                'format' => 'raw',
+                'value' => function($model) {
+                    return Html::a('Alterar Role', ['user/role', 'id' => $model->id], [
+                        'class' => 'btn btn-success',
+                        'title' => 'Alterar Role',
+                    ]);
+                }
+            ],
         ],
     ]); ?>
 

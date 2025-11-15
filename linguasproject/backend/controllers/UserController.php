@@ -146,4 +146,38 @@ class UserController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    public function actionRole($id)
+    {
+        $auth = Yii::$app->authManager;
+        $user = $this->findModel($id);
+        $roles = $auth->getRoles();
+
+        if ($this->request->isPost) {
+
+            $RoleSelecionada = $this->request->post('role');
+            $auth->revokeAll($user->id);
+
+            if ($RoleSelecionada != null) {
+                $NovaRole = $auth->getRole($RoleSelecionada);
+                $auth->assign($NovaRole, $user->getId());
+
+            }
+        }
+
+        $UserRoles = $auth->getRolesByUser($user->id);
+        $userrole = key($UserRoles);
+        $ListadeRoles = \yii\helpers\ArrayHelper::map($roles, 'name', 'name');
+
+        return $this->render('role', [
+            'user' => $user,
+            'ListadeRoles' => $ListadeRoles,
+            'userrole' => $userrole,
+        ]);
+
+        //vai buscar ao authmanager, vai buscar o user a ser alterado vai buscar as roles do user, e todas as roles
+
+        //se for um post então removem as roles todas do user e adicionam a role que enviarem no post
+        //se for um GET então devolvem uma vista "Role" onde vão ter um formulario simples com o user e uma dropdown de roles
+    }
 }

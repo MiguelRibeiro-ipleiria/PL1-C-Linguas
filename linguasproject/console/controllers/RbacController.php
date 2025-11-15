@@ -207,6 +207,8 @@ class RbacController extends Controller
 
 
         $auth->addChild($admin, $ReadUser);
+        $auth->addChild($admin, $ReadFeedback);
+
         echo "RBAC inicializado com sucesso!\n";
 
     }

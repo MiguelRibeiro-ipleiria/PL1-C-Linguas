@@ -154,13 +154,22 @@ use common\models\Feedback;
                 <span class="badge badge-warning navbar-badge"><?= Feedback::find()->count()?></span>
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="overflow-y: auto;">
-                <span class="dropdown-header"><?= Feedback::find()->count()?> Feedbacks</span>
                 <?php
-                    foreach (Feedback::find()->all() as $feedback) {?>
+                    if (\Yii::$app->user->can('ReadFeedback')) {?>
+                    <span class="dropdown-header"><?= Feedback::find()->count()?> Feedbacks</span>
+                    <?php
+                        foreach (Feedback::find()->all() as $feedback) {?>
+                            <div class="dropdown-divider"></div>
+                            <a href="<?= Url::to(['/feedback/view', 'id' => $feedback->id]) ?>" class="dropdown-item">
+                                <i class="fas fa-envelope mr-2"></i><?= $feedback->assunto_feedback?>
+                            </a>
+                        <?php }
+                    ?>
+                <?php }
+                    else{?>
+                        <span class="dropdown-header">Acesso Negado</span>
                         <div class="dropdown-divider"></div>
-                        <a href="<?= Url::to(['/feedback/view', 'id' => $feedback->id]) ?>" class="dropdown-item">
-                            <i class="fas fa-envelope mr-2"></i><?= $feedback->assunto_feedback?>
-                        </a>
+                        <span class="dropdown-header">Você não tem acesso a este serviço!</span>
                     <?php }
                 ?>
                 <a href="<?= Url::to(['/feedback/index']) ?>" class="dropdown-item dropdown-footer">Ver todos os Feedbacks</a>

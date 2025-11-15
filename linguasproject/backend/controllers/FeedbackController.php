@@ -38,13 +38,17 @@ class FeedbackController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new FeedbackSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        if (\Yii::$app->user->can('ReadFeedback')) {
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            $searchModel = new FeedbackSearch();
+            $dataProvider = $searchModel->search($this->request->queryParams);
+
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
+        return $this->redirect(['no_permisson']);
     }
 
     /**
@@ -55,8 +59,21 @@ class FeedbackController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
+        if (\Yii::$app->user->can('ReadFeedback')) {
+
+
+            return $this->render('view', [
+                'model' => $this->findModel($id),
+            ]);
+        }
+        else{
+            return $this->redirect(['no_permisson']);
+        }
+    }
+    public function actionNo_permisson()
+    {
+        return $this->render('//site/no_permisson', [
+            'message' => 'Não tem permissão para aceder a esta página.'
         ]);
     }
 
