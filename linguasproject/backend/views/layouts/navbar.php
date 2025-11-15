@@ -1,7 +1,8 @@
 <?php
 
 use yii\helpers\Html;
-
+use yii\helpers\Url;
+use common\models\Feedback;
 ?>
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -150,27 +151,19 @@ use yii\helpers\Html;
         <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
                 <i class="far fa-bell"></i>
-                <span class="badge badge-warning navbar-badge">15</span>
+                <span class="badge badge-warning navbar-badge"><?= Feedback::find()->count()?></span>
             </a>
-            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <span class="dropdown-header">15 Notifications</span>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-envelope mr-2"></i> 4 new messages
-                    <span class="float-right text-muted text-sm">3 mins</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-users mr-2"></i> 8 friend requests
-                    <span class="float-right text-muted text-sm">12 hours</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-file mr-2"></i> 3 new reports
-                    <span class="float-right text-muted text-sm">2 days</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="overflow-y: auto;">
+                <span class="dropdown-header"><?= Feedback::find()->count()?> Feedbacks</span>
+                <?php
+                    foreach (Feedback::find()->all() as $feedback) {?>
+                        <div class="dropdown-divider"></div>
+                        <a href="<?= Url::to(['/feedback/view', 'id' => $feedback->id]) ?>" class="dropdown-item">
+                            <i class="fas fa-envelope mr-2"></i><?= $feedback->assunto_feedback?>
+                        </a>
+                    <?php }
+                ?>
+                <a href="<?= Url::to(['/feedback/index']) ?>" class="dropdown-item dropdown-footer">Ver todos os Feedbacks</a>
             </div>
         </li>
         <li class="nav-item">

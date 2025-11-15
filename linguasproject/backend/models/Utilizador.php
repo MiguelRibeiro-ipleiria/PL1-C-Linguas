@@ -3,6 +3,7 @@
 namespace backend\models;
 use common\models\User;
 use common\models\Idioma;
+use common\models\Feedback;
 use Yii;
 
 /**
