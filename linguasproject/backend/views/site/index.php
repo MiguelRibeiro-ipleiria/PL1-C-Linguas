@@ -7,6 +7,106 @@ use yii\helpers\Url;
 $this->title = 'Starter Page';
 $this->params['breadcrumbs'] = [['label' => $this->title]];
 ?>
+<div class="col-md-12">
+    <!-- Application buttons -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Butões de Acesso Rápido a Funcionalidades</h3>
+        </div>
+        <div class="card-body">
+            <!--<p>Add the classes <code>.btn.btn-app</code> to an <code>&lt;a></code> tag to achieve the following:</p>
+            <a class="btn btn-app">
+                <i class="fas fa-edit"></i> Edit
+            </a>
+            <a class="btn btn-app">
+                <i class="fas fa-play"></i> Play
+            </a>
+            <a class="btn btn-app">
+                <i class="fas fa-pause"></i> Pause
+            </a>
+            <a class="btn btn-app">
+                <i class="fas fa-save"></i> Save
+            </a>
+            <a class="btn btn-app">
+                <span class="badge bg-warning">3</span>
+                <i class="fas fa-bullhorn"></i> Notifications
+            </a>
+            <a class="btn btn-app">
+                <span class="badge bg-success">300</span>
+                <i class="fas fa-barcode"></i> Products
+            </a>
+            <a class="btn btn-app">
+                <span class="badge bg-purple">891</span>
+                <i class="fas fa-users"></i> Users
+            </a>
+            <a class="btn btn-app">
+                <span class="badge bg-teal">67</span>
+                <i class="fas fa-inbox"></i> Orders
+            </a>
+            <a class="btn btn-app">
+                <span class="badge bg-info">12</span>
+                <i class="fas fa-envelope"></i> Inbox
+            </a>
+            <a class="btn btn-app">
+                <span class="badge bg-danger">531</span>
+                <i class="fas fa-heart"></i> Likes
+            </a>
+            -->
+            <a class="btn btn-app bg-secondary">
+                <span class="badge bg-secondary">300</span>
+                <i class="fas fa-users"></i> Utilizadores
+            </a>
+            <a class="btn btn-app bg-warning">
+                <span class="badge bg-warning">891</span>
+                <i class="fas fa-exclamation-triangle"></i> Dificuldade
+            </a>
+            <a class="btn btn-app bg-success">
+                <span class="badge bg-success">891</span>
+                <i class="fas fa-language"></i> Idiomas
+            </a>
+            <a class="btn btn-app bg-danger">
+                <span class="badge bg-danger">67</span>
+                <i class="fas fa-book"></i> Cursos
+            </a>
+            <a class="btn btn-app bg-warning">
+                <span class="badge bg-warning">12</span>
+                <i class="fas fa-chalkboard-teacher"></i> Aulas
+            </a>
+            <a class="btn btn-app bg-success">
+                <span class="badge bg-success">12</span>
+                <i class="fas fa-pencil-alt"></i> Tipos Exercícios
+            </a>
+            <a class="btn btn-app bg-danger">
+                <span class="badge bg-danger">531</span>
+                <i class="fas fa-file-image"></i> Imagens
+            </a>
+            <a class="btn btn-app bg-secondary">
+                <span class="badge bg-secondary">531</span>
+                <i class="fas fa-file-audio"></i> Áudios
+            </a>
+            <a class="btn btn-app bg-warning">
+                <span class="badge bg-warning">531</span>
+                <i class="fas fa-comments"></i> Comentários
+            </a>
+            <a class="btn btn-app bg-success">
+                <span class="badge bg-success">531</span>
+                <i class="fas fa-thumbs-up"></i> Feedbacks
+            </a>
+            <a class="btn btn-app bg-danger">
+                <span class="badge bg-danger">531</span>
+                <i class="fas fa-file-alt"></i> Inscrições
+            </a>
+            <a class="btn btn-app bg-secondary">
+                <span class="badge bg-secondary">531</span>
+                <i class="fas fa-chart-line"></i> Progressos
+            </a>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+
+
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-6">
@@ -143,7 +243,7 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
     <div class="row">
 
         <!-- CARD DE ORDERS -->
-        <div class="col-md-8">
+        <div class="col-md-7">
             <div class="card">
                 <div class="card-header border-transparent">
                     <h3 class="card-title">Latest Orders</h3>
@@ -223,44 +323,69 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
                 </div>
             </div>
         </div>
-
-        <!-- CARD DE PRODUTOS -->
-        <div class="col-md-4">
+        <!-- TO DO List -->
+        <div class="col-md-5">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Feedbacks</h3>
+                    <h3 class="card-title">
+                        <i class="ion ion-clipboard mr-1"></i>
+                        Feedback List
+                    </h3>
 
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
                 </div>
 
-                <div class="card-body p-0">
-                    <ul class="products-list product-list-in-card pl-2 pr-2">
-                        <?php
-                        $feedbacks = Feedback::find()->orderBy(['hora_criada' => SORT_DESC])->limit(4)->all();
+                <div class="card-body">
+                    <ul class="todo-list" data-widget="todo-list">
 
-                        foreach ($feedbacks as $feedback) { ?>
-                            <li class="item">
-                                    <div class="product-img">
-                                        <img src="img/like.png" class="img-size-32">
-                                    </div>
-                                    <div class="product-info">
-                                        <a class="product-title" href="<?= Url::to(['/feedback/view', 'id' => $feedback->id]) ?>"><?= $feedback->assunto_feedback ?><span class="badge badge-warning float-right"><?= $feedback->utilizador->user->username ?></span></a>
-                                        <span class="product-description"><?= $feedback->hora_criada ?></span>
-                                    </div>
+                        <?php
+                        $feedbacks = Feedback::find()->orderBy(['hora_criada' => SORT_DESC])->all();
+                        foreach ($feedbacks as $feedback) {
+
+                            $dataCriada = new DateTime($feedback->hora_criada);
+                            $agora = new DateTime();
+                            $intervalo = $agora->diff($dataCriada);
+
+                            // Exemplo: "2 dias", "3 horas", etc
+                            if ($intervalo->d > 0) {
+                                $resultado = $intervalo->d . " dias";
+                            } elseif ($intervalo->h > 0) {
+                                $resultado = $intervalo->h . " horas";
+                            } else {
+                                $resultado = $intervalo->i . " min";
+                            }
+                            ?>
+
+                            <li>
+                                <!-- checkbox -->
+                                <div class="icheck-primary d-inline ml-2">
+                                    <input type="checkbox" value="" id="todoCheck<?= $feedback->id ?>">
+                                    <label for="todoCheck<?= $feedback->id ?>"></label>
+                                </div>
+
+                                <!-- texto -->
+                                <span class="text"><?= htmlspecialchars($feedback->assunto_feedback) ?></span>
+
+                                <!-- badge com horário -->
+                                <small class="badge badge-danger">
+                                    <i class="far fa-clock"></i> <?= $resultado ?>
+                                </small>
+
+                                <div class="tools">
+                                    <a href="<?= Url::to(['/feedback/view', 'id' => $feedback->id]) ?>">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </div>
                             </li>
-                        <?php }?>
+
+                        <?php } ?>
+
                     </ul>
                 </div>
 
-                <div class="card-footer text-center">
-                    <a href="<?= Url::to(['/feedback/index']) ?>" class="uppercase">Ver Todos os Feedbacks</a>
+                <div class="card-footer clearfix">
+                    <button type="button" class="btn btn-primary float-right">
+                        <i class="fas fa-list"></i> Ver Detalhes dos Feedbacks
+                    </button>
                 </div>
             </div>
         </div>

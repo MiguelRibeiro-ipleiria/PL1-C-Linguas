@@ -11,7 +11,7 @@ use yii\widgets\ActiveForm;
 /* @var $userrole string */
 ?>
 
-<div class="book-form">
+<div class="book-form col-3">
 
     <?php $form = ActiveForm::begin(); ?>
 
@@ -19,7 +19,7 @@ use yii\widgets\ActiveForm;
         'role',
         $userrole,
         $ListadeRoles,
-        ['class' => 'form-control']
+        ['class' => 'form-control select2 select2-warming']
     ) ?>
 
     <div class="form-group">

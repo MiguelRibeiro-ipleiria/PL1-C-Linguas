@@ -70,8 +70,14 @@ class UserController extends Controller
      */
     public function actionView($id)
     {
+        $auth = Yii::$app->authManager;
+        $model = $this->findModel($id);
+        $UserRoles = $auth->getRolesByUser($model->id);
+        $userrole = key($UserRoles);
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'userrole' => $userrole,
         ]);
     }
 
@@ -161,7 +167,10 @@ class UserController extends Controller
             if ($RoleSelecionada != null) {
                 $NovaRole = $auth->getRole($RoleSelecionada);
                 $auth->assign($NovaRole, $user->getId());
-
+                return $this->render('view', [
+                    'model' => $user,
+                    'userrole' => $NovaRole->name,
+                ]);
             }
         }
 

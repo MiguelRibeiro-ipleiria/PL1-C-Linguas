@@ -5,6 +5,7 @@ use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
 /** @var common\models\User $model */
+/* @var $userrole string */
 
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
@@ -40,6 +41,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'updated_at',
             'verification_token',
             'idutilizador',
+            [
+                'label' => 'Role',
+                'value' => $userrole,
+            ],
         ],
     ]) ?>
 
