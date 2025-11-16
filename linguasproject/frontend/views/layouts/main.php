@@ -58,7 +58,7 @@ AppAsset::register($this);
                                     ['label' => 'Línguas', 'url' => ['/site/about']],
                                     ['label' => 'Cursos', 'url' => ['site/cursos']],
                                     ['label' => 'Feedback', 'url' => ['/feedback/create']],
-                                    ['label' => 'Perfil', 'url' => ['/site/contact']],
+                                    ['label' => 'Perfil', 'url' => ['/site/blog']],
                                 ];
 
                                 // Renderiza os itens estáticos
