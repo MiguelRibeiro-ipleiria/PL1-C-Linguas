@@ -1,6 +1,7 @@
 <?php
 
 use common\models\Feedback;
+use common\models\User;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
@@ -36,7 +37,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     'descricao_feedback:ntext',
                     'hora_criada',
                     'utilizador_id',
-
                     [
                         'class' => ActionColumn::className(),
                         'header' => 'Ações',

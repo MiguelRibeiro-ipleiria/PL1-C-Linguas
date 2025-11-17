@@ -52,16 +52,16 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
                 <i class="fas fa-heart"></i> Likes
             </a>
             -->
-            <a class="btn btn-app bg-secondary">
-                <span class="badge bg-secondary">300</span>
+            <a class="btn btn-app bg-secondary" href="<?= Url::to(['/user/index']) ?>">
+                <span class="badge bg-secondary"><?php echo User::find()->count() ?></span>
                 <i class="fas fa-users"></i> Utilizadores
             </a>
             <a class="btn btn-app bg-warning">
                 <span class="badge bg-warning">891</span>
                 <i class="fas fa-exclamation-triangle"></i> Dificuldade
             </a>
-            <a class="btn btn-app bg-success">
-                <span class="badge bg-success">891</span>
+            <a class="btn btn-app bg-success" href="<?= Url::to(['/idioma/index']) ?>">
+                <span class="badge bg-success"><?php echo Idioma::find()->count() ?></span>
                 <i class="fas fa-language"></i> Idiomas
             </a>
             <a class="btn btn-app bg-danger">
@@ -88,8 +88,8 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
                 <span class="badge bg-warning">531</span>
                 <i class="fas fa-comments"></i> Comentários
             </a>
-            <a class="btn btn-app bg-success">
-                <span class="badge bg-success">531</span>
+            <a class="btn btn-app bg-success" href="<?= Url::to(['/feedback/index']) ?>">
+                <span class="badge bg-success"><?php echo Feedback::find()->count() ?></span>
                 <i class="fas fa-thumbs-up"></i> Feedbacks
             </a>
             <a class="btn btn-app bg-danger">

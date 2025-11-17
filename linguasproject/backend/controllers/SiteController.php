@@ -3,15 +3,14 @@
 namespace backend\controllers;
 
 use common\models\LoginForm;
+use Couchbase\User;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 
-/**
- * Site controller
- */
+
 class SiteController extends Controller
 {
     /**
@@ -28,7 +27,7 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => ['logout', 'index', 'timeline'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -63,6 +62,11 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return $this->render('index');
+    }
+
+    public function actionTimeline()
+    {
+        return $this->render('timeline');
     }
 
     /**

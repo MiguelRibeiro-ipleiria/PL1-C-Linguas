@@ -7,6 +7,11 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use Yii;
+use yii\helpers\ArrayHelper;
+
+use common\models\Idioma;
+use backend\models\Utilizador;
+
 
 
 /**
@@ -169,7 +174,7 @@ class UserController extends Controller
                 $auth->assign($NovaRole, $user->getId());
                 return $this->render('view', [
                     'model' => $user,
-                    'userrole' => $NovaRole->name,
+                    'userrole' => $NovaRole->name
                 ]);
             }
         }
@@ -189,4 +194,41 @@ class UserController extends Controller
         //se for um post então removem as roles todas do user e adicionam a role que enviarem no post
         //se for um GET então devolvem uma vista "Role" onde vão ter um formulario simples com o user e uma dropdown de roles
     }
+
+    public function actionFormador()
+    {
+        $auth = Yii::$app->authManager;
+
+        $utilizadores = Utilizador::find()->where(['not', ['idioma_id' => null]])->all();
+        $utilizadorerole = array();
+
+        foreach ($utilizadores as $utilizador) {
+
+            $UserRoles = $auth->getRolesByUser($utilizador->user_id);
+            $userrole = key($UserRoles);
+
+            $utilizadorerole[] = [
+                "user" => $utilizador,
+                "role" => $userrole,
+            ];
+        }
+
+        if ($this->request->isPost) {
+
+            $RoleSelecionada = $this->request->post('role');
+            $user = $this->request->post('userid');
+            $auth->revokeAll($user);
+
+            if ($RoleSelecionada != null) {
+                $NovaRole = $auth->getRole($RoleSelecionada);
+                $auth->assign($NovaRole, $user);
+            }
+        }
+
+        return $this->render('formador', [
+            'arrayusererole' => $utilizadorerole
+        ]);
+
+    }
+
 }
