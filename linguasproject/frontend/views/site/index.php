@@ -2,6 +2,7 @@
 
 /** @var yii\web\View $this */
 use yii\helpers\Url;
+use Yii;
 
 $this->title = 'My Yii Application';
 ?>
@@ -26,7 +27,7 @@ $this->title = 'My Yii Application';
             </div>
             <div class="col-lg-7 col-12">
                 <div class="hero-image wow fadeInRight" data-wow-delay=".4s">
-                    <img class="main-image" src="img/nav-image-turtle.jpg" alt="Turtle Image">
+                    <img class="main-image" src="<?= Yii::getAlias('@web').'/img/nav-image-turtle.jpg'; ?>" alt="Turtle Image">
                 </div>
             </div>
         </div>
@@ -101,7 +102,7 @@ $this->title = 'My Yii Application';
                 <!-- Start Single Team -->
                 <div class="single-team">
                     <div class="team-image">
-                        <img src="img/profile_icon.webp" alt="Miguel Ribeiro Profile Image">
+                        <img src="<?= Yii::getAlias('@web').'/img/profile_icon.webp'; ?>" alt="André Ventura Profile Image">
                     </div>
                     <div class="content">
                         <h4>André Santos
@@ -115,7 +116,7 @@ $this->title = 'My Yii Application';
                 <!-- Start Single Team -->
                 <div class="single-team">
                     <div class="team-image">
-                        <img src="img/profile_icon.webp" alt="Miguel Ribeiro Profile Image">
+                        <img src="<?= Yii::getAlias('@web').'/img/profile_icon.webp'; ?>" alt="Guilherme Ferreira Profile Image">
                     </div>
                     <div class="content">
                         <h4>Guilherme Ferreira
@@ -129,7 +130,7 @@ $this->title = 'My Yii Application';
                 <!-- Start Single Team -->
                 <div class="single-team">
                     <div class="team-image">
-                        <img src="img/profile_icon.webp" alt="Miguel Ribeiro Profile Image">
+                        <img src="<?= Yii::getAlias('@web').'/img/profile_icon.webp'; ?>" alt="Miguel Ribeiro Profile Image">
                     </div>
                     <div class="content">
                         <h4>Miguel Ribeiro

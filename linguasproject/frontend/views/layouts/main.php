@@ -19,6 +19,15 @@ AppAsset::register($this);
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="<?= Yii::getAlias('@web').'/css/main.css'; ?>">
+    <link rel="stylesheet" href="<?= Yii::getAlias('@web').'/css/bootstrap.min.css'; ?>">
+    <link rel="stylesheet" href="<?= Yii::getAlias('@web').'/css/glightbox.min.css'; ?>">
+    <link rel="stylesheet" href="<?= Yii::getAlias('@web').'/css/LineIcons.3.0.css'; ?>">
+    <link rel="stylesheet" href="<?= Yii::getAlias('@web').'/css/tiny-slider.css'; ?>">
+    <link rel="stylesheet" href="<?= Yii::getAlias('@web').'/css/animate.css'; ?>">
+
+
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
@@ -36,7 +45,7 @@ AppAsset::register($this);
                     <nav class="navbar navbar-expand-lg">
                         <!-- Logo: usa Url::to para caminho correcto -->
                         <a class="navbar-brand" href="<?= Yii::$app->homeUrl ?>">
-                            <img src="img/logo.jpg" alt="<?= Html::encode(Yii::$app->name) ?>">
+                            <img src="<?= Yii::getAlias('@web').'/img/logo.jpg'; ?>" alt="<?= Html::encode(Yii::$app->name) ?>">
                         </a>
 
                         <!-- Botão mobile -->
@@ -112,13 +121,30 @@ AppAsset::register($this);
 </main>
 
 <footer class="footer mt-auto py-3 text-muted">
+    <!-- Start Footer Top -->
+    <div class="container">
+        <div class="inner-content">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-12">
+                    <!-- Single Widget -->
+                    <br>
+                    <div class="single-footer f-about">
+                        <div class="logo">
+                            <img src="<?= Yii::getAlias('@web').'/img/logo.jpg'; ?>" alt="#">
+                        </div>
+                    </div>
+                    <!-- End Single Widget -->
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+<footer class="footer mt-auto py-3 text-muted">
     <div class="container">
         <p class="float-start">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
-        <p class="float-end"><?= Yii::powered() ?></p>
+        <p class="float-end">Desenvolvido por: André Ventura, Guilherme Ferreira e Miguel Ribeiro</p>
     </div>
 </footer>
 
-<?php $this->endBody() ?>
 </body>
 </html>
-<?php $this->endPage();

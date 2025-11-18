@@ -76,6 +76,8 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
+        $auth = Yii::$app->authManager;
+
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -83,8 +85,22 @@ class SiteController extends Controller
         $this->layout = 'blank';
 
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+        if ($model->load(Yii::$app->request->post()) && $model->login())
+        {
+            $modelrole = $auth->getRolesByUser(Yii::$app->user->identity->id);
+            $userrole = key($modelrole);
+
+
+            if ($userrole == 'formador' || $userrole == 'admin') {
+                return $this->goBack();
+            }
+            else{
+                Yii::$app->user->logout();
+                return $this->render('login', [
+                    'model' => $model,
+                ]);
+            }
+
         }
 
         $model->password = '';
