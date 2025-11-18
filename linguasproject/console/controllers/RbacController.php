@@ -24,6 +24,10 @@ class RbacController extends Controller
         $user_autenticado = $auth->createRole('user_autenticado');
         $user_autenticado->description = 'Aluno que fez login';
         $auth->add($user_autenticado);
+        
+        $user_nao_autenticado = $auth->createRole('user_nao_autenticado');
+        $user_nao_autenticado->description = 'Aluno que nao fez login';
+        $auth->add($user_nao_autenticado);
 
 
 
@@ -201,13 +205,119 @@ class RbacController extends Controller
         $auth->add($ReadLessonSound);
 
         // UpdateLessonSound
-        $UpdateLessonSound = $auth->createPermission('$UpdateLessonSound');
+        $UpdateLessonSound = $auth->createPermission('UpdateLessonSound');
         $UpdateLessonSound->description = 'Editar dados de um som usado nas aulas';
         $auth->add($UpdateLessonSound);
 
-
-        $auth->addChild($admin, $ReadUser);
+        /*----------------Feedback managment-----------*/
+        //admin         
+        $auth->addChild($admin, $CreateFeedback);
         $auth->addChild($admin, $ReadFeedback);
+        $auth->addChild($admin, $DeleteFeedback);
+
+        //formador
+        $auth->addChild($formador, $CreateFeedback);
+        $auth->addChild($formador, $DeleteFeedback);
+
+        //user autenticado
+        $auth->addChild($user_autenticado, $CreateFeedback);
+        $auth->addChild($user_autenticado, $DeleteFeedback);
+        
+        /*----------------Comment management-----------*/
+
+        //admin
+        $auth->addChild($admin, $CreateComment);
+        $auth->addChild($admin, $ReadComment);
+        $auth->addChild($admin, $UpdateComment);
+        $auth->addChild($admin, $DeleteComment);
+
+        //formador
+        $auth->addChild($formador, $CreateComment);
+        $auth->addChild($formador, $ReadComment);
+        $auth->addChild($formador, $UpdateComment);
+        $auth->addChild($formador, $DeleteComment);
+
+        //user autenticado
+        $auth->addChild($user_autenticado, $CreateComment);
+        $auth->addChild($user_autenticado, $ReadComment);
+        $auth->addChild($user_autenticado, $UpdateComment);
+        $auth->addChild($user_autenticado, $DeleteComment);
+
+        /*------------------USER MANAGEMENT------------*/
+        //admin
+        $auth->addChild($admin, $ReadUser);
+        $auth->addChild($admin, $UpdateUser);
+        $auth->addChild($admin, $DeleteUser);
+
+        /*------------------Courses management----------*/
+        //admin
+        $auth->addChild($admin, $ToggleCourse);
+        $auth->addChild($admin, $CreateCourse); 
+        $auth->addChild($admin, $ReadCourse);
+        $auth->addChild($admin, $UpdateCourse);
+        $auth->addChild($admin, $DeleteCourse);
+
+        //formador
+        $auth->addChild($formador, $CreateCourse);
+        $auth->addChild($formador, $ReadCourse);
+        $auth->addChild($formador, $UpdateCourse);
+        $auth->addChild($formador, $DeleteCourse);
+
+
+        /*----------------lessons management-----------*/
+        //admin
+        $auth->addChild($admin, $CreateLesson);
+        $auth->addChild($admin, $ReadLesson);
+        $auth->addChild($admin, $UpdateLesson);
+        $auth->addChild($admin, $DeleteLesson);
+
+        //formador
+        $auth->addChild($formador, $CreateLesson);
+        $auth->addChild($formador, $ReadLesson);
+        $auth->addChild($formador, $UpdateLesson);
+        $auth->addChild($formador, $DeleteLesson);
+
+         /*----------------Language management-----------*/
+        //Admin
+         $auth->addChild($admin, $CreateLanguage);
+         $auth->addChild($admin, $ReadLanguage);
+         $auth->addChild($admin, $UpdateLanguage);
+         $auth->addChild($admin, $DeleteLanguage);
+         $auth->addChild($admin, $SearchLanguage);
+
+         //formador
+         $auth->addChild($formador, $SearchLanguage);
+
+         //user autenticado
+         $auth->addChild($user_autenticado, $SearchLanguage);
+
+         //user nao autenticado
+         $auth->addChild($user_nao_autenticado, $SearchLanguage);
+
+        /*----------------Resources management-----------*/
+        //Admin
+         $auth->addChild($admin, $CreateLessonImage);
+         $auth->addChild($admin, $DeleteLessonImage);
+         $auth->addChild($admin, $ReadLessonImage);
+         $auth->addChild($admin, $UpdateLessonImage);
+         $auth->addChild($admin, $CreateLessonSound);
+         $auth->addChild($admin, $DeleteLessonSound);
+         $auth->addChild($admin, $ReadLessonSound);
+         $auth->addChild($admin, $UpdateLessonSound);
+
+        //formador
+        $auth->addChild($formador, $CreateLessonImage);
+        $auth->addChild($formador, $DeleteLessonImage);
+        $auth->addChild($formador, $ReadLessonImage);   
+        $auth->addChild($formador, $UpdateLessonImage);
+        $auth->addChild($formador, $CreateLessonSound);
+        $auth->addChild($formador, $DeleteLessonSound);
+        $auth->addChild($formador, $ReadLessonSound);
+        $auth->addChild($formador, $UpdateLessonSound);
+
+       
+    
+
 
         echo "RBAC inicializado com sucesso!\n";
 
