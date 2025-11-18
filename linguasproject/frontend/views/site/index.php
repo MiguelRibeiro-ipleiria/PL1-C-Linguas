@@ -70,14 +70,16 @@ $this->title = 'My Yii Application';
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-12 wow fadeInUp" data-wow-delay=".6s">
-                <div class="single-service">
-                    <div class="main-icon">
-                        <i class="bi bi-hand-thumbs-up-fill"></i>
+                <a>
+                    <div class="single-service">
+                        <div class="main-icon">
+                            <i class="bi bi-hand-thumbs-up-fill"></i>
+                        </div>
+                        <h4 class="text-title">Feedback</h4>
+                        <p>Dê-nos a sua opinião sobre nós e use este aba para reportar qualquer eventual
+                            problema que encontre para que o possamos ajudar</p>
                     </div>
-                    <h4 class="text-title">Feedback</h4>
-                    <p>Dê-nos a sua opinião sobre nós e use este aba para reportar qualquer eventual
-                        problema que encontre para que o possamos ajudar</p>
-                </div>
+                </a>
             </div>
         </div>
     </div>

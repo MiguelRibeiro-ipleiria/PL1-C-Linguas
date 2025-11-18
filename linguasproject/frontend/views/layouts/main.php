@@ -3,6 +3,7 @@
 /** @var \yii\web\View $this */
 /** @var string $content */
 
+use Yii;
 use common\widgets\Alert;
 use frontend\assets\AppAsset;
 use yii\bootstrap5\Breadcrumbs;
@@ -19,6 +20,15 @@ AppAsset::register($this);
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="<?= Yii::getAlias('@web').'/css/main.css'; ?>">
+    <link rel="stylesheet" href="<?= Yii::getAlias('@web').'/css/bootstrap.min.css'; ?>">
+    <link rel="stylesheet" href="<?= Yii::getAlias('@web').'/css/glightbox.min.css'; ?>">
+    <link rel="stylesheet" href="<?= Yii::getAlias('@web').'/css/LineIcons.3.0.css'; ?>">
+    <link rel="stylesheet" href="<?= Yii::getAlias('@web').'/css/tiny-slider.css'; ?>">
+    <link rel="stylesheet" href="<?= Yii::getAlias('@web').'/css/animate.css'; ?>">
+
+
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
@@ -36,7 +46,7 @@ AppAsset::register($this);
                     <nav class="navbar navbar-expand-lg">
                         <!-- Logo: usa Url::to para caminho correcto -->
                         <a class="navbar-brand" href="<?= Yii::$app->homeUrl ?>">
-                            <img src="img/logo.jpg" alt="<?= Html::encode(Yii::$app->name) ?>">
+                            <img src="<?= Yii::getAlias('@web').'/img/logo.jpg'; ?>" alt="<?= Html::encode(Yii::$app->name) ?>">
                         </a>
 
                         <!-- Botão mobile -->
