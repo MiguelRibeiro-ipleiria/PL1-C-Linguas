@@ -189,6 +189,7 @@ class UserController extends Controller
             'userrole' => $userrole,
         ]);
 
+
         //vai buscar ao authmanager, vai buscar o user a ser alterado vai buscar as roles do user, e todas as roles
 
         //se for um post então removem as roles todas do user e adicionam a role que enviarem no post
@@ -197,38 +198,46 @@ class UserController extends Controller
 
     public function actionFormador()
     {
-        $auth = Yii::$app->authManager;
+        if (\Yii::$app->user->can('ReadUser')) {
 
-        $utilizadores = Utilizador::find()->where(['not', ['idioma_id' => null]])->all();
-        $utilizadorerole = array();
 
-        foreach ($utilizadores as $utilizador) {
+            $auth = Yii::$app->authManager;
 
-            $UserRoles = $auth->getRolesByUser($utilizador->user_id);
-            $userrole = key($UserRoles);
+            $utilizadores = Utilizador::find()->where(['not', ['idioma_id' => null]])->all();
+            $utilizadorerole = array();
 
-            $utilizadorerole[] = [
-                "user" => $utilizador,
-                "role" => $userrole,
-            ];
-        }
+            foreach ($utilizadores as $utilizador) {
 
-        if ($this->request->isPost) {
+                $UserRoles = $auth->getRolesByUser($utilizador->user_id);
+                $userrole = key($UserRoles);
 
-            $RoleSelecionada = $this->request->post('role');
-            $user = $this->request->post('userid');
-            $auth->revokeAll($user);
-
-            if ($RoleSelecionada != null) {
-                $NovaRole = $auth->getRole($RoleSelecionada);
-                $auth->assign($NovaRole, $user);
+                $utilizadorerole[] = [
+                    "user" => $utilizador,
+                    "role" => $userrole,
+                ];
             }
-        }
 
-        return $this->render('formador', [
-            'arrayusererole' => $utilizadorerole
-        ]);
+            if ($this->request->isPost) {
+
+                $RoleSelecionada = $this->request->post('role');
+                $user = $this->request->post('userid');
+                $auth->revokeAll($user);
+
+                if ($RoleSelecionada != null) {
+                    $NovaRole = $auth->getRole($RoleSelecionada);
+                    $auth->assign($NovaRole, $user);
+                }
+            }
+
+            return $this->render('formador', [
+                'arrayusererole' => $utilizadorerole
+            ]);
+        }
+        else {
+            return $this->redirect(['no_permisson']);
+        }
 
     }
+
 
 }

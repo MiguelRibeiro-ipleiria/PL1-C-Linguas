@@ -209,6 +209,18 @@ class RbacController extends Controller
         $UpdateLessonSound->description = 'Editar dados de um som usado nas aulas';
         $auth->add($UpdateLessonSound);
 
+        // BackendAccess
+        $CanAccessBackend = $auth->createPermission('CanAccessBackend');
+        $CanAccessBackend->description = 'Users que podem aceder ás páginas do backend';
+        $auth->add($CanAccessBackend);
+
+        /*----------------Backend Managment-----------*/
+        //admin
+        $auth->addChild($admin, $CanAccessBackend);
+        //formador
+        $auth->addChild($formador, $CanAccessBackend);
+
+
         /*----------------Feedback managment-----------*/
         //admin         
         $auth->addChild($admin, $CreateFeedback);
@@ -315,8 +327,8 @@ class RbacController extends Controller
         $auth->addChild($formador, $ReadLessonSound);
         $auth->addChild($formador, $UpdateLessonSound);
 
-       
-    
+
+
 
 
         echo "RBAC inicializado com sucesso!\n";

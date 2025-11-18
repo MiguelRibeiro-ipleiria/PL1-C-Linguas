@@ -49,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                             <div class="form-group input-group">
                                 <span class="icon"><i class="lni lni-envelope"></i></span>
-                                <input <?= $form->field($model, 'username')
+                                <input hidden <?= $form->field($model, 'username')
                                     ->textInput([
                                         'class' => 'form-controlle',
                                         'placeholder' => 'Enter your email'
