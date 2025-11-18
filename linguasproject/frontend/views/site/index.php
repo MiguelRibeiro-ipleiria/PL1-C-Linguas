@@ -2,6 +2,7 @@
 
 /** @var yii\web\View $this */
 use yii\helpers\Url;
+use Yii;
 
 $this->title = 'My Yii Application';
 ?>
@@ -26,7 +27,7 @@ $this->title = 'My Yii Application';
             </div>
             <div class="col-lg-7 col-12">
                 <div class="hero-image wow fadeInRight" data-wow-delay=".4s">
-                    <img class="main-image" src="img/nav-image-turtle.jpg" alt="Turtle Image">
+                    <img class="main-image" src="<?= Yii::getAlias('@web').'/img/nav-image-turtle.jpg'; ?>" alt="Turtle Image">
                 </div>
             </div>
         </div>
@@ -70,16 +71,14 @@ $this->title = 'My Yii Application';
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-12 wow fadeInUp" data-wow-delay=".6s">
-                <a>
-                    <div class="single-service">
-                        <div class="main-icon">
-                            <i class="bi bi-hand-thumbs-up-fill"></i>
-                        </div>
-                        <h4 class="text-title">Feedback</h4>
-                        <p>Dê-nos a sua opinião sobre nós e use este aba para reportar qualquer eventual
-                            problema que encontre para que o possamos ajudar</p>
+                <div class="single-service">
+                    <div class="main-icon">
+                        <i class="bi bi-hand-thumbs-up-fill"></i>
                     </div>
-                </a>
+                    <h4 class="text-title">Feedback</h4>
+                    <p>Dê-nos a sua opinião sobre nós e use este aba para reportar qualquer eventual
+                        problema que encontre para que o possamos ajudar</p>
+                </div>
             </div>
         </div>
     </div>
@@ -103,7 +102,7 @@ $this->title = 'My Yii Application';
                 <!-- Start Single Team -->
                 <div class="single-team">
                     <div class="team-image">
-                        <img src="img/profile_icon.webp" alt="Miguel Ribeiro Profile Image">
+                        <img src="<?= Yii::getAlias('@web').'/img/profile_icon.webp'; ?>" alt="André Ventura Profile Image">
                     </div>
                     <div class="content">
                         <h4>André Santos
@@ -117,7 +116,7 @@ $this->title = 'My Yii Application';
                 <!-- Start Single Team -->
                 <div class="single-team">
                     <div class="team-image">
-                        <img src="img/profile_icon.webp" alt="Miguel Ribeiro Profile Image">
+                        <img src="<?= Yii::getAlias('@web').'/img/profile_icon.webp'; ?>" alt="Guilherme Ferreira Profile Image">
                     </div>
                     <div class="content">
                         <h4>Guilherme Ferreira
@@ -131,7 +130,7 @@ $this->title = 'My Yii Application';
                 <!-- Start Single Team -->
                 <div class="single-team">
                     <div class="team-image">
-                        <img src="img/profile_icon.webp" alt="Miguel Ribeiro Profile Image">
+                        <img src="<?= Yii::getAlias('@web').'/img/profile_icon.webp'; ?>" alt="Miguel Ribeiro Profile Image">
                     </div>
                     <div class="content">
                         <h4>Miguel Ribeiro

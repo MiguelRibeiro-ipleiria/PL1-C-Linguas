@@ -3,7 +3,6 @@
 /** @var \yii\web\View $this */
 /** @var string $content */
 
-use Yii;
 use common\widgets\Alert;
 use frontend\assets\AppAsset;
 use yii\bootstrap5\Breadcrumbs;
@@ -122,13 +121,30 @@ AppAsset::register($this);
 </main>
 
 <footer class="footer mt-auto py-3 text-muted">
+    <!-- Start Footer Top -->
+    <div class="container">
+        <div class="inner-content">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-12">
+                    <!-- Single Widget -->
+                    <br>
+                    <div class="single-footer f-about">
+                        <div class="logo">
+                            <img src="<?= Yii::getAlias('@web').'/img/logo.jpg'; ?>" alt="#">
+                        </div>
+                    </div>
+                    <!-- End Single Widget -->
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+<footer class="footer mt-auto py-3 text-muted">
     <div class="container">
         <p class="float-start">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
-        <p class="float-end"><?= Yii::powered() ?></p>
+        <p class="float-end">Desenvolvido por: André Ventura, Guilherme Ferreira e Miguel Ribeiro</p>
     </div>
 </footer>
 
-<?php $this->endBody() ?>
 </body>
 </html>
-<?php $this->endPage();
