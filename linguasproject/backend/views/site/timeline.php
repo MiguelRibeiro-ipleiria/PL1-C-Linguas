@@ -27,6 +27,7 @@ use yii\helpers\Url;
                     <?php
                     $feedbackstimes = Feedback::find()->orderBy(['hora_criada' => SORT_ASC])->all();
                     $utilizadorestimes = Utilizador::find()->orderBy(['data_inscricao' => SORT_ASC])->all();
+                    $idiomatimes = Idioma::find()->orderBy(['data_criacao' => SORT_ASC])->all();
 
                     $ArrayTime = array();
 
@@ -41,6 +42,13 @@ use yii\helpers\Url;
                         $ArrayType["type"] = "utilizador";
                         $ArrayType["hora"] = $utilizador->data_inscricao;
                         $ArrayType["id"] = $utilizador->id;
+                        array_push($ArrayTime, ArrayHelper::toArray($ArrayType));
+                    }
+
+                    foreach ($idiomatimes as $idioma) {
+                        $ArrayType["type"] = "idioma";
+                        $ArrayType["hora"] = $idioma->data_criacao;
+                        $ArrayType["id"] = $idioma->id;
                         array_push($ArrayTime, ArrayHelper::toArray($ArrayType));
                     }
 
@@ -92,6 +100,18 @@ use yii\helpers\Url;
                                 </div>
                             </div>
                         <?php
+                        }
+                        elseif ($time['type'] == 'idioma') {
+                            $idioma = Idioma::findOne($time['id']);
+                            ?>
+                            <div>
+                                <i class="fas fa-language bg-yellow"></i>
+                                <div class="timeline-item">
+                                    <span class="time"><i class="fas fa-clock"></i> <?= $idioma->data_criacao ?> </span>
+                                    <h3 class="timeline-header no-border"><a href="<?= Url::to(['/idioma/view', 'id' => $idioma->id]) ?>"><?= $idioma->lingua_descricao ?> - </a><?= $idioma->lingua_sigla?></h3>
+                                </div>
+                            </div>
+                            <?php
                         }
                     }
                     ?>

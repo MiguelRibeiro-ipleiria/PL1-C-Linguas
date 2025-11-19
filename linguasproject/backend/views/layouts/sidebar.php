@@ -49,6 +49,7 @@
                     ['label' => 'Feedbacks',  'icon' => 'thumbs-up','url' => ['/feedback/index']],
                     ['label' => 'Comentários',  'icon' => 'comments'],
                     ['label' => 'PAINEL CONTROLO', 'header' => true],
+                    ['label' => 'Dificuldade',  'icon' => 'exclamation-triangle', 'url' => ['/dificuldade/index']],
                     ['label' => 'Idiomas',  'icon' => 'language', 'url' => ['/idioma/index']],
                     ['label' => 'Cursos',  'icon' => 'book'],
                     ['label' => 'Aulas',  'icon' => 'chalkboard-teacher'],

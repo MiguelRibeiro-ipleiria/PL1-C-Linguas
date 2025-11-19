@@ -1,8 +1,7 @@
 <?php
 
 namespace common\models;
-use common\models\User;
-use backend\models\Utilizador;
+
 use Yii;
 
 /**
@@ -12,6 +11,7 @@ use Yii;
  * @property string $lingua_descricao
  * @property string $lingua_sigla
  * @property string $lingua_bandeira
+ * @property string $data_criacao
  *
  * @property Curso[] $cursos
  * @property Utilizador[] $utilizadors
@@ -34,7 +34,8 @@ class Idioma extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['lingua_descricao', 'lingua_sigla', 'lingua_bandeira'], 'required'],
+            [['lingua_descricao', 'lingua_sigla', 'lingua_bandeira', 'data_criacao'], 'required'],
+            [['data_criacao'], 'safe'],
             [['lingua_descricao'], 'string', 'max' => 45],
             [['lingua_sigla'], 'string', 'max' => 5],
             [['lingua_bandeira'], 'string', 'max' => 100],
@@ -51,6 +52,7 @@ class Idioma extends \yii\db\ActiveRecord
             'lingua_descricao' => 'Lingua Descricao',
             'lingua_sigla' => 'Lingua Sigla',
             'lingua_bandeira' => 'Lingua Bandeira',
+            'data_criacao' => 'Data Criacao',
         ];
     }
 

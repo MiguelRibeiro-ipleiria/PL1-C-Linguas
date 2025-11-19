@@ -4,14 +4,14 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
-/** @var common\models\Idioma $model */
+/** @var common\models\Dificuldade $model */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Idiomas', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Dificuldades', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="idioma-view">
+<div class="dificuldade-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -30,10 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'lingua_descricao',
-            'lingua_sigla',
-            'lingua_bandeira',
-            'data_criacao'
+            'grau_dificuldade',
         ],
     ]) ?>
 
