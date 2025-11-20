@@ -14,22 +14,25 @@ $this->title = 'Idiomas';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<div class="idioma-index">
+<h1><?= Html::encode($this->title) ?></h1>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<p>
+    <?= Html::a('Create Idioma', ['create'], ['class' => 'btn btn-success']) ?>
+</p>
 
-    <p>
-        <?= Html::a('Create Idioma', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <?= \yii\widgets\ListView::widget([
-        'dataProvider' => $dataProvider,
-        'itemView' => '_idioma',
-        'layout' => "<div class='cards-grid'>{items}</div>\n<div class='mt-4'>{pager}</div>",
-        'itemOptions' => ['tag' => false],
-    ]) ?>
+<?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
 
+<div class="card card-success">
+    <div class="card-body">
+        <div class="row">
+            <?= \yii\widgets\ListView::widget([
+                'dataProvider' => $dataProvider,
+                'itemView' => '_idioma',
+                'layout' => "<div class='row'>{items}</div>\n<div class='mt-4'>{pager}</div>",
+                'itemOptions' => ['tag' => false],
+            ]) ?>
+
+        </div>
+    </div>
 </div>

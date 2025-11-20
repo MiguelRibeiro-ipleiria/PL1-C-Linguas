@@ -8,13 +8,23 @@ use yii\widgets\ActiveForm;
 /** @var yii\widgets\ActiveForm $form */
 ?>
 
-<div class="card">
-    <img src="<?= Html::encode($model->lingua_bandeira) ?>" class="card-img-top" alt="<?= Html::encode($model->lingua_descricao) ?>">
-    <div class="card-body">
-        <h5 class="card-title"><?= Html::encode($model->lingua_descricao) ?></h5>
-        <p class="card-text"> <?= Html::encode($model->lingua_sigla) ?></p>
-    </div>
-    <div class="card-footer">
-        <small class="text-body-secondary">Last updated 3 mins ago</small>
+
+<div class="col-md-12 col-lg-6 col-xl-4">
+    <div class="card mb-2">
+        <img class="card-img-top" src="<?= Html::encode($model->lingua_bandeira) ?>" alt="Dist Photo 2">
+
+        <div class="card-img-overlay d-flex flex-column justify-content-center">
+            <h5 class="card-title text-white mt-5 pt-2">
+                <?= Html::encode($model->lingua_descricao) ?>
+            </h5>
+
+            <p class="card-text pb-2 pt-1 text-white">
+                <?= Html::encode($model->lingua_sigla) ?>
+            </p>
+
+            <p class="card-text text-white">
+                <?= Html::encode($model->data_criacao) ?>
+            </p>
+        </div>
     </div>
 </div>

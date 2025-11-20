@@ -191,6 +191,7 @@ class UserController extends Controller
             'userrole' => $userrole,
         ]);
 
+
         //vai buscar ao authmanager, vai buscar o user a ser alterado vai buscar as roles do user, e todas as roles
 
         //se for um post então removem as roles todas do user e adicionam a role que enviarem no post
@@ -200,12 +201,54 @@ class UserController extends Controller
     public function actionAccount($id)
     {
 
+
         $model = User::findOne(['id' => $id]);
 
         return $this->render('account', [
             'user' => $model    
         ]);
         
+        if (\Yii::$app->user->can('ReadUser')) {
+
+
+            $auth = Yii::$app->authManager;
+
+            $utilizadores = Utilizador::find()->where(['not', ['idioma_id' => null]])->all();
+            $utilizadorerole = array();
+
+            foreach ($utilizadores as $utilizador) {
+
+                $UserRoles = $auth->getRolesByUser($utilizador->user_id);
+                $userrole = key($UserRoles);
+
+                $utilizadorerole[] = [
+                    "user" => $utilizador,
+                    "role" => $userrole,
+                ];
+            }
+
+            if ($this->request->isPost) {
+
+                $RoleSelecionada = $this->request->post('role');
+                $user = $this->request->post('userid');
+                $auth->revokeAll($user);
+
+                if ($RoleSelecionada != null) {
+                    $NovaRole = $auth->getRole($RoleSelecionada);
+                    $auth->assign($NovaRole, $user);
+                }
+            }
+
+            return $this->render('formador', [
+                'arrayusererole' => $utilizadorerole
+            ]);
+        }
+        else {
+            return $this->redirect(['no_permisson']);
+        }
+
+
     }
+
 
 }

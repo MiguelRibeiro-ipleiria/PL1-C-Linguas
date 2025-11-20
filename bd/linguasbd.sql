@@ -8,19 +8,19 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- Schema mydb
 -- -----------------------------------------------------
 -- -----------------------------------------------------
--- Schema linguasbd
+-- Schema linguabd
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema linguasbd
+-- Schema linguabd
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `linguasbd` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
-USE `linguasbd` ;
+CREATE SCHEMA IF NOT EXISTS `linguabd` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+USE `linguabd` ;
 
 -- -----------------------------------------------------
--- Table `linguasbd`.`audio_resource`
+-- Table `linguabd`.`audio_resource`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `linguasbd`.`audio_resource` (
+CREATE TABLE IF NOT EXISTS `linguabd`.`audio_resource` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nome_audio` VARCHAR(50) NOT NULL,
   `nome_ficheiro` VARCHAR(100) NOT NULL,
@@ -31,78 +31,83 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `linguasbd`.`dificuldade`
+-- Table `linguabd`.`dificuldade`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `linguasbd`.`dificuldade` (
+CREATE TABLE IF NOT EXISTS `linguabd`.`dificuldade` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `grau_dificuldade` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `linguasbd`.`idioma`
+-- Table `linguabd`.`idioma`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `linguasbd`.`idioma` (
+CREATE TABLE IF NOT EXISTS `linguabd`.`idioma` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `lingua_descricao` VARCHAR(45) NOT NULL,
   `lingua_sigla` VARCHAR(5) NOT NULL,
   `lingua_bandeira` VARCHAR(100) NOT NULL,
+  `data_criacao` DATETIME NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `linguasbd`.`curso`
+-- Table `linguabd`.`curso`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `linguasbd`.`curso` (
+CREATE TABLE IF NOT EXISTS `linguabd`.`curso` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `idioma_id` INT NOT NULL,
   `dificuldade_id` INT NOT NULL,
   `titulo_curso` VARCHAR(70) NOT NULL,
   `status_ativo` TINYINT NOT NULL,
+  `data_criacao` DATETIME NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_curso_idioma1_idx` (`idioma_id` ASC) VISIBLE,
   INDEX `fk_curso_dificuldade1_idx` (`dificuldade_id` ASC) VISIBLE,
   CONSTRAINT `fk_curso_dificuldade1`
     FOREIGN KEY (`dificuldade_id`)
-    REFERENCES `linguasbd`.`dificuldade` (`id`),
+    REFERENCES `linguabd`.`dificuldade` (`id`),
   CONSTRAINT `fk_curso_idioma1`
     FOREIGN KEY (`idioma_id`)
-    REFERENCES `linguasbd`.`idioma` (`id`))
+    REFERENCES `linguabd`.`idioma` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `linguasbd`.`aula`
+-- Table `linguabd`.`aula`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `linguasbd`.`aula` (
+CREATE TABLE IF NOT EXISTS `linguabd`.`aula` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `titulo_aula` VARCHAR(50) NOT NULL,
   `descricao_aula` VARCHAR(80) NOT NULL,
   `numero_de_exercicios` INT NOT NULL,
   `tempo_estimado` VARCHAR(25) NOT NULL,
   `curso_id` INT NOT NULL,
+  `data_criacao` DATETIME NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_aula_curso1_idx` (`curso_id` ASC) VISIBLE,
   CONSTRAINT `fk_aula_curso1`
     FOREIGN KEY (`curso_id`)
-    REFERENCES `linguasbd`.`curso` (`id`))
+    REFERENCES `linguabd`.`curso` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `linguasbd`.`tipoexercicio`
+-- Table `linguabd`.`tipoexercicio`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `linguasbd`.`tipoexercicio` (
+CREATE TABLE IF NOT EXISTS `linguabd`.`tipoexercicio` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `descricao` VARCHAR(60) NOT NULL,
   PRIMARY KEY (`id`))
@@ -112,9 +117,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `linguasbd`.`audio`
+-- Table `linguabd`.`audio`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `linguasbd`.`audio` (
+CREATE TABLE IF NOT EXISTS `linguabd`.`audio` (
   `audio_resource_id` INT NOT NULL,
   `aula_id` INT NOT NULL,
   `pergunta` VARCHAR(80) NOT NULL,
@@ -125,22 +130,22 @@ CREATE TABLE IF NOT EXISTS `linguasbd`.`audio` (
   INDEX `fk_audio_tipoexercicio1_idx` (`tipoexercicio_id` ASC) VISIBLE,
   CONSTRAINT `fk_audio_resource_has_aula_audio_resource1`
     FOREIGN KEY (`audio_resource_id`)
-    REFERENCES `linguasbd`.`audio_resource` (`id`),
+    REFERENCES `linguabd`.`audio_resource` (`id`),
   CONSTRAINT `fk_audio_resource_has_aula_aula1`
     FOREIGN KEY (`aula_id`)
-    REFERENCES `linguasbd`.`aula` (`id`),
+    REFERENCES `linguabd`.`aula` (`id`),
   CONSTRAINT `fk_audio_tipoexercicio1`
     FOREIGN KEY (`tipoexercicio_id`)
-    REFERENCES `linguasbd`.`tipoexercicio` (`id`))
+    REFERENCES `linguabd`.`tipoexercicio` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `linguasbd`.`auth_rule`
+-- Table `linguabd`.`auth_rule`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `linguasbd`.`auth_rule` (
+CREATE TABLE IF NOT EXISTS `linguabd`.`auth_rule` (
   `name` VARCHAR(64) CHARACTER SET 'utf8mb3' NOT NULL,
   `data` BLOB NULL DEFAULT NULL,
   `created_at` INT NULL DEFAULT NULL,
@@ -152,9 +157,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `linguasbd`.`auth_item`
+-- Table `linguabd`.`auth_item`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `linguasbd`.`auth_item` (
+CREATE TABLE IF NOT EXISTS `linguabd`.`auth_item` (
   `name` VARCHAR(64) CHARACTER SET 'utf8mb3' NOT NULL,
   `type` SMALLINT NOT NULL,
   `description` TEXT CHARACTER SET 'utf8mb3' NULL DEFAULT NULL,
@@ -167,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `linguasbd`.`auth_item` (
   INDEX `idx-auth_item-type` (`type` ASC) VISIBLE,
   CONSTRAINT `auth_item_ibfk_1`
     FOREIGN KEY (`rule_name`)
-    REFERENCES `linguasbd`.`auth_rule` (`name`)
+    REFERENCES `linguabd`.`auth_rule` (`name`)
     ON DELETE SET NULL
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -176,9 +181,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `linguasbd`.`auth_assignment`
+-- Table `linguabd`.`auth_assignment`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `linguasbd`.`auth_assignment` (
+CREATE TABLE IF NOT EXISTS `linguabd`.`auth_assignment` (
   `item_name` VARCHAR(64) CHARACTER SET 'utf8mb3' NOT NULL,
   `user_id` VARCHAR(64) CHARACTER SET 'utf8mb3' NOT NULL,
   `created_at` INT NULL DEFAULT NULL,
@@ -186,7 +191,7 @@ CREATE TABLE IF NOT EXISTS `linguasbd`.`auth_assignment` (
   INDEX `idx-auth_assignment-user_id` (`user_id` ASC) VISIBLE,
   CONSTRAINT `auth_assignment_ibfk_1`
     FOREIGN KEY (`item_name`)
-    REFERENCES `linguasbd`.`auth_item` (`name`)
+    REFERENCES `linguabd`.`auth_item` (`name`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -195,21 +200,21 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `linguasbd`.`auth_item_child`
+-- Table `linguabd`.`auth_item_child`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `linguasbd`.`auth_item_child` (
+CREATE TABLE IF NOT EXISTS `linguabd`.`auth_item_child` (
   `parent` VARCHAR(64) CHARACTER SET 'utf8mb3' NOT NULL,
   `child` VARCHAR(64) CHARACTER SET 'utf8mb3' NOT NULL,
   PRIMARY KEY (`parent`, `child`),
   INDEX `child` (`child` ASC) VISIBLE,
   CONSTRAINT `auth_item_child_ibfk_1`
     FOREIGN KEY (`parent`)
-    REFERENCES `linguasbd`.`auth_item` (`name`)
+    REFERENCES `linguabd`.`auth_item` (`name`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `auth_item_child_ibfk_2`
     FOREIGN KEY (`child`)
-    REFERENCES `linguasbd`.`auth_item` (`name`)
+    REFERENCES `linguabd`.`auth_item` (`name`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -218,9 +223,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `linguasbd`.`user`
+-- Table `linguabd`.`user`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `linguasbd`.`user` (
+CREATE TABLE IF NOT EXISTS `linguabd`.`user` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(255) CHARACTER SET 'utf8mb3' NOT NULL,
   `auth_key` VARCHAR(32) CHARACTER SET 'utf8mb3' NOT NULL,
@@ -236,44 +241,41 @@ CREATE TABLE IF NOT EXISTS `linguasbd`.`user` (
   UNIQUE INDEX `email` (`email` ASC) VISIBLE,
   UNIQUE INDEX `password_reset_token` (`password_reset_token` ASC) VISIBLE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 9
+AUTO_INCREMENT = 32
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `linguasbd`.`utilizador`
+-- Table `linguabd`.`utilizador`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `linguasbd`.`utilizador` (
+CREATE TABLE IF NOT EXISTS `linguabd`.`utilizador` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `data_nascimento` DATETIME NOT NULL,
   `numero_telefone` INT NOT NULL,
   `nacionalidade` VARCHAR(25) NOT NULL,
   `data_inscricao` DATETIME NOT NULL,
   `user_id` INT NOT NULL,
-  `idioma_id` INT NOT NULL,
+  `idioma_id` INT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_utilizador_user1_idx` (`user_id` ASC) VISIBLE,
   INDEX `fk_utilizador_idioma1_idx` (`idioma_id` ASC) VISIBLE,
-  CONSTRAINT `fk_utilizador_user1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `linguasbd`.`user` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_utilizador_idioma1`
     FOREIGN KEY (`idioma_id`)
-    REFERENCES `linguasbd`.`idioma` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `linguabd`.`idioma` (`id`),
+  CONSTRAINT `fk_utilizador_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `linguabd`.`user` (`id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 18
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `linguasbd`.`comentario`
+-- Table `linguabd`.`comentario`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `linguasbd`.`comentario` (
+CREATE TABLE IF NOT EXISTS `linguabd`.`comentario` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `descricao_comentario` VARCHAR(45) NOT NULL,
   `aula_id` INT NOT NULL,
@@ -284,21 +286,19 @@ CREATE TABLE IF NOT EXISTS `linguasbd`.`comentario` (
   INDEX `fk_comentario_utilizador1_idx` (`utilizador_id` ASC) VISIBLE,
   CONSTRAINT `fk_comentario_aula1`
     FOREIGN KEY (`aula_id`)
-    REFERENCES `linguasbd`.`aula` (`id`),
+    REFERENCES `linguabd`.`aula` (`id`),
   CONSTRAINT `fk_comentario_utilizador1`
     FOREIGN KEY (`utilizador_id`)
-    REFERENCES `linguasbd`.`utilizador` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `linguabd`.`utilizador` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `linguasbd`.`feedback`
+-- Table `linguabd`.`feedback`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `linguasbd`.`feedback` (
+CREATE TABLE IF NOT EXISTS `linguabd`.`feedback` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `assunto_feedback` VARCHAR(45) NOT NULL,
   `descricao_feedback` VARCHAR(45) NOT NULL,
@@ -308,18 +308,17 @@ CREATE TABLE IF NOT EXISTS `linguasbd`.`feedback` (
   INDEX `fk_feedback_utilizador1_idx` (`utilizador_id` ASC) VISIBLE,
   CONSTRAINT `fk_feedback_utilizador1`
     FOREIGN KEY (`utilizador_id`)
-    REFERENCES `linguasbd`.`utilizador` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `linguabd`.`utilizador` (`id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 6
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `linguasbd`.`frase`
+-- Table `linguabd`.`frase`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `linguasbd`.`frase` (
+CREATE TABLE IF NOT EXISTS `linguabd`.`frase` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `partefrases_1` VARCHAR(100) NOT NULL,
   `partefrases_2` VARCHAR(100) NOT NULL,
@@ -331,19 +330,19 @@ CREATE TABLE IF NOT EXISTS `linguasbd`.`frase` (
   INDEX `fk_frase_tipoexercicio1_idx` (`tipoexercicio_id` ASC) VISIBLE,
   CONSTRAINT `fk_frase_aula1`
     FOREIGN KEY (`aula_id`)
-    REFERENCES `linguasbd`.`aula` (`id`),
+    REFERENCES `linguabd`.`aula` (`id`),
   CONSTRAINT `fk_frase_tipoexercicio1`
     FOREIGN KEY (`tipoexercicio_id`)
-    REFERENCES `linguasbd`.`tipoexercicio` (`id`))
+    REFERENCES `linguabd`.`tipoexercicio` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `linguasbd`.`imagem_resource`
+-- Table `linguabd`.`imagem_resource`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `linguasbd`.`imagem_resource` (
+CREATE TABLE IF NOT EXISTS `linguabd`.`imagem_resource` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nome_imagem` VARCHAR(45) NOT NULL,
   `nome_ficheiro` VARCHAR(100) NOT NULL,
@@ -354,9 +353,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `linguasbd`.`imagem`
+-- Table `linguabd`.`imagem`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `linguasbd`.`imagem` (
+CREATE TABLE IF NOT EXISTS `linguabd`.`imagem` (
   `imagem_resource_id` INT NOT NULL,
   `aula_id` INT NOT NULL,
   `pergunta` VARCHAR(45) NOT NULL,
@@ -367,22 +366,45 @@ CREATE TABLE IF NOT EXISTS `linguasbd`.`imagem` (
   INDEX `fk_imagem_tipoexercicio1_idx` (`tipoexercicio_id` ASC) VISIBLE,
   CONSTRAINT `fk_imagem_resource_has_aula_aula1`
     FOREIGN KEY (`aula_id`)
-    REFERENCES `linguasbd`.`aula` (`id`),
+    REFERENCES `linguabd`.`aula` (`id`),
   CONSTRAINT `fk_imagem_resource_has_aula_imagem_resource1`
     FOREIGN KEY (`imagem_resource_id`)
-    REFERENCES `linguasbd`.`imagem_resource` (`id`),
+    REFERENCES `linguabd`.`imagem_resource` (`id`),
   CONSTRAINT `fk_imagem_tipoexercicio1`
     FOREIGN KEY (`tipoexercicio_id`)
-    REFERENCES `linguasbd`.`tipoexercicio` (`id`))
+    REFERENCES `linguabd`.`tipoexercicio` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `linguasbd`.`migration`
+-- Table `linguabd`.`inscricao`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `linguasbd`.`migration` (
+CREATE TABLE IF NOT EXISTS `linguabd`.`inscricao` (
+  `utilizador_id` INT NOT NULL,
+  `curso_idcurso` INT NOT NULL,
+  `data_inscricao` VARCHAR(45) NOT NULL,
+  `progresso` VARCHAR(45) NOT NULL,
+  `estado` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`utilizador_id`, `curso_idcurso`),
+  INDEX `fk_utilizador_has_curso_curso2_idx` (`curso_idcurso` ASC) VISIBLE,
+  INDEX `fk_utilizador_has_curso_utilizador1_idx` (`utilizador_id` ASC) VISIBLE,
+  CONSTRAINT `fk_utilizador_has_curso_curso2`
+    FOREIGN KEY (`curso_idcurso`)
+    REFERENCES `linguabd`.`curso` (`id`),
+  CONSTRAINT `fk_utilizador_has_curso_utilizador1`
+    FOREIGN KEY (`utilizador_id`)
+    REFERENCES `linguabd`.`utilizador` (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `linguabd`.`migration`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `linguabd`.`migration` (
   `version` VARCHAR(180) NOT NULL,
   `apply_time` INT NULL DEFAULT NULL,
   PRIMARY KEY (`version`))
@@ -392,9 +414,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `linguasbd`.`opcoesai`
+-- Table `linguabd`.`opcoesai`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `linguasbd`.`opcoesai` (
+CREATE TABLE IF NOT EXISTS `linguabd`.`opcoesai` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `iscorreta` TINYINT NOT NULL,
   `descricao` VARCHAR(45) NOT NULL,
@@ -409,73 +431,42 @@ CREATE TABLE IF NOT EXISTS `linguasbd`.`opcoesai` (
   INDEX `fk_opcao_frase` (`frase_id` ASC) VISIBLE,
   CONSTRAINT `fk_opcao_frase`
     FOREIGN KEY (`frase_id`)
-    REFERENCES `linguasbd`.`frase` (`id`)
+    REFERENCES `linguabd`.`frase` (`id`)
     ON DELETE CASCADE,
   CONSTRAINT `fk_opcoesai_audio1`
     FOREIGN KEY (`audio_audio_resource_id` , `audio_aula_id`)
-    REFERENCES `linguasbd`.`audio` (`audio_resource_id` , `aula_id`),
+    REFERENCES `linguabd`.`audio` (`audio_resource_id` , `aula_id`),
   CONSTRAINT `fk_opcoesai_imagem1`
     FOREIGN KEY (`imagem_imagem_resource_id` , `imagem_aula_id`)
-    REFERENCES `linguasbd`.`imagem` (`imagem_resource_id` , `aula_id`))
+    REFERENCES `linguabd`.`imagem` (`imagem_resource_id` , `aula_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `linguasbd`.`resultado`
+-- Table `linguabd`.`resultado`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `linguasbd`.`resultado` (
+CREATE TABLE IF NOT EXISTS `linguabd`.`resultado` (
   `utilizador_id` INT NOT NULL,
   `aula_idaula` INT NOT NULL,
-  `data_inicio` DATETIME NULL,
-  `data_fim` DATETIME NULL,
+  `data_inicio` DATETIME NULL DEFAULT NULL,
+  `data_fim` DATETIME NULL DEFAULT NULL,
   `estado` VARCHAR(45) NOT NULL,
-  `nota` INT NULL,
-  `tempo_estimado` INT NULL,
-  `data_agendamento` DATETIME NULL,
-  `respostas_certas` INT NULL,
-  `respostas_erradas` INT NULL,
+  `nota` INT NULL DEFAULT NULL,
+  `tempo_estimado` INT NULL DEFAULT NULL,
+  `data_agendamento` DATETIME NULL DEFAULT NULL,
+  `respostas_certas` INT NULL DEFAULT NULL,
+  `respostas_erradas` INT NULL DEFAULT NULL,
   PRIMARY KEY (`utilizador_id`, `aula_idaula`),
   INDEX `fk_utilizador_has_aula_aula2_idx` (`aula_idaula` ASC) VISIBLE,
   INDEX `fk_utilizador_has_aula_utilizador1_idx` (`utilizador_id` ASC) VISIBLE,
-  CONSTRAINT `fk_utilizador_has_aula_utilizador1`
-    FOREIGN KEY (`utilizador_id`)
-    REFERENCES `linguasbd`.`utilizador` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_utilizador_has_aula_aula2`
     FOREIGN KEY (`aula_idaula`)
-    REFERENCES `linguasbd`.`aula` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
-
-
--- -----------------------------------------------------
--- Table `linguasbd`.`inscricao`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `linguasbd`.`inscricao` (
-  `utilizador_id` INT NOT NULL,
-  `curso_idcurso` INT NOT NULL,
-  `data_inscricao` VARCHAR(45) NOT NULL,
-  `progresso` VARCHAR(45) NOT NULL,
-  `estado` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`utilizador_id`, `curso_idcurso`),
-  INDEX `fk_utilizador_has_curso_curso2_idx` (`curso_idcurso` ASC) VISIBLE,
-  INDEX `fk_utilizador_has_curso_utilizador1_idx` (`utilizador_id` ASC) VISIBLE,
-  CONSTRAINT `fk_utilizador_has_curso_utilizador1`
+    REFERENCES `linguabd`.`aula` (`id`),
+  CONSTRAINT `fk_utilizador_has_aula_utilizador1`
     FOREIGN KEY (`utilizador_id`)
-    REFERENCES `linguasbd`.`utilizador` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_utilizador_has_curso_curso2`
-    FOREIGN KEY (`curso_idcurso`)
-    REFERENCES `linguasbd`.`curso` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `linguabd`.`utilizador` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;

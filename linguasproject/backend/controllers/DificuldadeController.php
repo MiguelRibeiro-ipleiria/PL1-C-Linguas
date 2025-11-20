@@ -2,16 +2,16 @@
 
 namespace backend\controllers;
 
-use common\models\Idioma;
-use common\models\IdiomaSearch;
+use common\models\Dificuldade;
+use common\models\DificuldadeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * IdiomaController implements the CRUD actions for Idioma model.
+ * DificuldadeController implements the CRUD actions for Dificuldade model.
  */
-class IdiomaController extends Controller
+class DificuldadeController extends Controller
 {
     /**
      * @inheritDoc
@@ -32,13 +32,13 @@ class IdiomaController extends Controller
     }
 
     /**
-     * Lists all Idioma models.
+     * Lists all Dificuldade models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new IdiomaSearch();
+        $searchModel = new DificuldadeSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
@@ -48,7 +48,7 @@ class IdiomaController extends Controller
     }
 
     /**
-     * Displays a single Idioma model.
+     * Displays a single Dificuldade model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -61,20 +61,17 @@ class IdiomaController extends Controller
     }
 
     /**
-     * Creates a new Idioma model.
+     * Creates a new Dificuldade model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new Idioma();
+        $model = new Dificuldade();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post())) {
-                $model->data_criacao = date('Y-m-d H:i:s');
-                if($model->save()){
-                    return $this->redirect(['view', 'id' => $model->id]);
-                }
+            if ($model->load($this->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
             $model->loadDefaultValues();
@@ -86,7 +83,7 @@ class IdiomaController extends Controller
     }
 
     /**
-     * Updates an existing Idioma model.
+     * Updates an existing Dificuldade model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -106,7 +103,7 @@ class IdiomaController extends Controller
     }
 
     /**
-     * Deletes an existing Idioma model.
+     * Deletes an existing Dificuldade model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
      * @return \yii\web\Response
@@ -120,15 +117,15 @@ class IdiomaController extends Controller
     }
 
     /**
-     * Finds the Idioma model based on its primary key value.
+     * Finds the Dificuldade model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return Idioma the loaded model
+     * @return Dificuldade the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Idioma::findOne(['id' => $id])) !== null) {
+        if (($model = Dificuldade::findOne(['id' => $id])) !== null) {
             return $model;
         }
 
