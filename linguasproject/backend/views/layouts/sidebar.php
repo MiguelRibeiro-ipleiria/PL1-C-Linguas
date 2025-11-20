@@ -39,7 +39,7 @@
                 'items' => [
                     ['label' => 'CONTA', 'header' => true],
                     ['label' => 'Login', 'url' => ['site/login'], 'icon' => 'sign-in-alt', 'visible' => Yii::$app->user->isGuest],
-                    ['label' => 'Informações da conta',  'icon' => 'user', 'url' => ['/gii'], 'target' => '_blank'],
+                    ['label' => 'Informações da conta',  'icon' => 'user', 'url' => ['/user/account', 'id'=> Yii::$app->user->id]],
                     ['label' => 'Timeline', 'url' => ['site/timeline'], 'icon' => 'sign-in-alt'],
                     ['label' => 'Pedidos de Formador', 'url' => ['user/formador'], 'icon' => 'clipboard-list'],
                     ['label' => 'ADMISTRAÇÃO', 'header' => true],

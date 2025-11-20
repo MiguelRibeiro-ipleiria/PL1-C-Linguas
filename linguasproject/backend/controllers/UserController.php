@@ -48,6 +48,7 @@ class UserController extends Controller
     public function actionIndex()
     {
         if (\Yii::$app->user->can('ReadUser')) {
+
             $searchModel = new UserSearch();
             $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -57,6 +58,7 @@ class UserController extends Controller
             ]);
         }
         return $this->redirect(['no_permisson']);
+
     }
     public function actionNo_permisson()
     {
@@ -195,40 +197,15 @@ class UserController extends Controller
         //se for um GET então devolvem uma vista "Role" onde vão ter um formulario simples com o user e uma dropdown de roles
     }
 
-    public function actionFormador()
+    public function actionAccount($id)
     {
-        $auth = Yii::$app->authManager;
 
-        $utilizadores = Utilizador::find()->where(['not', ['idioma_id' => null]])->all();
-        $utilizadorerole = array();
+        $model = User::findOne(['id' => $id]);
 
-        foreach ($utilizadores as $utilizador) {
-
-            $UserRoles = $auth->getRolesByUser($utilizador->user_id);
-            $userrole = key($UserRoles);
-
-            $utilizadorerole[] = [
-                "user" => $utilizador,
-                "role" => $userrole,
-            ];
-        }
-
-        if ($this->request->isPost) {
-
-            $RoleSelecionada = $this->request->post('role');
-            $user = $this->request->post('userid');
-            $auth->revokeAll($user);
-
-            if ($RoleSelecionada != null) {
-                $NovaRole = $auth->getRole($RoleSelecionada);
-                $auth->assign($NovaRole, $user);
-            }
-        }
-
-        return $this->render('formador', [
-            'arrayusererole' => $utilizadorerole
+        return $this->render('account', [
+            'user' => $model    
         ]);
-
+        
     }
 
 }

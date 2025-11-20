@@ -20,18 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <![endif]-->
 
     <!-- Start Breadcrumbs -->
-    <div class="breadcrumbs">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 offset-lg-3 col-md-12 col-12">
-                    <div class="breadcrumbs-content">
-                        <h1 class="page-title">Sign In</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Breadcrumbs -->
+         <!-- End Breadcrumbs -->
 
     <div class="account-login section">
         <div class="container">
@@ -47,18 +36,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
                             <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
-                            <div class="form-group input-group">
-                                <span class="icon"><i class="lni lni-envelope"></i></span>
-                                <input <?= $form->field($model, 'username')
+                            <div class="form-group">
+                            
+                                <?= $form->field($model, 'username')
                                     ->textInput([
                                         'class' => 'form-controlle',
                                         'placeholder' => 'Enter your email'
                                     ])
-                                    ->label(false) ?>>
+                                    ->label(false) ?>
                             </div>
-
-                            <div class="form-group input-group">
-                                <span class="icon"><i class="lni lni-lock-alt"></i></span>
+                            <div class="form-group">
                                 <?= $form->field($model, 'password')
                                     ->passwordInput([
                                         'class' => 'form-controlle',
@@ -69,13 +56,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
                             <!-- REMEMBER / FORGOT -->
-                            <div class="d-flex flex-wrap justify-content-between bottom-content">
+                            <!--<div class="d-flex flex-wrap justify-content-between bottom-content">
                                 <div class="form-check remember-wrap">
                                     <?= $form->field($model, 'rememberMe')
                                         ->checkbox(['class' => 'form-check-input']) ?>
                                 </div>
                                 <a class="lost-pass" href="reset-password.html">Forgot password?</a>
-                            </div>
+                            </div> -->
 
                             <!-- BUTTON -->
                             <div class="button">
@@ -83,7 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             </div>
 
                             <h4 class="create-account">
-                                Don't have an account? <a href="signup.html">Sign Up Here</a>
+                               Não tem conta? <a href="signup.php">Registe-se</a>
                             </h4>
 
                             <?php ActiveForm::end(); ?>
