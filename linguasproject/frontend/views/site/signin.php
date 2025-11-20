@@ -6,7 +6,7 @@
 
 use yii\bootstrap5\Html;
 use yii\bootstrap5\ActiveForm;
-
+use yii\helpers\Url;
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -70,7 +70,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             </div>
 
                             <h4 class="create-account">
-                               Não tem conta? <a href="signup.php">Registe-se</a>
+                              
+                              <a>Não tem conta? <?= Html::tag('div',Html::a('Registe-se',['/site/signup']));?></a>
                             </h4>
 
                             <?php ActiveForm::end(); ?>
