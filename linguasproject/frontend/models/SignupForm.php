@@ -100,7 +100,7 @@ class SignupForm extends Model
         $boolutilizadorsave = $utilizador->save();
 
         $auth = Yii::$app->authManager;
-        $authorRole = $auth->getRole('user_autenticado');
+        $authorRole = $auth->getRole('aluno');
         $boolroleassigned = $auth->assign($authorRole, $user->getId());
 
         return $boolutilizadorsave && $boolusersave && $boolroleassigned;
