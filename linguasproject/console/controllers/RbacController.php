@@ -21,14 +21,9 @@ class RbacController extends Controller
         $formador->description = 'Professor de uma língua ';
         $auth->add($formador);
 
-        $user_autenticado = $auth->createRole('user_autenticado');
+        $user_autenticado = $auth->createRole('aluno');
         $user_autenticado->description = 'Aluno que fez login';
         $auth->add($user_autenticado);
-        
-        $user_nao_autenticado = $auth->createRole('user_nao_autenticado');
-        $user_nao_autenticado->description = 'Aluno que nao fez login';
-        $auth->add($user_nao_autenticado);
-
 
 
         /*MESSAGING PERMISSIONS*/
@@ -303,8 +298,6 @@ class RbacController extends Controller
          //user autenticado
          $auth->addChild($user_autenticado, $SearchLanguage);
 
-         //user nao autenticado
-         $auth->addChild($user_nao_autenticado, $SearchLanguage);
 
         /*----------------Resources management-----------*/
         //Admin
