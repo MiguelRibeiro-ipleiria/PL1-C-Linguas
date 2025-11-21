@@ -57,6 +57,18 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="input-head">
 
                                 <div class="row">
+
+                                    <!-- USERNAME -->
+                                    <div class="col-lg-12 col-12">
+                                        <div class="form-group">
+                                            <label></label>
+                                            <?= $form->field($model, 'username')->textInput([
+                                                'class' => 'form-control',
+                                                'placeholder' => 'O seu Username'
+                                            ])->label(false) ?>
+                                        </div>
+                                    </div>
+
                                     <!-- Email -->
                                     <div class="col-lg-12 col-12">
                                         <div class="form-group">
@@ -105,13 +117,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                 </div>
 
                                 <!-- Idioma -->
-                                <!--<div class="form-group ">
+                                <div class="form-group ">
                                     <label><i class="lni lni-world"></i></label>
                                     <?= $form->field($model, 'idioma_id')->dropDownList(
                                         ArrayHelper::map(Idioma::find()->asArray()->all(), 'id', 'lingua_descricao'),
                                         ['prompt' => 'Selecione um idioma', 'class' => 'form-control']
                                     )->label(false) ?>
-                                </div> -->
+                                </div>
 
                             </div>
 

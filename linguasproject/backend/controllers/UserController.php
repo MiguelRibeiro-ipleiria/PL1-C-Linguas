@@ -29,7 +29,7 @@ class UserController extends Controller
     {
         return array_merge(
             parent::behaviors(),
-            [
+            [ //fazer protecao de todos os controllers por roles
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
@@ -60,6 +60,7 @@ class UserController extends Controller
         return $this->redirect(['no_permisson']);
 
     }
+
     public function actionNo_permisson()
     {
         return $this->render('//site/no_permisson', [
@@ -197,6 +198,48 @@ class UserController extends Controller
         //se for um post então removem as roles todas do user e adicionam a role que enviarem no post
         //se for um GET então devolvem uma vista "Role" onde vão ter um formulario simples com o user e uma dropdown de roles
     }
+
+    public function actionFormador()
+    {
+        $auth = Yii::$app->authManager;
+
+        if (!Yii::$app->user->can('ReadUser')) {
+            return $this->redirect(['no_permisson']);
+        }
+
+        $utilizadores = Utilizador::find()->where(['not', ['idioma_id' => null]])->all();
+
+        $utilizadorerole = [];
+
+        if (Yii::$app->request->isPost) {
+            $roleSelecionada = Yii::$app->request->post('role');
+            $userId = Yii::$app->request->post('userid');
+
+            if ($userId && $roleSelecionada) {
+                $auth->revokeAll($userId);                // remover roles atuais
+                $novaRole = $auth->getRole($roleSelecionada);
+                if ($novaRole) {
+                    $auth->assign($novaRole, $userId);    // atribuir nova role
+                }
+            }
+        }
+
+        foreach ($utilizadores as $utilizador) {
+            $userRoles = $auth->getRolesByUser($utilizador->user_id);
+            $role = key($userRoles); // obtém o nome da role
+
+            $utilizadorerole[] = [
+                "user" => $utilizador,
+                "role" => $role,
+            ];
+        }
+
+        return $this->render('formador', [
+            'arrayusererole' => $utilizadorerole
+        ]);
+    }
+
+
 
     public function actionAccount($id)
     {
