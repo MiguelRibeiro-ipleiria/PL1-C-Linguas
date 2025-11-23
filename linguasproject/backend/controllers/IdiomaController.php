@@ -7,6 +7,7 @@ use common\models\IdiomaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * IdiomaController implements the CRUD actions for Idioma model.
@@ -26,6 +27,35 @@ class IdiomaController extends Controller
                     'actions' => [
                         'delete' => ['POST'],
                     ],
+                ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'only' => ['index', 'view', 'create', 'update', 'delete'],
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'actions' => ['index', 'view'],
+                            'roles' => ['ReadLanguage'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['create'],
+                            'roles' => ['CreateLanguage'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['update'],
+                            'roles' => ['UpdateLanguage'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['delete'],
+                            'roles' => ['DeleteLanguage'],
+                        ],
+                    ],
+                    'denyCallback' => function () {
+                        throw new \Exception('You are not allowed to access this page');
+                    }
                 ],
             ]
         );
@@ -72,6 +102,7 @@ class IdiomaController extends Controller
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
                 $model->data_criacao = date('Y-m-d H:i:s');
+
                 if($model->save()){
                     return $this->redirect(['view', 'id' => $model->id]);
                 }

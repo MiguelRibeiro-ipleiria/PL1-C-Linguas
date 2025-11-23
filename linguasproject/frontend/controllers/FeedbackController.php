@@ -1,7 +1,7 @@
 <?php
 
 namespace frontend\controllers;
-use backend\models\Utilizador;
+use common\models\Utilizador;
 use common\models\Feedback;
 use common\models\FeedbackSearch;
 use Yii;

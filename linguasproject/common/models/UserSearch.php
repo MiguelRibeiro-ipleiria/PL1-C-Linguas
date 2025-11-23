@@ -1,7 +1,6 @@
 <?php
 
 namespace common\models;
-use backend\models\Utilizador;
 use common\models\Idioma;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;

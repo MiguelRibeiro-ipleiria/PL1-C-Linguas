@@ -29,7 +29,6 @@ use yii\widgets\ActiveForm;
             <tbody>
             <tr>
                 <?php $form = ActiveForm::begin(); ?>
-
                 <td><?= $user->id ?></td>
                 <td><?= $user->username ?></td>
                 <td><i><?= $userrole == null ? "Sem role atribuída" : $userrole ?></i></td>

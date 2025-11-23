@@ -31,6 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'lingua_descricao',
+            'lingua_objetivo',
             'lingua_sigla',
             'lingua_bandeira',
             'data_criacao'

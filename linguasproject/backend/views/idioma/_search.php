@@ -21,7 +21,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'lingua_sigla') ?>
 
+    <?= $form->field($model, 'lingua_objetivo') ?>
+
     <?= $form->field($model, 'lingua_bandeira') ?>
+
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

@@ -31,6 +31,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <link rel="stylesheet" href="assets/css/tiny-slider.css" />
     <link rel="stylesheet" href="assets/css/glightbox.min.css" />
     <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.pt-BR.min.js"></script>
 </head>
 
 <body>
@@ -57,12 +60,24 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="input-head">
 
                                 <div class="row">
+
+                                    <!-- USERNAME -->
+                                    <div class="col-lg-12 col-12">
+                                        <div class="form-group">
+                                            <label></label>
+                                            <?= $form->field($model, 'username')->textInput([
+                                                'class' => 'form-controlle',
+                                                'placeholder' => 'O seu Username'
+                                            ])->label(false) ?>
+                                        </div>
+                                    </div>
+
                                     <!-- Email -->
                                     <div class="col-lg-12 col-12">
                                         <div class="form-group">
                                             <label></label>
                                             <?= $form->field($model, 'email')->textInput([
-                                                'class' => 'form-control',
+                                                'class' => 'form-controlle',
                                                 'placeholder' => 'O seu email'
                                             ])->label(false) ?>
                                         </div>
@@ -73,7 +88,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <div class="form-group">
                                     <label></label>
                                     <?= $form->field($model, 'password')->passwordInput([
-                                        'class' => 'form-control',
+                                        'class' => 'form-controlle',
                                         'placeholder' => 'Password'
                                     ])->label(false) ?>
                                 </div>
@@ -82,7 +97,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <div class="form-group">
                                     <label></label>
                                     <?= $form->field($model, 'data_nascimento')->input('date', [
-                                        'class' => 'form-control'
+                                        'class' => 'form-controlle datepicker'
                                     ])->label(false) ?>
                                 </div>
 
@@ -90,7 +105,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <div class="form-group">
                                     <label></label>
                                     <?= $form->field($model, 'telefone')->input('tel', [
-                                        'class' => 'form-control',
+                                        'class' => 'form-controlle',
                                         'placeholder' => 'Telefone'
                                     ])->label(false) ?>
                                 </div>
@@ -99,7 +114,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <div class="form-group">
                                     <label></label>
                                     <?= $form->field($model, 'nacionalidade')->textInput([
-                                        'class' => 'form-control',
+                                        'class' => 'form-controlle',
                                         'placeholder' => 'Nacionalidade'
                                     ])->label(false) ?>
                                 </div>
@@ -109,7 +124,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <label><i class="lni lni-world"></i></label>
                                     <?= $form->field($model, 'idioma_id')->dropDownList(
                                         ArrayHelper::map(Idioma::find()->asArray()->all(), 'id', 'lingua_descricao'),
-                                        ['prompt' => 'Selecione um idioma', 'class' => 'form-control']
+                                        ['prompt' => 'Selecione um idioma', 'class' => 'form-controlle']
                                     )->label(false) ?>
                                 </div>
 
@@ -138,6 +153,15 @@ $this->params['breadcrumbs'][] = $this->title;
     <script src="assets/js/glightbox.min.js"></script>
     <script src="assets/js/count-up.min.js"></script>
     <script src="assets/js/main.js"></script>
+    <script>
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            orientation: 'bottom',
+            language: 'pt-BR'
+        });
+    </script>
 
 </body>
 

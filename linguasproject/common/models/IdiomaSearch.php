@@ -18,7 +18,7 @@ class IdiomaSearch extends Idioma
     {
         return [
             [['id'], 'integer'],
-            [['lingua_descricao', 'lingua_sigla', 'lingua_bandeira'], 'safe'],
+            [['lingua_descricao', 'lingua_sigla', 'lingua_bandeira', 'data_criacao'], 'safe'],
         ];
     }
 
@@ -60,6 +60,7 @@ class IdiomaSearch extends Idioma
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'data_criacao' => $this->data_criacao,
         ]);
 
         $query->andFilterWhere(['like', 'lingua_descricao', $this->lingua_descricao])

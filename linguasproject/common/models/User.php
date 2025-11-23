@@ -151,7 +151,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function getUtilizador()
     {
-        return $this->hasOne(\backend\models\Utilizador::class, ['user_id' => 'id']);
+        return $this->hasOne(\common\models\Utilizador::class, ['user_id' => 'id']);
     }
 
 

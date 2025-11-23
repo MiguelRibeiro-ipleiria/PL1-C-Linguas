@@ -1,7 +1,8 @@
 <?php
 
 use common\models\Feedback;
-use backend\models\Utilizador;
+use common\models\Utilizador;
+use common\models\Curso;
 use common\models\Idioma;
 use common\models\User;
 use yii\helpers\ArrayHelper;
@@ -28,6 +29,7 @@ use yii\helpers\Url;
                     $feedbackstimes = Feedback::find()->orderBy(['hora_criada' => SORT_ASC])->all();
                     $utilizadorestimes = Utilizador::find()->orderBy(['data_inscricao' => SORT_ASC])->all();
                     $idiomatimes = Idioma::find()->orderBy(['data_criacao' => SORT_ASC])->all();
+                    $cursotimes = Curso::find()->orderBy(['data_criacao' => SORT_ASC])->all();
 
                     $ArrayTime = array();
 
@@ -49,6 +51,13 @@ use yii\helpers\Url;
                         $ArrayType["type"] = "idioma";
                         $ArrayType["hora"] = $idioma->data_criacao;
                         $ArrayType["id"] = $idioma->id;
+                        array_push($ArrayTime, ArrayHelper::toArray($ArrayType));
+                    }
+
+                    foreach ($cursotimes as $curso) {
+                        $ArrayType["type"] = "curso";
+                        $ArrayType["hora"] = $curso->data_criacao;
+                        $ArrayType["id"] = $curso->id;
                         array_push($ArrayTime, ArrayHelper::toArray($ArrayType));
                     }
 
@@ -113,9 +122,22 @@ use yii\helpers\Url;
                             </div>
                             <?php
                         }
+
+                        elseif ($time['type'] == 'curso') {
+                            $curso = Curso::findOne($time['id']);
+                            ?>
+                                <div>
+                                    <i class="fas fa-book bg-red"></i>
+                                    <div class="timeline-item">
+                                        <span class="time"><i class="fas fa-clock"></i> <?= $curso->data_criacao ?> </span>
+                                        <h3 class="timeline-header no-border"><a href="<?= Url::to(['/curso/view', 'id' => $curso->id]) ?>"><?= $curso->titulo_curso ?> - </a><?= $curso->idioma->lingua_descricao?></h3>
+                                    </div>
+                                </div>
+                        <?php
+                        }
+
                     }
                     ?>
-                    <!-- Marcador final -->
                 <div>
                     <i class="fas fa-clock bg-gray"></i>
                 </div>

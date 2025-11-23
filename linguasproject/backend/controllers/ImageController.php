@@ -11,6 +11,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+use yii\filters\AccessControl;
 
 /**
  * ImageController implements the CRUD actions for ImagemResource model.
@@ -30,7 +31,35 @@ class ImageController extends Controller
                     'actions' => [
                         'delete' => ['POST'],
                     ],
+                ],                'access' => [
+                'class' => AccessControl::class,
+                'only' => ['index', 'view', 'create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view'],
+                        'roles' => ['ReadLessonImage'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['create'],
+                        'roles' => ['CreateLessonImage'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['update'],
+                        'roles' => ['UpdateLessonImage'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['delete'],
+                        'roles' => ['DeleteLessonImage'],
+                    ],
                 ],
+                'denyCallback' => function () {
+                    throw new \Exception('You are not allowed to access this page');
+                }
+            ],
             ]
         );
     }
@@ -85,18 +114,14 @@ class ImageController extends Controller
 
     if ($this->request->isPost) {
 
-        // 1 — Carregar POST
         $model->load($this->request->post());
 
-        // 2 — Buscar o ficheiro enviado
         $file = UploadedFile::getInstance($model, 'ficheiro');
 
-        $model->ficheiro = $file; // necessário para validar
+        $model->ficheiro = $file;
 
-        // 3 — Validar TUDO (nome + ficheiro)
         if ($model->validate()) {
 
-            // 4 — Guardar ficheiro
             if ($file) {
                 $path = Yii::getAlias('@backend/web/uploadImage/') . $file->name;
                 $file->saveAs($path);
@@ -104,8 +129,7 @@ class ImageController extends Controller
                 $model->nome_ficheiro = 'uploadImage/' . $file->name;
             }
 
-            // 5 — Guardar na BD
-            if ($model->save(false)) { // false = não validar outra vez
+            if ($model->save(false)) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }

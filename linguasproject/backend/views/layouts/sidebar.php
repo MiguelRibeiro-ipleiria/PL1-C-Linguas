@@ -20,7 +20,14 @@ use yii\helpers\Url;
             </div>
             <div class="info">
                 <a href="#" class="d-block">
-                    <?= Yii::$app->user->identity->username ?>
+                    <?php
+                        if(Yii::$app->user->isGuest){
+                            echo Yii::$app->user->isGuest;
+                        }
+                        else{
+                            echo Yii::$app->user->identity->username;
+                        }
+                    ?>
                 </a>
             </div>
 
@@ -57,7 +64,7 @@ use yii\helpers\Url;
                     ['label' => 'PAINEL CONTROLO', 'header' => true],
                     ['label' => 'Dificuldade',  'icon' => 'exclamation-triangle', 'url' => ['/dificuldade/index']],
                     ['label' => 'Idiomas',  'icon' => 'language', 'url' => ['/idioma/index']],
-                    ['label' => 'Cursos',  'icon' => 'book'],
+                    ['label' => 'Cursos',  'icon' => 'book', 'url' => ['/curso/index']],
                     ['label' => 'Aulas',  'icon' => 'chalkboard-teacher'],
                     ['label' => 'RESOURCES', 'header' => true],
                     ['label' => 'imagens' ,  'icon' => 'image','url' => ['/image/index']],
