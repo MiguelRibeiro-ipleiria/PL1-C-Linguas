@@ -109,19 +109,6 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-6">
-            <?= \hail812\adminlte\widgets\Alert::widget([
-                'type' => 'success',
-                'body' => '<h3>Congratulations!</h3>',
-            ]) ?>
-            <?= \hail812\adminlte\widgets\Callout::widget([
-                'type' => 'danger',
-                'head' => 'I am a danger callout!',
-                'body' => 'There is a problem that we need to fix. A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart.'
-            ]) ?>
-        </div>
-    </div>
-    <div class="row">
         <div class="col-md-4 col-sm-6 col-12">
             <?= \hail812\adminlte\widgets\InfoBox::widget([
                 'text' => 'Utilizadores',
@@ -143,22 +130,7 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
                 'icon' => 'far fa-thumbs-up',
             ]) ?>
         </div>
-        <div class="col-md-4 col-sm-6 col-12">
-            <?= \hail812\adminlte\widgets\InfoBox::widget([
-                'text' => 'Bookmarks',
-                'number' => '410',
-                 'theme' => 'success',
-                'icon' => 'far fa-flag',
-            ]) ?>
-        </div>
-        <div class="col-md-4 col-sm-6 col-12">
-            <?= \hail812\adminlte\widgets\InfoBox::widget([
-                'text' => 'Uploads',
-                'number' => '13,648',
-                'theme' => 'gradient-warning',
-                'icon' => 'far fa-copy',
-            ]) ?>
-        </div>
+        
     </div>
 
     <div class="row">
@@ -169,7 +141,7 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
                 'icon' => 'far fa-bookmark',
                 'progress' => [
                     'width' => '70%',
-                    'description' => '70% Increase in 30 Days'
+                        'description' => '70% Increase in 30 Days'
                 ]
             ]) ?>
         </div>

@@ -105,13 +105,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                 </div>
 
                                 <!-- Idioma -->
-                                <!--<div class="form-group ">
+                               <div class="form-group ">
                                     <label><i class="lni lni-world"></i></label>
                                     <?= $form->field($model, 'idioma_id')->dropDownList(
                                         ArrayHelper::map(Idioma::find()->asArray()->all(), 'id', 'lingua_descricao'),
                                         ['prompt' => 'Selecione um idioma', 'class' => 'form-control']
                                     )->label(false) ?>
-                                </div> -->
+                                </div>
 
                             </div>
 
