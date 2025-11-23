@@ -12,6 +12,7 @@ use yii\grid\GridView;
 
 $this->title = 'Users';
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="user-index">
 
@@ -22,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -34,8 +35,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'utilizador.numero_telefone',
             'utilizador.nacionalidade',
             'utilizador.data_nascimento',
-            //'email:email',
-            //'status',
+            'email:email',
+            'status',
             //'created_at',
             //'updated_at',
             //'verification_token',
