@@ -1,9 +1,7 @@
 <?php
 
-namespace backend\models;
-use common\models\User;
-use common\models\Idioma;
-use common\models\Feedback;
+namespace common\models;
+
 use Yii;
 
 /**
@@ -66,7 +64,7 @@ class Utilizador extends \yii\db\ActiveRecord
             'nacionalidade' => 'Nacionalidade',
             'data_inscricao' => 'Data Inscricao',
             'user_id' => 'User ID',
-            'idioma_id' => 'Ola ID',
+            'idioma_id' => 'Idioma ID',
         ];
     }
 

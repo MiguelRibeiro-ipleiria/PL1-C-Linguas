@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-/** @var $user backend\models\User */
+/** @var $user common\models\User */
 
 
 ?>

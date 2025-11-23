@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <?= $form->field($model, 'username')
                                     ->textInput([
                                         'class' => 'form-controlle',
-                                        'placeholder' => 'Enter your email'
+                                        'placeholder' => 'Insere o teu Username'
                                     ])
                                     ->label(false) ?>
                             </div>
@@ -49,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <?= $form->field($model, 'password')
                                     ->passwordInput([
                                         'class' => 'form-controlle',
-                                        'placeholder' => 'Enter your password'
+                                        'placeholder' => 'Insere a tua Password'
                                     ])
                                     ->label(false) ?>
                             </div>

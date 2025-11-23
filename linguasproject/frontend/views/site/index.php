@@ -56,8 +56,8 @@ $this->title = 'My Yii Application';
                         <i class="bi bi-book-fill"></i>
                     </div>
                     <h4 class="text-title">Cursos</h4>
-                    <p>Invest in Bitcoin on the regular or save with one of the highest interest rates on the
-                        market.</p>
+                    <p>Descubra todos cursos que temos a oferecer e comece a frequentar um deles
+                        para se divertir enquanto a aprende</p>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-12 wow fadeInUp" data-wow-delay=".4s">

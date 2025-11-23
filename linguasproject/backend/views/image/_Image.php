@@ -1,5 +1,5 @@
 <?php
-/** @var $model app\models\ImagemResource */
+/** @var $model backend\models\ImagemResource */
 /** @var $fullView boolean */
 use yii\helpers\Html;
 ?>

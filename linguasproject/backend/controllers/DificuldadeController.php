@@ -7,6 +7,7 @@ use common\models\DificuldadeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * DificuldadeController implements the CRUD actions for Dificuldade model.
@@ -26,6 +27,35 @@ class DificuldadeController extends Controller
                     'actions' => [
                         'delete' => ['POST'],
                     ],
+                ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'only' => ['index', 'view', 'create', 'update', 'delete'],
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'actions' => ['index', 'view'],
+                            'roles' => ['ReadDificuldade'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['create'],
+                            'roles' => ['CreateDificuldade'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['update'],
+                            'roles' => ['UpdateDificuldade'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['delete'],
+                            'roles' => ['DeleteDificuldade'],
+                        ],
+                    ],
+                    'denyCallback' => function () {
+                        throw new \Exception('You are not allowed to access this page');
+                    }
                 ],
             ]
         );

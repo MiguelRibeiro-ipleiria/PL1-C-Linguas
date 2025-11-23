@@ -6,7 +6,7 @@ use Yii;
 use yii\base\Model;
 use common\models\User;
 use common\models\Idioma;
-use backend\models\Utilizador;
+use common\models\Utilizador;
 /**
  * Signup form
  */
@@ -83,8 +83,6 @@ class SignupForm extends Model
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
 
-        $boolusersave = $user->save();
-
         //Criar uma isntancia do Utilizado r
         //cchave estrangeira no utilizador = $user->id;
        // utilizador->save();
@@ -92,19 +90,29 @@ class SignupForm extends Model
 
         $utilizador = new Utilizador();
         $utilizador->data_nascimento = $this->data_nascimento;
-        $utilizador->numero_telefone = $this->telefone;
-        $utilizador->nacionalidade = $this->nacionalidade;
-        $utilizador->idioma_id = $this->idioma_id;
-        $utilizador->data_inscricao = date('Y-m-d H:i:s');
-        $utilizador->user_id = $user->id;
-        $boolutilizadorsave = $utilizador->save();
+        if ($utilizador->data_nascimento < date('Y-m-d') && $utilizador->data_nascimento > "1900-01-01") {
 
-        $auth = Yii::$app->authManager;
-        $authorRole = $auth->getRole('aluno');
-        $boolroleassigned = $auth->assign($authorRole, $user->getId());
+
+            $utilizador->numero_telefone = $this->telefone;
+            $utilizador->nacionalidade = $this->nacionalidade;
+            $utilizador->idioma_id = $this->idioma_id;
+            $utilizador->data_inscricao = date('Y-m-d H:i:s');
+            $user->status = User::STATUS_ACTIVE;
+            $boolusersave = $user->save();
+            $utilizador->user_id = $user->id;
+            $boolutilizadorsave = $utilizador->save();
+
+            $auth = Yii::$app->authManager;
+            $authorRole = $auth->getRole('aluno');
+            $boolroleassigned = $auth->assign($authorRole, $user->getId());
+
+
+        }
+        else{
+            $boolutilizadorsave = false;
+        }
 
         return $boolutilizadorsave && $boolusersave && $boolroleassigned;
-
 
     }
 

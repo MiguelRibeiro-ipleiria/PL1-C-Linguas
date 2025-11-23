@@ -1,7 +1,7 @@
 <?php
 
 use common\models\Feedback;
-use backend\models\Utilizador;
+use common\models\Utilizador;
 use common\models\Idioma;
 use common\models\User;
 use yii\helpers\ArrayHelper;

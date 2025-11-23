@@ -12,6 +12,7 @@ use Yii;
  * @property string $lingua_sigla
  * @property string $lingua_bandeira
  * @property string $data_criacao
+ * @property string $lingua_objetivo
  *
  * @property Curso[] $cursos
  * @property Utilizador[] $utilizadors
@@ -34,11 +35,12 @@ class Idioma extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['lingua_descricao', 'lingua_sigla', 'lingua_bandeira', 'data_criacao'], 'required'],
+            [['lingua_descricao', 'lingua_sigla', 'lingua_bandeira', 'data_criacao', 'lingua_objetivo'], 'required'],
             [['data_criacao'], 'safe'],
             [['lingua_descricao'], 'string', 'max' => 45],
             [['lingua_sigla'], 'string', 'max' => 5],
             [['lingua_bandeira'], 'string', 'max' => 100],
+            [['lingua_objetivo'], 'string', 'max' => 150],
         ];
     }
 
@@ -53,6 +55,7 @@ class Idioma extends \yii\db\ActiveRecord
             'lingua_sigla' => 'Lingua Sigla',
             'lingua_bandeira' => 'Lingua Bandeira',
             'data_criacao' => 'Data Criacao',
+            'lingua_objetivo' => 'Lingua Objetivo',
         ];
     }
 

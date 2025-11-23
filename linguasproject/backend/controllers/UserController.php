@@ -7,10 +7,11 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use Yii;
+use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 
 use common\models\Idioma;
-use backend\models\Utilizador;
+use common\models\Utilizador;
 
 
 
@@ -35,6 +36,35 @@ class UserController extends Controller
                     'actions' => [
                         'delete' => ['POST'],
                     ],
+                ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'only' => ['index', 'view', 'create', 'update', 'delete'],
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'actions' => ['index', 'view'],
+                            'roles' => ['ReadUser'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['create'],
+                            'roles' => ['CreatUser'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['update'],
+                            'roles' => ['UpdateUser'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['delete'],
+                            'roles' => ['DeleteUser'],
+                        ],
+                    ],
+                    'denyCallback' => function () {
+                        throw new \Exception('You are not allowed to access this page');
+                    }
                 ],
             ]
         );

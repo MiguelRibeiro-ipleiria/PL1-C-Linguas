@@ -1,0 +1,23 @@
+<?php
+
+use yii\helpers\Html;
+use common\models\Idioma;
+use common\models\Dificuldade;
+
+
+/** @var yii\web\View $this */
+/** @var common\models\Curso $model */
+
+$this->title = 'Create Curso';
+$this->params['breadcrumbs'][] = ['label' => 'Cursos', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
+?>
+<div class="curso-create">
+
+    <h1><?= Html::encode($this->title) ?></h1>
+
+    <?= $this->render('_form', [
+        'model' => $model,
+    ]) ?>
+
+</div>

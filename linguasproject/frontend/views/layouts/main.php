@@ -26,9 +26,9 @@ AppAsset::register($this);
     <link rel="stylesheet" href="<?= Yii::getAlias('@web').'/css/tiny-slider.css'; ?>">
     <link rel="stylesheet" href="<?= Yii::getAlias('@web').'/css/animate.css'; ?>">
 
-
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
@@ -64,11 +64,15 @@ AppAsset::register($this);
                                 // items estáticos (podes adicionar dinamicamente se quiseres)
                                 $menuItems = [
                                     ['label' => 'Home', 'url' => ['/site/index']],
-                                    ['label' => 'Línguas', 'url' => ['/site/about']],
+                                    ['label' => 'Línguas', 'url' => ['/idioma/index']],
                                     ['label' => 'Cursos', 'url' => ['site/cursos']],
                                     ['label' => 'Feedback', 'url' => ['/feedback/create']],
-                                    ['label' => 'Perfil', 'url' => ['/site/blog']],
                                 ];
+                                if (Yii::$app->user->isGuest) {
+                                    $menuItems[] = ['label' => 'Perfil', 'url' => ['/site/login']];
+                                } else {
+                                    $menuItems[] = ['label' => 'Perfil', 'url' => ['/user/update', 'id' => Yii::$app->user->identity->id]];
+                                }
 
                                 // Renderiza os itens estáticos
                                 foreach ($menuItems as $item) {

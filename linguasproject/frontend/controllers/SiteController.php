@@ -78,9 +78,9 @@ class SiteController extends Controller
         return $this->render('index');
     }
 
-    public function actionBlog()
+    public function actionPerfil()
     {
-        return $this->render('blog');
+        return $this->render('perfil');
     }
 
     /**

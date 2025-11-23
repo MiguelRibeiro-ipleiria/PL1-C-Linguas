@@ -17,6 +17,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'lingua_descricao')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'lingua_objetivo')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'lingua_sigla')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'lingua_bandeira')->textInput(['maxlength' => true]) ?>

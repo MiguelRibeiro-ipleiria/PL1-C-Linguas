@@ -21,9 +21,9 @@ class RbacController extends Controller
         $formador->description = 'Professor de uma língua ';
         $auth->add($formador);
 
-        $user_autenticado = $auth->createRole('aluno');
-        $user_autenticado->description = 'Aluno que fez login';
-        $auth->add($user_autenticado);
+        $aluno = $auth->createRole('aluno');
+        $aluno->description = 'Aluno que fez login';
+        $auth->add($aluno);
 
 
         /*MESSAGING PERMISSIONS*/
@@ -65,6 +65,31 @@ class RbacController extends Controller
         $auth->add($DeleteComment);
 
 
+
+
+        /*DIFICULDADE MANAGEMENT PERMISSIONS*/
+        // add "ReadDificuldade" permission
+        $ReadDificuldade = $auth->createPermission('ReadDificuldade');
+        $ReadDificuldade->description = 'Ler os dados do grau de dificuldade';
+        $auth->add($ReadDificuldade);
+
+        // add "UpdateDificuldade" permission
+        $UpdateDificuldade = $auth->createPermission('UpdateDificuldade');
+        $UpdateDificuldade->description = 'Atualizar um grau de dificuldade';
+        $auth->add($UpdateDificuldade);
+
+        // add "CreateDificuldade" permission
+        $CreateDificuldade = $auth->createPermission('CreateDificuldade');
+        $CreateDificuldade->description = 'Criar um grau de dificuldade';
+        $auth->add($CreateDificuldade);
+
+        // add "DeleteDificuldade" permission
+        $DeleteDificuldade = $auth->createPermission('DeleteDificuldade');
+        $DeleteDificuldade->description = 'Eliminar um grau de dificuldade';
+        $auth->add($DeleteDificuldade);
+
+
+
         /*USER MANAGEMENT PERMISSIONS*/
         // add "ReadUser" permission
         $ReadUser = $auth->createPermission('ReadUser');
@@ -75,6 +100,10 @@ class RbacController extends Controller
         $UpdateUser = $auth->createPermission('UpdateUser');
         $UpdateUser->description = 'Atualizar os dados do utilizador';
         $auth->add($UpdateUser);
+
+        $CreateUser = $auth->createPermission('CreateUser');
+        $CreateUser->description = 'Criar um utilizador';
+        $auth->add($CreateUser);
 
         // add "DeleteUser" permission
         $DeleteUser = $auth->createPermission('DeleteUser');
@@ -209,6 +238,53 @@ class RbacController extends Controller
         $CanAccessBackend->description = 'Users que podem aceder ás páginas do backend';
         $auth->add($CanAccessBackend);
 
+
+        /* MY PROFILE ACCESS */
+
+        $CanAccessMeuProfile = $auth->createPermission('CanAccessMeuProfile');
+        $CanAccessMeuProfile->description = 'Users podem aceder ao seu profile';
+        $auth->add($CanAccessMeuProfile);
+
+        $CanAccessMeusCursoseAulas = $auth->createPermission('CanAccessMeusCursoseAulas');
+        $CanAccessMeusCursoseAulas->description = 'Users podem aceder aos seus cursos e aulas incritos';
+        $auth->add($CanAccessMeusCursoseAulas);
+
+        $CanAccessMeusComentarios = $auth->createPermission('CanAccessMeusComentarios');
+        $CanAccessMeusComentarios->description = 'Users podem aceder aos seus comentários realizados';
+        $auth->add($CanAccessMeusComentarios);
+
+        $CanAccessMeusProgressos = $auth->createPermission('CanAccessMeusProgressos');
+        $CanAccessMeusProgressos->description = 'Users podem aceder aos seus progressos';
+        $auth->add($CanAccessMeusProgressos);
+
+        $CanAccessMeusFeedbacks = $auth->createPermission('CanAccessMeusFeedbacks');
+        $CanAccessMeusFeedbacks->description = 'Users podem aceder aos seus feedbacks';
+        $auth->add($CanAccessMeusFeedbacks);
+
+        /*----------------Profile Managment-----------*/
+        //admin
+        $auth->addChild($admin, $CanAccessMeuProfile);
+        $auth->addChild($admin, $CanAccessMeusCursoseAulas);
+        $auth->addChild($admin, $CanAccessMeusComentarios);
+        $auth->addChild($admin, $CanAccessMeusProgressos);
+        $auth->addChild($admin, $CanAccessMeusFeedbacks);
+
+        //formador
+        $auth->addChild($formador, $CanAccessMeuProfile);
+        $auth->addChild($formador, $CanAccessMeusCursoseAulas);
+        $auth->addChild($formador, $CanAccessMeusComentarios);
+        $auth->addChild($formador, $CanAccessMeusProgressos);
+        $auth->addChild($formador, $CanAccessMeusFeedbacks);
+
+        //aluno
+        $auth->addChild($aluno, $CanAccessMeuProfile);
+        $auth->addChild($aluno, $CanAccessMeusCursoseAulas);
+        $auth->addChild($aluno, $CanAccessMeusComentarios);
+        $auth->addChild($aluno, $CanAccessMeusProgressos);
+        $auth->addChild($aluno, $CanAccessMeusFeedbacks);
+
+
+
         /*----------------Backend Managment-----------*/
         //admin
         $auth->addChild($admin, $CanAccessBackend);
@@ -227,9 +303,18 @@ class RbacController extends Controller
         $auth->addChild($formador, $DeleteFeedback);
 
         //user autenticado
-        $auth->addChild($user_autenticado, $CreateFeedback);
-        $auth->addChild($user_autenticado, $DeleteFeedback);
-        
+        $auth->addChild($aluno, $CreateFeedback);
+        $auth->addChild($aluno, $DeleteFeedback);
+
+
+        /*----------------Dificuldade managment-----------*/
+        //admin
+        $auth->addChild($admin, $CreateDificuldade);
+        $auth->addChild($admin, $ReadDificuldade);
+        $auth->addChild($admin, $DeleteDificuldade);
+        $auth->addChild($admin, $UpdateDificuldade);
+
+
         /*----------------Comment management-----------*/
 
         //admin
@@ -245,16 +330,17 @@ class RbacController extends Controller
         $auth->addChild($formador, $DeleteComment);
 
         //user autenticado
-        $auth->addChild($user_autenticado, $CreateComment);
-        $auth->addChild($user_autenticado, $ReadComment);
-        $auth->addChild($user_autenticado, $UpdateComment);
-        $auth->addChild($user_autenticado, $DeleteComment);
+        $auth->addChild($aluno, $CreateComment);
+        $auth->addChild($aluno, $ReadComment);
+        $auth->addChild($aluno, $UpdateComment);
+        $auth->addChild($aluno, $DeleteComment);
 
         /*------------------USER MANAGEMENT------------*/
         //admin
         $auth->addChild($admin, $ReadUser);
         $auth->addChild($admin, $UpdateUser);
         $auth->addChild($admin, $DeleteUser);
+        $auth->addChild($admin, $CreateUser);
 
         /*------------------Courses management----------*/
         //admin
@@ -296,7 +382,7 @@ class RbacController extends Controller
          $auth->addChild($formador, $SearchLanguage);
 
          //user autenticado
-         $auth->addChild($user_autenticado, $SearchLanguage);
+         $auth->addChild($aluno, $SearchLanguage);
 
 
         /*----------------Resources management-----------*/

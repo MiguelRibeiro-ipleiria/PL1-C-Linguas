@@ -7,6 +7,7 @@ use common\models\FeedbackSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * FeedbackController implements the CRUD actions for Feedback model.
@@ -27,6 +28,35 @@ class FeedbackController extends Controller
                         'delete' => ['POST'],
                     ],
                 ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'only' => ['index', 'view', 'create', 'update', 'delete'],
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'actions' => ['index', 'view'],
+                            'roles' => ['ReadFeedback'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['create'],
+                            'roles' => ['CreateFeedback'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['update'],
+                            'roles' => ['UpdateFeedback'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['delete'],
+                            'roles' => ['DeleteFeedback'],
+                        ],
+                    ],
+                    'denyCallback' => function () {
+                        throw new \Exception('You are not allowed to access this page');
+                    }
+                ]
             ]
         );
     }
