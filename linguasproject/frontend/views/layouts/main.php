@@ -65,7 +65,7 @@ AppAsset::register($this);
                                 $menuItems = [
                                     ['label' => 'Home', 'url' => ['/site/index']],
                                     ['label' => 'Línguas', 'url' => ['/idioma/index']],
-                                    ['label' => 'Cursos', 'url' => ['site/cursos']],
+                                    ['label' => 'Cursos', 'url' => ['curso/index']],
                                     ['label' => 'Feedback', 'url' => ['/feedback/create']],
                                 ];
                                 if (Yii::$app->user->isGuest) {

@@ -2,6 +2,7 @@
 
 use common\models\Feedback;
 use common\models\User;
+use common\models\Utilizador;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
@@ -24,9 +25,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="card-body p-0">
         <div class="table-responsive">
-
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
+                'filterModel' => $searchModel,
                 'tableOptions' => [
                     'class' => 'table m-0',
                 ],
@@ -34,9 +35,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 'columns' => [
                     'id',
                     'assunto_feedback',
-                    'descricao_feedback:ntext',
+                    'descricao_feedback',
                     'hora_criada',
-                    'utilizador_id',
+                    [
+                        'label' => 'Utilizador',
+                        'format' => 'raw',
+                        'value' => function($model) {
+                            $utilizador = Utilizador::findOne(['id' => $model->utilizador_id]);
+                            $user = User::findOne(['id' => $utilizador->user_id]);
+                            return $user->username;
+                        }
+                    ],
+                    //'utilizador_id',
                     [
                         'class' => ActionColumn::className(),
                         'header' => 'Ações',
