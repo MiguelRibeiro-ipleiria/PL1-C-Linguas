@@ -238,6 +238,28 @@ class RbacController extends Controller
         $CanAccessBackend->description = 'Users que podem aceder ás páginas do backend';
         $auth->add($CanAccessBackend);
 
+         /*  Tipos exercicios permissions  */
+
+        //ReadTipoExercicio
+        $ReadTipoExercicio = $auth->createPermission('ReadTipoExercicio');
+        $ReadTipoExercicio->description = 'Ver os tipos de exercicio';
+        $auth->add($ReadTipoExercicio);
+
+        //CreateTipoExercicio
+        $CreateTipoExercicio = $auth->createPermission('CreateTipoExercicio');
+        $CreateTipoExercicio->description = 'Criar um tipo de exercicio';
+        $auth->add($CreateTipoExercicio);
+        
+        //UpdateTipoExercicio
+        $UpdateTipoExercicio = $auth->createPermission('UpdateTipoExercicio');
+        $UpdateTipoExercicio->description = 'Atualizar um tipo de exercicio';
+        $auth->add($UpdateTipoExercicio);
+
+        //DeleteTipoExercicio
+        $DeleteTipoExercicio = $auth->createPermission('DeleteTipoExercicio');
+        $DeleteTipoExercicio->description ='Eliminar tipo de exercicio';
+        $auth->add($DeleteTipoExercicio);
+
 
         /* MY PROFILE ACCESS */
 
@@ -260,6 +282,8 @@ class RbacController extends Controller
         $CanAccessMeusFeedbacks = $auth->createPermission('CanAccessMeusFeedbacks');
         $CanAccessMeusFeedbacks->description = 'Users podem aceder aos seus feedbacks';
         $auth->add($CanAccessMeusFeedbacks);
+
+
 
         /*----------------Profile Managment-----------*/
         //admin
@@ -407,7 +431,13 @@ class RbacController extends Controller
         $auth->addChild($formador, $UpdateLessonSound);
 
 
+        /*---------------- Tipos de exercicios management-----------*/
 
+        //Admin
+         $auth->addChild($admin, $CreateTipoExercicio);
+         $auth->addChild($admin, $DeleteTipoExercicio);
+         $auth->addChild($admin, $ReadTipoExercicio);
+         $auth->addChild($admin, $UpdateTipoExercicio);
 
 
         echo "RBAC inicializado com sucesso!\n";

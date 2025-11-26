@@ -57,7 +57,7 @@ use yii\helpers\Url;
                     ['label' => 'Pedidos de Formador', 'url' => ['user/formador'], 'icon' => 'clipboard-list'],
                     ['label' => 'ADMISTRAÇÃO', 'header' => true],
                     ['label' => 'Utilizadores',  'icon' => 'user','url' => ['/user/index']],
-                    ['label' => 'Tipos de exercicio',  'icon' => 'tasks'],
+                    ['label' => 'Tipos de exercicio',  'icon' => 'tasks','url' => ['/tipoexercicio/index']],
                     ['label' => 'FEEDBACKS GERAIS', 'header' => true],
                     ['label' => 'Feedbacks',  'icon' => 'thumbs-up','url' => ['/feedback/index']],
                     ['label' => 'Comentários',  'icon' => 'comments'],
