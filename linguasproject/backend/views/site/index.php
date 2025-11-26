@@ -3,6 +3,8 @@ use common\models\Feedback;
 use common\models\User;
 use common\models\Curso;
 use common\models\Idioma;
+use common\models\Dificuldade;
+use backend\models\ImagemResource;
 use yii\helpers\Url;
 
 $this->title = 'Starter Page';
@@ -57,8 +59,8 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
                 <span class="badge bg-secondary"><?php echo User::find()->count() ?></span>
                 <i class="fas fa-users"></i> Utilizadores
             </a>
-            <a class="btn btn-app bg-warning">
-                <span class="badge bg-warning">891</span>
+            <a class="btn btn-app bg-warning" href="<?= Url::to(['/dificuldade/index']) ?>">
+                <span class="badge bg-warning"><?php echo Dificuldade::find()->count() ?></span>
                 <i class="fas fa-exclamation-triangle"></i> Dificuldade
             </a>
             <a class="btn btn-app bg-success" href="<?= Url::to(['/idioma/index']) ?>">
@@ -77,8 +79,8 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
                 <span class="badge bg-success">12</span>
                 <i class="fas fa-pencil-alt"></i> Tipos Exercícios
             </a>
-            <a class="btn btn-app bg-danger">
-                <span class="badge bg-danger">531</span>
+            <a class="btn btn-app bg-danger" href="<?= Url::to(['/image/index']) ?>">
+                <span class="badge bg-danger"><?php echo ImagemResource::find()->count() ?></span>
                 <i class="fas fa-file-image"></i> Imagens
             </a>
             <a class="btn btn-app bg-secondary">

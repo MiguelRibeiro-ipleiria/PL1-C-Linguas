@@ -16,10 +16,17 @@ use yii\helpers\Url;
             <h5 class="card-title"><?= Html::encode($model->lingua_descricao) ?> - <?= Html::encode($model->lingua_sigla) ?></h5>
             <p class="card-text"><?= Html::encode($model->lingua_objetivo) ?></p>
         </div>
-        <ul class="list-group list-group-flush">
-            <a class="button" href="<?= Url::to(['/idioma/view', 'id' => $model->id]) ?>"><li class="list-group-item"><i class="fas fa-eye"></i>&nbsp;&nbsp;&nbsp;Ver Idioma</li></a>
-            <a class="button" href="<?= Url::to(['/idioma/update', 'id' => $model->id]) ?>"><li class="list-group-item"><i class="fas fa-pen"></i>&nbsp;&nbsp;&nbsp;Atualizar Idioma</li></a>
-            <a class="button" href="<?= Url::to(['/idioma/delete', 'id' => $model->id]) ?>"><li class="list-group-item"><i class="fas fa-trash"></i>&nbsp;&nbsp;&nbsp;Eliminar Idioma</li></a>
-        </ul>
+        <div class="card-footer d-flex justify-content-center p-0 border-top-0">
+            <a class="btn btn-outline border-0 rounded-0 flex-fill p-3" href="<?= Url::to(['/idioma/view', 'id' => $model->id]) ?>">
+                <i class="fas fa-eye"></i>
+            </a>
+            <a class="btn btn-outline border-0 rounded-0 flex-fill p-3 border-left border-right" href="<?= Url::to(['/idioma/update', 'id' => $model->id]) ?>">
+                <i class="fas fa-pen"></i>
+            </a>
+            <a class="btn btn-outline border-0 rounded-0 flex-fill p-3" href="<?= Url::to(['/idioma/delete', 'id' => $model->id]) ?>" title="Eliminar" data-confirm="Tem certeza de que deseja eliminar este item?" data-method="post">
+                <i class="fas fa-trash"></i>
+            </a>
+        </div>
+
     </div>
 </div>
