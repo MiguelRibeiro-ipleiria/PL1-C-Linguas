@@ -35,6 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'titulo_curso',
             'status_ativo',
             'data_criacao',
+            'curso_detalhe'
         ],
     ]) ?>
 
