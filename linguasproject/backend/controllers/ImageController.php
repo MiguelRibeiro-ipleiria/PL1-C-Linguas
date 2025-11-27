@@ -116,23 +116,17 @@ class ImageController extends Controller
 
         $model->load($this->request->post());
 
-        $file = UploadedFile::getInstance($model, 'ficheiro');
+        $model->nome_ficheiro = UploadedFile::getInstance($model, 'nome_ficheiro');
 
-        $model->ficheiro = $file;
+        if($model->upload()){
 
-        if ($model->validate()) {
-
-            if ($file) {
-                $path = Yii::getAlias('@backend/web/uploadImage/') . $file->name;
-                $file->saveAs($path);
-
-                $model->nome_ficheiro = 'uploadImage/' . $file->name;
-            }
-
-            if ($model->save(false)) {
+            if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
+
+
+        
     }
 
     return $this->render('create', [

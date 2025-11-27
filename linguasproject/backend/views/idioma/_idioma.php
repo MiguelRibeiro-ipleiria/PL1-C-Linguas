@@ -11,7 +11,12 @@ use yii\helpers\Url;
 
 <div class="col-md-6 col-lg-4 col-xl-3 mb-4 px-2">
     <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="<?= Html::encode($model->lingua_bandeira) ?>" alt="<?= Html::encode($model->lingua_descricao) ?>">
+        <img class="card-img-top" >
+                <?= Html::a(
+        Html::img('@web/UploadBanders/' . $model->lingua_bandeira,[ 
+                'class' => 'card-img-top',
+                'style' => 'height:180px;width:240px; object-fit:cover;'])
+        ) ?>
         <div class="card-body">
             <h5 class="card-title"><?= Html::encode($model->lingua_descricao) ?> - <?= Html::encode($model->lingua_sigla) ?></h5>
             <p class="card-text"><?= Html::encode($model->lingua_objetivo) ?></p>

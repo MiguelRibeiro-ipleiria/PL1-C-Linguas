@@ -84,7 +84,7 @@ class CursoController extends Controller
 
             $searchModel = new CursoSearch();
             $QueryFindCursosDoIdioma = Curso::find()->where(['idioma_id' => $idioma]);
-
+            
             $dataProvider = new ActiveDataProvider([
                 'query' => $QueryFindCursosDoIdioma,
             ]);

@@ -65,7 +65,7 @@ use yii\helpers\Url;
                     ['label' => 'Dificuldade',  'icon' => 'exclamation-triangle', 'url' => ['/dificuldade/index']],
                     ['label' => 'Idiomas',  'icon' => 'language', 'url' => ['/idioma/index']],
                     ['label' => 'Cursos',  'icon' => 'book', 'url' => ['/curso/index']],
-                    ['label' => 'Aulas',  'icon' => 'chalkboard-teacher'],
+                    ['label' => 'Aulas',  'icon' => 'chalkboard-teacher', 'url' => ['/aula/index']],
                     ['label' => 'RESOURCES', 'header' => true],
                     ['label' => 'imagens' ,  'icon' => 'image','url' => ['/image/index']],
                     ['label' => 'audio',  'icon' => 'music'],

@@ -8,6 +8,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use app\models\UploadForm;
+use yii\web\UploadedFile;
 
 /**
  * IdiomaController implements the CRUD actions for Idioma model.
@@ -95,26 +97,35 @@ class IdiomaController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate()
-    {
-        $model = new Idioma();
+        public function actionCreate()
+        {
+            $model = new Idioma();
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post())) {
-                $model->data_criacao = date('Y-m-d H:i:s');
 
-                if($model->save()){
-                    return $this->redirect(['view', 'id' => $model->id]);
+            if ($this->request->isPost) {
+                
+                if ($model->load($this->request->post())) {
+   
+    
+                    $model->lingua_bandeira = UploadedFile::getInstance($model, 'lingua_bandeira');
+
+                    if ($model->upload()) {
+                        
+                        $model->data_criacao = date('Y-m-d H:i:s');
+                        if($model->save()){
+                            return $this->redirect(['view', 'id' => $model->id]);
+                        }
+                    }   
+                    
                 }
+            } else {
+                $model->loadDefaultValues();
             }
-        } else {
-            $model->loadDefaultValues();
-        }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        }
 
     /**
      * Updates an existing Idioma model.
