@@ -31,8 +31,7 @@ class ImagemResource extends \yii\db\ActiveRecord
         return [
             [['nome_imagem', 'nome_ficheiro'], 'default', 'value' => null],
             [['nome_imagem'], 'string', 'max' => 45],
-            [['nome_ficheiro'], 'string', 'max' => 100],
-            [['ficheiro'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg, jpeg, gif'],
+            [['nome_ficheiro'], 'file', 'extensions' => 'png, jpg, jpeg', 'skipOnEmpty' => true]
 
         ];
     }
@@ -47,6 +46,23 @@ class ImagemResource extends \yii\db\ActiveRecord
             'nome_imagem' => 'Nome Imagem',
             'nome_ficheiro' => 'Nome Ficheiro',
         ];
+    }
+
+    public function upload()
+    {
+        if ($this->nome_ficheiro) {
+
+        $fileName = $this->nome_ficheiro->baseName . '.' . $this->nome_ficheiro->extension;
+
+        $this->nome_ficheiro->saveAs(Yii::getAlias('@backend/web/uploadImage/') . $fileName);
+
+
+         $this->nome_ficheiro = $fileName;
+
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

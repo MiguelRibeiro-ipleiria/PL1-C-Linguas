@@ -6,7 +6,7 @@ use yii\helpers\Html;
 <div class="col mb-3">
     <div class="card" style="width: 200px; margin: auto;">
         <?= Html::a(
-            Html::img('@web/' . $model->nome_ficheiro, [
+            Html::img('@web/UploadImage/' . $model->nome_ficheiro, [
                 'class' => 'card-img-top',
                 'alt' => $model->nome_imagem,
                 'style' => 'height:180px; object-fit:cover;'

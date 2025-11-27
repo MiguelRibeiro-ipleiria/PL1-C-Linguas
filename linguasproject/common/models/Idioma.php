@@ -31,17 +31,18 @@ class Idioma extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-     */
+     */ 
     public function rules()
     {
-        return [
-            [['lingua_descricao', 'lingua_sigla', 'lingua_bandeira', 'data_criacao', 'lingua_objetivo'], 'required'],
-            [['data_criacao'], 'safe'],
-            [['lingua_descricao'], 'string', 'max' => 45],
-            [['lingua_sigla'], 'string', 'max' => 5],
-            [['lingua_bandeira'], 'string', 'max' => 100],
-            [['lingua_objetivo'], 'string', 'max' => 150],
-        ];
+return [
+    [['lingua_descricao', 'lingua_sigla', 'data_criacao', 'lingua_objetivo'], 'required'],
+    [['data_criacao'], 'safe'],
+    [['lingua_descricao'], 'string', 'max' => 45],
+    [['lingua_sigla'], 'string', 'max' => 5],
+    [['lingua_bandeira'], 'file', 'extensions' => 'png, jpg, jpeg', 'skipOnEmpty' => true],
+    [['lingua_objetivo'], 'string', 'max' => 150],
+];
+
     }
 
     /**
@@ -77,6 +78,23 @@ class Idioma extends \yii\db\ActiveRecord
     public function getUtilizadors()
     {
         return $this->hasMany(Utilizador::class, ['idioma_id' => 'id']);
+    }
+
+    public function upload()
+    {
+        if ($this->lingua_bandeira) {
+
+        $fileName = $this->lingua_bandeira->baseName . '.' . $this->lingua_bandeira->extension;
+
+        $this->lingua_bandeira->saveAs(Yii::getAlias('@backend/web/UploadBanders/') . $fileName);
+
+
+         $this->lingua_bandeira = $fileName;
+
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

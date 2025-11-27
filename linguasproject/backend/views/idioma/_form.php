@@ -13,7 +13,7 @@ use yii\widgets\ActiveForm;
 
 <div class="idioma-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
 
     <?= $form->field($model, 'lingua_descricao')->textInput(['maxlength' => true]) ?>
 
@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'lingua_sigla')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'lingua_bandeira')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'lingua_bandeira')->fileInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

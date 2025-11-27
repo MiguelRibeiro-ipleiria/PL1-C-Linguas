@@ -15,7 +15,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'nome_imagem')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'ficheiro')->fileInput() ?>
+    <?= $form->field($model, 'nome_ficheiro')->fileInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
