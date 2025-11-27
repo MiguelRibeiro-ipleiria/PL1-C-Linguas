@@ -2,11 +2,13 @@
 
 namespace frontend\controllers;
 
+use common\models\Idioma;
 use common\models\Curso;
 use common\models\CursoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
 
 /**
  * CursoController implements the CRUD actions for Curso model.
@@ -130,5 +132,19 @@ class CursoController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionIdiomacursos($id)
+    {
+        $idioma = Idioma::findOne(['id' => $id]);
+        $query = Curso::find()->where(['idioma_id' => $id]);
+        $DataCursoProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        return $this->render('idiomacursos', [
+            'DataCursoProvider' => $DataCursoProvider,
+            'idioma' => $idioma,
+        ]);
     }
 }

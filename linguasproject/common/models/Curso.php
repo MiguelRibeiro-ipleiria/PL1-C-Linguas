@@ -13,6 +13,7 @@ use Yii;
  * @property string $titulo_curso
  * @property int $status_ativo
  * @property string $data_criacao
+ * @property string $curso_detalhe
  *
  * @property Aula[] $aulas
  * @property Dificuldade $dificuldade
@@ -38,10 +39,11 @@ class Curso extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idioma_id', 'dificuldade_id', 'titulo_curso', 'status_ativo', 'data_criacao'], 'required'],
+            [['idioma_id', 'dificuldade_id', 'titulo_curso', 'status_ativo', 'data_criacao', 'curso_detalhe'], 'required'],
             [['idioma_id', 'dificuldade_id', 'status_ativo'], 'integer'],
             [['data_criacao'], 'safe'],
             [['titulo_curso'], 'string', 'max' => 70],
+            [['curso_detalhe'], 'string', 'max' => 150],
             [['dificuldade_id'], 'exist', 'skipOnError' => true, 'targetClass' => Dificuldade::class, 'targetAttribute' => ['dificuldade_id' => 'id']],
             [['idioma_id'], 'exist', 'skipOnError' => true, 'targetClass' => Idioma::class, 'targetAttribute' => ['idioma_id' => 'id']],
         ];
@@ -59,6 +61,7 @@ class Curso extends \yii\db\ActiveRecord
             'titulo_curso' => 'Titulo Curso',
             'status_ativo' => 'Status Ativo',
             'data_criacao' => 'Data Criacao',
+            'curso_detalhe' => 'Curso Detalhe',
         ];
     }
 

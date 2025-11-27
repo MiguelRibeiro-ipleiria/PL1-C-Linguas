@@ -27,6 +27,7 @@ AppAsset::register($this);
     <link rel="stylesheet" href="<?= Yii::getAlias('@web').'/css/animate.css'; ?>">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
 
 
     <?php $this->registerCsrfMetaTags() ?>
@@ -143,6 +144,7 @@ AppAsset::register($this);
             <hr>
         </div>
     </div>
+</footer>
 <footer class="footer mt-auto py-3 text-muted">
     <div class="container">
         <p class="float-start">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
@@ -150,5 +152,12 @@ AppAsset::register($this);
     </div>
 </footer>
 
+    <script src="<?= Yii::getAlias('@web').'js/bootstrap.min.js'; ?>"</script>
+    <script src="<?= Yii::getAlias('@web').'js/wow.min.js'; ?>"</script>
+    <script src="<?= Yii::getAlias('@web').'js/tiny-slider.js'; ?>"</script>
+    <script src="<?= Yii::getAlias('@web').'js/glightbox.min.js'; ?>"</script>
+    <script src="<?= Yii::getAlias('@web').'js/count-up.min.js'; ?>"</script>
+    <script src="<?= Yii::getAlias('@web').'js/main.js'; ?>"</script>
 </body>
 </html>
+
