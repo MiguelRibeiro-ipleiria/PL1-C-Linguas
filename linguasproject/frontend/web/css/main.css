@@ -2649,6 +2649,7 @@ ol {
   font-weight: bold;
   color: #555555;
   font-size: 14px;
+  font-family: var(--bs-font-sans-serif) !important;
 }
 
 :root {
@@ -2685,6 +2686,20 @@ ol {
   font-weight: 600;
   color: #ffffff;
   background-color: #2ed06e;
+  border: 2px solid #5ebd5c;
+}
+
+
+.badge-red {
+  display: inline-block;
+  padding: 4px 10px;
+  margin-right: 8px; /* Espaço entre as tags */
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: red;
+  border: 2px solid #dc2f55;
 }
 
 
@@ -2843,6 +2858,23 @@ ol {
   color: #fff;
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%);
+}
+
+.intro-video-area .intro-video-play .play-thumb{
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  height: 80px;
+  width: 80px;
+  text-align: center;
+  line-height: 83px;
+  background: #abadb3;
+  border-radius: 50%;
+  padding-left: 5px;
+  font-size: 22px;
+  color: #fff;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {

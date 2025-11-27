@@ -161,6 +161,9 @@ $dificuldade = Dificuldade::findOne(['id' => $model->dificuldade_id]);
                     <br>
                     <br>
                     <div class="text-muted">
+                        <p class="text-sm">Descrição do Curso
+                            <b class="d-block"><?= $model->curso_detalhe ?></b>
+                        </p>
                         <p class="text-sm">Idioma do Curso
                             <b class="d-block"><?= $idioma->lingua_descricao ?></b>
                         </p>
