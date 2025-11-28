@@ -2,11 +2,7 @@
 use yii\helpers\Url;
 /** @var common\models\Curso $model */
 
-$link_video = "https://www.youtube.com/watch?v=r44RKWyfcFw&fbclid=IwAR21beSJORalzmzokxDRcGfkZA1AtRTE__l5N4r09HcGS5Y6vOluyouM9EM";
-$link_inscricao = Url::to(['curso/inscrever', 'id' => $model->id]); // Exemplo de link de inscrição
 ?>
-
-
 
 <div class="container my-4">
     <div class="course-detail-card">
@@ -44,7 +40,7 @@ $link_inscricao = Url::to(['curso/inscrever', 'id' => $model->id]); // Exemplo d
                                 if($model->status_ativo == 1){ ?>
                                     <div class="intro-video-play">
                                         <div class="play-thumb wow zoomIn" data-wow-delay=".2s">
-                                            <a href="<?= Url::to(['/curso/index']) ?>"
+                                            <a href="<?= Url::to(['/curso/aulas', 'id' => $model->id]) ?>"
                                             ><i class="lni lni-play"></i></a>
                                         </div>
                                     </div>

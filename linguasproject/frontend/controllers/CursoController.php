@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\Aula;
 use common\models\Idioma;
 use common\models\Curso;
 use common\models\CursoSearch;
@@ -137,14 +138,31 @@ class CursoController extends Controller
     public function actionIdiomacursos($id)
     {
         $idioma = Idioma::findOne(['id' => $id]);
-        $query = Curso::find()->where(['idioma_id' => $id]);
+        $query_cursos = Curso::find()->where(['idioma_id' => $id]);
         $DataCursoProvider = new ActiveDataProvider([
-            'query' => $query,
+            'query' => $query_cursos,
         ]);
 
         return $this->render('idiomacursos', [
             'DataCursoProvider' => $DataCursoProvider,
             'idioma' => $idioma,
         ]);
+    }
+
+    public function actionAulas($id)
+    {
+        $model = Curso::findOne(['id' => $id]);
+        $idioma = Idioma::findOne(['id' => $model->idioma_id]);
+        $query_aulas = Aula::find()->where(['curso_id' => $id]);
+        $DataAulasProvider = new ActiveDataProvider([
+            'query' => $query_aulas,
+        ]);
+
+        return $this->render('aulas', [
+            'DataAulasProvider' => $DataAulasProvider,
+            'curso' => $model,
+            'idioma' => $idioma,
+        ]);
+
     }
 }

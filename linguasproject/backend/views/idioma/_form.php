@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'lingua_sigla')->textInput(['maxlength' => true]) ?>
 
-        <?= $form->field($model, 'lingua_bandeira')->fileInput() ?>
+    <?= $form->field($model, 'lingua_bandeira')->fileInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

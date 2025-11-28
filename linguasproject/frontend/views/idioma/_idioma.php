@@ -2,14 +2,14 @@
 
 use common\models\Curso;
 use yii\helpers\Url;
-
+use yii\helpers\Html;
 /** @var common\models\Idioma $model */
 
 ?>
 <?php
 
-    $curso = Curso::find()->where(['idioma_id'=>$model->id])->count();
-    $cursodesativadas = Curso::find()->where(['idioma_id'=>$model->id, 'status_ativo' => 0])->count();
+$curso = Curso::find()->where(['idioma_id'=>$model->id])->count();
+$cursodesativadas = Curso::find()->where(['idioma_id'=>$model->id, 'status_ativo' => 0])->count();
 
 ?>
 <style>
@@ -42,33 +42,34 @@ use yii\helpers\Url;
             <div class="caixa-cursos-idioma">
                 <p>
                     <?php
-                        if($curso == 1){
-                            echo $curso . " curso";
-                        }
-                        else{
-                            echo $curso . " cursos";
-                        }
+                    if($curso == 1){
+                        echo $curso . " curso";
+                    }
+                    else{
+                        echo $curso . " cursos";
+                    }
                     ?>
                 </p>
             </div>
-            <img src="<?= $model->lingua_bandeira ?>">
+            <img src="<?= '../../../common/UploadBandeiras/' . $model->lingua_bandeira ?>"
+                 class="card-img-top">
             <h4 class="text-title"><?= $model->lingua_descricao ?></h4>
             <p><?= $model->lingua_objetivo ?></p>
             <div class="cursos-desativados">
-                    <?php
-                    if($cursodesativadas == 1){ ?>
+                <?php
+                if($cursodesativadas == 1){ ?>
                     <p><?php
                         echo $cursodesativadas . " curso desativado temporariamente";
-                    ?></p>
+                        ?></p>
                     <?php
-                    }
-                    elseif ($cursodesativadas > 1) { ?>
+                }
+                elseif ($cursodesativadas > 1) { ?>
                     <p><?php
-                        echo $cursodesativadas . " cursos desativados temporariamente";
+                    echo $cursodesativadas . " cursos desativados temporariamente";
                     ?></p><?php }
-                        elseif ($cursodesativadas == 1) {
-                        }
-                    ?>
+                elseif ($cursodesativadas == 1) {
+                }
+                ?>
             </div>
         </a>
     </div>

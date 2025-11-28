@@ -86,7 +86,7 @@ return [
 
         $fileName = $this->lingua_bandeira->baseName . '.' . $this->lingua_bandeira->extension;
 
-        $this->lingua_bandeira->saveAs(Yii::getAlias('@backend/web/UploadBanders/') . $fileName);
+        $this->lingua_bandeira->saveAs(Yii::getAlias('@common/UploadBandeiras/') . $fileName);
 
 
          $this->lingua_bandeira = $fileName;

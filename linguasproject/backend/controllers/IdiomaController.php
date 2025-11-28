@@ -105,10 +105,8 @@ class IdiomaController extends Controller
             if ($this->request->isPost) {
                 
                 if ($model->load($this->request->post())) {
-   
-    
-                    $model->lingua_bandeira = UploadedFile::getInstance($model, 'lingua_bandeira');
 
+                    $model->lingua_bandeira = UploadedFile::getInstance($model, 'lingua_bandeira');
                     if ($model->upload()) {
                         
                         $model->data_criacao = date('Y-m-d H:i:s');
@@ -138,13 +136,37 @@ class IdiomaController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
 
+        if ($this->request->isPost && $model->load($this->request->post())) {
+
+            $ImagemCarregada = UploadedFile::getInstance($model, 'lingua_bandeira');
+
+            if ($ImagemCarregada) {
+                $model->lingua_bandeira = $ImagemCarregada;
+
+                if ($model->upload()) {
+                    if ($model->save()) {
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    }
+                    else{
+                        return $this->render('update', [
+                            'model' => $model,
+                        ]);
+                    }
+                }
+                else{
+                    return $this->render('update', [
+                        'model' => $model,
+                    ]);
+                }
+            }
+
+
+        }
         return $this->render('update', [
             'model' => $model,
         ]);
+
     }
 
     /**
