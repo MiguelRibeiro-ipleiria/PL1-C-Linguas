@@ -23,27 +23,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <?= GridView::widget([
+        <?= \yii\widgets\ListView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'titulo_aula',
-            'descricao_aula',
-            'numero_de_exercicios',
-            'tempo_estimado',
-            //'curso_id',
-            //'data_criacao',
-            [
-                'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, aula $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id' => $model->id]);
-                 }
-            ],
-        ],
-    ]); ?>
+        'itemView' => '_aula',
+        'layout' => "<div class='cards-grid'>{items}</div>\n<div class='mt-4'>{pager}</div>",
+        'itemOptions' => ['tag' => false],
+    ]) ?> 
 
 
 </div>

@@ -1,23 +1,28 @@
 <?php
 use yii\helpers\Html;
-
 use common\models\Dificuldade;
 use common\models\Idioma;
 use common\models\Utilizador;
 use common\models\User;
-use common\models\Aula;
+use common\models\Curso;
+use common\models\comentario;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 
-/** @var common\models\Curso $model */
+/** @var common\models\aula $model */
 ?>
 
 <?php
 $auth = Yii::$app->authManager;
 
-$idioma = Idioma::findOne(['id' => $model->idioma_id]);
-$dificuldade = Dificuldade::findOne(['id' => $model->dificuldade_id]);
+//$dificuldade = Dificuldade::findOne(['id' => $model->dificuldade_id]);
+$curso = Curso::findOne(['id' => $model->curso_id]);
+$comentarios = Comentario::find()->where(['aula_id' => $model->id])->all();
+
+
+
+
 ?>
 
 <section class="content">
@@ -25,7 +30,7 @@ $dificuldade = Dificuldade::findOne(['id' => $model->dificuldade_id]);
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title"><?= $model->titulo_curso ?><b>  (<?= $idioma->lingua_descricao ?>)</b></h3>
+            <h3 class="card-title"><?= $model->titulo_aula ?></h3>
 
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -45,20 +50,7 @@ $dificuldade = Dificuldade::findOne(['id' => $model->dificuldade_id]);
                                 <div class="info-box-content">
                                     <span class="info-box-text text-center text-muted">Formadores Disponíveis</span>
                                     <span class="info-box-number text-center text-muted mb-0">
-                                        <?php
-                                        $utilizadores = Utilizador::find()->where(['idioma_id' => $idioma->id])->all();
-                                        $count = 0;
-                                        foreach ($utilizadores as $utilizador) {
-
-                                            $user = User::findOne(['id' => $utilizador->user_id]);
-                                            $UserRoles = $auth->getRolesByUser($user->id);
-                                            $userrole = key($UserRoles);
-                                            if($userrole == "formador" && $utilizador->idioma_id == $idioma->id){
-                                                $count ++;
-                                            }
-                                        }
-                                        echo $count;
-                                        ?>
+                                       
                                     </span>
                                 </div>
                             </div>
@@ -66,8 +58,8 @@ $dificuldade = Dificuldade::findOne(['id' => $model->dificuldade_id]);
                         <div class="col-12 col-sm-4">
                             <div class="info-box bg-light">
                                 <div class="info-box-content">
-                                    <span class="info-box-text text-center text-muted">Aulas do Curso</span>
-                                    <span class="info-box-number text-center text-muted mb-0"><?=$countAulas = Aula::find()->where(['curso_id' => $model->id])->count();?></span>
+                                    <span class="info-box-text text-center text-muted">Curso</span>
+                                    <span class="info-box-number text-center text-muted mb-0"><?=$curso->titulo_curso?></span>
                                 </div>
                             </div>
                         </div>
@@ -76,43 +68,32 @@ $dificuldade = Dificuldade::findOne(['id' => $model->dificuldade_id]);
                                 <div class="info-box-content">
                                     <span class="info-box-text text-center text-muted">Estado do Curso</span>
                                     <span class="info-box-number text-center text-muted mb-0">
-                                        <?php
-
-                                        if($model->status_ativo == 1){
-                                            echo "Ativado";
-                                        }
-                                        else{
-                                            echo "Desativado";
-                                        }
-
-
-                                        ?></span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <h4>Recent Activity</h4>
+                            <h4>Comentários</h4>
+                            <?php foreach($comentarios as $comentario){?>
                             <div class="post">
                                 <div class="user-block">
                                     <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
                                     <span class="username">
-                          <a href="#">Jonathan Burke Jr.</a>
-                        </span>
+                                <a href="#"><!--User::findOne($comentario->utilizador_id)->username;--></a>
+                                </span>
                                     <span class="description">Shared publicly - 7:45 PM today</span>
                                 </div>
                                 <!-- /.user-block -->
                                 <p>
-                                    Lorem ipsum represents a long-held tradition for designers,
-                                    typographers and the like. Some people hate it and argue for
-                                    its demise, but others ignore.
+                                    <?=$comentario->descricao_comentario?>
                                 </p>
 
                                 <p>
                                     <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Demo File 1 v2</a>
                                 </p>
                             </div>
+                            <?php } ?>
 
                             <div class="post clearfix">
                                 <div class="user-block">
@@ -156,19 +137,22 @@ $dificuldade = Dificuldade::findOne(['id' => $model->dificuldade_id]);
                     </div>
                 </div>
                 <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
-                    <h3 class="text-primary"><i class="fas fa-book"></i>   <?= $model->titulo_curso ?></h3>
-                    <span class="time text-muted"><i class="fas fa-clock"></i> <?= $model->data_criacao ?></span>
+                    <h3 class="text-primary"><i class="fas fa-book"></i>   <?= $model->titulo_aula ?></h3>
+                    <span class="time text-muted"><i class="fas fa-clock"></i> <?= $model->tempo_estimado ?></span>
                     <br>
                     <br>
                     <div class="text-muted">
                         <p class="text-sm">Descrição do Curso
-                            <b class="d-block"><?= $model->curso_detalhe ?></b>
+                            <b class="d-block"><?= $model->descricao_aula ?></b>
                         </p>
-                        <p class="text-sm">Idioma do Curso
-                            <b class="d-block"><?= $idioma->lingua_descricao ?></b>
+                        <p class="text-sm">Numero de exercícios
+                            <b class="d-block"><?= $model->numero_de_exercicios ?></b>
                         </p>
-                        <p class="text-sm">Dificuldade do Curso
-                            <b class="d-block"><?= $dificuldade->grau_dificuldade ?></b>
+                        <p class="text-sm">Data de criação
+                            <b class="d-block"><?= $model->data_criacao ?></b>
+                        </p>
+                        <p class="text-sm">Nome do curso
+                            <b class="d-block"><?= $curso->titulo_curso ?></b>
                         </p>
                     </div>
                     <div>

@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use common\models\Curso;
+use yii\helpers\ArrayHelper;
 
 /** @var yii\web\View $this */
 /** @var common\models\aula $model */
@@ -10,7 +12,12 @@ use yii\widgets\ActiveForm;
 
 <div class="aula-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin();
+
+        $arraycursos = ArrayHelper::map(curso::find()->all(), 'id', 'titulo_curso');
+    
+
+    ?>
 
     <?= $form->field($model, 'titulo_aula')->textInput(['maxlength' => true]) ?>
 
@@ -20,9 +27,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'tempo_estimado')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'curso_id')->textInput() ?>
-
     <?= $form->field($model, 'data_criacao')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'curso_id')->dropDownList($arraycursos) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
