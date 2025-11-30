@@ -65,7 +65,7 @@ use yii\helpers\Url;
                     ['label' => 'Tipos de exercicio',  'icon' => 'tasks','url' => ['/tipoexercicio/index']],
                     ['label' => 'FEEDBACKS GERAIS', 'header' => true],
                     ['label' => 'Feedbacks',  'icon' => 'thumbs-up','url' => ['/feedback/index']],
-                    ['label' => 'Comentários',  'icon' => 'comments'],
+                    ['label' => 'Comentários',  'icon' => 'comments','url' => ['/comentario/index']],
                     ['label' => 'PAINEL CONTROLO', 'header' => true],
                     ['label' => 'Dificuldade',  'icon' => 'exclamation-triangle', 'url' => ['/dificuldade/index']],
                     ['label' => 'Idiomas',  'icon' => 'language', 'url' => ['/idioma/index']],
