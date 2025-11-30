@@ -22,36 +22,13 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-        <?= GridView::widget([
+            
+    <?= \yii\widgets\ListView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            'id',
-            'titulo_aula',
-            'descricao_aula',
-            'numero_de_exercicios',
-            'tempo_estimado',
-            //'curso_id',
-            //'data_criacao',
-            [
-                'label' => 'Atribuir Exercícios',
-                'format' => 'raw',
-                'value' => function($model) {
-                    return Html::a('Atribuir Exercícios', ['aula/exercicios', 'id' => $model->id], [
-                        'class' => 'btn btn-success',
-                        'title' => 'Atribuir Exercícios',
-                    ]);
-                }
-            ],
-            [
-                'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, aula $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id' => $model->id]);
-                 }
-            ],
-        ],
-    ]); ?>
+        'itemView' => '_aula',
+        'layout' => "<div class='cards-grid'>{items}</div>\n<div class='mt-4'>{pager}</div>",
+        'itemOptions' => ['tag' => false],
+    ]) ?>
 
 
 </div>

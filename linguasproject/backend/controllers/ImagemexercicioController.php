@@ -2,16 +2,16 @@
 
 namespace backend\controllers;
 
-use common\models\aula;
-use common\models\aulaSearch;
+use common\models\ImagemExercicio;
+use common\models\ImagemExercicioSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * AulaController implements the CRUD actions for aula model.
+ * ImagemexercicioController implements the CRUD actions for ImagemExercicio model.
  */
-class AulaController extends Controller
+class ImagemexercicioController extends Controller
 {
     /**
      * @inheritDoc
@@ -32,13 +32,13 @@ class AulaController extends Controller
     }
 
     /**
-     * Lists all aula models.
+     * Lists all ImagemExercicio models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new aulaSearch();
+        $searchModel = new ImagemExercicioSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
@@ -48,35 +48,34 @@ class AulaController extends Controller
     }
 
     /**
-     * Displays a single aula model.
-     * @param int $id ID
+     * Displays a single ImagemExercicio model.
+     * @param int $imagem_resource_id Imagem Resource ID
+     * @param int $aula_id Aula ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($imagem_resource_id, $aula_id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findModel($imagem_resource_id, $aula_id),
         ]);
     }
 
     /**
-     * Creates a new aula model.
+     * Creates a new ImagemExercicio model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate()
+    public function actionCreate($aula,$tipoexercicio)
     {
-        $model = new aula();
+        $model = new ImagemExercicio();
+        $model->aula_id = $aula;
+        $model->tipoexercicio_id = $tipoexercicio;
 
+        
         if ($this->request->isPost) {
-            if ($model->load($this->request->post())) {
-
-                $model->setDataCriacao();
-
-                if($model->save()){
-                    return $this->redirect(['view', 'id' => $model->id]);
-                }
+            if ($model->load($this->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'imagem_resource_id' => $model->imagem_resource_id, 'aula_id' => $model->aula_id]);
             }
         } else {
             $model->loadDefaultValues();
@@ -88,18 +87,19 @@ class AulaController extends Controller
     }
 
     /**
-     * Updates an existing aula model.
+     * Updates an existing ImagemExercicio model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $id ID
+     * @param int $imagem_resource_id Imagem Resource ID
+     * @param int $aula_id Aula ID
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate($imagem_resource_id, $aula_id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel($imagem_resource_id, $aula_id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'imagem_resource_id' => $model->imagem_resource_id, 'aula_id' => $model->aula_id]);
         }
 
         return $this->render('update', [
@@ -108,42 +108,34 @@ class AulaController extends Controller
     }
 
     /**
-     * Deletes an existing aula model.
+     * Deletes an existing ImagemExercicio model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id ID
+     * @param int $imagem_resource_id Imagem Resource ID
+     * @param int $aula_id Aula ID
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete($imagem_resource_id, $aula_id)
     {
-        $this->findModel($id)->delete();
+        $this->findModel($imagem_resource_id, $aula_id)->delete();
 
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the aula model based on its primary key value.
+     * Finds the ImagemExercicio model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $id ID
-     * @return aula the loaded model
+     * @param int $imagem_resource_id Imagem Resource ID
+     * @param int $aula_id Aula ID
+     * @return ImagemExercicio the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel($imagem_resource_id, $aula_id)
     {
-        if (($model = aula::findOne(['id' => $id])) !== null) {
+        if (($model = ImagemExercicio::findOne(['imagem_resource_id' => $imagem_resource_id, 'aula_id' => $aula_id])) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-
-    public function actionEscolherexercicio($id)
-    {
-        
-
-        return $this->render('Escolher_TipoExercicio', [
-            'aula' => $id,
-        ]);
-    }
-
 }

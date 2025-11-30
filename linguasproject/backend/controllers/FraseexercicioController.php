@@ -2,16 +2,16 @@
 
 namespace backend\controllers;
 
-use common\models\aula;
-use common\models\aulaSearch;
+use common\models\FraseExercicio;
+use common\models\FraseExercicioSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * AulaController implements the CRUD actions for aula model.
+ * FraseExercicioController implements the CRUD actions for FraseExercicio model.
  */
-class AulaController extends Controller
+class FraseexercicioController extends Controller
 {
     /**
      * @inheritDoc
@@ -32,13 +32,13 @@ class AulaController extends Controller
     }
 
     /**
-     * Lists all aula models.
+     * Lists all FraseExercicio models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new aulaSearch();
+        $searchModel = new FraseExercicioSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
@@ -48,7 +48,7 @@ class AulaController extends Controller
     }
 
     /**
-     * Displays a single aula model.
+     * Displays a single FraseExercicio model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -61,22 +61,18 @@ class AulaController extends Controller
     }
 
     /**
-     * Creates a new aula model.
+     * Creates a new FraseExercicio model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate()
+    public function actionCreate($aula,$tipoexercicio)
     {
-        $model = new aula();
-
+        $model = new FraseExercicio();
+        $model->aula_id = $aula;
+        $model->tipoexercicio_id = $tipoexercicio;
         if ($this->request->isPost) {
-            if ($model->load($this->request->post())) {
-
-                $model->setDataCriacao();
-
-                if($model->save()){
-                    return $this->redirect(['view', 'id' => $model->id]);
-                }
+            if ($model->load($this->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
             $model->loadDefaultValues();
@@ -88,7 +84,7 @@ class AulaController extends Controller
     }
 
     /**
-     * Updates an existing aula model.
+     * Updates an existing FraseExercicio model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -108,7 +104,7 @@ class AulaController extends Controller
     }
 
     /**
-     * Deletes an existing aula model.
+     * Deletes an existing FraseExercicio model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
      * @return \yii\web\Response
@@ -122,28 +118,18 @@ class AulaController extends Controller
     }
 
     /**
-     * Finds the aula model based on its primary key value.
+     * Finds the FraseExercicio model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return aula the loaded model
+     * @return FraseExercicio the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = aula::findOne(['id' => $id])) !== null) {
+        if (($model = FraseExercicio::findOne(['id' => $id])) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-
-    public function actionEscolherexercicio($id)
-    {
-        
-
-        return $this->render('Escolher_TipoExercicio', [
-            'aula' => $id,
-        ]);
-    }
-
 }

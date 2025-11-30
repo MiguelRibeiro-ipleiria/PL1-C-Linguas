@@ -3,6 +3,14 @@
     flex-wrap: wrap;
     gap: 20px;
 }
+.content-wrapper {
+    max-width: 100% !important;
+}
+
+.content {
+    max-width: 100% !important;
+    width: 100% !important;
+}
 
 main > .container {
     padding: 70px 15px 20px;
