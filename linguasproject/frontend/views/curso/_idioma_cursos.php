@@ -40,7 +40,7 @@ use yii\helpers\Url;
                                 if($model->status_ativo == 1){ ?>
                                     <div class="intro-video-play">
                                         <div class="play-thumb wow zoomIn" data-wow-delay=".2s">
-                                            <a href="<?= Url::to(['/curso/aulas', 'id' => $model->id]) ?>"
+                                            <a href="<?= Url::to(['/inscricao/create', 'curso_id' => $model->id], ['/curso/aulas', 'id' => $model->id]) ?>"
                                             ><i class="lni lni-play"></i></a>
                                         </div>
                                     </div>

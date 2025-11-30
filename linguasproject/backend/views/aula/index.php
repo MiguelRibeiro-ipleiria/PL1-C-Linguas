@@ -27,8 +27,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'titulo_aula',
             'descricao_aula',
@@ -36,6 +34,16 @@ $this->params['breadcrumbs'][] = $this->title;
             'tempo_estimado',
             //'curso_id',
             //'data_criacao',
+            [
+                'label' => 'Atribuir Exercícios',
+                'format' => 'raw',
+                'value' => function($model) {
+                    return Html::a('Atribuir Exercícios', ['aula/exercicios', 'id' => $model->id], [
+                        'class' => 'btn btn-success',
+                        'title' => 'Atribuir Exercícios',
+                    ]);
+                }
+            ],
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, aula $model, $key, $index, $column) {

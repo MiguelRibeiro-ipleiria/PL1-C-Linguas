@@ -28,21 +28,14 @@ use yii\grid\GridView;
         <div class="row">
             <div class="col-8">
                 <div class="curso-index mt-5">
-                    <!-- <?= \yii\widgets\ListView::widget([
+                    <?= \yii\widgets\ListView::widget([
                         'dataProvider' => $DataAulasProvider,
-                        'itemView' => '_idioma_cursos',
+                        'itemView' => '_cursos_aulas',
                         'layout' => "<div class='cards-grid'>{items}</div>\n<div class='mt-4'>{pager}</div>",
-                        'itemOptions' => ['tag' => false]]) ?>
-                </div> -->
+                        'itemOptions' => ['tag' => false]])
+                    ?>
+                </div>
             </div>
-            <div class="col-4">
-                <br>
-                <br>
-                <img src="<?= '../../../common/UploadBandeiras/' . $curso->curso_detalhe ?>"
-                     class="card-img-top">            </div>
-        </div>
-
-
     </div>
 </div>
 

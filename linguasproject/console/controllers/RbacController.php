@@ -117,7 +117,6 @@ class RbacController extends Controller
         $ToggleCourse->description = 'Ativar ou desativar cursos temporariamente';
         $auth->add($ToggleCourse);
 
-        
         // add "CreateCourse" permission
         $CreateCourse = $auth->createPermission('CreateCourse');
         $CreateCourse->description = 'Criar um curso de uma lingua';
@@ -138,6 +137,10 @@ class RbacController extends Controller
         $DeleteCourse->description = 'Eliminar um curso de uma lingua';
         $auth->add($DeleteCourse);
 
+        // SearchCourse
+        $SearchCourse = $auth->createPermission('SearchCourse');
+        $SearchCourse->description = 'Ver detalhes dos cursos';
+        $auth->add($SearchCourse);
 
 
         /*LESSONS MANAGEMENT PERMISSIONS*/
@@ -373,13 +376,18 @@ class RbacController extends Controller
         $auth->addChild($admin, $ReadCourse);
         $auth->addChild($admin, $UpdateCourse);
         $auth->addChild($admin, $DeleteCourse);
+        $auth->addChild($admin, $SearchCourse);
+
 
         //formador
         $auth->addChild($formador, $CreateCourse);
         $auth->addChild($formador, $ReadCourse);
         $auth->addChild($formador, $UpdateCourse);
         $auth->addChild($formador, $DeleteCourse);
+        $auth->addChild($formador, $SearchCourse);
 
+        //aluno
+        $auth->addChild($aluno, $SearchCourse);
 
         /*----------------lessons management-----------*/
         //admin
@@ -405,7 +413,7 @@ class RbacController extends Controller
          //formador
          $auth->addChild($formador, $SearchLanguage);
 
-         //user autenticado
+         //aluno
          $auth->addChild($aluno, $SearchLanguage);
 
 

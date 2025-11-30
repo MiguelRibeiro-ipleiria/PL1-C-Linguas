@@ -25,24 +25,14 @@ use yii\grid\GridView;
 
             <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
-            <?= GridView::widget([
+            <?= \yii\widgets\ListView::widget([
                 'dataProvider' => $dataProvider,
-                'filterModel' => $searchModel,
-                'columns' => [
-                    'id',
-                    'idioma_id',
-                    'dificuldade_id',
-                    'titulo_curso',
-                    'status_ativo',
-                    //'data_criacao',
-                    [
-                        'class' => ActionColumn::className(),
-                        'urlCreator' => function ($action, Curso $model, $key, $index, $column) {
-                            return Url::toRoute([$action, 'id' => $model->id]);
-                        }
-                    ],
-                ],
-            ]); ?>
+                'itemView' => '_cursos',
+                'layout' => "<div class='row'>{items}</div>\n<div class='mt-4'>{pager}</div>",
+                'itemOptions' => ['tag' => false],
+            ]) ?>
+
+
 
 
         </div>

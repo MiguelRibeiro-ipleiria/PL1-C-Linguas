@@ -3,6 +3,11 @@ use yii\bootstrap5\Html;
 use yii\helpers\Url;
 
 ?>
+<header>
+    <link rel="stylesheet" href="<?= Yii::getAlias('@web').'/css/site.css'; ?>">
+    <link rel="stylesheet" href="<?= Yii::getAlias('@web').'/js/dropzone.min.js'; ?>">
+
+</header>
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <?= html::a('
@@ -66,12 +71,16 @@ use yii\helpers\Url;
                     ['label' => 'Idiomas',  'icon' => 'language', 'url' => ['/idioma/index']],
                     ['label' => 'Cursos',  'icon' => 'book', 'url' => ['/curso/index']],
                     ['label' => 'Aulas',  'icon' => 'chalkboard-teacher', 'url' => ['/aula/index']],
+                    ['label' => 'EXERCÍCIOS', 'header' => true],
+                    ['label' => 'Imagens',  'icon' => 'image', 'url' => ['/dificuldade/index']],
+                    ['label' => 'Áudios',  'icon' => 'music', 'url' => ['/idioma/index']],
+                    ['label' => 'Frases',  'icon' => 'book', 'url' => ['/curso/index']],
                     ['label' => 'RESOURCES', 'header' => true],
-                    ['label' => 'imagens' ,  'icon' => 'image','url' => ['/image/index']],
-                    ['label' => 'audio',  'icon' => 'music'],
-                    ['label' => 'Important', 'iconStyle' => 'far', 'iconClassAdded' => 'text-danger'],
-                    ['label' => 'Warning', 'iconClass' => 'nav-icon far fa-circle text-warning'],
-                    ['label' => 'Informational', 'iconStyle' => 'far', 'iconClassAdded' => 'text-info'],
+                    ['label' => 'imagens (resource)' ,  'icon' => 'image','url' => ['/image/index']],
+                    ['label' => 'audio (resource)',  'icon' => 'music'],
+                    ['label' => 'PROGRESSOS DOS UTILIZADORES', 'header' => true],
+                    ['label' => 'Nos Cursos',  'icon' => 'user','url' => ['/inscricao/index']],
+                    ['label' => 'Nas Aulas',  'icon' => 'tasks','url' => ['/tipoexercicio/index']],
                 ],
             ]);
             ?>

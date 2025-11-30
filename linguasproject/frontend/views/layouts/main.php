@@ -144,11 +144,11 @@ AppAsset::register($this);
             <hr>
         </div>
     </div>
-</footer>
-<footer class="footer mt-auto py-3 text-muted">
-    <div class="container">
-        <p class="float-start">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
-        <p class="float-end">Desenvolvido por: André Ventura, Guilherme Ferreira e Miguel Ribeiro</p>
+    <div class="footer mt-auto py-3 text-muted">
+        <div class="container">
+            <p class="float-start">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
+            <p class="float-end">Desenvolvido por: André Ventura, Guilherme Ferreira e Miguel Ribeiro</p>
+        </div>
     </div>
 </footer>
 

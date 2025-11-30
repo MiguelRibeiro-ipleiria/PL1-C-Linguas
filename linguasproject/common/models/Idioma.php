@@ -1,7 +1,8 @@
 <?php
 
 namespace common\models;
-
+use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
 use Yii;
 
 /**
@@ -28,6 +29,7 @@ class Idioma extends \yii\db\ActiveRecord
     {
         return 'idioma';
     }
+
 
     /**
      * {@inheritdoc}
@@ -59,6 +61,7 @@ return [
             'lingua_objetivo' => 'Lingua Objetivo',
         ];
     }
+
 
     /**
      * Gets query for [[Cursos]].

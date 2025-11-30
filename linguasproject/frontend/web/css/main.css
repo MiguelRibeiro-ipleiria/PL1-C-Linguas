@@ -1493,6 +1493,62 @@ ol {
   }
 }
 
+
+
+/*=======================================
+      INSCRICAO VALIDA INFO BOX
+======================================== */
+
+/* Estilos da Seção Principal */
+.course-enrollment-section {
+  padding: 20px;
+  width: 100%;
+  max-width: max-content;
+}
+
+
+/* Estilos da Caixa de Notificação (Onde está o texto) */
+.success-box {
+  background-color: #fff;
+  opacity: 80%;
+  border-radius: 8px; /* Cantos arredondados */
+  padding: 30px 40px; /* Preenchimento interno para o texto */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  position: relative; /* Necessário para posicionar o canto verde */
+  overflow: hidden; /* Garante que o canto verde não ultrapasse a borda */
+}
+
+
+/* Estilos do Título da Mensagem */
+.success-message {
+  color: #000;
+  font-size: 1.1em;
+  font-weight: 500;
+  line-height: 1.5;
+  margin: 0; /* Remove margem padrão do h4 */
+  z-index: 2; /* Certifica-se que o texto fica acima do canto verde */
+  position: relative;
+}
+
+/* Destaque para o nome do curso e idioma (se houver) */
+.success-message b {
+  font-weight: 700;
+  color: #000;
+}
+
+
+.button-center {
+
+  text-align: center;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.button-center .btn {
+  display: inline-block;
+}
+
+
 /*======================================
 	01. Start Header CSS
 ========================================*/
@@ -2604,6 +2660,175 @@ ol {
   max-width: 100%;
   height: auto;
 }
+
+
+/*======================================
+      CURSOS DESIGN - INDEX PAGE
+========================================*/
+
+.card-header-flex {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.card-cursos-title {
+  display: inline-block;
+  padding: 5% 15%;
+  margin-right: 8px; /* Espaço entre as tags */
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #0a001f;
+  border: 2px solid #3d3451;
+}
+
+.card-course-description{
+  font-weight: bold;
+  color: #555555;
+  font-size: 14px;
+  font-family: var(--bs-font-sans-serif) !important;
+}
+
+:root {
+  --green-primary: #38c172;
+  --text-dark: #333333;
+  --text-muted: #555555;
+  --card-shadow: rgba(0, 0, 0, 0.1);
+}
+
+.course-detail-card {
+
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px var(--card-shadow);
+  overflow: hidden;
+  padding: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-top: 2px solid #2ed06e;
+  margin-top: 0 !important; /* Remove qualquer margem superior do card */
+
+}
+
+.course-content-area {
+  padding-right: 20px;
+}
+
+.cursos-content-area{
+  display: flex;
+  justify-content: right;
+}
+
+.cursos-grau-content-area{
+  display: flex;
+  justify-content: center;
+}
+
+
+.cursos-detalhe {
+  padding: 4px 10px;
+  margin-right: 8px; /* Espaço entre as tags */
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #2c3034;
+}
+
+
+.cursos-custom {
+  display: inline-block;
+  padding: 4px 25px;
+  margin-right: 8px; /* Espaço entre as tags */
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #2ed06e;
+  border: 2px solid #5ebd5c;
+}
+
+.cursos-custom-green {
+  display: inline-block;
+  padding: 4px 25px;
+  margin-right: 8px; /* Espaço entre as tags */
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #2ed06e;
+  border: 2px solid #5ebd5c;
+}
+
+.cursos-custom-yellow {
+  display: inline-block;
+  padding: 4px 25px;
+  margin-right: 8px; /* Espaço entre as tags */
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #c9cf12;
+  border: 2px solid #ede968;
+}
+
+.cursos-custom-red {
+  display: inline-block;
+  padding: 4px 25px;
+  margin-right: 8px; /* Espaço entre as tags */
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #c82222;
+  border: 2px solid #d02e3c;
+}
+
+
+.badge-red {
+  display: inline-block;
+  padding: 4px 10px;
+  margin-right: 8px; /* Espaço entre as tags */
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: red;
+  border: 2px solid #dc2f55;
+}
+
+
+/* Botão Play (Grande Círculo Verde) */
+.video-play-button-large {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background-color: var(--green-primary);
+  color: #ffffff;
+  font-size: 1.5rem;
+  text-decoration: none;
+  margin-bottom: 5px;
+}
+
+.enroll-link-text {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--green-primary);
+  text-decoration: none;
+}
+
+
+
+
+
+
+
+
+
 
 
 /*======================================

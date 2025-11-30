@@ -61,7 +61,7 @@ class Aula extends \yii\db\ActiveRecord
             'descricao_aula' => 'Descricao Aula',
             'numero_de_exercicios' => 'Numero De Exercicios',
             'tempo_estimado' => 'Tempo Estimado',
-            'curso_id' => 'Curso ID',
+            'curso_id' => 'Curso',
             'data_criacao' => 'Data Criacao',
         ];
     }
@@ -124,6 +124,12 @@ class Aula extends \yii\db\ActiveRecord
     public function getImagems()
     {
         return $this->hasMany(Imagem::class, ['aula_id' => 'id']);
+    }
+
+    public function setDataCriacao()
+    {
+        $hora = date('y-m-d H:i:s');
+        return $this->data_criacao = $hora;
     }
 
 }

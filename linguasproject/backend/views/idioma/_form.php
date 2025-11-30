@@ -9,8 +9,6 @@ use yii\widgets\ActiveForm;
 ?>
 
 
-
-
 <div class="idioma-form">
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>

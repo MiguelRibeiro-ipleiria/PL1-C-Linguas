@@ -95,6 +95,23 @@ a.desc:after {
     outline: none;
 }
 
+.table a {
+    color: #2ed06e !important;
+}
+
+a:hover{
+    color: #04aa45 !important;
+}
+
+.table .btn{
+    color: #fff !important;
+}
+
+.table .th{
+    color: #2ed06e !important;
+}
 
 
-
+.btn:hover{
+    color: #fff !important;
+}
