@@ -1,17 +1,17 @@
 <?php
 
-namespace backend\controllers;
+namespace frontend\controllers;
 
-use common\models\Imagemexercicio;
-use common\models\ImagemexercicioSearch;
+use common\models\Comentario;
+use common\models\ComentarioSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ImagemexercicioController implements the CRUD actions for Imagemexercicio model.
+ * ComentarioController implements the CRUD actions for Comentario model.
  */
-class ImagemexercicioController extends Controller
+class ComentarioController extends Controller
 {
     /**
      * @inheritDoc
@@ -32,13 +32,13 @@ class ImagemexercicioController extends Controller
     }
 
     /**
-     * Lists all Imagemexercicio models.
+     * Lists all Comentario models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new ImagemexercicioSearch();
+        $searchModel = new ComentarioSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
@@ -48,34 +48,34 @@ class ImagemexercicioController extends Controller
     }
 
     /**
-     * Displays a single Imagemexercicio model.
-     * @param int $imagem_resource_id Imagem Resource ID
-     * @param int $aula_id Aula ID
+     * Displays a single Comentario model.
+     * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($imagem_resource_id, $aula_id)
+    public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($imagem_resource_id, $aula_id),
+            'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new Imagemexercicio model.
+     * Creates a new Comentario model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate($aula,$tipoexercicio)
+    public function actionCreate()
     {
-        $model = new Imagemexercicio();
-        $model->aula_id = $aula;
-        $model->tipoexercicio_id = $tipoexercicio;
+        $model = new Comentario();
 
-        
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'imagem_resource_id' => $model->imagem_resource_id, 'aula_id' => $model->aula_id]);
+            if ($model->load($this->request->post())) {
+                $model->setDataCriacao();
+                $model->setUtilizador();
+                if($model->save()){
+                    return $this->redirect(['/aula/view', 'id' => $model->aula_id]);
+                }
             }
         } else {
             $model->loadDefaultValues();
@@ -87,19 +87,18 @@ class ImagemexercicioController extends Controller
     }
 
     /**
-     * Updates an existing Imagemexercicio model.
+     * Updates an existing Comentario model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $imagem_resource_id Imagem Resource ID
-     * @param int $aula_id Aula ID
+     * @param int $id ID
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($imagem_resource_id, $aula_id)
+    public function actionUpdate($id)
     {
-        $model = $this->findModel($imagem_resource_id, $aula_id);
+        $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'imagem_resource_id' => $model->imagem_resource_id, 'aula_id' => $model->aula_id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
@@ -108,31 +107,29 @@ class ImagemexercicioController extends Controller
     }
 
     /**
-     * Deletes an existing Imagemexercicio model.
+     * Deletes an existing Comentario model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $imagem_resource_id Imagem Resource ID
-     * @param int $aula_id Aula ID
+     * @param int $id ID
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($imagem_resource_id, $aula_id)
+    public function actionDelete($id)
     {
-        $this->findModel($imagem_resource_id, $aula_id)->delete();
-
-        return $this->redirect(['index']);
+        $aula_id=$this->findModel($id)->aula_id;
+        $this->findModel($id)->delete();
+        return $this->redirect(['/aula/view', 'id' => $aula_id]);
     }
 
     /**
-     * Finds the Imagemexercicio model based on its primary key value.
+     * Finds the Comentario model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $imagem_resource_id Imagem Resource ID
-     * @param int $aula_id Aula ID
-     * @return Imagemexercicio the loaded model
+     * @param int $id ID
+     * @return Comentario the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($imagem_resource_id, $aula_id)
+    protected function findModel($id)
     {
-        if (($model = Imagemexercicio::findOne(['imagem_resource_id' => $imagem_resource_id, 'aula_id' => $aula_id])) !== null) {
+        if (($model = Comentario::findOne(['id' => $id])) !== null) {
             return $model;
         }
 

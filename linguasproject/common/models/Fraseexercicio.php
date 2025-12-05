@@ -17,7 +17,7 @@ use Yii;
  * @property Aula $aula
  * @property Tipoexercicio $tipoexercicio
  */
-class FraseExercicio extends \yii\db\ActiveRecord
+class Fraseexercicio extends \yii\db\ActiveRecord
 {
 
 

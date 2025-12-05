@@ -71,6 +71,26 @@ return [
                         '{idiomanome}' => '<idiomanome:[\p{L}\p{N}\-]+>', //[a-zA-Z0-9_] 1 ou + vezes (char)
                     ],
                 ],
+                ['class' => 'yii\rest\UrlRule','controller' => 'api/dificuldade',
+                    'extraPatterns' => [
+                        'GET {id}' => 'dificuldade',  // 'count' é 'actionCurso' - devolve o curso consoante o id
+                    ],
+                    'tokens' => [
+                        '{id}' => '<id:\\d+>',
+                    ],
+                ],
+                ['class' => 'yii\rest\UrlRule','controller' => 'api/inscricao',
+                    'extraPatterns' => [
+                        'GET count' => 'count',  // 'count' é 'actionCount' - conta os idiomas
+                        'GET {usernome}/count' => 'countporuser',  // 'count' é 'actionCountPor' - devolve os cursos pelo idioma
+                        'GET {usernome}' => 'inscricoesporuser',  // 'count' é 'actionCountPor' - devolve os cursos pelo idioma
+                        'GET {usernome}/curso/{id}' => 'isinscrito',  // 'count' é 'actionCountPor' - devolve os cursos pelo idioma
+                    ],
+                    'tokens' => [
+                        '{id}' => '<id:\\d+>',
+                        '{usernome}' => '<usernome:[\p{L}\p{N}\-]+>', //[a-zA-Z0-9_] 1 ou + vezes (char)
+                    ],
+                ],
             ],
         ],
     ],

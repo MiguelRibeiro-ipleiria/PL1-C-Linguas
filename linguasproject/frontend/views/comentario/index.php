@@ -1,24 +1,24 @@
 <?php
 
-use common\models\Imagemexercicio;
+use common\models\Comentario;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
 
 /** @var yii\web\View $this */
-/** @var common\models\ImagemexercicioSearch $searchModel */
+/** @var common\models\ComentarioSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Imagem Exercicios';
+$this->title = 'Comentarios';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="imagem-exercicio-index">
+<div class="comentario-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Imagem Exercicio', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Comentario', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -29,14 +29,15 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'imagem_resource_id',
+            'id',
+            'descricao_comentario',
             'aula_id',
-            'pergunta',
-            'tipoexercicio_id',
+            'hora_criada',
+            'utilizador_id',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Imagemexercicio $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'imagem_resource_id' => $model->imagem_resource_id, 'aula_id' => $model->aula_id]);
+                'urlCreator' => function ($action, Comentario $model, $key, $index, $column) {
+                    return Url::toRoute([$action, 'id' => $model->id]);
                  }
             ],
         ],

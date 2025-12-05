@@ -57,7 +57,7 @@ class CursoController extends Controller
                         ],
                     ],
                     'denyCallback' => function () {
-                        throw new \Exception('You are not allowed to access this page');
+                        return $this->redirect(['site/no_permisson']);
                     }
                 ],
             ]
@@ -77,24 +77,36 @@ class CursoController extends Controller
         $userRoles = $auth->getRolesByUser($user->id);
         $role = key($userRoles);
 
-        if ($role == "formador") {
 
-            $utilizador = Utilizador::findOne(['user_id' => $user->id]);
-            $idioma = $utilizador->idioma_id;
 
-            $searchModel = new CursoSearch();
-            $QueryFindCursosDoIdioma = Curso::find()->where(['idioma_id' => $idioma]);
-            
-            $dataProvider = new ActiveDataProvider([
-                'query' => $QueryFindCursosDoIdioma,
-            ]);
+        if ($this->request->isGet) {
+
+
+            if ($role == "formador") {
+                $utilizador = Utilizador::findOne(['user_id' => $user->id]);
+                $idioma = $utilizador->idioma_id;
+
+                $searchModel = new CursoSearch();
+                $dataProvider = $searchModel->search($this->request->queryParams);
+                $dataProvider->query->andWhere(['idioma_id' => $idioma]);
+
+            }
+            elseif($role == "admin") {
+                $searchModel = new CursoSearch();
+                $dataProvider = $searchModel->search($this->request->queryParams);
+            }
+
+
+//            $searchModel = new IdiomaSearch();
+//            $dataProvider = $searchModel->search($this->request->queryParams);
 
             return $this->render('index', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
             ]);
         }
-        elseif($role == "admin"){
+        elseif ($this->request->isPost) {
+
             $searchModel = new CursoSearch();
             $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -102,25 +114,41 @@ class CursoController extends Controller
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
             ]);
+
         }
 
 
-        if ($this->request->isPost) {
 
-            $id = $this->request->post('id');
-            var_dump($id);
-            die();
-            $model = $this->findModel($id);
 
-            if($model->load($this->request->post()) && $model->save()){
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-            else{
-                return $this->render('index', [
-                    'model' => $model,
-                ]);
-            }
-        }
+
+
+//        if ($role == "formador") {
+//
+//            $utilizador = Utilizador::findOne(['user_id' => $user->id]);
+//            $idioma = $utilizador->idioma_id;
+//
+//            $searchModel = new CursoSearch();
+//            $QueryFindCursosDoIdioma = Curso::find()->where(['idioma_id' => $idioma]);
+//
+//            $dataProvider = new ActiveDataProvider([
+//                'query' => $QueryFindCursosDoIdioma,
+//            ]);
+//
+//            return $this->render('index', [
+//                'searchModel' => $searchModel,
+//                'dataProvider' => $dataProvider,
+//            ]);
+//        }
+//        elseif($role == "admin"){
+//            $searchModel = new CursoSearch();
+//            $dataProvider = $searchModel->search($this->request->queryParams);
+//
+//            return $this->render('index', [
+//                'searchModel' => $searchModel,
+//                'dataProvider' => $dataProvider,
+//            ]);
+//        }
+
 
     }
 

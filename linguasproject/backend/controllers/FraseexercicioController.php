@@ -2,14 +2,14 @@
 
 namespace backend\controllers;
 
-use common\models\FraseExercicio;
-use common\models\FraseExercicioSearch;
+use common\models\Fraseexercicio;
+use common\models\FraseexercicioSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * FraseExercicioController implements the CRUD actions for FraseExercicio model.
+ * FraseExercicioController implements the CRUD actions for Fraseexercicio model.
  */
 class FraseexercicioController extends Controller
 {
@@ -32,13 +32,13 @@ class FraseexercicioController extends Controller
     }
 
     /**
-     * Lists all FraseExercicio models.
+     * Lists all Fraseexercicio models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new FraseExercicioSearch();
+        $searchModel = new FraseexercicioSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
@@ -48,7 +48,7 @@ class FraseexercicioController extends Controller
     }
 
     /**
-     * Displays a single FraseExercicio model.
+     * Displays a single Fraseexercicio model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -61,13 +61,13 @@ class FraseexercicioController extends Controller
     }
 
     /**
-     * Creates a new FraseExercicio model.
+     * Creates a new Fraseexercicio model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate($aula,$tipoexercicio)
     {
-        $model = new FraseExercicio();
+        $model = new Fraseexercicio();
         $model->aula_id = $aula;
         $model->tipoexercicio_id = $tipoexercicio;
         if ($this->request->isPost) {
@@ -84,7 +84,7 @@ class FraseexercicioController extends Controller
     }
 
     /**
-     * Updates an existing FraseExercicio model.
+     * Updates an existing Fraseexercicio model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -104,7 +104,7 @@ class FraseexercicioController extends Controller
     }
 
     /**
-     * Deletes an existing FraseExercicio model.
+     * Deletes an existing Fraseexercicio model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
      * @return \yii\web\Response
@@ -118,15 +118,15 @@ class FraseexercicioController extends Controller
     }
 
     /**
-     * Finds the FraseExercicio model based on its primary key value.
+     * Finds the Fraseexercicio model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return FraseExercicio the loaded model
+     * @return Fraseexercicio the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = FraseExercicio::findOne(['id' => $id])) !== null) {
+        if (($model = Fraseexercicio::findOne(['id' => $id])) !== null) {
             return $model;
         }
 

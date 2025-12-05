@@ -4,12 +4,12 @@ namespace common\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\FraseExercicio;
+use common\models\Resultado;
 
 /**
- * FraseExercicioSearch represents the model behind the search form of `common\models\FraseExercicio`.
+ * ResultadoSearch represents the model behind the search form of `common\models\Resultado`.
  */
-class FraseExercicioSearch extends FraseExercicio
+class ResultadoSearch extends Resultado
 {
     /**
      * {@inheritdoc}
@@ -17,8 +17,8 @@ class FraseExercicioSearch extends FraseExercicio
     public function rules()
     {
         return [
-            [['id', 'aula_id', 'tipoexercicio_id'], 'integer'],
-            [['partefrases_1', 'partefrases_2', 'resposta'], 'safe'],
+            [['utilizador_id', 'aula_idaula', 'nota', 'tempo_estimado', 'respostas_certas', 'respostas_erradas'], 'integer'],
+            [['data_inicio', 'data_fim', 'estado', 'data_agendamento'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class FraseExercicioSearch extends FraseExercicio
      */
     public function search($params, $formName = null)
     {
-        $query = FraseExercicio::find();
+        $query = Resultado::find();
 
         // add conditions that should always apply here
 
@@ -59,14 +59,18 @@ class FraseExercicioSearch extends FraseExercicio
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
-            'aula_id' => $this->aula_id,
-            'tipoexercicio_id' => $this->tipoexercicio_id,
+            'utilizador_id' => $this->utilizador_id,
+            'aula_idaula' => $this->aula_idaula,
+            'data_inicio' => $this->data_inicio,
+            'data_fim' => $this->data_fim,
+            'nota' => $this->nota,
+            'tempo_estimado' => $this->tempo_estimado,
+            'data_agendamento' => $this->data_agendamento,
+            'respostas_certas' => $this->respostas_certas,
+            'respostas_erradas' => $this->respostas_erradas,
         ]);
 
-        $query->andFilterWhere(['like', 'partefrases_1', $this->partefrases_1])
-            ->andFilterWhere(['like', 'partefrases_2', $this->partefrases_2])
-            ->andFilterWhere(['like', 'resposta', $this->resposta]);
+        $query->andFilterWhere(['like', 'estado', $this->estado]);
 
         return $dataProvider;
     }

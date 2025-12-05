@@ -132,4 +132,33 @@ class Aula extends \yii\db\ActiveRecord
         return $this->data_criacao = $hora;
     }
 
+    public function getCountImageExercicios($id)
+    {
+        $count = Imagemexercicio::find()->where(['aula_id' => $id])->count();
+        return $count;
+    }
+
+    public function getCountAudioExercicios($id)
+    {
+        $count = Audioexercicio::find()->where(['aula_id' => $id])->count();
+        return $count;
+    }
+
+    public function getCountFraseExercicios($id)
+    {
+        $count = Fraseexercicio::find()->where(['aula_id' => $id])->count();
+        return $count;
+    }
+
+    public function getCountComments($id)
+    {
+        $count = Comentario::find()->where(['aula_id' => $id])->count();
+        return $count;
+    }
+    public function getComments($id)
+    {
+        $comentarios = Comentario::find()->where(['aula_id' => $id]);
+        return $comentarios;
+    }
+
 }

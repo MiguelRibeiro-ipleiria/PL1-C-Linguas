@@ -6,6 +6,9 @@ use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use common\models\Idioma;
 use common\models\Dificuldade;
+use common\models\Inscricao;
+use \common\models\Utilizador;
+
 
 /** @var yii\web\View $this */
 /** @var common\models\CursoSearch $model */
@@ -13,79 +16,77 @@ use common\models\Dificuldade;
 ?>
 
 <div class="curso-search">
-
-
     <div class="container">
         <aside class="col-lg-12 col-md-12 col-12">
             <div class="sidebar">
-                <div class="filter popular-tag-widget">
-                    <div class="tags">
-                        <div class="row d-flex align-items-center g-0">
-                            <div class="col-3 course-content-area">
-                                <div class="card-header-flex">
-                                    <h3 class="card-cursos-title"><?= $model->titulo_curso ?></h3>
-                                </div>
-                            </div>
-                            <div class="col-5 course-content-area">
-                                <div class="card-header-flex">
-                                    <span class="cursos-detalhe level-badge"><?= $model->curso_detalhe ?></span>
-                                </div>
-                            </div>
-                            <div class="col-2 cursos-grau-content-area">
+                    <div class="filter popular-tag-widget">
+                            <div class="tags">
+                                <div class="row d-flex align-items-center g-0">
+                                    <div class="col-3 course-content-area">
+                                        <div class="card-header-flex">
+                                            <h3 class="card-cursos-title"><?= $model->titulo_curso ?></h3>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 course-content-area">
+                                        <div class="card-header-flex">
+                                            <span class="cursos-detalhe level-badge"><?= $model->curso_detalhe ?></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-2 cursos-grau-content-area">
 
-                                <div class="card-header-flex">
-                                    <?php
-                                        if($model->dificuldade->grau_dificuldade == "Baixo"){ ?>
-                                            <span class="cursos-custom-green level-badge"><?= $model->dificuldade->grau_dificuldade ?></span>
-
-                                        <?php }
-                                        elseif($model->dificuldade->grau_dificuldade == "Médio"){ ?>
-
-                                            <span class="cursos-custom-yellow level-badge"><?= $model->dificuldade->grau_dificuldade ?></span>
-                                        <?php
-                                        }
-                                        else{ ?>
-                                            <span class="cursos-custom-red level-badge"><?= $model->dificuldade->grau_dificuldade ?></span>
-                                        <?php }
-                                    ?>
-                                </div>
-                            </div>
-                            <div class="col-1 cursos-content-area">
-                                <div class="card-header-flex">
-                                    <span class="cursos-custom level-badge"><?= $model->idioma->lingua_descricao ?></span>
-                                </div>
-                            </div>
-                            <div class="col-1 d-flex justify-content-center align-items-center course-action-area">
-                                <section class="intro-video-area section-idiomas-cursos">
-                                    <div class="inner-content-head">
-                                        <div class="inner-content">
+                                        <div class="card-header-flex">
                                             <?php
+                                                if($model->dificuldade->grau_dificuldade == "Baixo"){ ?>
+                                                    <span class="cursos-custom-green level-badge"><?= $model->dificuldade->grau_dificuldade ?></span>
 
-                                            if($model->status_ativo == 1 && \Yii::$app->user->can('SearchCourse')){ ?>
-                                                <div class="intro-video-play">
-                                                    <div class="play-thumb wow zoomIn" data-wow-delay=".2s">
-                                                        <a href="<?= Url::to(['/inscricao/create', 'curso_id' => $model->id]) ?>"
-                                                        ><i class="lni lni-play"></i></a>
-                                                    </div>
-                                                </div>
+                                                <?php }
+                                                elseif($model->dificuldade->grau_dificuldade == "Médio"){ ?>
+
+                                                    <span class="cursos-custom-yellow level-badge"><?= $model->dificuldade->grau_dificuldade ?></span>
                                                 <?php
-                                            }
-                                            else{ ?>
-                                                <div class="intro-video-play">
-                                                    <div class="play-thumb wow zoomIn" data-wow-delay=".2s">
-                                                        <i class="lni lni-play"></i>
-                                                    </div>
-                                                </div>
-                                                <?php
-                                            }
+                                                }
+                                                else{ ?>
+                                                    <span class="cursos-custom-red level-badge"><?= $model->dificuldade->grau_dificuldade ?></span>
+                                                <?php }
                                             ?>
                                         </div>
                                     </div>
-                                </section>
+                                    <div class="col-1 cursos-content-area">
+                                        <div class="card-header-flex">
+                                            <span class="cursos-custom level-badge"><?= $model->idioma->lingua_descricao ?></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-2 d-flex justify-content-end align-items-end course-action-area">
+                                        <section class="intro-video-area section-idiomas-cursos">
+                                            <div class="inner-content-head">
+                                                <div class="inner-content">
+                                                    <div class="button home-btn">
+                                                        <?php
+                                                        if(\Yii::$app->user->isGuest){ ?>
+                                                            <div class="button">
+                                                                <a href="<?= Url::to(['/site/login']) ?>" class="btn">Inscrever-me</a>
+                                                            </div>
+                                                        <?php }
+                                                        elseif(\Yii::$app->user->can('SearchCourse') && !(Inscricao::verificainscricao($model->id, Utilizador::find()->where(['user_id' => \Yii::$app->user->id])->one()))){ ?>
+                                                            <div class="button">
+                                                                <a href="<?= Url::to(['/inscricao/create', 'curso_id' => $model->id]) ?>" class="btn">Desinscrever-me</a>
+                                                            </div>
+                                                        <?php }
+                                                        else{ ?>
+                                                            <div class="button">
+                                                                <a href="<?= Url::to(['/inscricao/create', 'curso_id' => $model->id]) ?>" class="btn">Inscrever-me</a>
+                                                            </div>
+                                                        <?php }
+
+                                                        ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
                     </div>
-                </div>
             </div>
         </aside>
     </div>

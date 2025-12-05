@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\Inscricao;
+use common\models\Utilizador;
 use app\models\InscricaoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -69,14 +70,16 @@ class InscricaoController extends Controller
     public function actionCreate($curso_id){
 
         $model = new Inscricao();
+        $utilizador = Utilizador::find()->where(['user_id' => \Yii::$app->user->identity->getId()])->one();
 
-        $model->setUtilizador();
-        $model->setEstadoInicial();
-        $model->setProgressoInicial();
-        $model->setDataInscricao();
+        $model->utilizador_id = $utilizador->id;
+        $model->data_inscricao = date('y-m-d H:i:s');;
+        $model->progresso = 0;
+        $model->estado =  "Por começar";
         $model->curso_idcurso = $curso_id;
 
-        if($model->verificainscricao($curso_id) && $model->save()){
+
+        if($model->verificainscricao($curso_id, $utilizador->id) && $model->save()){
 
             $curso = $model->getCurso();
             return $this->render('inscricao_valida', [

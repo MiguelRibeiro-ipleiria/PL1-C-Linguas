@@ -1,13 +1,13 @@
 <?php
 
-use common\models\FraseExercicio;
+use common\models\Fraseexercicio;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
 
 /** @var yii\web\View $this */
-/** @var common\models\FraseExercicioSearch $searchModel */
+/** @var common\models\FraseexercicioSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Frase Exercicios';
@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'tipoexercicio_id',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, FraseExercicio $model, $key, $index, $column) {
+                'urlCreator' => function ($action, Fraseexercicio $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
             ],

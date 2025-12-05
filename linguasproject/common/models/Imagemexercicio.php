@@ -16,7 +16,7 @@ use Yii;
  * @property ImagemResource $imagemResource
  * @property Tipoexercicio $tipoexercicio
  */
-class ImagemExercicio extends \yii\db\ActiveRecord
+class Imagemexercicio extends \yii\db\ActiveRecord
 {
 
 

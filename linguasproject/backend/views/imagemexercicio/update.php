@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 /** @var yii\web\View $this */
-/** @var common\models\ImagemExercicio $model */
+/** @var common\models\Imagemexercicio $model */
 
 $this->title = 'Update Imagem Exercicio: ' . $model->imagem_resource_id;
 $this->params['breadcrumbs'][] = ['label' => 'Imagem Exercicios', 'url' => ['index']];

@@ -25,7 +25,7 @@ use yii\helpers\Url;
                         <div class="inner-content">
                             <div class="intro-video-play">
                                 <div class="play-thumb wow zoomIn" data-wow-delay=".2s">
-                                    <a href="<?= Url::to(['/curso/aulas', 'id' => $model->id]) ?>"
+                                    <a href="<?= Url::to(['/aula/view', 'id' => $model->id]) ?>"
                                     ><i class="lni lni-play"></i></a>
                                 </div>
                             </div>
