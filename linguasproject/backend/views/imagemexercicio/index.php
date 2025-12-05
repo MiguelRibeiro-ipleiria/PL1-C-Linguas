@@ -1,5 +1,6 @@
 <?php
 
+use common\models\imagemexercicio;
 use common\models\Imagemexercicio;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -7,18 +8,19 @@ use yii\grid\ActionColumn;
 use yii\grid\GridView;
 
 /** @var yii\web\View $this */
+/** @var common\models\imagemexercicioSearch $searchModel */
 /** @var common\models\ImagemexercicioSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Imagem Exercicios';
+$this->title = 'Imagemexercicios';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="imagem-exercicio-index">
+<div class="imagemexercicio-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Imagem Exercicio', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Imagemexercicio', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -35,6 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'tipoexercicio_id',
             [
                 'class' => ActionColumn::className(),
+                'urlCreator' => function ($action, imagemexercicio $model, $key, $index, $column) {
                 'urlCreator' => function ($action, Imagemexercicio $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'imagem_resource_id' => $model->imagem_resource_id, 'aula_id' => $model->aula_id]);
                  }

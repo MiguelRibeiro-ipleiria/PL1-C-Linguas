@@ -2,8 +2,9 @@
 
 namespace backend\controllers;
 
-use common\models\Fraseexercicio;
-use common\models\FraseexercicioSearch;
+use common\models\FraseExercicio;
+use common\models\opcoesai;
+use common\models\FraseExercicioSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -38,7 +39,8 @@ class FraseexercicioController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new FraseexercicioSearch();
+        $searchModel = new FraseExercicioSearch();
+        
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
@@ -65,21 +67,41 @@ class FraseexercicioController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate($aula,$tipoexercicio)
+    public function actionCreate($aula_id,$tipoexercicio_id)
     {
-        $model = new Fraseexercicio();
-        $model->aula_id = $aula;
-        $model->tipoexercicio_id = $tipoexercicio;
+
+        $model = new FraseExercicio();
+        $model->aula_id = $aula_id;
+        $model->tipoexercicio_id = $tipoexercicio_id;
+
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            if ($model->load($this->request->post()) && $model->save()) {                
+
+                $postOpcoes = $this->request->post('Opcoesai', []);
+                
+
+                foreach ($postOpcoes as $dadosOpcao) {
+                    $opcao = new OpcoesAi();
+                    $opcao->load(['Opcoesai' => $dadosOpcao]);
+                    $opcao->frase_id = $model->id;
+
+                    $opcao->save();
+                }
+
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
             $model->loadDefaultValues();
         }
-
+        $opcoes = [
+            new OpcoesAi(),
+            new OpcoesAi(),
+            new OpcoesAi(),
+            new OpcoesAi(),
+        ];
         return $this->render('create', [
             'model' => $model,
+            'opcoes' => $opcoes 
         ]);
     }
 

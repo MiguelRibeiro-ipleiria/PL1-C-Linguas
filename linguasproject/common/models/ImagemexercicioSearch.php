@@ -4,6 +4,12 @@ namespace common\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use common\models\imagemexercicio;
+
+/**
+ * imagemexercicioSearch represents the model behind the search form of `common\models\imagemexercicio`.
+ */
+class imagemexercicioSearch extends imagemexercicio
 use common\models\Imagemexercicio;
 
 /**
@@ -41,6 +47,7 @@ class ImagemexercicioSearch extends Imagemexercicio
      */
     public function search($params, $formName = null)
     {
+        $query = imagemexercicio::find();
         $query = Imagemexercicio::find();
 
         // add conditions that should always apply here

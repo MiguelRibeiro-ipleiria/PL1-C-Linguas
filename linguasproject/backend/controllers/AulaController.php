@@ -137,12 +137,11 @@ class AulaController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    public function actionEscolherexercicio($id)
+    public function actionEscolherexercicio($aula_id)
     {
-        
-
+    
         return $this->render('Escolher_TipoExercicio', [
-            'aula' => $id,
+            'aula_id' => $aula_id,
         ]);
     }
 

@@ -2,17 +2,27 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
+use common\models\ImagemResource;
 
 /** @var yii\web\View $this */
+/** @var common\models\imagemexercicio $model */
 /** @var common\models\Imagemexercicio $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
 
-<div class="imagem-exercicio-form">
+<div class="imagemexercicio-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    
+    <?php $form = ActiveForm::begin([
+        'options' => ['enctype' => 'multipart/form-data']]);
 
-    <?= $form->field($model, 'imagem_resource_id')->textInput() ?>
+        $arrayImagens = ArrayHelper::map(ImagemResource::find()->asArray()->all(), 'id', 'nome_ficheiro');      
+                            
+    ?>
+
+    
+    <?= $form->field($model, 'imagem_resource_id')->dropDownList($arrayImagens) ?>
 
     <?= $form->field($model, 'pergunta')->textInput(['maxlength' => true]) ?>
 

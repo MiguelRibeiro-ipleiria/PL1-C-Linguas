@@ -2,14 +2,14 @@
 
 namespace backend\controllers;
 
-use common\models\Imagemexercicio;
-use common\models\ImagemexercicioSearch;
+use common\models\imagemexercicio;
+use common\models\imagemexercicioSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ImagemexercicioController implements the CRUD actions for Imagemexercicio model.
+ * ImagemexercicioController implements the CRUD actions for imagemexercicio model.
  */
 class ImagemexercicioController extends Controller
 {
@@ -32,13 +32,13 @@ class ImagemexercicioController extends Controller
     }
 
     /**
-     * Lists all Imagemexercicio models.
+     * Lists all imagemexercicio models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new ImagemexercicioSearch();
+        $searchModel = new imagemexercicioSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
@@ -48,6 +48,7 @@ class ImagemexercicioController extends Controller
     }
 
     /**
+     * Displays a single imagemexercicio model.
      * Displays a single Imagemexercicio model.
      * @param int $imagem_resource_id Imagem Resource ID
      * @param int $aula_id Aula ID
@@ -62,32 +63,41 @@ class ImagemexercicioController extends Controller
     }
 
     /**
-     * Creates a new Imagemexercicio model.
+     * Creates a new imagemexercicio model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate($aula,$tipoexercicio)
+    public function actionCreate($aula_id,$tipoexercicio_id)
     {
-        $model = new Imagemexercicio();
-        $model->aula_id = $aula;
-        $model->tipoexercicio_id = $tipoexercicio;
-
+        $model = new imagemexercicio();
+            $model->aula_id = $aula_id;
+            $model->tipoexercicio_id = $tipoexercicio_id;
         
+
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            if ($model->load($this->request->post())) {
+                
+                $model->aula_id = $aula; 
+                $model->tipoexercicio_id = $tipoexercicio;
+
+                if($model->save()){
                 return $this->redirect(['view', 'imagem_resource_id' => $model->imagem_resource_id, 'aula_id' => $model->aula_id]);
+                 }
             }
         } else {
+
             $model->loadDefaultValues();
         }
-
+        
         return $this->render('create', [
+
             'model' => $model,
+
         ]);
     }
 
     /**
-     * Updates an existing Imagemexercicio model.
+     * Updates an existing imagemexercicio model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $imagem_resource_id Imagem Resource ID
      * @param int $aula_id Aula ID
@@ -108,6 +118,7 @@ class ImagemexercicioController extends Controller
     }
 
     /**
+     * Deletes an existing imagemexercicio model.
      * Deletes an existing Imagemexercicio model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $imagem_resource_id Imagem Resource ID
@@ -123,6 +134,11 @@ class ImagemexercicioController extends Controller
     }
 
     /**
+     * Finds the imagemexercicio model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param int $imagem_resource_id Imagem Resource ID
+     * @param int $aula_id Aula ID
+     * @return imagemexercicio the loaded model
      * Finds the Imagemexercicio model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $imagem_resource_id Imagem Resource ID
@@ -132,6 +148,7 @@ class ImagemexercicioController extends Controller
      */
     protected function findModel($imagem_resource_id, $aula_id)
     {
+        if (($model = imagemexercicio::findOne(['imagem_resource_id' => $imagem_resource_id, 'aula_id' => $aula_id])) !== null) {
         if (($model = Imagemexercicio::findOne(['imagem_resource_id' => $imagem_resource_id, 'aula_id' => $aula_id])) !== null) {
             return $model;
         }

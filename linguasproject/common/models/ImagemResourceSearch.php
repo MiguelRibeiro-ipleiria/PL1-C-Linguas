@@ -4,12 +4,12 @@ namespace common\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Fraseexercicio;
+use common\models\ImagemExercicio;
 
 /**
- * FraseexercicioSearch represents the model behind the search form of `common\models\Fraseexercicio`.
+ * ImagemResourceSearch represents the model behind the search form of `common\models\ImagemExercicio`.
  */
-class FraseexercicioSearch extends Fraseexercicio
+class ImagemResourceSearch extends ImagemExercicio
 {
     /**
      * {@inheritdoc}
@@ -17,8 +17,8 @@ class FraseexercicioSearch extends Fraseexercicio
     public function rules()
     {
         return [
-            [['id', 'aula_id', 'tipoexercicio_id'], 'integer'],
-            [['partefrases_1', 'partefrases_2', 'resposta'], 'safe'],
+            [['imagem_resource_id', 'aula_id', 'tipoexercicio_id'], 'integer'],
+            [['pergunta'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class FraseexercicioSearch extends Fraseexercicio
      */
     public function search($params, $formName = null)
     {
-        $query = Fraseexercicio::find();
+        $query = ImagemExercicio::find();
 
         // add conditions that should always apply here
 
@@ -59,13 +59,12 @@ class FraseexercicioSearch extends Fraseexercicio
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
+            'imagem_resource_id' => $this->imagem_resource_id,
             'aula_id' => $this->aula_id,
             'tipoexercicio_id' => $this->tipoexercicio_id,
         ]);
 
-        $query->andFilterWhere(['like', 'partefrases_1', $this->partefrases_1])
-            ->andFilterWhere(['like', 'partefrases_2', $this->partefrases_2]);
+        $query->andFilterWhere(['like', 'pergunta', $this->pergunta]);
 
         return $dataProvider;
     }

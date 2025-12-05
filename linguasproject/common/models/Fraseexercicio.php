@@ -35,10 +35,9 @@ class Fraseexercicio extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['partefrases_1', 'partefrases_2', 'resposta', 'aula_id', 'tipoexercicio_id'], 'required'],
+
             [['aula_id', 'tipoexercicio_id'], 'integer'],
             [['partefrases_1', 'partefrases_2'], 'string', 'max' => 100],
-            [['resposta'], 'string', 'max' => 60],
             [['aula_id'], 'exist', 'skipOnError' => true, 'targetClass' => Aula::class, 'targetAttribute' => ['aula_id' => 'id']],
             [['tipoexercicio_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tipoexercicio::class, 'targetAttribute' => ['tipoexercicio_id' => 'id']],
         ];
@@ -53,7 +52,6 @@ class Fraseexercicio extends \yii\db\ActiveRecord
             'id' => 'ID',
             'partefrases_1' => 'Partefrases 1',
             'partefrases_2' => 'Partefrases 2',
-            'resposta' => 'Resposta',
             'aula_id' => 'Aula ID',
             'tipoexercicio_id' => 'Tipoexercicio ID',
         ];

@@ -125,7 +125,7 @@ $comentarios = Comentario::find()->where(['aula_id' => $model->id])->all();
                     </div>
                         <br>
                     <div>
-                        <a href="<?= Url::to(['/aula/escolherexercicio', 'id' => $model->id]) ?>" class="btn btn-success">Adicionar Exercicio</a>
+                        <a href="<?= Url::to(['/aula/escolherexercicio', 'aula_id' => $model->id]) ?>" class="btn btn-success">Adicionar Exercicio</a>
                     </div>
                 </div>
 
