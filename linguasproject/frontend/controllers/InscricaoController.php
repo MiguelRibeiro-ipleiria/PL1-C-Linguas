@@ -75,12 +75,13 @@ class InscricaoController extends Controller
         $model->utilizador_id = $utilizador->id;
         $model->data_inscricao = date('y-m-d H:i:s');;
         $model->progresso = 0;
-        $model->estado =  "Por começar";
+        $model->estado =  "Inscrito";
         $model->curso_idcurso = $curso_id;
 
 
         if($model->verificainscricao($curso_id, $utilizador->id) && $model->save()){
 
+            $model->inscricaonasaulas($curso_id, $utilizador->id);
             $curso = $model->getCurso();
             return $this->render('inscricao_valida', [
                 'curso' => $curso,

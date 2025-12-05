@@ -34,23 +34,7 @@ class DificuldadeController extends Controller
                     'rules' => [
                         [
                             'allow' => true,
-                            'actions' => ['index', 'view'],
-                            'roles' => ['ReadDificuldade'],
-                        ],
-                        [
-                            'allow' => true,
-                            'actions' => ['create'],
-                            'roles' => ['CreateDificuldade'],
-                        ],
-                        [
-                            'allow' => true,
-                            'actions' => ['update'],
-                            'roles' => ['UpdateDificuldade'],
-                        ],
-                        [
-                            'allow' => true,
-                            'actions' => ['delete'],
-                            'roles' => ['DeleteDificuldade'],
+                            'roles' => ['admin'],
                         ],
                     ],
                     'denyCallback' => function () {

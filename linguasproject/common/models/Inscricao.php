@@ -95,5 +95,29 @@ class Inscricao extends \yii\db\ActiveRecord
         }
     }
 
+    public static function inscricaonasaulas($curso_id, $utilizador_id){
+
+        $aulas = Aula::find()->where(['curso_id' => $curso_id])->all();
+
+
+        if($aulas != null){
+            foreach ($aulas as $aula){
+
+                $model_resultado = new Resultado();
+                $model_resultado->utilizador_id = $utilizador_id;
+                $model_resultado->aula_idaula = $aula->id;
+                $model_resultado->estado = "Por começar";
+                if(!$model_resultado->save()){
+                    Resultado::deleteAll(['aula_idaula' => $aula->id, 'utilizador_id' => $utilizador_id]);
+                    return false;
+                }
+            }
+        }
+        else{
+            return false;
+        }
+
+    }
+
 
 }

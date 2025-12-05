@@ -42,6 +42,10 @@ class RbacController extends Controller
         $DeleteFeedback->description = 'Eliminar uma mensagem de feedback';
         $auth->add($DeleteFeedback);
 
+        // UpdateFeedback
+        $UpdateFeedback = $auth->createPermission('UpdateFeedback');
+        $UpdateFeedback->description = 'Alterar uma mensagem de feedback';
+        $auth->add($UpdateFeedback);
 
         /*COMMENTS PERMISSIONS*/
         // CreateComment
@@ -397,6 +401,7 @@ class RbacController extends Controller
         $auth->addChild($admin, $CreateFeedback);
         $auth->addChild($admin, $ReadFeedback);
         $auth->addChild($admin, $DeleteFeedback);
+        $auth->addChild($admin, $UpdateFeedback);
 
         //formador
         $auth->addChild($formador, $CreateFeedback);

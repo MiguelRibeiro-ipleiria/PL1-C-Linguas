@@ -34,23 +34,7 @@ class FeedbackController extends Controller
                     'rules' => [
                         [
                             'allow' => true,
-                            'actions' => ['index', 'view'],
-                            'roles' => ['ReadFeedback'],
-                        ],
-                        [
-                            'allow' => true,
-                            'actions' => ['create'],
-                            'roles' => ['CreateFeedback'],
-                        ],
-                        [
-                            'allow' => true,
-                            'actions' => ['update'],
-                            'roles' => ['UpdateFeedback'],
-                        ],
-                        [
-                            'allow' => true,
-                            'actions' => ['delete'],
-                            'roles' => ['DeleteFeedback'],
+                            'roles' => ['admin', 'formador'],
                         ],
                     ],
                     'denyCallback' => function () {
@@ -114,19 +98,25 @@ class FeedbackController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Feedback();
+        if (\Yii::$app->user->can('CreateFeedback')) {
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            $model = new Feedback();
+
+            if ($this->request->isPost) {
+                if ($model->load($this->request->post()) && $model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+            } else {
+                $model->loadDefaultValues();
             }
-        } else {
-            $model->loadDefaultValues();
-        }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        }
+        else{
+            return $this->redirect(['no_permisson']);
+        }
     }
 
     /**
@@ -138,15 +128,21 @@ class FeedbackController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        if (\Yii::$app->user->can('CreateFeedback')) {
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            $model = $this->findModel($id);
+
+            if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+
+            return $this->render('update', [
+                'model' => $model,
+            ]);
         }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        else{
+            return $this->redirect(['no_permisson']);
+        }
     }
 
     /**
@@ -158,9 +154,14 @@ class FeedbackController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        if (\Yii::$app->user->can('DeleteFeedback')) {
 
-        return $this->redirect(['index']);
+            $this->findModel($id)->delete();
+            return $this->redirect(['index']);
+        }
+        else{
+            return $this->redirect(['no_permisson']);
+        }
     }
 
     /**

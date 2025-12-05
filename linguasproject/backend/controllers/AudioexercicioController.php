@@ -29,23 +29,8 @@ class AudioexercicioController extends Controller
                     'rules' => [
                         [
                             'allow' => true,
-                            'actions' => ['index', 'view'],
-                            'roles' => ['ReadExerciseSound'],
-                        ],
-                        [
-                            'allow' => true,
-                            'actions' => ['create'],
-                            'roles' => ['CreateExerciseSound'],
-                        ],
-                        [
-                            'allow' => true,
-                            'actions' => ['update'],
-                            'roles' => ['UpdateExerciseSound'],
-                        ],
-                        [
-                            'allow' => true,
-                            'actions' => ['delete'],
-                            'roles' => ['DeleteExerciseSound'],
+                            'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                            'roles' => ['admin', 'formador'],
                         ],
                     ],
                     'denyCallback' => function () {
