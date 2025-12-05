@@ -7,6 +7,7 @@ use common\models\ImagemResource;
 
 /** @var yii\web\View $this */
 /** @var common\models\imagemexercicio $model */
+/** @var common\models\Imagemexercicio $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
 

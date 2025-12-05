@@ -23,15 +23,24 @@ class SiteController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['login', 'error'],
+                        'actions' => ['login', 'logout', 'error', 'no_permisson'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index', 'timeline'],
+                        'actions' => ['index', 'timeline'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['CanAccessBackend'],
                     ],
                 ],
+                'denyCallback' => function () {
+
+                    if(Yii::$app->user->isGuest){
+                        return $this->redirect(['login']);
+                    }
+                    else{
+                        return $this->redirect(['no_permisson']);
+                    }
+                }
             ],
             'verbs' => [
                 'class' => VerbFilter::class,
@@ -39,6 +48,7 @@ class SiteController extends Controller
                     'logout' => ['post'],
                 ],
             ],
+
         ];
     }
 
@@ -67,6 +77,13 @@ class SiteController extends Controller
     public function actionTimeline()
     {
         return $this->render('timeline');
+    }
+
+    public function actionNo_permisson()
+    {
+        return $this->render('no_permisson', [
+            'message' => 'Não tem permissão para aceder a esta página.'
+        ]);
     }
 
     /**

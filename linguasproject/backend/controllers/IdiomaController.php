@@ -70,13 +70,25 @@ class IdiomaController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new IdiomaSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        if ($this->request->isGet) {
+            $searchModel = new IdiomaSearch();
+            $dataProvider = $searchModel->search($this->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
+        elseif ($this->request->isPost) {
+
+            $searchModel = new IdiomaSearch();
+            $dataProvider = $searchModel->search($this->request->queryParams);
+
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
     }
 
     /**

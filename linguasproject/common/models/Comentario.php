@@ -50,7 +50,7 @@ class Comentario extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'descricao_comentario' => 'Descricao Comentario',
+            'descricao_comentario' => 'Comentário*',
             'aula_id' => 'Aula ID',
             'hora_criada' => 'Hora Criada',
             'utilizador_id' => 'Utilizador ID',
@@ -76,5 +76,18 @@ class Comentario extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Utilizador::class, ['id' => 'utilizador_id']);
     }
+
+    public function setDataCriacao()
+    {
+        $hora = date('y-m-d H:i:s');
+        return $this->hora_criada = $hora;
+    }
+
+    public function setUtilizador()
+    {
+        $utilizador = Utilizador::find()->where(['user_id' => \Yii::$app->user->identity->getId()])->one();
+        return $this->utilizador_id = $utilizador->id;
+    }
+
 
 }

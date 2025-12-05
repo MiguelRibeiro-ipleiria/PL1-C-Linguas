@@ -4,6 +4,7 @@ use yii\helpers\Html;
 
 /** @var yii\web\View $this */
 /** @var common\models\imagemexercicio $model */
+/** @var common\models\Imagemexercicio $model */
 
 $this->title = 'Create Imagemexercicio';
 $this->params['breadcrumbs'][] = ['label' => 'Imagemexercicios', 'url' => ['index']];

@@ -241,6 +241,79 @@ class RbacController extends Controller
         $CanAccessBackend->description = 'Users que podem aceder ás páginas do backend';
         $auth->add($CanAccessBackend);
 
+
+        /* IMAGE, AUDIO AND FRASE EXERCICIOS PERMISSONS */
+
+
+
+        /* AUDIOS */
+
+        // CreateLessonImage
+        $CreateExerciseImage = $auth->createPermission('CreateExerciseImage');
+        $CreateExerciseImage->description = 'Criar um exercicio de imagens para as aulas';
+        $auth->add($CreateExerciseImage);
+
+        // DeleteLessonImage
+        $DeleteExerciseImage = $auth->createPermission('DeleteExerciseImage');
+        $DeleteExerciseImage->description = 'Eliminar um exercicio de imagens para as aulas';
+        $auth->add($DeleteExerciseImage);
+
+        // ReadLessonImage
+        $ReadExerciseImage = $auth->createPermission('ReadExerciseImage');
+        $ReadExerciseImage->description = 'Ler um exercicio de imagens para as aulas';
+        $auth->add($ReadExerciseImage);
+
+        // UpdateLessonImage
+        $UpdateExerciseImage = $auth->createPermission('UpdateExerciseImage');
+        $UpdateExerciseImage->description = 'Alterar um exercicio de imagens para as aulas';
+        $auth->add($UpdateExerciseImage);
+
+        /* AUDIOS */
+
+        // CreateLessonSound
+        $CreateExerciseSound = $auth->createPermission('CreateExerciseSound');
+        $CreateExerciseSound->description = 'Criar um exercicio de áudio para as aulas';
+        $auth->add($CreateExerciseSound);
+
+        // DeleteLessonSound
+        $DeleteExerciseSound = $auth->createPermission('DeleteExerciseSound');
+        $DeleteExerciseSound->description = 'Eliminar um exercicio de áudio para as aulas';
+        $auth->add($DeleteExerciseSound);
+
+        // ReadLessonSound
+        $ReadExerciseSound = $auth->createPermission('ReadExerciseSound');
+        $ReadExerciseSound->description = 'Ler um exercicio de áudio para as aulas';
+        $auth->add($ReadExerciseSound);
+
+        // UpdateLessonSound
+        $UpdateExerciseSound = $auth->createPermission('UpdateExerciseSound');
+        $UpdateExerciseSound->description = 'Alterar um exercicio de áudio para as aulas';
+        $auth->add($UpdateExerciseSound);
+
+
+        /* FRASES */
+        // CreateLessonSound
+        $CreateExerciseFrase = $auth->createPermission('CreateExerciseFrase');
+        $CreateExerciseFrase->description = 'Criar um exercicio de áudio para as aulas';
+        $auth->add($CreateExerciseFrase);
+
+        // DeleteLessonSound
+        $DeleteExerciseFrase = $auth->createPermission('DeleteExerciseFrase');
+        $DeleteExerciseFrase->description = 'Eliminar um exercicio de áudio para as aulas';
+        $auth->add($DeleteExerciseFrase);
+
+        // ReadLessonSound
+        $ReadExerciseFrase = $auth->createPermission('ReadExerciseFrase');
+        $ReadExerciseFrase->description = 'Ler um exercicio de áudio para as aulas';
+        $auth->add($ReadExerciseFrase);
+
+        // UpdateLessonSound
+        $UpdateExerciseFrase = $auth->createPermission('UpdateExerciseFrase');
+        $UpdateExerciseFrase->description = 'Alterar um exercicio de áudio para as aulas';
+        $auth->add($UpdateExerciseFrase);
+
+
+
          /*  Tipos exercicios permissions  */
 
         //ReadTipoExercicio

@@ -26,6 +26,31 @@ class AudioexercicioController extends Controller
                     'actions' => [
                         'delete' => ['POST'],
                     ],
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'actions' => ['index', 'view'],
+                            'roles' => ['ReadExerciseSound'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['create'],
+                            'roles' => ['CreateExerciseSound'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['update'],
+                            'roles' => ['UpdateExerciseSound'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['delete'],
+                            'roles' => ['DeleteExerciseSound'],
+                        ],
+                    ],
+                    'denyCallback' => function () {
+                        return $this->redirect(['site/no_permisson']);
+                    }
                 ],
             ]
         );

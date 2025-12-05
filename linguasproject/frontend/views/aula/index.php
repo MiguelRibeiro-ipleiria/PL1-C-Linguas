@@ -1,24 +1,24 @@
 <?php
 
-use common\models\Fraseexercicio;
+use common\models\Aula;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
 
 /** @var yii\web\View $this */
-/** @var common\models\FraseexercicioSearch $searchModel */
+/** @var common\models\AulaSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Frase Exercicios';
+$this->title = 'Aulas';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="frase-exercicio-index">
+<div class="aula-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Frase Exercicio', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Aula', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -30,14 +30,15 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'partefrases_1',
-            'partefrases_2',
-
-            'aula_id',
-            'tipoexercicio_id',
+            'titulo_aula',
+            'descricao_aula',
+            'numero_de_exercicios',
+            'tempo_estimado',
+            //'curso_id',
+            //'data_criacao',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Fraseexercicio $model, $key, $index, $column) {
+                'urlCreator' => function ($action, Aula $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
             ],

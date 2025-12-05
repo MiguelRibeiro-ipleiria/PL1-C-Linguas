@@ -49,6 +49,7 @@ class ImagemexercicioController extends Controller
 
     /**
      * Displays a single imagemexercicio model.
+     * Displays a single Imagemexercicio model.
      * @param int $imagem_resource_id Imagem Resource ID
      * @param int $aula_id Aula ID
      * @return string
@@ -118,6 +119,7 @@ class ImagemexercicioController extends Controller
 
     /**
      * Deletes an existing imagemexercicio model.
+     * Deletes an existing Imagemexercicio model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $imagem_resource_id Imagem Resource ID
      * @param int $aula_id Aula ID
@@ -137,11 +139,17 @@ class ImagemexercicioController extends Controller
      * @param int $imagem_resource_id Imagem Resource ID
      * @param int $aula_id Aula ID
      * @return imagemexercicio the loaded model
+     * Finds the Imagemexercicio model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param int $imagem_resource_id Imagem Resource ID
+     * @param int $aula_id Aula ID
+     * @return Imagemexercicio the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($imagem_resource_id, $aula_id)
     {
         if (($model = imagemexercicio::findOne(['imagem_resource_id' => $imagem_resource_id, 'aula_id' => $aula_id])) !== null) {
+        if (($model = Imagemexercicio::findOne(['imagem_resource_id' => $imagem_resource_id, 'aula_id' => $aula_id])) !== null) {
             return $model;
         }
 

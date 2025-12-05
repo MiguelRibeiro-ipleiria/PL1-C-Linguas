@@ -83,10 +83,9 @@ class Inscricao extends \yii\db\ActiveRecord
     }
 
 
-    public static function verificainscricao($curso_id){
+    public static function verificainscricao($curso_id, $utilizador_id){
 
-        $utilizador = Utilizador::find()->where(['user_id' => \Yii::$app->user->identity->getId()])->one();
-        $inscricao = Inscricao::find()->where(['curso_idcurso' => $curso_id, 'utilizador_id' => $utilizador->id])->all();
+        $inscricao = Inscricao::find()->where(['curso_idcurso' => $curso_id, 'utilizador_id' => $utilizador_id])->all();
 
         if($inscricao == null){
             return true;
@@ -94,31 +93,7 @@ class Inscricao extends \yii\db\ActiveRecord
         else{
             return false;
         }
-
     }
 
-    public function setUtilizador()
-    {
-        $utilizador = Utilizador::find()->where(['user_id' => \Yii::$app->user->identity->getId()])->one();
-        return $this->utilizador_id = $utilizador->id;
-    }
-
-    public function setDataInscricao()
-    {
-        $hora = date('y-m-d H:i:s');
-        return $this->data_inscricao = $hora;
-    }
-
-    public function setProgressoInicial()
-    {
-        $progressoinicial = 0;
-        return $this->progresso = $progressoinicial;
-    }
-
-    public function setEstadoInicial()
-    {
-        $estadoinicial = "Por começar";
-        return $this->estado = $estadoinicial;
-    }
 
 }

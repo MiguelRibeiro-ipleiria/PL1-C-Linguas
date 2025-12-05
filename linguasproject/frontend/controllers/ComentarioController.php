@@ -1,18 +1,17 @@
 <?php
 
-namespace backend\controllers;
+namespace frontend\controllers;
 
-use common\models\FraseExercicio;
-use common\models\opcoesai;
-use common\models\FraseExercicioSearch;
+use common\models\Comentario;
+use common\models\ComentarioSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * FraseExercicioController implements the CRUD actions for Fraseexercicio model.
+ * ComentarioController implements the CRUD actions for Comentario model.
  */
-class FraseexercicioController extends Controller
+class ComentarioController extends Controller
 {
     /**
      * @inheritDoc
@@ -33,14 +32,13 @@ class FraseexercicioController extends Controller
     }
 
     /**
-     * Lists all Fraseexercicio models.
+     * Lists all Comentario models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new FraseExercicioSearch();
-        
+        $searchModel = new ComentarioSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
@@ -50,7 +48,7 @@ class FraseexercicioController extends Controller
     }
 
     /**
-     * Displays a single Fraseexercicio model.
+     * Displays a single Comentario model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -63,50 +61,33 @@ class FraseexercicioController extends Controller
     }
 
     /**
-     * Creates a new Fraseexercicio model.
+     * Creates a new Comentario model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate($aula_id,$tipoexercicio_id)
+    public function actionCreate()
     {
-
-        $model = new FraseExercicio();
-        $model->aula_id = $aula_id;
-        $model->tipoexercicio_id = $tipoexercicio_id;
+        $model = new Comentario();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {                
-
-                $postOpcoes = $this->request->post('Opcoesai', []);
-                
-
-                foreach ($postOpcoes as $dadosOpcao) {
-                    $opcao = new OpcoesAi();
-                    $opcao->load(['Opcoesai' => $dadosOpcao]);
-                    $opcao->frase_id = $model->id;
-
-                    $opcao->save();
+            if ($model->load($this->request->post())) {
+                $model->setDataCriacao();
+                $model->setUtilizador();
+                if($model->save()){
+                    return $this->redirect(['/aula/view', 'id' => $model->aula_id]);
                 }
-
-                return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
             $model->loadDefaultValues();
         }
-        $opcoes = [
-            new OpcoesAi(),
-            new OpcoesAi(),
-            new OpcoesAi(),
-            new OpcoesAi(),
-        ];
+
         return $this->render('create', [
             'model' => $model,
-            'opcoes' => $opcoes 
         ]);
     }
 
     /**
-     * Updates an existing Fraseexercicio model.
+     * Updates an existing Comentario model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -126,7 +107,7 @@ class FraseexercicioController extends Controller
     }
 
     /**
-     * Deletes an existing Fraseexercicio model.
+     * Deletes an existing Comentario model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
      * @return \yii\web\Response
@@ -134,21 +115,21 @@ class FraseexercicioController extends Controller
      */
     public function actionDelete($id)
     {
+        $aula_id=$this->findModel($id)->aula_id;
         $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        return $this->redirect(['/aula/view', 'id' => $aula_id]);
     }
 
     /**
-     * Finds the Fraseexercicio model based on its primary key value.
+     * Finds the Comentario model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return Fraseexercicio the loaded model
+     * @return Comentario the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Fraseexercicio::findOne(['id' => $id])) !== null) {
+        if (($model = Comentario::findOne(['id' => $id])) !== null) {
             return $model;
         }
 

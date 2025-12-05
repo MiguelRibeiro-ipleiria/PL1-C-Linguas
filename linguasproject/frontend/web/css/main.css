@@ -2954,7 +2954,6 @@ ol {
 
 
 .section-idiomas-cursos{
-  padding-top: 75px;
   padding-bottom: 0px;
   position: relative;
 }
@@ -3202,6 +3201,164 @@ ol {
     opacity: 0;
   }
 }
+
+/*=========================================
+        COMENTARIOS VIEW DESIGN
+========================================= */
+
+.card-comment-title {
+  font-size: 1.5rem;
+  color: #2ed06e;
+  font-weight: bold;
+  margin-bottom: 0;
+  margin-right: 15px; /* Espaço entre o título e a primeira tag */
+}
+
+.card-comment-subtitle{
+  font-size: 0.7rem;
+  color: #9b9fa3;
+  font-weight: bold;
+  margin-bottom: 0;
+  margin-right: 15px; /* Espaço entre o título e a primeira tag */
+}
+
+.card-comment-description{
+  font-weight: bold;
+  color: #555555;
+  font-size: 14px;
+  font-family: var(--bs-font-sans-serif) !important;
+}
+
+/*=========================================
+      AULA VIEW DESIGN BOXES
+========================================= */
+.card-header-aula-flex {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.card-aula-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+
+  margin-bottom: 0;
+  margin-right: 15px; /* Espaço entre o título e a primeira tag */
+}
+
+.card-aula-description{
+  font-weight: bold;
+  color: #555555;
+  font-size: 14px;
+  font-family: var(--bs-font-sans-serif) !important;
+}
+
+:root {
+  --green-primary: #38c172;
+  --text-dark: #333333;
+  --text-muted: #555555;
+  --card-shadow: rgba(0, 0, 0, 0.1);
+}
+
+.aula-detail-card {
+
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px var(--card-shadow);
+  margin-bottom: 5%;
+  overflow: hidden;
+  padding: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-top: 2px solid #2ed06e;
+  margin-top: 0 !important; /* Remove qualquer margem superior do card */
+}
+
+.aula-content-area {
+  padding-right: 20px;
+}
+
+
+
+.badge-custom {
+  display: flex;
+  padding: 4px 10px;
+  margin-bottom: 1%;
+  margin-right: 8px; /* Espaço entre as tags */
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #2ed06e;
+  border: 2px solid #41bd3f;
+  width: max-content;
+}
+
+.badge-custom-comments-title{
+  display: flex;
+  padding: 4px 10px;
+  margin-bottom: 1%;
+  margin-right: 8px; /* Espaço entre as tags */
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #2ed06e;
+  border: 2px solid #41bd3f;
+  width: max-content;
+}
+
+
+.badge-red {
+  display: inline-block;
+  padding: 4px 10px;
+  margin-right: 8px; /* Espaço entre as tags */
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: red;
+  border: 2px solid #dc2f55;
+}
+
+
+/* Botão Play (Grande Círculo Verde) */
+.video-play-button-large {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background-color: var(--green-primary);
+  color: #ffffff;
+  font-size: 1.5rem;
+  text-decoration: none;
+  margin-bottom: 5px;
+}
+
+.enroll-link-text {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--green-primary);
+  text-decoration: none;
+}
+
+
+
+.section-idiomas-aulas{
+  padding-top: 75px;
+  padding-bottom: 0px;
+  position: relative;
+}
+
+.header-idioma-aula{
+  margin-bottom: 5%;
+}
+
+
+
+
 
 /*======================================
     Testimonial CSS
@@ -5152,6 +5309,11 @@ blockquote span {
   background-color: #F4F7FA;
 }
 
+.comments{
+  position: static;
+}
+
+
 .contact-us .form-title {
   font-size: 28px;
   font-weight: 700;
@@ -5172,6 +5334,183 @@ blockquote span {
     line-height: 35px;
   }
 }
+
+.comments .contact-form .form-group {
+  margin-bottom: 20px;
+}
+
+.comments .contact-form .form-group label{
+  color: #2ed06e;
+  font-weight: bold;
+  margin-bottom: 1%;
+}
+
+.comments .contact-form .form-group input {
+  height: 52px;
+  border: 1px solid #9b9fa3;
+  border-radius: 5px;
+  padding: 0px 20px;
+  width: 100%;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  background-color: #fff;
+}
+
+.botao-comentario{
+  margin-top: 50%;
+}
+
+.comments .contact-form .label-comment{
+  color: #2ed06e;
+  font-weight: bold;
+  margin-bottom: 1%;
+}
+
+.comments .contact-form .form-group input:focus {
+  border-color: #2ed06e;
+}
+
+.comments .contact-form .form-group textarea {
+  height: 200px;
+  border: 1px solid #9b9fa3;
+  border-radius: 6px;
+  padding: 20px;
+  resize: none;
+  width: 100%;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+}
+
+.comments .contact-form .form-group textarea:focus {
+  border-color: #2ed06e;
+}
+
+.comment-card-relative {
+  position: relative;
+}
+
+.delete-icon-absolute {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.icon-comment-delete{
+  color: #2ed06e;
+  font-size: 120%;
+
+}
+
+/* DIALOG AULA BOX */
+dialog {
+  /* O showModal() se encarrega da centralização */
+  border: none !important;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), 0 4px 6px rgba(0, 0, 0, 0.05);
+  padding: 30px;
+  max-width: 380px;
+  background-color: #ffffff;
+  color: #333;
+  font-family: 'Spartan', sans-serif;
+}
+
+/* FORÇA A CENTRALIZAÇÃO ABSOLUTA NO CASO DE PROBLEMAS/POLYFILL */
+dialog[open] {
+  /* Define a posição fixa na viewport */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* Centraliza o elemento com base na sua própria altura e largura */
+  transform: translate(-50%, -50%);
+  margin: 0; /* Remove qualquer margem que possa interferir */
+  font-family: 'Spartan', sans-serif;
+}
+
+dialog img {
+  display: block;
+  max-width: 150px; /* Tamanho mais controlado para a imagem */
+  height: auto;
+  margin: 0 auto 20px auto; /* Centraliza a imagem e adiciona margem inferior */
+}
+
+dialog h2 {
+  text-align: center;
+  color: #2ed06e; /* Cor que destaca */
+  margin-bottom: 10px;
+  font-size: 0.4rem;
+  font-family: 'Spartan', sans-serif;
+}
+
+dialog p {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #555;
+  line-height: 1;
+  font-family: 'Spartan', sans-serif;
+}
+
+/* UTILITIES */
+.boxflex {
+  display: flex;
+  /* Flex-wrap removido se os botões cabem, mas mantido para segurança */
+  flex-wrap: wrap;
+  font-family: 'Spartan', sans-serif;
+  gap: 10px; /* Espaço entre os botões */
+}
+
+.boxflex.flex-space-between {
+  justify-content: space-between;
+}
+
+.boxflex button {
+  /* Remove a margem 'auto' para que 'flex-space-between' funcione */
+  margin: 0;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s, transform 0.1s;
+  flex-grow: 1; /* Permite que os botões se expandam um pouco */
+  font-family: 'Spartan', sans-serif;
+}
+
+/* Botão Padrão/Fechar */
+#close_dialog {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
+  font-family: 'Spartan', sans-serif;
+}
+
+dialog::backdrop {
+  /* Estilo para o fundo atrás da dialog quando aberta com showModal() */
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+}
+
+#close_dialog:hover {
+  background-color: #e0e0e0;
+}
+
+/* Botão CTA (Confirmar) */
+#confirm_dialog {
+  background-color: #2ed06e; /* Cor primária do Google/Look Moderno */
+  color: #ffffff;
+  border: none;
+  font-family: 'Spartan', sans-serif;
+}
+
+#confirm_dialog:hover {
+  background-color: #168742;
+}
+
+#confirm_dialog:active, #close_dialog:active {
+  transform: scale(0.98);
+}
+/* FIM DIALOG AULA BOX */
+
 
 .contact-us .contact-form .form-group {
   margin-bottom: 20px;

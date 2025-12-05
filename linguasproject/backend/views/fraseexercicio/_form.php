@@ -5,7 +5,7 @@ use yii\widgets\ActiveForm;
 
 
 /** @var yii\web\View $this */
-/** @var common\models\FraseExercicio $model */
+/** @var common\models\Fraseexercicio $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
 

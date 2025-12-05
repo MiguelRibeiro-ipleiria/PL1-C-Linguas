@@ -1,24 +1,24 @@
 <?php
 
-use common\models\Fraseexercicio;
+use common\models\Comentario;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
 
 /** @var yii\web\View $this */
-/** @var common\models\FraseexercicioSearch $searchModel */
+/** @var common\models\ComentarioSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Frase Exercicios';
+$this->title = 'Comentarios';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="frase-exercicio-index">
+<div class="comentario-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Frase Exercicio', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Comentario', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -30,14 +30,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'partefrases_1',
-            'partefrases_2',
-
+            'descricao_comentario',
             'aula_id',
-            'tipoexercicio_id',
+            'hora_criada',
+            'utilizador_id',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Fraseexercicio $model, $key, $index, $column) {
+                'urlCreator' => function ($action, Comentario $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
             ],

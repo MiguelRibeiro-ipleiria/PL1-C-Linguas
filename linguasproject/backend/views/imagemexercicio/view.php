@@ -5,6 +5,7 @@ use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
 /** @var common\models\imagemexercicio $model */
+/** @var common\models\Imagemexercicio $model */
 
 $this->title = $model->imagem_resource_id;
 $this->params['breadcrumbs'][] = ['label' => 'Imagemexercicios', 'url' => ['index']];

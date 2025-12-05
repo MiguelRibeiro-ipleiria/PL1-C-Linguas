@@ -63,7 +63,7 @@ class UserController extends Controller
                         ],
                     ],
                     'denyCallback' => function () {
-                        throw new \Exception('You are not allowed to access this page');
+                        return $this->redirect(['site/no_permisson']);
                     }
                 ],
             ]
@@ -87,17 +87,8 @@ class UserController extends Controller
                 'dataProvider' => $dataProvider,
             ]);
         }
-        return $this->redirect(['no_permisson']);
-
+        return $this->redirect(['site/no_permisson']);
     }
-
-    public function actionNo_permisson()
-    {
-        return $this->render('//site/no_permisson', [
-            'message' => 'Não tem permissão para aceder a esta página.'
-        ]);
-    }
-
 
 
     /**

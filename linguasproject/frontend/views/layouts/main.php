@@ -75,11 +75,9 @@ AppAsset::register($this);
                                     $menuItems[] = ['label' => 'Perfil', 'url' => ['/user/update', 'id' => Yii::$app->user->identity->id]];
                                 }
 
-                                // Renderiza os itens estáticos
                                 foreach ($menuItems as $item) {
                                     $label = Html::encode($item['label']);
                                     $url = Url::to($item['url']);
-                                    // marca "active" só se quiseres podes detectar rota actual
                                     echo '<li class="nav-item">' . Html::a($label, $url, ['class' => 'nav-link']) . '</li>';
                                 }
                                 ?>
