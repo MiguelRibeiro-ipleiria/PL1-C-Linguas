@@ -4,7 +4,7 @@ use common\models\User;
 use common\models\Curso;
 use common\models\Idioma;
 use common\models\Dificuldade;
-use backend\models\ImagemResource;
+use common\models\ImagemResource;
 use yii\helpers\Url;
 
 $this->title = 'Starter Page';

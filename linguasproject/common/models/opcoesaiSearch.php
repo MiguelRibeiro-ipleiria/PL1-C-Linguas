@@ -4,12 +4,12 @@ namespace common\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\FraseExercicio;
+use common\models\opcoesai;
 
 /**
- * FraseExercicioSearch represents the model behind the search form of `common\models\FraseExercicio`.
+ * opcoesaiSearch represents the model behind the search form of `common\models\opcoesai`.
  */
-class FraseExercicioSearch extends FraseExercicio
+class opcoesaiSearch extends opcoesai
 {
     /**
      * {@inheritdoc}
@@ -17,8 +17,8 @@ class FraseExercicioSearch extends FraseExercicio
     public function rules()
     {
         return [
-            [['id', 'aula_id', 'tipoexercicio_id'], 'integer'],
-            [['partefrases_1', 'partefrases_2', 'resposta'], 'safe'],
+            [['id', 'iscorreta', 'audio_audio_resource_id', 'audio_aula_id', 'imagem_imagem_resource_id', 'imagem_aula_id', 'frase_id'], 'integer'],
+            [['descricao'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class FraseExercicioSearch extends FraseExercicio
      */
     public function search($params, $formName = null)
     {
-        $query = FraseExercicio::find();
+        $query = opcoesai::find();
 
         // add conditions that should always apply here
 
@@ -60,12 +60,15 @@ class FraseExercicioSearch extends FraseExercicio
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'aula_id' => $this->aula_id,
-            'tipoexercicio_id' => $this->tipoexercicio_id,
+            'iscorreta' => $this->iscorreta,
+            'audio_audio_resource_id' => $this->audio_audio_resource_id,
+            'audio_aula_id' => $this->audio_aula_id,
+            'imagem_imagem_resource_id' => $this->imagem_imagem_resource_id,
+            'imagem_aula_id' => $this->imagem_aula_id,
+            'frase_id' => $this->frase_id,
         ]);
 
-        $query->andFilterWhere(['like', 'partefrases_1', $this->partefrases_1])
-            ->andFilterWhere(['like', 'partefrases_2', $this->partefrases_2]);
+        $query->andFilterWhere(['like', 'descricao', $this->descricao]);
 
         return $dataProvider;
     }

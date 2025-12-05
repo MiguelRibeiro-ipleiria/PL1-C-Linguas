@@ -21,8 +21,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'partefrases_2') ?>
 
-    <?= $form->field($model, 'resposta') ?>
-
     <?= $form->field($model, 'aula_id') ?>
 
     <?php // echo $form->field($model, 'tipoexercicio_id') ?>

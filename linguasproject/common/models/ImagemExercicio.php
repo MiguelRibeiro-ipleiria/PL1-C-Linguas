@@ -31,18 +31,19 @@ class ImagemExercicio extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
-        return [
-            [['imagem_resource_id', 'aula_id', 'pergunta', 'tipoexercicio_id'], 'required'],
-            [['imagem_resource_id', 'aula_id', 'tipoexercicio_id'], 'integer'],
-            [['pergunta'], 'string', 'max' => 45],
-            [['imagem_resource_id', 'aula_id'], 'unique', 'targetAttribute' => ['imagem_resource_id', 'aula_id']],
-            [['aula_id'], 'exist', 'skipOnError' => true, 'targetClass' => Aula::class, 'targetAttribute' => ['aula_id' => 'id']],
-            [['imagem_resource_id'], 'exist', 'skipOnError' => true, 'targetClass' => ImagemResource::class, 'targetAttribute' => ['imagem_resource_id' => 'id']],
-            [['tipoexercicio_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tipoexercicio::class, 'targetAttribute' => ['tipoexercicio_id' => 'id']],
-        ];
-    }
+public function rules()
+{
+    return [
+        [['imagem_resource_id', 'pergunta', 'aula_id', 'tipoexercicio_id'], 'required'], 
+        [['imagem_resource_id', 'aula_id', 'tipoexercicio_id'], 'integer'],
+        [['pergunta'], 'string', 'max' => 45],
+        [['imagem_resource_id', 'aula_id'], 'unique', 'targetAttribute' => ['imagem_resource_id', 'aula_id']],
+        [['aula_id'], 'exist', 'skipOnError' => true, 'targetClass' => Aula::class, 'targetAttribute' => ['aula_id' => 'id']],
+        [['imagem_resource_id'], 'exist', 'skipOnError' => true, 'targetClass' => ImagemResource::class, 'targetAttribute' => ['imagem_resource_id' => 'id']],
+        [['tipoexercicio_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tipoexercicio::class, 'targetAttribute' => ['tipoexercicio_id' => 'id']],
+    ];
+}
+
 
     /**
      * {@inheritdoc}

@@ -1,20 +1,23 @@
 <?php
 
-namespace backend\models;
+namespace common\models;
 
 use Yii;
 
 /**
  * This is the model class for table "imagem_resource".
  *
- * @property int $idimagem
- * @property string|null $nome_imagem
- * @property string|null $nome_ficheiro
+ * @property int $id
+ * @property string $nome_imagem
+ * @property string $nome_ficheiro
+ *
+ * @property Aula[] $aulas
+ * @property Imagem[] $imagems
  */
 class ImagemResource extends \yii\db\ActiveRecord
 {
 
-    public $ficheiro;
+
     /**
      * {@inheritdoc}
      */
@@ -42,13 +45,33 @@ class ImagemResource extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idimagem' => 'Idimagem',
+            'id' => 'ID',
             'nome_imagem' => 'Nome Imagem',
             'nome_ficheiro' => 'Nome Ficheiro',
         ];
     }
 
-    public function upload()
+    /**
+     * Gets query for [[Aulas]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAulas()
+    {
+        return $this->hasMany(Aula::class, ['id' => 'aula_id'])->viaTable('imagem', ['imagem_resource_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Imagems]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getImagems()
+    {
+        return $this->hasMany(Imagem::class, ['imagem_resource_id' => 'id']);
+    }
+    
+     public function upload()
     {
         if ($this->nome_ficheiro) {
 

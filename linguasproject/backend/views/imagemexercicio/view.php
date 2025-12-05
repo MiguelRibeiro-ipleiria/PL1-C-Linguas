@@ -4,14 +4,14 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
-/** @var common\models\ImagemExercicio $model */
+/** @var common\models\imagemexercicio $model */
 
 $this->title = $model->imagem_resource_id;
-$this->params['breadcrumbs'][] = ['label' => 'Imagem Exercicios', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Imagemexercicios', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="imagem-exercicio-view">
+<div class="imagemexercicio-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
