@@ -7,7 +7,7 @@ use common\models\AudioExercicioSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use \yii\filters\AccessControl;
 /**
  * AudioExercicioController implements the CRUD actions for AudioExercicio model.
  */
@@ -21,11 +21,11 @@ class AudioexercicioController extends Controller
         return array_merge(
             parent::behaviors(),
             [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'denyCallback' => function () {
+                        return \Yii::$app->response->redirect(['../../frontend/web/']);
+                    },
                     'rules' => [
                         [
                             'allow' => true,
@@ -33,9 +33,13 @@ class AudioexercicioController extends Controller
                             'roles' => ['admin', 'formador'],
                         ],
                     ],
-                    'denyCallback' => function () {
-                        return $this->redirect(['site/no_permisson']);
-                    }
+                ],
+
+                'verbs' => [
+                    'class' => VerbFilter::class,
+                    'actions' => [
+                        'delete' => ['POST'],
+                    ],
                 ],
             ]
         );

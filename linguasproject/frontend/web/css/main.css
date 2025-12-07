@@ -1354,6 +1354,81 @@ ol {
   background-color: #081828;
 }
 
+
+.button .styliesh-red{
+  text-decoration: none;
+  display: inline-block;
+  text-transform: capitalize;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 14px 30px;
+  background-color: #c82222;
+  color: #fff;
+  border: none;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  border-radius: 30px;
+  position: relative;
+  z-index: 1;
+  margin-right: 7px;
+  overflow: hidden;
+  border-bottom: 5px solid #5a1e1e;
+}
+
+.button .styliesh-red:hover {
+  color: #fff;
+  background-color: #081828;
+  border-bottom: 0px solid #da5858;
+}
+
+.button .styliesh-off{
+  text-decoration: none;
+  display: inline-block;
+  text-transform: capitalize;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 14px 30px;
+  background-color: #b1adad;
+  color: #fff;
+  border: none;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  border-radius: 30px;
+  position: relative;
+  z-index: 1;
+  margin-right: 7px;
+  overflow: hidden;
+  border-bottom: 5px solid #535554;
+}
+
+.button .styliesh{
+  text-decoration: none;
+  display: inline-block;
+  text-transform: capitalize;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 14px 30px;
+  background-color: #2ed06e;
+  color: #fff;
+  border: none;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  border-radius: 30px;
+  position: relative;
+  z-index: 1;
+  margin-right: 7px;
+  overflow: hidden;
+  border-bottom: 5px solid #27603e;
+}
+
+.button .styliesh:hover {
+  color: #fff;
+  background-color: #081828;
+  border-bottom: 0px solid #da5858;
+
+}
+
+
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .button .btn {
     padding: 14px 25px;
@@ -2111,6 +2186,7 @@ ol {
   background-color: #2ed06e;
   color: #fff;
 }
+
 
 @media only screen and (min-width: 768px) and (max-width: 991px), (max-width: 767px) {
   .header .button .signin {
@@ -3640,6 +3716,21 @@ ol {
 .single-blog-grid .blog-content .button .btn:hover {
   color: #2ed06e;
 }
+
+
+.single-blog-grid .blog-content .button .styliesh {
+  padding: 0;
+  background-color: transparent;
+  color: #081828;
+  text-decoration: underline;
+  overflow: visible;
+}
+
+.single-blog-grid .blog-content .button .styliesh:hover {
+  color: #830b1f;
+}
+
+
 
 .blog-list {
   background: #F4F7FA;

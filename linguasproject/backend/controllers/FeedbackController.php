@@ -30,16 +30,16 @@ class FeedbackController extends Controller
                 ],
                 'access' => [
                     'class' => AccessControl::class,
-                    'only' => ['index', 'view', 'create', 'update', 'delete'],
                     'rules' => [
                         [
                             'allow' => true,
+                            'actions' => ['index', 'view', 'create', 'update', 'delete'],
                             'roles' => ['admin', 'formador'],
                         ],
                     ],
                     'denyCallback' => function () {
-                        throw new \Exception('You are not allowed to access this page');
-                    }
+                        return \Yii::$app->response->redirect(['../../frontend/web/']);
+                    },
                 ]
             ]
         );
@@ -62,8 +62,9 @@ class FeedbackController extends Controller
                 'dataProvider' => $dataProvider,
             ]);
         }
-        return $this->redirect(['no_permisson']);
-    }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }    }
 
     /**
      * Displays a single Feedback model.
@@ -81,14 +82,8 @@ class FeedbackController extends Controller
             ]);
         }
         else{
-            return $this->redirect(['no_permisson']);
+            return $this->redirect(['site/no_permisson']);
         }
-    }
-    public function actionNo_permisson()
-    {
-        return $this->render('//site/no_permisson', [
-            'message' => 'Não tem permissão para aceder a esta página.'
-        ]);
     }
 
     /**
@@ -115,7 +110,7 @@ class FeedbackController extends Controller
             ]);
         }
         else{
-            return $this->redirect(['no_permisson']);
+            return $this->redirect(['site/no_permisson']);
         }
     }
 
@@ -128,7 +123,7 @@ class FeedbackController extends Controller
      */
     public function actionUpdate($id)
     {
-        if (\Yii::$app->user->can('CreateFeedback')) {
+        if (\Yii::$app->user->can('UpdateFeedback')) {
 
             $model = $this->findModel($id);
 
@@ -141,7 +136,7 @@ class FeedbackController extends Controller
             ]);
         }
         else{
-            return $this->redirect(['no_permisson']);
+            return $this->redirect(['site/no_permisson']);
         }
     }
 
@@ -160,7 +155,7 @@ class FeedbackController extends Controller
             return $this->redirect(['index']);
         }
         else{
-            return $this->redirect(['no_permisson']);
+            return $this->redirect(['site/no_permisson']);
         }
     }
 

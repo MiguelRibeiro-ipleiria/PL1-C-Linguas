@@ -67,28 +67,28 @@ class ImagemexercicioController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate($aula_id,$tipoexercicio_id)
+    public function actionCreate($aula_id, $tipoexercicio_id)
     {
         $model = new imagemexercicio();
-            $model->aula_id = $aula_id;
-            $model->tipoexercicio_id = $tipoexercicio_id;
-        
+        $model->aula_id = $aula_id;
+        $model->tipoexercicio_id = $tipoexercicio_id;
+
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
-                
-                $model->aula_id = $aula; 
-                $model->tipoexercicio_id = $tipoexercicio;
 
-                if($model->save()){
-                return $this->redirect(['view', 'imagem_resource_id' => $model->imagem_resource_id, 'aula_id' => $model->aula_id]);
-                 }
+                $model->aula_id = $aula_id;
+                $model->tipoexercicio_id = $tipoexercicio_id;
+
+                if ($model->save()) {
+                    return $this->redirect(['view', 'imagem_resource_id' => $model->imagem_resource_id, 'aula_id' => $model->aula_id]);
+                }
             }
         } else {
 
             $model->loadDefaultValues();
         }
-        
+
         return $this->render('create', [
 
             'model' => $model,
@@ -138,21 +138,22 @@ class ImagemexercicioController extends Controller
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $imagem_resource_id Imagem Resource ID
      * @param int $aula_id Aula ID
+     * @param int $imagem_resource_id Imagem Resource ID
+     * @param int $aula_id Aula ID
      * @return imagemexercicio the loaded model
      * Finds the Imagemexercicio model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $imagem_resource_id Imagem Resource ID
-     * @param int $aula_id Aula ID
      * @return Imagemexercicio the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($imagem_resource_id, $aula_id)
     {
         if (($model = imagemexercicio::findOne(['imagem_resource_id' => $imagem_resource_id, 'aula_id' => $aula_id])) !== null) {
-        if (($model = Imagemexercicio::findOne(['imagem_resource_id' => $imagem_resource_id, 'aula_id' => $aula_id])) !== null) {
-            return $model;
-        }
+            if (($model = Imagemexercicio::findOne(['imagem_resource_id' => $imagem_resource_id, 'aula_id' => $aula_id])) !== null) {
+                return $model;
+            }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 }

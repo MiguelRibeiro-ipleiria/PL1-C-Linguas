@@ -23,13 +23,13 @@ class SiteController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['login', 'logout', 'error', 'no_permisson'],
+                        'actions' => ['login'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['index', 'timeline'],
+                        'actions' => ['index', 'timeline', 'error', 'no_permisson', 'logout'],
                         'allow' => true,
-                        'roles' => ['CanAccessBackend'],
+                        'roles' => ['admin', 'formador'],
                     ],
                 ],
                 'denyCallback' => function () {

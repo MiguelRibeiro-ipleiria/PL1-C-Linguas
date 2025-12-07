@@ -7,7 +7,7 @@ use common\models\InscricaoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\filters\AccessControl;
 /**
  * InscricaoController implements the CRUD actions for Inscricao model.
  */
@@ -27,6 +27,19 @@ class InscricaoController extends Controller
                         'delete' => ['POST'],
                     ],
                 ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'denyCallback' => function () {
+                        return \Yii::$app->response->redirect(['../../frontend/web/']);
+                    },
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                            'roles' => ['admin', 'formador'],
+                        ],
+                    ],
+                ],
             ]
         );
     }
@@ -38,15 +51,18 @@ class InscricaoController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new InscricaoSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        if(\Yii::$app->user->can('ReadInscricoes')) {
+            $searchModel = new InscricaoSearch();
+            $dataProvider = $searchModel->search($this->request->queryParams);
 
-
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -58,9 +74,15 @@ class InscricaoController extends Controller
      */
     public function actionView($utilizador_id, $curso_idcurso)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($utilizador_id, $curso_idcurso),
-        ]);
+        if(\Yii::$app->user->can('ReadInscricoes')) {
+
+            return $this->render('view', [
+                'model' => $this->findModel($utilizador_id, $curso_idcurso),
+            ]);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -70,19 +92,25 @@ class InscricaoController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Inscricao();
+        if(\Yii::$app->user->can('CreateInscricoes')) {
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'utilizador_id' => $model->utilizador_id, 'curso_idcurso' => $model->curso_idcurso]);
+            $model = new Inscricao();
+
+            if ($this->request->isPost) {
+                if ($model->load($this->request->post()) && $model->save()) {
+                    return $this->redirect(['view', 'utilizador_id' => $model->utilizador_id, 'curso_idcurso' => $model->curso_idcurso]);
+                }
+            } else {
+                $model->loadDefaultValues();
             }
-        } else {
-            $model->loadDefaultValues();
-        }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -95,15 +123,21 @@ class InscricaoController extends Controller
      */
     public function actionUpdate($utilizador_id, $curso_idcurso)
     {
-        $model = $this->findModel($utilizador_id, $curso_idcurso);
+        if(\Yii::$app->user->can('UpdateInscricoes')) {
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'utilizador_id' => $model->utilizador_id, 'curso_idcurso' => $model->curso_idcurso]);
+            $model = $this->findModel($utilizador_id, $curso_idcurso);
+
+            if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'utilizador_id' => $model->utilizador_id, 'curso_idcurso' => $model->curso_idcurso]);
+            }
+
+            return $this->render('update', [
+                'model' => $model,
+            ]);
         }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -116,9 +150,15 @@ class InscricaoController extends Controller
      */
     public function actionDelete($utilizador_id, $curso_idcurso)
     {
-        $this->findModel($utilizador_id, $curso_idcurso)->delete();
+        if(\Yii::$app->user->can('DeleteInscricoes')) {
 
-        return $this->redirect(['index']);
+            $this->findModel($utilizador_id, $curso_idcurso)->delete();
+
+            return $this->redirect(['index']);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**

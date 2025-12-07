@@ -23,10 +23,9 @@ use yii\helpers\Url;
                 <section class="intro-video-area section-idiomas-cursos">
                     <div class="inner-content-head">
                         <div class="inner-content">
-                            <div class="intro-video-play">
-                                <div class="play-thumb wow zoomIn" data-wow-delay=".2s">
-                                    <a href="<?= Url::to(['/aula/view', 'id' => $model->id]) ?>"
-                                    ><i class="lni lni-play"></i></a>
+                            <div class="button home-btn">
+                                <div class="button">
+                                    <a href="<?= Url::to(['/aula/view', 'id' => $model->id]) ?>" class="styliesh">Ver aula</a>
                                 </div>
                             </div>
                         </div>

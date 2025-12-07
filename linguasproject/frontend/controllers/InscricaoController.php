@@ -126,10 +126,13 @@ class InscricaoController extends Controller
      */
     public function actionDelete($utilizador_id, $curso_idcurso)
     {
-        $this->findModel($utilizador_id, $curso_idcurso)->delete();
-
-        return $this->redirect(['index']);
-    }
+        if(Inscricao::desinscricaonasaulas($curso_idcurso, $utilizador_id)){
+            if(!Inscricao::verificainscricao($curso_idcurso, $utilizador_id)){
+                $inscricao = Inscricao::findOne(['utilizador_id' => $utilizador_id, 'curso_idcurso' => $curso_idcurso]);
+                $inscricao->delete();
+            }
+        }
+        return $this->redirect(\Yii::$app->request->referrer);    }
 
     /**
      * Finds the Inscricao model based on its primary key value.
