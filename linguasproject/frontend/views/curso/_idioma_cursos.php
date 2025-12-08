@@ -19,16 +19,7 @@ use yii\helpers\Html;
                         <h3 class="card-course-title"><?= $model->titulo_curso ?></h3>
                         <span class="badge-custom level-badge"><?= $model->dificuldade->grau_dificuldade ?></span>
                         <span class="badge-custom classes-badge">2 aulas</span>
-                        <?php
 
-                        if($model->status_ativo == 0){ ?>
-                            <span class="badge-red classes-bagde">Desativado</span>
-                        <?php
-                        }
-                        else{
-
-                        }
-                        ?>
                     </div>
                     <p class="card-course-description mt-2">
                         <?= $model->curso_detalhe ?>
@@ -62,47 +53,63 @@ use yii\helpers\Html;
                         </div>
 
                 <?php
-                    }else{ ?>
+                    }else{
+                        if($model->status_ativo == 0){ ?>
+                            <div class="col-4 d-flex justify-content-center align-items-center course-action-area">
+                                <section class="intro-video-area section-idiomas-cursos">
+                                    <div class="inner-content-head">
+                                        <div class="inner-content">
+                                            <div class="button home-btn">
+                                                <div class="button">
+                                                    <a class="styliesh-off">Desativado</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        <?php
+                        }else{
+                        ?>
                         <div class="col-3 d-flex justify-content-center align-items-center course-action-area">
                             <section class="intro-video-area section-idiomas-cursos">
                                 <div class="inner-content-head">
                                     <div class="inner-content">
                                         <div class="button home-btn">
-                                            <?php
-                                            if($model->status_ativo == 0){ ?>
-                                                <div class="button">
-                                                    <a class="styliesh-off">Desativado</a>
-                                                </div>
-                                            <?php }
-                                            else{ ?>
-                                                <div class="button">
+                                            <div class="button">
+                                                <?php
+                                                $utilizador = Utilizador::find()->where(['user_id' => \Yii::$app->user->id])->one();
+                                                $form = ActiveForm::begin(['action' => ['/inscricao/delete', 'utilizador_id' => $utilizador->id,'curso_idcurso' => $model->id]]); ?>
+                                                <?= Html::submitButton(
+                                                    'Desinscrever',
+                                                    [
+                                                        'class' => 'styliesh-red',
+                                                    ]
+                                                ) ?>
 
-                                                    <?php
-                                                    $utilizador = Utilizador::find()->where(['user_id' => \Yii::$app->user->id])->one();
-                                                    $form = ActiveForm::begin(['action' => ['/inscricao/delete', 'utilizador_id' => $utilizador->id,'curso_idcurso' => $model->id]]); ?>
-                                                    <?= Html::submitButton(
-                                                        'Desinscrever',
-                                                        [
-                                                            'class' => 'styliesh-red',
-                                                        ]
-                                                    ) ?>
-
-                                                    <?php ActiveForm::end(); ?>
-                                                </div>
-                                            <?php }
-                                            ?>
+                                                <?php ActiveForm::end(); ?>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </section>
                         </div>
+                            <?php
+                        }
+                            ?>
                         <div class="col-1 d-flex justify-content-center align-items-center course-action-area">
                             <section class="intro-video-area section-idiomas-cursos">
                                 <div class="inner-content-head">
                                     <div class="inner-content">
                                         <div class="button home-btn">
                                             <div class="button">
-                                                <a href="<?= Url::to(['/curso/aulas', 'id' => $model->id]) ?>" class="styliesh"><i class="bi bi-arrow-right"></i></a>
+
+                                                <?php
+                                                  if($model->status_ativo == 1){ ?>
+                                                      <a href="<?= Url::to(['/curso/aulas', 'id' => $model->id]) ?>" class="styliesh"><i class="bi bi-arrow-right"></i></a>
+                                                <?php
+                                                  }
+                                                ?>
                                             </div>
                                         </div>
                                     </div>

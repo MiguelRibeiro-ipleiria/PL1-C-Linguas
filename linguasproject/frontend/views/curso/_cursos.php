@@ -13,6 +13,7 @@ use \common\models\Utilizador;
 /** @var yii\web\View $this */
 /** @var common\models\CursoSearch $model */
 /** @var yii\widgets\ActiveForm $form */
+
 ?>
 
 <div class="curso-search">
@@ -23,8 +24,8 @@ use \common\models\Utilizador;
                             <div class="tags">
                                 <div class="row d-flex align-items-center g-0">
                                     <div class="col-3 course-content-area">
-                                        <div class="card-header-flex">
-                                            <h3 class="card-cursos-title"><?= $model->titulo_curso ?></h3>
+                                        <div class="card-header-flex justify-content-center">
+                                            <h3 class="card-cursos-title align-items-center "><?= $model->titulo_curso ?></h3>
                                         </div>
                                     </div>
                                     <div class="col-4 course-content-area">

@@ -11,7 +11,6 @@ use common\models\Dificuldade;
 /** @var common\models\CursoSearch $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
-
     <div class="curso-search">
 
 

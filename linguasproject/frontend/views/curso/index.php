@@ -10,6 +10,8 @@ use yii\grid\GridView;
 /** @var common\models\CursoSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
+$this->title = 'Cursos';
+
 ?>
 <div class="services section cursos">
     <div class="container">

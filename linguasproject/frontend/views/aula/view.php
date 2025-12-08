@@ -154,7 +154,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     'dataProvider' => $DataCommentsProvider,
                     'itemView' => '_comments',
                     'layout' => "<div class='cards-grid'>{items}</div>\n<div class='mt-4'>{pager}</div>",
-                    'itemOptions' => ['tag' => false]]) ?>
+                    'itemOptions' => ['tag' => false],
+                    'emptyText' => 'Sem avaliações, seja o primeiro a comentar!']) ?>
             </div>
             <hr>
             <span class="badge-custom-comments-title level-badge">Deixe aqui o seu comentário</span>

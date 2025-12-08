@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /** @var common\models\IdiomaSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Idiomas';
+$this->title = 'Línguas';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

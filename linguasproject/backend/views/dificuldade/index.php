@@ -13,30 +13,36 @@ use yii\grid\GridView;
 $this->title = 'Dificuldades';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="dificuldade-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Create Dificuldade', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            'id',
-            'grau_dificuldade',
-            [
-                'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Dificuldade $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id' => $model->id]);
-                 }
-            ],
-        ],
-    ]); ?>
-
-
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title"><?= Html::encode($this->title) ?></h3>
+        <div class="card-tools">
+            <?= Html::a('Create Dificuldade', ['create'], ['class' => 'btn btn-success']) ?>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <?= GridView::widget([
+                'dataProvider' => $dataProvider,
+                'filterModel' => $searchModel,
+                'tableOptions' => [
+                    'class' => 'table table-striped m-0',
+                ],
+                'layout' => "{items}\n<div class='card-footer clearfix'>{pager}</div>",
+                'columns' => [
+                    'id',
+                    'grau_dificuldade',
+                    [
+                        'class' => ActionColumn::class,
+                        'header' => 'Ações',
+                        'urlCreator' => function ($action, Dificuldade $model, $key, $index, $column) {
+                            return Url::to([$action, 'id' => $model->id]);
+                        },
+                        'contentOptions' => ['style' => 'width: 120px;'],
+                    ],
+                ],
+            ]); ?>
+        </div>
+    </div>
 </div>

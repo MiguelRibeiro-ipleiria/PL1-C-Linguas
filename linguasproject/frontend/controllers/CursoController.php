@@ -164,17 +164,23 @@ class CursoController extends Controller
     public function actionAulas($id)
     {
         $model = Curso::findOne(['id' => $id]);
-        $idioma = Idioma::findOne(['id' => $model->idioma_id]);
-        $query_aulas = Aula::find()->where(['curso_id' => $id]);
-        $DataAulasProvider = new ActiveDataProvider([
-            'query' => $query_aulas,
-        ]);
+        if($model->status_ativo == 1){
+            $idioma = Idioma::findOne(['id' => $model->idioma_id]);
+            $query_aulas = Aula::find()->where(['curso_id' => $id]);
+            $DataAulasProvider = new ActiveDataProvider([
+                'query' => $query_aulas,
+            ]);
 
-        return $this->render('aulas', [
-            'DataAulasProvider' => $DataAulasProvider,
-            'curso' => $model,
-            'idioma' => $idioma,
-        ]);
+            return $this->render('aulas', [
+                'DataAulasProvider' => $DataAulasProvider,
+                'curso' => $model,
+                'idioma' => $idioma,
+            ]);
+        }
+        else{
+            return $this->redirect(\Yii::$app->request->referrer);
+        }
+
 
     }
 }

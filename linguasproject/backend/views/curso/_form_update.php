@@ -46,7 +46,7 @@ use yii\helpers\ArrayHelper;
     <?= $form->field($model, 'curso_detalhe')->textInput(['maxlength' => true]) ?>
 
     <?php
-    if($userrole == "formador"){ ?>
+    if(\Yii::$app->user->can('ToggleCourse')){ ?>
         <?=
         $form->field($model, 'status_ativo')->radioList([
             1 => 'Ativado',

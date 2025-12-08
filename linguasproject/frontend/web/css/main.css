@@ -2749,8 +2749,7 @@ ol {
 }
 
 .card-cursos-title {
-  display: inline-block;
-  padding: 5% 15%;
+  padding: 5% 5%;
   margin-right: 8px; /* Espaço entre as tags */
   border-radius: 20px;
   font-size: 1rem;
@@ -5196,16 +5195,32 @@ blockquote span {
   border: 1px solid #eee !important;
 
   border-radius: 30px !important;
-  color: #505050;
 
   transition: all 0.3s ease;
   box-shadow: none !important;
 
   color: #2ed06e;
   font-weight: bold;
-
-
 }
+
+.form-filter option {
+  padding: 8px;
+  background: #fff;
+  color: #2ed06e;
+  font-weight: bold;
+}
+
+.form-filter option:hover {
+  background-color: #2ed06e !important;   /* cor ao passar o mouse */
+}
+
+.form-filter option:checked {
+  background: #2ed06e;
+  color: white;
+}
+
+
+
 
 
 

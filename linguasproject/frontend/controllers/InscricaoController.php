@@ -132,7 +132,8 @@ class InscricaoController extends Controller
                 $inscricao->delete();
             }
         }
-        return $this->redirect(\Yii::$app->request->referrer);    }
+        return $this->redirect(\Yii::$app->request->referrer);
+    }
 
     /**
      * Finds the Inscricao model based on its primary key value.
