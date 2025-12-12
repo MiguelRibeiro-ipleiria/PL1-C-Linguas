@@ -60,6 +60,7 @@ class AulaController extends Controller
      */
     public function actionView($id)
     {
+
         $model = $this->findModel($id);
         $modelcomentario = new Comentario();
 
@@ -149,5 +150,15 @@ class AulaController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionAulaemexecucao($id)
+    {
+        $this->layout = false;
+        $model = Aula::findOne($id);
+        return $this->render('aula_em_execucao', [
+            'model' => $model,
+        ]);
+
     }
 }

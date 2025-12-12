@@ -2,7 +2,7 @@
 
 namespace backend\modules\api\controllers;
 
-use yii\rest\Controller;
+use yii\rest\Controller; //CONTROLLER REST
 use yii\web\Response;
 use common\models\User;
 
@@ -17,10 +17,6 @@ class AuthController extends Controller
         if (!$user || !$user->validatePassword($body['password'] ?? '')) {
             return ['status' => 'error', 'message' => 'Invalid credentials'];
         }
-
-        //quem protege este controller e actions
-        //ou nao gera um token ou gera e salva (perguntar ao stor)
-        $user->generateAuthKey();
 
         return [
             'status' => 'success',

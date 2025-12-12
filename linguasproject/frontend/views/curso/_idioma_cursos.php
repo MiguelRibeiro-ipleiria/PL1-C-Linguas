@@ -77,17 +77,34 @@ use yii\helpers\Html;
                                     <div class="inner-content">
                                         <div class="button home-btn">
                                             <div class="button">
-                                                <?php
-                                                $utilizador = Utilizador::find()->where(['user_id' => \Yii::$app->user->id])->one();
-                                                $form = ActiveForm::begin(['action' => ['/inscricao/delete', 'utilizador_id' => $utilizador->id,'curso_idcurso' => $model->id]]); ?>
-                                                <?= Html::submitButton(
-                                                    'Desinscrever',
-                                                    [
-                                                        'class' => 'styliesh-red',
-                                                    ]
-                                                ) ?>
+                                                <button class="styliesh-red" id="open_dialog">
+                                                    Desinscrever
+                                                </button>
+                                                <dialog aria-labelledby="dialog_title" aria-describedby="dialog_description">
+                                                    <img src="<?= Yii::getAlias('@web').'/img/logo_dialog.png'; ?>" alt="Illustration of Location Services" />
+                                                    <h2 id="dialog_title" class="h2">Deseja cancelar a inscrição?</h2>
+                                                    <p id="dialog_description">
+                                                        Ao clicar em "Sim" irá cancelar a sua inscrição no curso "<?= $model->titulo_curso ?>"
+                                                        e eliminar os seus resultados nas aulas deste curso!
+                                                    </p>
+                                                    <div class="boxflex flex-space-between">
+                                                        <button id="close_dialog">Não</button>
+                                                        <button>
+                                                        <?php
+                                                        $utilizador = Utilizador::find()->where(['user_id' => \Yii::$app->user->id])->one();
+                                                        $form = ActiveForm::begin(['action' => ['/inscricao/delete', 'utilizador_id' => $utilizador->id,'curso_idcurso' => $model->id]]); ?>
+                                                        <?= Html::submitButton(
+                                                            'Sim',
+                                                            [
+                                                                'class' => 'cta',
+                                                                'id'=> 'confirm_dialog',
+                                                            ]
+                                                        ) ?>
 
-                                                <?php ActiveForm::end(); ?>
+                                                        <?php ActiveForm::end(); ?>
+                                                        </button>
+                                                    </div>
+                                                </dialog>
                                             </div>
                                         </div>
                                     </div>
@@ -122,3 +139,66 @@ use yii\helpers\Html;
             </div>
         </div>
 </div>
+<script type="module">
+    import dialogPolyfill from "https://cdn.skypack.dev/dialog-polyfill@0.5.6";
+
+    const dialog = document.querySelector("dialog");
+    const openDialogBtn = document.getElementById("open_dialog");
+    const closeDialogBtn = document.getElementById("close_dialog");
+
+    const elements = dialog.querySelectorAll(
+        'a, button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])'
+    );
+    const firstElement = elements[0];
+    const lastElement = elements[elements.length - 1];
+
+    const trapFocus = (e) => {
+        if (e.key === "Tab") {
+            const tabForwards = !e.shiftKey && document.activeElement === lastElement;
+            const tabBackwards = e.shiftKey && document.activeElement === firstElement;
+            if (tabForwards) {
+                // only TAB is pressed, not SHIFT simultaneously
+                // Prevent default behavior of keydown on TAB (i.e. focus next element)
+                e.preventDefault();
+                firstElement.focus();
+            } else if (tabBackwards) {
+                // TAB and SHIFT are pressed simultaneously
+                e.preventDefault();
+                lastElement.focus();
+            }
+        }
+    };
+
+    const openDialog = () => {
+        dialog.showModal();
+        dialog.addEventListener("keydown", trapFocus);
+    };
+
+    const closeDialog = (e) => {
+        e.preventDefault();
+        dialog.close();
+        dialog.removeEventListener("keydown", trapFocus);
+        openDialogBtn.focus();
+    };
+
+    openDialogBtn.addEventListener("click", openDialog);
+    closeDialogBtn.addEventListener("click", closeDialog);
+
+    if (typeof dialog.showModal !== "function") {
+        /**
+         * How to add polyfill outside CodePen conditionally
+         * let polyfill = document.createElement("script");
+         * polyfill.type = "text/javascript";
+         * polyfill.src = "/dist/dialog-polyfill.js";
+         * document.body.append(polyfill);
+
+         * const polyfillStyles = document.createElement("link");
+         * polyfillStyles.rel = "stylesheet";
+         * polyfillStyles.href = "dialog-polyfill.css";
+         * document.head.append(polyfillStyles);
+         **/
+
+        // Register polyfill on dialog element once the script has loaded
+        dialogPolyfill.registerDialog(dialog);
+    }
+</script>
