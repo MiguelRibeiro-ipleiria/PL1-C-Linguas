@@ -25,7 +25,8 @@ use common\models\ImagemResource;
     <?= $form->field($model, 'pergunta')->textInput(['maxlength' => true]) ?>
 
     <h3>Opções da IA</h3>
-    <?php foreach ($opcoes as $i => $opcao){ ?>
+    <?php
+    foreach ($opcoes as $i => $opcao){ ?>
 
     <div class="card" style="padding: 10px; margin-bottom: 15px;">
         <h4>Opção <?= $i+1 ?></h4>

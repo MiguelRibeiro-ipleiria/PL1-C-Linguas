@@ -8,6 +8,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\models\opcoesai;
+use yii\helpers\ArrayHelper;
+const OPCOES = null;
 
 /**
  * AudioController implements the CRUD actions for Audio model.
@@ -73,15 +75,11 @@ class AudioController extends Controller
         $model->aula_id =$aula_id;
         $model->tipoexercicio_id = $tipoexercicio_id;
         
-
-
-
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {                
 
 
                 $postOpcoes = $this->request->post('Opcoesai', []);
- 
 
                 foreach ($postOpcoes as $dadosOpcao) {
                     $opcao = new OpcoesAi();
@@ -93,6 +91,7 @@ class AudioController extends Controller
 
                     $opcao->save();
 
+                   
                 }
 
                 return $this->redirect(['view', 'audio_resource_id' => $model->audio_resource_id, 'aula_id' => $model->aula_id]);
@@ -123,6 +122,7 @@ class AudioController extends Controller
     public function actionUpdate($audio_resource_id, $aula_id)
     {
         $model = $this->findModel($audio_resource_id, $aula_id);
+        $opcoes = $this->FindOpcoes($audio_resource_id, $aula_id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['view', 'audio_resource_id' => $model->audio_resource_id, 'aula_id' => $model->aula_id]);
@@ -130,8 +130,13 @@ class AudioController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'opcoes'=>$opcoes,
+            
         ]);
+
     }
+
+
 
     /**
      * Deletes an existing Audio model.
@@ -143,8 +148,12 @@ class AudioController extends Controller
      */
     public function actionDelete($audio_resource_id, $aula_id)
     {
+         
+        $opcoes = $this->FindOpcoes($audio_resource_id, $aula_id);
+        foreach($opcoes as $opcao){
+            $opcao->delete();
+        }
         $this->findModel($audio_resource_id, $aula_id)->delete();
-
         return $this->redirect(['index']);
     }
 
@@ -161,6 +170,14 @@ class AudioController extends Controller
         if (($model = Audio::findOne(['audio_resource_id' => $audio_resource_id, 'aula_id' => $aula_id])) !== null) {
             return $model;
         }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }   
+
+    protected function FindOpcoes($audio_resource_id, $aula_id){
+
+        $opcoes = Opcoesai::findAll(['audio_audio_resource_id' => $audio_resource_id, 'audio_aula_id' => $aula_id]);
+        return $opcoes;
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }

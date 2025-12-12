@@ -125,12 +125,19 @@ class ImagemController extends Controller
     {
         $model = $this->findModel($imagem_resource_id, $aula_id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'imagem_resource_id' => $model->imagem_resource_id, 'aula_id' => $model->aula_id]);
+        $opcoes = $this->FindOpcoes($imagem_resource_id, $aula_id);
+
+         if ($this->request->isPost) {
+            if ($model->load($this->request->post()) && $model->save()) {                
+
+
+                return $this->redirect(['view', 'imagem_resource_id' => $model->imagem_resource_id, 'aula_id' => $model->aula_id]);
+            }
         }
 
         return $this->render('update', [
             'model' => $model,
+            'opcoes'=>$opcoes,
         ]);
     }
 
@@ -144,6 +151,11 @@ class ImagemController extends Controller
      */
     public function actionDelete($imagem_resource_id, $aula_id)
     {
+        $opcoes = $this->FindOpcoes($imagem_resource_id, $aula_id);
+        
+        foreach($opcoes as $opcao){
+            $opcao->delete();
+        }
         $this->findModel($imagem_resource_id, $aula_id)->delete();
 
         return $this->redirect(['index']);
@@ -163,7 +175,16 @@ class ImagemController extends Controller
             return $model;
         }
 
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
+        throw new NotFoundHttpException('The requested page does not exist.');
+    
+    }
+
+    protected function FindOpcoes($imagem_resource_id, $aula_id){
+
+        $opcoes = Opcoesai::findAll(['imagem_imagem_resource_id' => $imagem_resource_id, 'imagem_aula_id' => $aula_id]);
+        return $opcoes;
+
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
 }
 
