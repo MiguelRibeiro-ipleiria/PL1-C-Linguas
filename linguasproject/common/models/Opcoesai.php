@@ -39,15 +39,16 @@ class Opcoesai extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['audio_audio_resource_id', 'audio_aula_id', 'imagem_imagem_resource_id', 'imagem_aula_id', 'frase_id'], 'default', 'value' => null],
-            [['iscorreta', 'descricao'], 'required'],
+            [['iscorreta', 'audio_audio_resource_id', 'audio_aula_id', 'imagem_imagem_resource_id', 'imagem_aula_id', 'frase_id'], 'default', 'value' => null],
             [['iscorreta', 'audio_audio_resource_id', 'audio_aula_id', 'imagem_imagem_resource_id', 'imagem_aula_id', 'frase_id'], 'integer'],
+            [['descricao'], 'required'],
             [['descricao'], 'string', 'max' => 45],
-            [['frase_id'], 'exist', 'skipOnError' => true, 'targetClass' => FraseExercicio::class, 'targetAttribute' => ['frase_id' => 'id']],
+            [['frase_id'], 'exist', 'skipOnError' => true, 'targetClass' => Frase::class, 'targetAttribute' => ['frase_id' => 'id']],
             [['audio_audio_resource_id', 'audio_aula_id'], 'exist', 'skipOnError' => true, 'targetClass' => Audio::class, 'targetAttribute' => ['audio_audio_resource_id' => 'audio_resource_id', 'audio_aula_id' => 'aula_id']],
             [['imagem_imagem_resource_id', 'imagem_aula_id'], 'exist', 'skipOnError' => true, 'targetClass' => Imagem::class, 'targetAttribute' => ['imagem_imagem_resource_id' => 'imagem_resource_id', 'imagem_aula_id' => 'aula_id']],
         ];
     }
+    
 
     /**
      * {@inheritdoc}
@@ -93,7 +94,7 @@ class Opcoesai extends \yii\db\ActiveRecord
      */
     public function getImagemImagemResource()
     {
-        return $this->hasOne(Imagem::class, ['imagem_resource_id' => 'imagem_imagem_resource_id', 'aula_id' => 'imagem_aula_id']);
+        return $this->hasOne(ImagemResource::class, ['imagem_resource_id' => 'imagem_imagem_resource_id', 'aula_id' => 'imagem_aula_id']);
     }
 
 }

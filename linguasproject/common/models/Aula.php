@@ -16,7 +16,7 @@ use Yii;
  * @property string $data_criacao
  *
  * @property AudioResource[] $audioResources
- * @property Audio[] $audios
+ * @property Audioexercicio[] $audios
  * @property Curso $curso
  * @property Frase[] $frases
  * @property ImagemResource[] $imagemResources
@@ -83,7 +83,7 @@ class Aula extends \yii\db\ActiveRecord
      */
     public function getAudios()
     {
-        return $this->hasMany(Audio::class, ['aula_id' => 'id']);
+        return $this->hasMany(Audioexercicio::class, ['aula_id' => 'id']);
     }
 
     /**

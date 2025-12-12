@@ -4,12 +4,12 @@ namespace common\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\ImagemResource;
+use common\models\AudioResource;
 
 /**
- * ImagemResourceSearch represents the model behind the search form of `common\models\ImagemResource`.
+ * AudioResourceSearch represents the model behind the search form of `common\models\AudioResource`.
  */
-class ImagemResourceSearch extends ImagemResource
+class AudioResourceSearch extends AudioResource
 {
     /**
      * {@inheritdoc}
@@ -18,7 +18,7 @@ class ImagemResourceSearch extends ImagemResource
     {
         return [
             [['id'], 'integer'],
-            [['nome_imagem', 'nome_ficheiro'], 'safe'],
+            [['nome_audio', 'nome_ficheiro'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class ImagemResourceSearch extends ImagemResource
      */
     public function search($params, $formName = null)
     {
-        $query = ImagemResource::find();
+        $query = AudioResource::find();
 
         // add conditions that should always apply here
 
@@ -62,7 +62,7 @@ class ImagemResourceSearch extends ImagemResource
             'id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'nome_imagem', $this->nome_imagem])
+        $query->andFilterWhere(['like', 'nome_audio', $this->nome_audio])
             ->andFilterWhere(['like', 'nome_ficheiro', $this->nome_ficheiro]);
 
         return $dataProvider;

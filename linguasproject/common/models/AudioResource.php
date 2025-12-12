@@ -5,16 +5,16 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "imagem_resource".
+ * This is the model class for table "audio_resource".
  *
  * @property int $id
- * @property string $nome_imagem
+ * @property string $nome_audio
  * @property string $nome_ficheiro
  *
+ * @property Audio[] $audios
  * @property Aula[] $aulas
- * @property Imagem[] $imagems
  */
-class ImagemResource extends \yii\db\ActiveRecord
+class AudioResource extends \yii\db\ActiveRecord
 {
 
 
@@ -23,7 +23,7 @@ class ImagemResource extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'imagem_resource';
+        return 'audio_resource';
     }
 
     /**
@@ -32,10 +32,9 @@ class ImagemResource extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nome_imagem', 'nome_ficheiro'], 'default', 'value' => null],
-            [['nome_imagem'], 'string', 'max' => 45],
-            [['nome_ficheiro'], 'file', 'extensions' => 'png, jpg, jpeg', 'skipOnEmpty' => true]
-
+            [['nome_audio', 'nome_ficheiro'], 'required'],
+            [['nome_audio'], 'string', 'max' => 50],
+            [['nome_ficheiro'], 'string', 'max' => 100],
         ];
     }
 
@@ -46,9 +45,19 @@ class ImagemResource extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'nome_imagem' => 'Nome Imagem',
+            'nome_audio' => 'Nome Audio',
             'nome_ficheiro' => 'Nome Ficheiro',
         ];
+    }
+
+    /**
+     * Gets query for [[Audios]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAudios()
+    {
+        return $this->hasMany(Audio::class, ['audio_resource_id' => 'id']);
     }
 
     /**
@@ -58,26 +67,16 @@ class ImagemResource extends \yii\db\ActiveRecord
      */
     public function getAulas()
     {
-        return $this->hasMany(Aula::class, ['id' => 'aula_id'])->viaTable('imagem', ['imagem_resource_id' => 'id']);
+        return $this->hasMany(Aula::class, ['id' => 'aula_id'])->viaTable('audio', ['audio_resource_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[Imagems]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getImagems()
-    {
-        return $this->hasMany(Imagem::class, ['imagem_resource_id' => 'id']);
-    }
-    
      public function upload()
     {
         if ($this->nome_ficheiro) {
 
         $fileName = $this->nome_ficheiro->baseName . '.' . $this->nome_ficheiro->extension;
 
-        $this->nome_ficheiro->saveAs(Yii::getAlias('@common/uploadImage/') . $fileName);
+        $this->nome_ficheiro->saveAs(Yii::getAlias('@backend/web/uploads/uploadAudio/') . $fileName);
 
 
          $this->nome_ficheiro = $fileName;
