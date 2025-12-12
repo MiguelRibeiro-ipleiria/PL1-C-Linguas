@@ -67,7 +67,7 @@ class ImagemController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate($aula_id,$tipoexercicio_id)
+    public function actionCreate($aula_id, $tipoexercicio_id)
     {
         $model = new Imagem();
         $model->aula_id =$aula_id;
@@ -163,6 +163,7 @@ class ImagemController extends Controller
             return $model;
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
-    }
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
 }
+

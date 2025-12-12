@@ -7,6 +7,7 @@ use common\models\comentarioSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * ComentarioController implements the CRUD actions for comentario model.
@@ -27,6 +28,19 @@ class ComentarioController extends Controller
                         'delete' => ['POST'],
                     ],
                 ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'denyCallback' => function () {
+                        return \Yii::$app->response->redirect(['../../frontend/web/']);
+                    },
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                            'roles' => ['admin', 'formador'],
+                        ],
+                    ],
+                ],
             ]
         );
     }
@@ -38,13 +52,19 @@ class ComentarioController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new comentarioSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        if(\Yii::$app->user->can('ReadComment')) {
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            $searchModel = new comentarioSearch();
+            $dataProvider = $searchModel->search($this->request->queryParams);
+
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -55,9 +75,15 @@ class ComentarioController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        if(\Yii::$app->user->can('ReadComment')) {
+
+            return $this->render('view', [
+                'model' => $this->findModel($id),
+            ]);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -67,19 +93,25 @@ class ComentarioController extends Controller
      */
     public function actionCreate()
     {
-        $model = new comentario();
-        
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        } else {
-            $model->loadDefaultValues();
-        }
+        if(\Yii::$app->user->can('CreateComment')) {
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+            $model = new comentario();
+
+            if ($this->request->isPost) {
+                if ($model->load($this->request->post()) && $model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+            } else {
+                $model->loadDefaultValues();
+            }
+
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -91,15 +123,21 @@ class ComentarioController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        if(\Yii::$app->user->can('UpdateComment')) {
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            $model = $this->findModel($id);
+
+            if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+
+            return $this->render('update', [
+                'model' => $model,
+            ]);
         }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -111,9 +149,15 @@ class ComentarioController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        if(\Yii::$app->user->can('DeleteComment')) {
 
-        return $this->redirect(['index']);
+            $this->findModel($id)->delete();
+
+            return $this->redirect(['index']);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**

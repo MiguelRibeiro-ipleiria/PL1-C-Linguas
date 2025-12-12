@@ -7,7 +7,7 @@ use common\models\aulaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\filters\AccessControl;
 /**
  * AulaController implements the CRUD actions for aula model.
  */
@@ -21,8 +21,22 @@ class AulaController extends Controller
         return array_merge(
             parent::behaviors(),
             [
+                'access' => [
+                    'class' => AccessControl::class,
+                    'denyCallback' => function () {
+                        return \Yii::$app->response->redirect(['../../frontend/web/']);
+                    },
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'actions' => ['index', 'view', 'create', 'update', 'delete', 'escolherexercicio'],
+                            'roles' => ['admin', 'formador'],
+                        ],
+                    ],
+                ],
+
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
@@ -38,13 +52,19 @@ class AulaController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new aulaSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        if(\Yii::$app->user->can('ReadLesson')){
+            $searchModel = new aulaSearch();
+            $dataProvider = $searchModel->search($this->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
+
     }
 
     /**
@@ -55,6 +75,7 @@ class AulaController extends Controller
      */
     public function actionView($id)
     {
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);

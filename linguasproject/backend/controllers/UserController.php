@@ -63,7 +63,7 @@ class UserController extends Controller
                         ],
                     ],
                     'denyCallback' => function () {
-                        return $this->redirect(['site/no_permisson']);
+                        return \Yii::$app->response->redirect(['../../frontend/web/']);
                     }
                 ],
             ]

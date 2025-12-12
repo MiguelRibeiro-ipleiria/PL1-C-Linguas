@@ -3,10 +3,13 @@
 namespace frontend\controllers;
 
 use common\models\Comentario;
+use common\models\Utilizador;
 use common\models\ComentarioSearch;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
 
 /**
  * ComentarioController implements the CRUD actions for Comentario model.
@@ -39,11 +42,15 @@ class ComentarioController extends Controller
     public function actionIndex()
     {
         $searchModel = new ComentarioSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        $utilizador = Utilizador::find()->where(['user_id' => \Yii::$app->user->identity->id])->one();
+        $query_comentarios = Comentario::find()->where(['utilizador_id' => $utilizador->id]);
+        $DataComentariosProvider = new ActiveDataProvider([
+            'query' => $query_comentarios,
+        ]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'dataProvider' => $DataComentariosProvider,
         ]);
     }
 

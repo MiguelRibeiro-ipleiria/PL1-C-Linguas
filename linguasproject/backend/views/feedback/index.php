@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'tableOptions' => [
-                    'class' => 'table m-0',
+                    'class' => 'table table-striped m-0',
                 ],
                 'layout' => "{items}\n<div class='card-footer clearfix'>{pager}</div>",
                 'columns' => [

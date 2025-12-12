@@ -33,32 +33,16 @@ class CursoController extends Controller
                 ],
                 'access' => [
                     'class' => AccessControl::class,
-                    'only' => ['index', 'view', 'create', 'update', 'delete'],
                     'rules' => [
                         [
                             'allow' => true,
-                            'actions' => ['index', 'view'],
-                            'roles' => ['ReadCourse'],
-                        ],
-                        [
-                            'allow' => true,
-                            'actions' => ['create'],
-                            'roles' => ['CreateCourse'],
-                        ],
-                        [
-                            'allow' => true,
-                            'actions' => ['update'],
-                            'roles' => ['UpdateCourse'],
-                        ],
-                        [
-                            'allow' => true,
-                            'actions' => ['delete'],
-                            'roles' => ['DeleteCourse'],
+                            'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                            'roles' => ['admin', 'formador'],
                         ],
                     ],
                     'denyCallback' => function () {
-                        return $this->redirect(['site/no_permisson']);
-                    }
+                        return \Yii::$app->response->redirect(['../../frontend/web/']);
+                    },
                 ],
             ]
         );
@@ -71,56 +55,54 @@ class CursoController extends Controller
      */
     public function actionIndex()
     {
-        $auth = Yii::$app->authManager;
+        if(\Yii::$app->user->can('ReadCourse')) {
 
-        $user = User::findOne(Yii::$app->user->id);
-        $userRoles = $auth->getRolesByUser($user->id);
-        $role = key($userRoles);
+            $auth = Yii::$app->authManager;
 
-
-
-        if ($this->request->isGet) {
+            $user = User::findOne(Yii::$app->user->id);
+            $userRoles = $auth->getRolesByUser($user->id);
+            $role = key($userRoles);
 
 
-            if ($role == "formador") {
-                $utilizador = Utilizador::findOne(['user_id' => $user->id]);
-                $idioma = $utilizador->idioma_id;
+            if ($this->request->isGet) {
 
-                $searchModel = new CursoSearch();
-                $dataProvider = $searchModel->search($this->request->queryParams);
-                $dataProvider->query->andWhere(['idioma_id' => $idioma]);
 
-            }
-            elseif($role == "admin") {
-                $searchModel = new CursoSearch();
-                $dataProvider = $searchModel->search($this->request->queryParams);
-            }
+                if ($role == "formador") {
+                    $utilizador = Utilizador::findOne(['user_id' => $user->id]);
+                    $idioma = $utilizador->idioma_id;
+
+                    $searchModel = new CursoSearch();
+                    $dataProvider = $searchModel->search($this->request->queryParams);
+                    $dataProvider->query->andWhere(['idioma_id' => $idioma]);
+
+                } elseif ($role == "admin") {
+                    $searchModel = new CursoSearch();
+                    $dataProvider = $searchModel->search($this->request->queryParams);
+                }
 
 
 //            $searchModel = new IdiomaSearch();
 //            $dataProvider = $searchModel->search($this->request->queryParams);
 
-            return $this->render('index', [
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
-            ]);
+                return $this->render('index', [
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+                ]);
+            } elseif ($this->request->isPost) {
+
+                $searchModel = new CursoSearch();
+                $dataProvider = $searchModel->search($this->request->queryParams);
+
+                return $this->render('index', [
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+                ]);
+
+            }
         }
-        elseif ($this->request->isPost) {
-
-            $searchModel = new CursoSearch();
-            $dataProvider = $searchModel->search($this->request->queryParams);
-
-            return $this->render('index', [
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
-            ]);
-
+        else{
+            return $this->redirect(['site/no_permisson']);
         }
-
-
-
-
-
 
 //        if ($role == "formador") {
 //
@@ -160,9 +142,15 @@ class CursoController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        if(\Yii::$app->user->can('ReadCourse')) {
+
+            return $this->render('view', [
+                'model' => $this->findModel($id),
+            ]);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -172,24 +160,30 @@ class CursoController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Curso();
+        if(\Yii::$app->user->can('CreateCourse')) {
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post())) {
-                $model->data_criacao = date('Y-m-d H:i:s');
-                $model->status_ativo = 1;
+            $model = new Curso();
 
-                if($model->save()){
-                    return $this->redirect(['view', 'id' => $model->id]);
+            if ($this->request->isPost) {
+                if ($model->load($this->request->post())) {
+                    $model->data_criacao = date('Y-m-d H:i:s');
+                    $model->status_ativo = 1;
+
+                    if ($model->save()) {
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    }
                 }
+            } else {
+                $model->loadDefaultValues();
             }
-        } else {
-            $model->loadDefaultValues();
-        }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -201,24 +195,29 @@ class CursoController extends Controller
      */
     public function actionUpdate($id)
     {
-        $auth = Yii::$app->authManager;
+        if(\Yii::$app->user->can('UpdateCourse')) {
 
-        $model = $this->findModel($id);
-        $user = User::findOne(Yii::$app->user->id);
-        $UserRoles = $auth->getRolesByUser($user->id);
-        $userrole = key($UserRoles);
+            $auth = Yii::$app->authManager;
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            $model = $this->findModel($id);
+            $user = User::findOne(Yii::$app->user->id);
+            $UserRoles = $auth->getRolesByUser($user->id);
+            $userrole = key($UserRoles);
 
-            return $this->redirect(['view', 'id' => $model->id]);
+            if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+
+            return $this->render('update', [
+                'model' => $model,
+                'userrole' => $userrole,
+                'user' => $user,
+            ]);
         }
-
-        return $this->render('update', [
-            'model' => $model,
-            'userrole' => $userrole,
-            'user' => $user,
-        ]);
-
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -230,9 +229,14 @@ class CursoController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        if(\Yii::$app->user->can('DeleteCourse')) {
 
-        return $this->redirect(['index']);
+            $this->findModel($id)->delete();
+            return $this->redirect(['index']);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**

@@ -135,7 +135,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             <div class="inner-content">
                                                 <div class="intro-video-play">
                                                     <div class="play-thumb wow zoomIn" data-wow-delay=".2s">
-                                                        <a href="<?= Url::to(['/inscricao/create', 'curso_id' => $model->id], ['/curso/aulas', 'id' => $model->id]) ?>"
+                                                        <a href="<?= Url::to(['/aula/aulaemexecucao', 'id' => $model->id]) ?>"
                                                         ><i class="lni lni-play"></i></a>
                                                     </div>
                                                 </div>
@@ -154,7 +154,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     'dataProvider' => $DataCommentsProvider,
                     'itemView' => '_comments',
                     'layout' => "<div class='cards-grid'>{items}</div>\n<div class='mt-4'>{pager}</div>",
-                    'itemOptions' => ['tag' => false]]) ?>
+                    'itemOptions' => ['tag' => false],
+                    'emptyText' => 'Sem avaliações, seja o primeiro a comentar!']) ?>
             </div>
             <hr>
             <span class="badge-custom-comments-title level-badge">Deixe aqui o seu comentário</span>

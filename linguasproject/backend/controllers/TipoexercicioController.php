@@ -7,6 +7,7 @@ use common\models\TipoexercicioSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * TipoexercicioController implements the CRUD actions for Tipoexercicio model.
@@ -27,6 +28,20 @@ class TipoexercicioController extends Controller
                         'delete' => ['POST'],
                     ],
                 ],
+
+                'access' => [
+                    'class' => AccessControl::class,
+                    'denyCallback' => function () {
+                        return \Yii::$app->response->redirect(['../../frontend/web/']);
+                    },
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                            'roles' => ['admin', 'formador'],
+                        ],
+                    ],
+                ],
             ]
         );
     }
@@ -38,25 +53,20 @@ class TipoexercicioController extends Controller
      */
     public function actionIndex()
     {
-        if (\Yii::$app->user->can('ReadUser')) {
-        $searchModel = new TipoexercicioSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        if (\Yii::$app->user->can('ReadTipoExercicio')) {
+            $searchModel = new TipoexercicioSearch();
+            $dataProvider = $searchModel->search($this->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
         }
-        return $this->redirect(['no_permisson']);
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
-    
-    public function actionNo_permisson()
-    {
-        return $this->render('//site/no_permisson', [
-            'message' => 'Não tem permissão para aceder a esta página.'
-        ]);
-    }
 
     /**
      * Displays a single Tipoexercicio model.
@@ -66,9 +76,15 @@ class TipoexercicioController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        if (\Yii::$app->user->can('ReadTipoExercicio')) {
+
+            return $this->render('view', [
+                'model' => $this->findModel($id),
+            ]);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -78,19 +94,25 @@ class TipoexercicioController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Tipoexercicio();
+        if (\Yii::$app->user->can('CreateTipoExercicio')) {
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            $model = new Tipoexercicio();
+
+            if ($this->request->isPost) {
+                if ($model->load($this->request->post()) && $model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+            } else {
+                $model->loadDefaultValues();
             }
-        } else {
-            $model->loadDefaultValues();
-        }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -102,15 +124,21 @@ class TipoexercicioController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        if (\Yii::$app->user->can('UpdateTipoExercicio')) {
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            $model = $this->findModel($id);
+
+            if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+
+            return $this->render('update', [
+                'model' => $model,
+            ]);
         }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -122,9 +150,14 @@ class TipoexercicioController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        if (\Yii::$app->user->can('DeleteTipoExercicio')) {
 
-        return $this->redirect(['index']);
+            $this->findModel($id)->delete();
+            return $this->redirect(['index']);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**

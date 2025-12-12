@@ -91,8 +91,14 @@ return [
                         '{usernome}' => '<usernome:[\p{L}\p{N}\-]+>', //[a-zA-Z0-9_] 1 ou + vezes (char)
                     ],
                 ],
+                ['class' => 'yii\rest\UrlRule','controller' => 'api/auth',
+                    'extraPatterns' => [
+                        'POST login' => 'login',  // login verify action],
+                    ]
+                ],
             ],
         ],
+
     ],
     'params' => $params,
 ];

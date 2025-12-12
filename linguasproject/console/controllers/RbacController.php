@@ -42,6 +42,11 @@ class RbacController extends Controller
         $DeleteFeedback->description = 'Eliminar uma mensagem de feedback';
         $auth->add($DeleteFeedback);
 
+        // UpdateFeedback
+        $UpdateFeedback = $auth->createPermission('UpdateFeedback');
+        $UpdateFeedback->description = 'Alterar uma mensagem de feedback';
+        $auth->add($UpdateFeedback);
+
 
         /*COMMENTS PERMISSIONS*/
         // CreateComment
@@ -360,6 +365,26 @@ class RbacController extends Controller
         $auth->add($CanAccessMeusFeedbacks);
 
 
+        /* ACESSO ÁS INCRICOES */
+
+        $ReadInscricoes = $auth->createPermission('ReadInscricoes');
+        $ReadInscricoes->description = 'Ver as inscricoes de todos os users';
+        $auth->add($ReadInscricoes);
+
+        $CreateInscricoes = $auth->createPermission('CreateInscricoes');
+        $CreateInscricoes->description = 'Criar uma inscricao';
+        $auth->add($CreateInscricoes);
+
+        $DeleteInscricoes = $auth->createPermission('DeleteInscricoes');
+        $DeleteInscricoes->description = 'Eliminar incricao de um user';
+        $auth->add($DeleteInscricoes);
+
+        $UpdateInscricoes = $auth->createPermission('UpdateInscricoes');
+        $UpdateInscricoes->description = 'Alterar algum dado da inscricao de um user';
+        $auth->add($UpdateInscricoes);
+
+
+
 
         /*----------------Profile Managment-----------*/
         //admin
@@ -384,6 +409,19 @@ class RbacController extends Controller
         $auth->addChild($aluno, $CanAccessMeusFeedbacks);
 
 
+        /*------------Inscricoes Managment-------------*/
+        //admin
+        $auth->addChild($admin, $ReadInscricoes);
+        $auth->addChild($admin, $CreateInscricoes);
+        $auth->addChild($admin, $DeleteInscricoes);
+        $auth->addChild($admin, $UpdateInscricoes);
+
+        //formador
+        $auth->addChild($formador, $CreateInscricoes);
+
+        //aluno
+        $auth->addChild($aluno, $CreateInscricoes);
+
 
         /*----------------Backend Managment-----------*/
         //admin
@@ -397,6 +435,7 @@ class RbacController extends Controller
         $auth->addChild($admin, $CreateFeedback);
         $auth->addChild($admin, $ReadFeedback);
         $auth->addChild($admin, $DeleteFeedback);
+        $auth->addChild($admin, $UpdateFeedback);
 
         //formador
         $auth->addChild($formador, $CreateFeedback);
@@ -425,13 +464,11 @@ class RbacController extends Controller
 
         //formador
         $auth->addChild($formador, $CreateComment);
-        $auth->addChild($formador, $ReadComment);
         $auth->addChild($formador, $UpdateComment);
         $auth->addChild($formador, $DeleteComment);
 
         //user autenticado
         $auth->addChild($aluno, $CreateComment);
-        $auth->addChild($aluno, $ReadComment);
         $auth->addChild($aluno, $UpdateComment);
         $auth->addChild($aluno, $DeleteComment);
 

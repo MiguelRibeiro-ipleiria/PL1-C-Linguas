@@ -48,5 +48,18 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 
+    <div class="container">
+        <div class="row">
+            <div class="col-11">
+                <div class="progress">
+                    <div class="progress-bar" style="width: 70%;"></div>
+                </div>
+            </div>
+            <div class="col-1">
+                <p>70%</p>
+            </div>
+        </div>
+    </div>
+
 
 </div>

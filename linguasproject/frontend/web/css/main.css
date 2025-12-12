@@ -1354,6 +1354,171 @@ ol {
   background-color: #081828;
 }
 
+
+.button .styliesh-red{
+  text-decoration: none;
+  display: inline-block;
+  text-transform: capitalize;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 14px 30px;
+  background-color: #c82222;
+  color: #fff;
+  border: none;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  border-radius: 30px;
+  position: relative;
+  z-index: 1;
+  margin-right: 7px;
+  overflow: hidden;
+  border-bottom: 5px solid #5a1e1e;
+}
+
+.button .styliesh-red:hover {
+  color: #fff;
+  background-color: #081828;
+  border-bottom: 0px solid #da5858;
+}
+
+.button .styliesh-off{
+  text-decoration: none;
+  display: inline-block;
+  text-transform: capitalize;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 14px 30px;
+  background-color: #b1adad;
+  color: #fff;
+  border: none;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  border-radius: 30px;
+  position: relative;
+  z-index: 1;
+  margin-right: 7px;
+  overflow: hidden;
+  border-bottom: 5px solid #535554;
+}
+
+.button .styliesh{
+  text-decoration: none;
+  display: inline-block;
+  text-transform: capitalize;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 14px 30px;
+  background-color: #2ed06e;
+  color: #fff;
+  border: none;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  border-radius: 30px;
+  position: relative;
+  z-index: 1;
+  margin-right: 7px;
+  overflow: hidden;
+  border-bottom: 5px solid #27603e;
+}
+
+.button .styliesh:hover {
+  color: #fff;
+  background-color: #081828;
+  border-bottom: 0px solid #da5858;
+
+}
+
+/* ------ OPCOES ------*/
+
+.button .opcao_layout{
+  text-decoration: none;
+  display: inline-block;
+  text-transform: capitalize;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 14px 30px;
+  background-color: #f3f3f3;
+  color: #535554;
+  border: 1px solid #535554;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  border-radius: 15px;
+  position: relative;
+  z-index: 1;
+  margin-right: 45px;
+  overflow: hidden;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
+}
+
+.button .opcao_layout:hover {
+  color: #fff;
+  background-color: #2ed06e;
+  border-bottom: 2px solid #228849;
+
+}
+
+.question-exercicio{
+  margin-left: 10%;
+  font-weight: bold;
+  color: #535554;
+}
+
+.finish_exercise_layout{
+  text-decoration: none;
+  display: inline-block;
+  text-transform: capitalize;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 14px 30px;
+  background-color: #2ed06e;
+  color: #fff;
+  /*border-bottom: 2px solid #228849;*/
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  border-radius: 15px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  border: 1px solid #2ed06e;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
+}
+
+.finish_exercise_layout:hover {
+  color: #535554;
+  background-color: #f3f3f3;
+  border: 1px solid #535554;
+
+}
+
+/* Estilos para o container da imagem */
+.img-exercicio {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+  padding: 10px 0;
+  margin-bottom: 3%
+}
+
+/* Estilos para a imagem real dentro do container */
+.img-exercicio img {
+  /* Define um tamanho maior para a imagem */
+  width: 30%; /* Você pode ajustar este valor para o tamanho desejado (ex: 70px, 90px, etc.) */
+  height: 50%; /* Mantém a proporção da imagem */
+  /* Garante que a imagem está centralizada se o container for flex */
+  display: block;
+}
+
+.box-divider{
+  width: 100%; /* Ocupa a largura total do seu container */
+  height: 8px;
+  background-color: #2ed06e;
+  color: #2ed06e;
+  border-radius: 15px;
+  margin-bottom: 2%;
+  /* REMOVEMOS: margin-left: 10%; */
+}
+
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .button .btn {
     padding: 14px 25px;
@@ -2112,6 +2277,7 @@ ol {
   color: #fff;
 }
 
+
 @media only screen and (min-width: 768px) and (max-width: 991px), (max-width: 767px) {
   .header .button .signin {
     color: #081828;
@@ -2673,8 +2839,7 @@ ol {
 }
 
 .card-cursos-title {
-  display: inline-block;
-  padding: 5% 15%;
+  padding: 5% 5%;
   margin-right: 8px; /* Espaço entre as tags */
   border-radius: 20px;
   font-size: 1rem;
@@ -3640,6 +3805,21 @@ ol {
 .single-blog-grid .blog-content .button .btn:hover {
   color: #2ed06e;
 }
+
+
+.single-blog-grid .blog-content .button .styliesh {
+  padding: 0;
+  background-color: transparent;
+  color: #081828;
+  text-decoration: underline;
+  overflow: visible;
+}
+
+.single-blog-grid .blog-content .button .styliesh:hover {
+  color: #830b1f;
+}
+
+
 
 .blog-list {
   background: #F4F7FA;
@@ -5105,16 +5285,32 @@ blockquote span {
   border: 1px solid #eee !important;
 
   border-radius: 30px !important;
-  color: #505050;
 
   transition: all 0.3s ease;
   box-shadow: none !important;
 
   color: #2ed06e;
   font-weight: bold;
-
-
 }
+
+.form-filter option {
+  padding: 8px;
+  background: #fff;
+  color: #2ed06e;
+  font-weight: bold;
+}
+
+.form-filter option:hover {
+  background-color: #2ed06e !important;   /* cor ao passar o mouse */
+}
+
+.form-filter option:checked {
+  background: #2ed06e;
+  color: white;
+}
+
+
+
 
 
 
@@ -6513,3 +6709,15 @@ dialog::backdrop {
   color: #2ed06e;
 }
 
+
+/* ==============================================
+          EXERCICIOS EM EXECUCAO
+=================================================*/
+
+.opcao-content-area{
+  padding: 3% 3%;
+  border-radius: 25%;
+  border: 1px solid #3e3e3e;
+
+
+}

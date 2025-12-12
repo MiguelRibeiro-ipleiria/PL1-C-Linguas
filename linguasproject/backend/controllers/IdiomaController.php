@@ -32,32 +32,16 @@ class IdiomaController extends Controller
                 ],
                 'access' => [
                     'class' => AccessControl::class,
-                    'only' => ['index', 'view', 'create', 'update', 'delete'],
+                    'denyCallback' => function () {
+                        return \Yii::$app->response->redirect(['../../frontend/web/']);
+                    },
                     'rules' => [
                         [
                             'allow' => true,
-                            'actions' => ['index', 'view'],
-                            'roles' => ['ReadLanguage'],
-                        ],
-                        [
-                            'allow' => true,
-                            'actions' => ['create'],
-                            'roles' => ['CreateLanguage'],
-                        ],
-                        [
-                            'allow' => true,
-                            'actions' => ['update'],
-                            'roles' => ['UpdateLanguage'],
-                        ],
-                        [
-                            'allow' => true,
-                            'actions' => ['delete'],
-                            'roles' => ['DeleteLanguage'],
+                            'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                            'roles' => ['admin', 'formador'],
                         ],
                     ],
-                    'denyCallback' => function () {
-                        throw new \Exception('You are not allowed to access this page');
-                    }
                 ],
             ]
         );
@@ -70,24 +54,29 @@ class IdiomaController extends Controller
      */
     public function actionIndex()
     {
-        if ($this->request->isGet) {
-            $searchModel = new IdiomaSearch();
-            $dataProvider = $searchModel->search($this->request->queryParams);
+        if(\Yii::$app->user->can('ReadLanguage')) {
 
-            return $this->render('index', [
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
-            ]);
+            if ($this->request->isGet) {
+                $searchModel = new IdiomaSearch();
+                $dataProvider = $searchModel->search($this->request->queryParams);
+
+                return $this->render('index', [
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+                ]);
+            } elseif ($this->request->isPost) {
+
+                $searchModel = new IdiomaSearch();
+                $dataProvider = $searchModel->search($this->request->queryParams);
+
+                return $this->render('index', [
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+                ]);
+            }
         }
-        elseif ($this->request->isPost) {
-
-            $searchModel = new IdiomaSearch();
-            $dataProvider = $searchModel->search($this->request->queryParams);
-
-            return $this->render('index', [
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
-            ]);
+        else{
+            return $this->redirect(['site/no_permisson']);
         }
     }
 
@@ -99,9 +88,15 @@ class IdiomaController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        if(\Yii::$app->user->can('ReadLanguage')) {
+
+            return $this->render('view', [
+                'model' => $this->findModel($id),
+            ]);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -111,30 +106,36 @@ class IdiomaController extends Controller
      */
         public function actionCreate()
         {
-            $model = new Idioma();
+            if(\Yii::$app->user->can('CreateLanguage')) {
+
+                $model = new Idioma();
 
 
-            if ($this->request->isPost) {
-                
-                if ($model->load($this->request->post())) {
+                if ($this->request->isPost) {
 
-                    $model->lingua_bandeira = UploadedFile::getInstance($model, 'lingua_bandeira');
-                    if ($model->upload()) {
-                        
-                        $model->data_criacao = date('Y-m-d H:i:s');
-                        if($model->save()){
-                            return $this->redirect(['view', 'id' => $model->id]);
+                    if ($model->load($this->request->post())) {
+
+                        $model->lingua_bandeira = UploadedFile::getInstance($model, 'lingua_bandeira');
+                        if ($model->upload()) {
+
+                            $model->data_criacao = date('Y-m-d H:i:s');
+                            if ($model->save()) {
+                                return $this->redirect(['view', 'id' => $model->id]);
+                            }
                         }
-                    }   
-                    
-                }
-            } else {
-                $model->loadDefaultValues();
-            }
 
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+                    }
+                } else {
+                    $model->loadDefaultValues();
+                }
+
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
+            else{
+                return $this->redirect(['site/no_permisson']);
+            }
         }
 
     /**
@@ -146,38 +147,42 @@ class IdiomaController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        if(\Yii::$app->user->can('UpdateLanguage')) {
+
+            $model = $this->findModel($id);
 
 
-        if ($this->request->isPost && $model->load($this->request->post())) {
+            if ($this->request->isPost && $model->load($this->request->post())) {
 
-            $ImagemCarregada = UploadedFile::getInstance($model, 'lingua_bandeira');
+                $ImagemCarregada = UploadedFile::getInstance($model, 'lingua_bandeira');
 
-            if ($ImagemCarregada) {
-                $model->lingua_bandeira = $ImagemCarregada;
+                if ($ImagemCarregada) {
+                    $model->lingua_bandeira = $ImagemCarregada;
 
-                if ($model->upload()) {
-                    if ($model->save()) {
-                        return $this->redirect(['view', 'id' => $model->id]);
-                    }
-                    else{
+                    if ($model->upload()) {
+                        if ($model->save()) {
+                            return $this->redirect(['view', 'id' => $model->id]);
+                        } else {
+                            return $this->render('update', [
+                                'model' => $model,
+                            ]);
+                        }
+                    } else {
                         return $this->render('update', [
                             'model' => $model,
                         ]);
                     }
                 }
-                else{
-                    return $this->render('update', [
-                        'model' => $model,
-                    ]);
-                }
+
+
             }
-
-
+            return $this->render('update', [
+                'model' => $model,
+            ]);
         }
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
 
     }
 
@@ -190,9 +195,14 @@ class IdiomaController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        if(\Yii::$app->user->can('DeleteLanguage')) {
 
-        return $this->redirect(['index']);
+            $this->findModel($id)->delete();
+            return $this->redirect(['index']);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**

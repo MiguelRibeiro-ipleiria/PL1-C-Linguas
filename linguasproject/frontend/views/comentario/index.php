@@ -10,38 +10,20 @@ use yii\grid\GridView;
 /** @var common\models\ComentarioSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Comentarios';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="comentario-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<?= $this->render('../user/_profile_menu') ?>
 
-    <p>
-        <?= Html::a('Create Comentario', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
+<div class="container">
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'descricao_comentario',
-            'aula_id',
-            'hora_criada',
-            'utilizador_id',
-            [
-                'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Comentario $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id' => $model->id]);
-                 }
-            ],
-        ],
-    ]); ?>
-
+    
+    <div class="row">
+        <?= \yii\widgets\ListView::widget([
+            'dataProvider' => $dataProvider,
+            'itemView' => '../aula/_comments',
+            'layout' => "<div class='row'>{items}</div>\n<div class='mt-4'>{pager}</div>",
+            'itemOptions' => ['tag' => false],
+        ]) ?>
+    </div>
 
 </div>

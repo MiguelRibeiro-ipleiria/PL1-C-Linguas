@@ -1,10 +1,18 @@
 <?php
 
 /** @var yii\web\View $this */
-use yii\helpers\Url;
-use Yii;
 
-$this->title = 'My Yii Application';
+use common\models\comentarioSearch;
+use common\models\Inscricao;
+use yii\helpers\Url;
+use yii\data\ActiveDataProvider;
+use common\models\Comentario;
+use common\models\Utilizador;
+use yii\helpers\ArrayHelper;
+use Yii;
+use yii\db\Expression;
+
+$this->title = 'LEARNALOT';
 ?>
 
 <!-- Start Hero Area -->

@@ -1,7 +1,7 @@
 <?php
 
 namespace common\models;
-
+use common\models\Fraseexercicio;
 use Yii;
 
 /**
@@ -20,7 +20,7 @@ use Yii;
  * @property Curso $curso
  * @property Frase[] $frases
  * @property ImagemResource[] $imagemResources
- * @property Imagem[] $imagems
+ * @property Imagemexercicio[] $imagems
  */
 class Aula extends \yii\db\ActiveRecord
 {
@@ -103,7 +103,7 @@ class Aula extends \yii\db\ActiveRecord
      */
     public function getFrases()
     {
-        return $this->hasMany(Frase::class, ['aula_id' => 'id']);
+        return $this->hasMany(Fraseexercicio::class, ['aula_id' => 'id']);
     }
 
     /**
@@ -123,7 +123,7 @@ class Aula extends \yii\db\ActiveRecord
      */
     public function getImagems()
     {
-        return $this->hasMany(Imagem::class, ['aula_id' => 'id']);
+        return $this->hasMany(Imagemexercicio::class, ['aula_id' => 'id']);
     }
 
     public function setDataCriacao()

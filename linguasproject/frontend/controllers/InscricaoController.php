@@ -75,12 +75,13 @@ class InscricaoController extends Controller
         $model->utilizador_id = $utilizador->id;
         $model->data_inscricao = date('y-m-d H:i:s');;
         $model->progresso = 0;
-        $model->estado =  "Por começar";
+        $model->estado =  "Inscrito";
         $model->curso_idcurso = $curso_id;
 
 
         if($model->verificainscricao($curso_id, $utilizador->id) && $model->save()){
 
+            $model->inscricaonasaulas($curso_id, $utilizador->id);
             $curso = $model->getCurso();
             return $this->render('inscricao_valida', [
                 'curso' => $curso,
@@ -125,9 +126,13 @@ class InscricaoController extends Controller
      */
     public function actionDelete($utilizador_id, $curso_idcurso)
     {
-        $this->findModel($utilizador_id, $curso_idcurso)->delete();
-
-        return $this->redirect(['index']);
+        if(Inscricao::desinscricaonasaulas($curso_idcurso, $utilizador_id)){
+            if(!Inscricao::verificainscricao($curso_idcurso, $utilizador_id)){
+                $inscricao = Inscricao::findOne(['utilizador_id' => $utilizador_id, 'curso_idcurso' => $curso_idcurso]);
+                $inscricao->delete();
+            }
+        }
+        return $this->redirect(\Yii::$app->request->referrer);
     }
 
     /**
