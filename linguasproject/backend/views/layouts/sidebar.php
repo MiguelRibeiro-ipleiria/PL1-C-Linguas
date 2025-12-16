@@ -74,7 +74,7 @@ use yii\helpers\Url;
                     ['label' => 'EXERCÍCIOS', 'header' => true],
                     ['label' => 'Imagens',  'icon' => 'image', 'url' => ['/imagem/index']],
                     ['label' => 'Áudios',  'icon' => 'music', 'url' => ['/audio/index']],
-                    ['label' => 'Frases',  'icon' => 'book', 'url' => ['/fraseexercicio/index']],
+                    ['label' => 'Frases',  'icon' => 'book', 'url' => ['/frase/index']],
                     ['label' => 'RESOURCES', 'header' => true],
                     ['label' => 'imagens (resource)' ,  'icon' => 'image','url' => ['/imagemresource/index']],
                     ['label' => 'audio (resource)',  'icon' => 'music','url' => ['/audioresource/index']],

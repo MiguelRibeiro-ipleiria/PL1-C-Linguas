@@ -2,19 +2,17 @@
 
 namespace backend\controllers;
 
-use common\models\Audio;
-use common\models\AudioSearch;
+use common\models\Frase;
+use common\models\FraseSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use common\models\opcoesai;
-use yii\helpers\ArrayHelper;
-const OPCOES = null;
+use common\models\OpcoesAi; 
 
 /**
- * AudioController implements the CRUD actions for Audio model.
+ * FraseController implements the CRUD actions for Frase model.
  */
-class AudioController extends Controller
+class FraseController extends Controller
 {
     /**
      * @inheritDoc
@@ -35,13 +33,13 @@ class AudioController extends Controller
     }
 
     /**
-     * Lists all Audio models.
+     * Lists all Frase models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new AudioSearch();
+        $searchModel = new FraseSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
@@ -51,137 +49,135 @@ class AudioController extends Controller
     }
 
     /**
-     * Displays a single Audio model.
-     * @param int $audio_resource_id Audio Resource ID
-     * @param int $aula_id Aula ID
+     * Displays a single Frase model.
+     * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($audio_resource_id, $aula_id)
+    public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($audio_resource_id, $aula_id),
+            'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new Audio model.
+     * Creates a new Frase model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate($aula_id,$tipoexercicio_id)
     {
-        $model = new Audio();
-        $model->aula_id =$aula_id;
-        $model->tipoexercicio_id = $tipoexercicio_id;
         
+        $model = new Frase();
+
+        $model->aula_id =$aula_id;
+        $model->tipoexercicio_id =$tipoexercicio_id;
+
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {                
+            if ($model->load($this->request->post()) && $model->save()) {
 
 
-                $postOpcoes = $this->request->post('Opcoesai', []);
+                 $postOpcoes = $this->request->post('Opcoesai', []);
+ 
 
                 foreach ($postOpcoes as $dadosOpcao) {
                     $opcao = new OpcoesAi();
                     $opcao->load(['Opcoesai' => $dadosOpcao]);
                     
-
-                    $opcao->audio_aula_id = $aula_id;
-                    $opcao->audio_audio_resource_id = $model->audio_resource_id;
+                    $opcao->frase_id = $model->id;
 
                     $opcao->save();
 
-                   
                 }
 
-                return $this->redirect(['view', 'audio_resource_id' => $model->audio_resource_id, 'aula_id' => $model->aula_id]);
+
+                return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
             $model->loadDefaultValues();
         }
+
         $opcoes = [
             new OpcoesAi(),
             new OpcoesAi(),
             new OpcoesAi(),
             new OpcoesAi(),
         ];
+
         return $this->render('create', [
             'model' => $model,
-            'opcoes' => $opcoes 
+            'opcoes'=>$opcoes,
+
         ]);
     }
 
     /**
-     * Updates an existing Audio model.
+     * Updates an existing Frase model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $audio_resource_id Audio Resource ID
-     * @param int $aula_id Aula ID
+     * @param int $id ID
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($audio_resource_id, $aula_id)
+    public function actionUpdate($id)
     {
-        $model = $this->findModel($audio_resource_id, $aula_id);
-        $opcoes = $this->FindOpcoes($audio_resource_id, $aula_id);
+        $model = $this->findModel($id);
 
+        $opcoes = $this->FindOpcoes($id);
+            
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+
             if (Opcoesai::loadMultiple($opcoes, $this->request->post()) && Opcoesai::validateMultiple($opcoes)) {
                 foreach ($opcoes as $opcao) {
                     $opcao->save(false);
                 }
             }
-            return $this->redirect(['view', 'audio_resource_id' => $model->audio_resource_id, 'aula_id' => $model->aula_id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
-            'opcoes'=>$opcoes,
-            
+            'opcoes' =>$opcoes
         ]);
-
     }
 
-
-
     /**
-     * Deletes an existing Audio model.
+     * Deletes an existing Frase model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $audio_resource_id Audio Resource ID
-     * @param int $aula_id Aula ID
+     * @param int $id ID
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($audio_resource_id, $aula_id)
+    public function actionDelete($id)
     {
-         
-        $opcoes = $this->FindOpcoes($audio_resource_id, $aula_id);
+        $opcoes = $this->FindOpcoes($id);
         foreach($opcoes as $opcao){
             $opcao->delete();
         }
-        $this->findModel($audio_resource_id, $aula_id)->delete();
+        $this->findModel($id)->delete();
+
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the Audio model based on its primary key value.
+     * Finds the Frase model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $audio_resource_id Audio Resource ID
-     * @param int $aula_id Aula ID
-     * @return Audio the loaded model
+     * @param int $id ID
+     * @return Frase the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($audio_resource_id, $aula_id)
+    protected function findModel($id)
     {
-        if (($model = Audio::findOne(['audio_resource_id' => $audio_resource_id, 'aula_id' => $aula_id])) !== null) {
+        if (($model = Frase::findOne(['id' => $id])) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
-    }   
+    }
 
-    protected function FindOpcoes($audio_resource_id, $aula_id){
+    protected function FindOpcoes($frase_id){
 
-        $opcoes = Opcoesai::findAll(['audio_audio_resource_id' => $audio_resource_id, 'audio_aula_id' => $aula_id]);
+        $opcoes = Opcoesai::findAll(['frase_id'=>$frase_id]);
         return $opcoes;
 
         throw new NotFoundHttpException('The requested page does not exist.');

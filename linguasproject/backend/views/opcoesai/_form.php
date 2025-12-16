@@ -1,0 +1,26 @@
+<?php
+
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+
+/** @var yii\web\View $this */
+/** @var common\models\Opcoesai $model */
+/** @var yii\widgets\ActiveForm $form */
+?>
+
+<div class="opcoesai-form">
+
+    <?php $form = ActiveForm::begin(); ?>
+
+    <?= $form->field($model, 'iscorreta')->checkbox() ?>
+    <?= $form->field($model, 'descricao')->textInput(['maxlength' => true]) ?>
+
+
+
+    <div class="form-group">
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+    </div>
+
+    <?php ActiveForm::end(); ?>
+
+</div>

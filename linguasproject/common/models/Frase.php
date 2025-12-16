@@ -8,16 +8,16 @@ use Yii;
  * This is the model class for table "frase".
  *
  * @property int $id
- * @property string $partefrases_1
- * @property string $partefrases_2
- * @property string $resposta
+ * @property string|null $partefrases_1
+ * @property string|null $partefrases_2
  * @property int $aula_id
  * @property int $tipoexercicio_id
  *
  * @property Aula $aula
+ * @property Opcoesai[] $opcoesais
  * @property Tipoexercicio $tipoexercicio
  */
-class Fraseexercicio extends \yii\db\ActiveRecord
+class Frase extends \yii\db\ActiveRecord
 {
 
 
@@ -35,7 +35,8 @@ class Fraseexercicio extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-
+            [['partefrases_1', 'partefrases_2'], 'default', 'value' => null],
+            [['aula_id', 'tipoexercicio_id'], 'required'],
             [['aula_id', 'tipoexercicio_id'], 'integer'],
             [['partefrases_1', 'partefrases_2'], 'string', 'max' => 100],
             [['aula_id'], 'exist', 'skipOnError' => true, 'targetClass' => Aula::class, 'targetAttribute' => ['aula_id' => 'id']],
@@ -65,6 +66,16 @@ class Fraseexercicio extends \yii\db\ActiveRecord
     public function getAula()
     {
         return $this->hasOne(Aula::class, ['id' => 'aula_id']);
+    }
+
+    /**
+     * Gets query for [[Opcoesais]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOpcoesais()
+    {
+        return $this->hasMany(Opcoesai::class, ['frase_id' => 'id']);
     }
 
     /**

@@ -129,8 +129,11 @@ class ImagemController extends Controller
 
          if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {                
-
-
+            if (Opcoesai::loadMultiple($opcoes, $this->request->post()) && Opcoesai::validateMultiple($opcoes)) {
+                foreach ($opcoes as $opcao) {
+                    $opcao->save(false);
+                }
+            }
                 return $this->redirect(['view', 'imagem_resource_id' => $model->imagem_resource_id, 'aula_id' => $model->aula_id]);
             }
         }
