@@ -2,8 +2,6 @@
 
 use common\models\Dificuldade;
 use yii\helpers\Html;
-use yii\helpers\Url;
-use yii\grid\ActionColumn;
 use yii\grid\GridView;
 
 /** @var yii\web\View $this */
@@ -11,38 +9,33 @@ use yii\grid\GridView;
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Dificuldades';
-$this->params['breadcrumbs'][] = $this->title;
+
+$this->registerCss("
+    .grid-view th a, .grid-view .action-column a { color: #28a745 !important; font-weight: bold; }
+    .table-responsive { margin-top: 1.5rem; }
+");
 ?>
 
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title"><?= Html::encode($this->title) ?></h3>
-        <div class="card-tools">
-            <?= Html::a('Create Dificuldade', ['create'], ['class' => 'btn btn-success']) ?>
-        </div>
-    </div>
-    <div class="card-body p-0">
-        <div class="table-responsive">
-            <?= GridView::widget([
-                'dataProvider' => $dataProvider,
-                'filterModel' => $searchModel,
-                'tableOptions' => [
-                    'class' => 'table table-striped m-0',
+<p><?= Html::a('Create Dificuldade', ['create'], ['class' => 'btn btn-success']) ?></p>
+
+<div class="card card-success">
+    <div class="card-body">
+        <?= $this->render('_search', ['model' => $searchModel]) ?>
+
+        <?= GridView::widget([
+            'dataProvider' => $dataProvider,
+            'summary' => false, 
+            'tableOptions' => ['class' => 'table table-striped m-0'],
+            'layout' => "{items}\n<div class='card-footer clearfix'>{pager}</div>",
+            'columns' => [
+                'id',
+                'grau_dificuldade',
+                [
+                    'class' => 'yii\grid\ActionColumn',
+                    'header' => 'Ações',
+                    'contentOptions' => ['class' => 'action-column', 'style' => 'width: 100px;'],
                 ],
-                'layout' => "{items}\n<div class='card-footer clearfix'>{pager}</div>",
-                'columns' => [
-                    'id',
-                    'grau_dificuldade',
-                    [
-                        'class' => ActionColumn::class,
-                        'header' => 'Ações',
-                        'urlCreator' => function ($action, Dificuldade $model, $key, $index, $column) {
-                            return Url::to([$action, 'id' => $model->id]);
-                        },
-                        'contentOptions' => ['style' => 'width: 120px;'],
-                    ],
-                ],
-            ]); ?>
-        </div>
+            ],
+        ]); ?>
     </div>
 </div>
