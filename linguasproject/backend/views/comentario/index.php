@@ -20,7 +20,10 @@ $this->registerCss("
 
 <div class="card card-success">
     <div class="card-body">
-        <?= $this->render('_search', ['model' => $searchModel]) ?>
+        <?=
+        
+        $this->render('_search', ['model' => $searchModel, 'arrayUsers' => $arrayUsers,
+                'arrayAulas' => $arrayAula,]) ?>
 
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
