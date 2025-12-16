@@ -25,13 +25,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="card-body">
         <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
-        <div class="row">
-            <?= \yii\widgets\ListView::widget([
-                'dataProvider' => $dataProvider,
-                'itemView' => '_idioma',
-                'layout' => "<div class='row'>{items}</div>\n<div class='mt-4'>{pager}</div>",
-                'itemOptions' => ['tag' => false],
+        <?= \yii\widgets\ListView::widget([
+          'dataProvider' => $dataProvider,
+          'itemView' => '_idioma',
+          'layout' => "<div class='row'>{items}</div>\n<div class='mt-4'>{pager}</div>",
+            'itemOptions' => ['tag' => false],
             ]) ?>
+
 
         </div>
     </div>

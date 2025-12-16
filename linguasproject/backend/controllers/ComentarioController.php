@@ -3,11 +3,14 @@
 namespace backend\controllers;
 
 use common\models\comentario;
+use common\models\User;
+use common\models\Aula;
 use common\models\comentarioSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 
 /**
  * ComentarioController implements the CRUD actions for comentario model.
@@ -54,12 +57,17 @@ class ComentarioController extends Controller
     {
         if(\Yii::$app->user->can('ReadComment')) {
 
+            $arrayUsers= ArrayHelper::map(User::find()->asArray()->all(), 'id', 'username');
+            $arrayAula= ArrayHelper::map(Aula::find()->asArray()->all(), 'id', 'titulo_aula'); 
+
             $searchModel = new comentarioSearch();
             $dataProvider = $searchModel->search($this->request->queryParams);
 
             return $this->render('index', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
+                'arrayUsers' => $arrayUsers,
+                'arrayAula' => $arrayAula,
             ]);
         }
         else{
