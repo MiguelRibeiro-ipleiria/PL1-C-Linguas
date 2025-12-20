@@ -5374,7 +5374,9 @@ fieldset:disabled .btn {
     overflow: hidden;
     font-size: .75rem;
     background-color: #e9ecef;
-    border-radius: .50rem
+    border-radius: .50rem;
+    margin-left: 5%;
+    margin-top: 20px;
 }
 
 .progress-bar {

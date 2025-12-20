@@ -19,36 +19,43 @@ class IdiomaController extends ActiveController
      */
 
     public $modelClass = 'common\models\Idioma';
-
-    public function actionIndex()
-    {
-        return $this->render('index');
-    }
-
-    /*public function behaviors()
+    public $user = null;
+    public function behaviors()
     {
         Yii::$app->params['id'] = 0;
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
             'class' => CustomAuth::className(),
-            'except' => ['index', 'view'],  //Excluir a autenticação aos metedos do controllador (excluir aos gets)
+            'except' => ['index', 'view', 'count'],  //Excluir a autenticação aos metedos do controllador (excluir aos gets)
         ];
 
         return $behaviors;
-    }*/
+    }
 
-    /*public function checkAccess($action, $model = null, $params = [])
+    public function checkAccess($action, $model = null, $params = [])
     {
         if(isset(\Yii::$app->params['id'])){
-            $userId = \Yii::$app->params['id'];
-
-            if (!\Yii::$app->authManager->checkAccess($userId, 'DeleteLanguage')) {
-                if($action === "delete"){
-                    throw new \yii\web\ForbiddenHttpException('Proibido');
+            if($action === "delete"){
+                if (!Yii::$app->user->can('DeleteLanguage')) {
+                    if($action === "delete"){
+                        throw new \yii\web\ForbiddenHttpException('Proibido');
+                    }
                 }
+
             }
+
+
         }
-    }*/
+//        if(isset(\Yii::$app->params['id'])){
+//
+//            if(\Yii::$app->params['id'])
+//            {
+//                if($action === "delete"){
+//                    throw new \yii\web\ForbiddenHttpException('Proibido');
+//                }
+//            }
+//        }
+    }
 
     public function actionCount()
     {
@@ -69,16 +76,6 @@ class IdiomaController extends ActiveController
         $IdiomaModel = new $this->modelClass;
         $idioma = $IdiomaModel::find()->where(['lingua_descricao' => $nome])->one();
         return $idioma;
-    }
-
-    public function actionDeletepornome($nome){
-        $IdiomaModel = new $this->modelClass;
-        $deleted = $IdiomaModel::deleteAll(['lingua_descricao' => $nome]);
-        if($deleted){
-            return "Idioma ( $nome ) apagado com sucesso!";
-        }else{
-            return "Impossível apagar o Idioma ( $nome )!";
-        }
     }
 
 

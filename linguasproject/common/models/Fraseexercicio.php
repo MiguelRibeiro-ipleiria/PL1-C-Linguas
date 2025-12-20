@@ -77,4 +77,14 @@ class Fraseexercicio extends \yii\db\ActiveRecord
         return $this->hasOne(Tipoexercicio::class, ['id' => 'tipoexercicio_id']);
     }
 
+    /**
+     * Gets query for [[Opcoesais]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOpcoesais()
+    {
+        return $this->hasMany(Opcoesai::class, ['frase_id' => 'id']);
+    }
+
 }

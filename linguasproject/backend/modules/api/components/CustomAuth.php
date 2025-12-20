@@ -1,7 +1,6 @@
 <?php
 namespace backend\modules\api\components;
 use Yii;
-use common\models\User;
 use yii\filters\auth\AuthMethod;
 
 class CustomAuth extends AuthMethod
@@ -10,12 +9,13 @@ class CustomAuth extends AuthMethod
     {
         $authToken = $request->getQueryString();
         $token=explode('=', $authToken)[1];
-        $user = User::findIdentityByAccessToken($token);
-        if(!user)
+        $user = \common\models\User::findIdentityByAccessToken($token);
+        if(!$user)
         {
-            throw new \yii\web\ForbiddenHttpException('No authentication'); //403
+            throw new \yii\web\ForbiddenHttpException('No authentication, burro do caralho');
         }
         Yii::$app->params['id']= $user->id;
+        Yii::$app->params['username']= $user->username;
         return $user;
     }
 }

@@ -43,6 +43,8 @@ class ComentarioController extends Controller
     {
         $searchModel = new ComentarioSearch();
         $utilizador = Utilizador::find()->where(['user_id' => \Yii::$app->user->identity->id])->one();
+
+
         $query_comentarios = Comentario::find()->where(['utilizador_id' => $utilizador->id]);
         $DataComentariosProvider = new ActiveDataProvider([
             'query' => $query_comentarios,
