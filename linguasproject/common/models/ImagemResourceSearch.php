@@ -4,12 +4,12 @@ namespace common\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\ImagemExercicio;
+use common\models\ImagemResource;
 
 /**
- * ImagemResourceSearch represents the model behind the search form of `common\models\ImagemExercicio`.
+ * ImagemResourceSearch represents the model behind the search form of `common\models\ImagemResource`.
  */
-class ImagemResourceSearch extends ImagemExercicio
+class ImagemResourceSearch extends ImagemResource
 {
     /**
      * {@inheritdoc}
@@ -17,8 +17,8 @@ class ImagemResourceSearch extends ImagemExercicio
     public function rules()
     {
         return [
-            [['imagem_resource_id', 'aula_id', 'tipoexercicio_id'], 'integer'],
-            [['pergunta'], 'safe'],
+            [['id'], 'integer'],
+            [['nome_imagem', 'nome_ficheiro'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class ImagemResourceSearch extends ImagemExercicio
      */
     public function search($params, $formName = null)
     {
-        $query = ImagemExercicio::find();
+        $query = ImagemResource::find();
 
         // add conditions that should always apply here
 
@@ -59,12 +59,11 @@ class ImagemResourceSearch extends ImagemExercicio
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'imagem_resource_id' => $this->imagem_resource_id,
-            'aula_id' => $this->aula_id,
-            'tipoexercicio_id' => $this->tipoexercicio_id,
+            'id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'pergunta', $this->pergunta]);
+        $query->andFilterWhere(['like', 'nome_imagem', $this->nome_imagem])
+            ->andFilterWhere(['like', 'nome_ficheiro', $this->nome_ficheiro]);
 
         return $dataProvider;
     }

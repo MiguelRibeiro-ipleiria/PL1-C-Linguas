@@ -14,6 +14,8 @@ class comentarioSearch extends comentario
     /**
      * {@inheritdoc}
      */
+
+
     public function rules()
     {
         return [
@@ -43,7 +45,6 @@ class comentarioSearch extends comentario
     {
         $query = comentario::find();
 
-        // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -57,6 +58,7 @@ class comentarioSearch extends comentario
             return $dataProvider;
         }
 
+        
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,

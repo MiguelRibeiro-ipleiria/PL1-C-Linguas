@@ -77,7 +77,7 @@ class ImagemResource extends \yii\db\ActiveRecord
 
         $fileName = $this->nome_ficheiro->baseName . '.' . $this->nome_ficheiro->extension;
 
-        $this->nome_ficheiro->saveAs(Yii::getAlias('@backend/web/uploadImage/') . $fileName);
+        $this->nome_ficheiro->saveAs(Yii::getAlias('@common/uploadImage/') . $fileName);
 
 
          $this->nome_ficheiro = $fileName;

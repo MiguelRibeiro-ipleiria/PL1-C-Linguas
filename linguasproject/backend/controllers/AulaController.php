@@ -1,13 +1,16 @@
 <?php
 
 namespace backend\controllers;
-
+use common\models\User;
+use common\models\Utilizador;
 use common\models\aula;
 use common\models\aulaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use Yii;
+use yii\data\ActiveDataProvider;
 /**
  * AulaController implements the CRUD actions for aula model.
  */
@@ -52,20 +55,18 @@ class AulaController extends Controller
      */
     public function actionIndex()
     {
-        if(\Yii::$app->user->can('ReadLesson')){
-            $searchModel = new aulaSearch();
-            $dataProvider = $searchModel->search($this->request->queryParams);
+           
+                $searchModel = new aulaSearch();
+                $dataProvider = $searchModel->search($this->request->queryParams);
 
-            return $this->render('index', [
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
-            ]);
-        }
-        else{
-            return $this->redirect(['site/no_permisson']);
-        }
+                return $this->render('index', [
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+                ]);
 
     }
+
+    
 
     /**
      * Displays a single aula model.

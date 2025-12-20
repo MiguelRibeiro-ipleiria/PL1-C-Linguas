@@ -32,13 +32,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <h3>Escolha o tipo de exercicio</h3>
 <div class="tipo-exercicio-options">
     <?php foreach($TiposExercicio as $tipo){
-        $controller = strtolower($tipo->descricao) . 'exercicio';
+        $controller = strtolower($tipo->descricao);
         ?>
         
         <?= Html::a($tipo->descricao, Url::to([$controller.'/create', 'aula_id'=>$aula_id,'tipoexercicio_id'=>$tipo->id]), [
             'class' => 'btn btn-primary m-1'
         ]);
         ?>
+        
     <?php } ?>
 </div>
 

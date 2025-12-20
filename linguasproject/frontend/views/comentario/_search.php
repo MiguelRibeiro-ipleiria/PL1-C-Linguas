@@ -15,7 +15,7 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <?= $form->field($model, 'id')->textInput(['type' => 'number'])?>
 
     <?= $form->field($model, 'descricao_comentario') ?>
 

@@ -16,7 +16,7 @@ use Yii;
  * @property string $data_criacao
  *
  * @property AudioResource[] $audioResources
- * @property AudioExercicio[] $audios
+ * @property Audioexercicio[] $audios
  * @property Curso $curso
  * @property Frase[] $frases
  * @property ImagemResource[] $imagemResources
@@ -82,7 +82,7 @@ class Aula extends \yii\db\ActiveRecord
      */
     public function getAudios()
     {
-        return $this->hasMany(AudioExercicio::class, ['aula_id' => 'id']);
+        return $this->hasMany(Audioe::class, ['aula_id' => 'id']);
     }
 
     /**
@@ -122,7 +122,7 @@ class Aula extends \yii\db\ActiveRecord
      */
     public function getImagems()
     {
-        return $this->hasMany(Imagemexercicio::class, ['aula_id' => 'id']);
+        return $this->hasMany(Imagem::class, ['aula_id' => 'id']);
     }
 
     public function setDataCriacao()
@@ -138,13 +138,13 @@ class Aula extends \yii\db\ActiveRecord
 
     public function getCountImageExercicios($id)
     {
-        $count = Imagemexercicio::find()->where(['aula_id' => $id])->count();
+        $count = Imagem::find()->where(['aula_id' => $id])->count();
         return $count;
     }
 
     public function getCountAudioExercicios($id)
     {
-        $count = Audioexercicio::find()->where(['aula_id' => $id])->count();
+        $count = Audio::find()->where(['aula_id' => $id])->count();
         return $count;
     }
 
