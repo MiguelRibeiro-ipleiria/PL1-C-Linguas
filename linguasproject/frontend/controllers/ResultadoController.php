@@ -3,7 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\Aula;
-use common\models\Fraseexercicio;
+use common\models\Frase;
 use common\models\Opcoesai;
 use common\models\Resultado;
 use common\models\ResultadoSearch;
@@ -131,7 +131,7 @@ class ResultadoController extends Controller
         if ($this->request->isPost) {
             $aula = Aula::findOne($aula_id);
             //$aula->clearSessionExercises();
-            $frase = Fraseexercicio::findOne($frase_id);
+            $frase = Frase::findOne($frase_id);
             $opcao_respondida = $frase->getOpcoesais()->where(['=', 'opcoesai.id', $this->request->post('opcao_id')])->one();
 
             $utilizador = Utilizador::find()->where(['user_id' => \Yii::$app->user->id])->one();

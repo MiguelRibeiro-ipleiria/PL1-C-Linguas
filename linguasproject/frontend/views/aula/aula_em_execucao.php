@@ -2,7 +2,7 @@
 //
 /** @var common\models\Aula $model */
 /** @var yii\widgets\ActiveForm $form */
-/** @var common\models\Fraseexercicio $frase */
+/** @var common\models\Frase $frase */
 /** @var common\models\Opcoesai $opcoes */
 /** @var common\models\Opcoesai $opcaorespondida */
 /** @var int $count_exercicios */

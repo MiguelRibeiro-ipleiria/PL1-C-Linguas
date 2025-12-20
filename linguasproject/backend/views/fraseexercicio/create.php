@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 /** @var yii\web\View $this */
-/** @var common\models\Fraseexercicio $model */
+/** @var common\models\Frase $model */
 
 $this->title = 'Create Frase Exercicio';
 $this->params['breadcrumbs'][] = ['label' => 'Frase Exercicios', 'url' => ['index']];

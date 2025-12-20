@@ -6,7 +6,7 @@ use common\models\AudioExercicio;
 use common\models\Aula;
 use common\models\Comentario;
 use common\models\AulaSearch;
-use common\models\Fraseexercicio;
+use common\models\Frase;
 use common\models\Imagemexercicio;
 use common\models\Opcoesai;
 use common\models\Resultado;
@@ -199,7 +199,7 @@ class AulaController extends Controller
         //aulas - imagens
         //aulas - audios
         //dd($model->frases);
-        //$exercicio = \common\models\Fraseexercicio::find()->where(['aula_id' => $model->id])->one();
+        //$exercicio = \common\models\Frase::find()->where(['aula_id' => $model->id])->one();
         //$opcoes = \common\models\Opcoesai::find()->where(['frase_id' => $exercicio->id])->all();
 
         //dd($model->getExercisesDoneSession());
@@ -259,7 +259,8 @@ class AulaController extends Controller
         $data_fim = strtotime($resultado_utilizador->data_fim);
         $resultado_utilizador->tempo_estimado = $data_fim - $data_inicio;
         $resultado_utilizador->estado = "Terminada";
-        $resultado_utilizador->nota = ($resultado_utilizador->respostas_certas / $model->numero_de_exercicios) * 100;
+        $resultado_utilizador->nota = (int)(($resultado_utilizador->respostas_certas / $model->numero_de_exercicios) * 100);
+
         if($resultado_utilizador->save()){
             $model->clearSessionExercises();
             return $this->redirect(['view', 'id' => $id]);

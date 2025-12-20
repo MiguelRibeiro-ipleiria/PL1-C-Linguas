@@ -93,9 +93,6 @@ class Frase extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getOpcoesais()
-    {
-        return $this->hasMany(Opcoesai::class, ['frase_id' => 'id']);
-    }
+
 
 }

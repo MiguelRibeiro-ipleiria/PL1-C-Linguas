@@ -84,7 +84,7 @@ class Opcoesai extends \yii\db\ActiveRecord
      */
     public function getFrase()
     {
-        return $this->hasOne(FraseExercicio::class, ['id' => 'frase_id']);
+        return $this->hasOne(Frase::class, ['id' => 'frase_id']);
     }
 
     /**

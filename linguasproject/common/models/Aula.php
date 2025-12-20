@@ -1,7 +1,7 @@
 <?php
 
 namespace common\models;
-use common\models\Fraseexercicio;
+use common\models\Frase;
 use Yii;
 
 /**
@@ -16,11 +16,11 @@ use Yii;
  * @property string $data_criacao
  *
  * @property AudioResource[] $audioResources
- * @property Audioexercicio[] $audios
+ * @property Audio[] $audios
  * @property Curso $curso
  * @property Frase[] $frases
  * @property ImagemResource[] $imagemResources
- * @property Imagemexercicio[] $imagems
+ * @property Imagem[] $imagems
  */
 class Aula extends \yii\db\ActiveRecord
 {
@@ -82,7 +82,7 @@ class Aula extends \yii\db\ActiveRecord
      */
     public function getAudios()
     {
-        return $this->hasMany(Audioe::class, ['aula_id' => 'id']);
+        return $this->hasMany(Audio::class, ['aula_id' => 'id']);
     }
 
     /**
@@ -102,7 +102,7 @@ class Aula extends \yii\db\ActiveRecord
      */
     public function getFrases()
     {
-        return $this->hasMany(Fraseexercicio::class, ['aula_id' => 'id']);
+        return $this->hasMany(Frase::class, ['aula_id' => 'id']);
     }
 
     /**
@@ -150,7 +150,7 @@ class Aula extends \yii\db\ActiveRecord
 
     public function getCountFraseExercicios($id)
     {
-        $count = Fraseexercicio::find()->where(['aula_id' => $id])->count();
+        $count = Frase::find()->where(['aula_id' => $id])->count();
         return $count;
     }
 
