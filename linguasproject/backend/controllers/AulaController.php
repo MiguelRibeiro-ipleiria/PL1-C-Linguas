@@ -3,8 +3,8 @@
 namespace backend\controllers;
 use common\models\User;
 use common\models\Utilizador;
-use common\models\aula;
-use common\models\aulaSearch;
+use common\models\Aula;
+use common\models\AulaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -90,7 +90,7 @@ class AulaController extends Controller
      */
     public function actionCreate()
     {
-        $model = new aula();
+        $model = new Aula();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
@@ -153,7 +153,7 @@ class AulaController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = aula::findOne(['id' => $id])) !== null) {
+        if (($model = Aula::findOne(['id' => $id])) !== null) {
             return $model;
         }
 

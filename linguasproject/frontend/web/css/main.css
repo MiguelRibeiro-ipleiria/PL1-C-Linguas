@@ -1063,6 +1063,12 @@ ol {
   position: relative;
 }
 
+.section_exercise {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  position: relative;
+}
+
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .section {
     padding-top: 70px;
@@ -1430,7 +1436,7 @@ ol {
 
 /* ------ OPCOES ------*/
 
-.button .opcao_layout{
+.opcao_layout{
   text-decoration: none;
   display: inline-block;
   text-transform: capitalize;
@@ -1450,17 +1456,73 @@ ol {
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
 }
 
-.button .opcao_layout:hover {
+.opcao_layout:hover {
   color: #fff;
   background-color: #2ed06e;
   border-bottom: 2px solid #228849;
 
 }
 
-.question-exercicio{
+
+.opcoes-container {
+  display: flex;         /* Ativa o modo Flexbox */
+  flex-wrap: wrap;       /* Se não couberem todos, passam para a linha de baixo em vez de sair do ecrã */
+  gap: 10px;            /* Espaço entre os botões */
+  justify-content: center; /* Opcional: centra os botões horizontalmente */
+  margin-top: 20px;
+}
+
+.title-exercicio{
   margin-left: 10%;
   font-weight: bold;
   color: #535554;
+}
+
+.title-exercicio-audio{
+  font-size: 20px;
+  font-weight: bold;
+  color: #535554;
+}
+
+.title-exercicio-imagem{
+  font-size: 20px;
+  margin-left: 3%;
+  font-weight: bold;
+  color: #535554;
+}
+
+.question-exercicio-audio{
+  margin-top: 3%;
+  font-weight: bold;
+  color: #535554;
+}
+
+.cancel_exercise_layout{
+  text-decoration: none;
+  display: inline-block;
+  text-transform: capitalize;
+  font-size: 20px;
+  font-weight: 500;
+  padding: 16px 16px;
+  background-color: #ca1942;
+  color: #fff;
+  /*border-bottom: 2px solid #228849;*/
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  border-radius: 15px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  border: 1px solid #ca1942;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
+  margin-right: 20px;
+}
+
+.cancel_exercise_layout:hover {
+  color: #ca1942;
+  background-color: #f3f3f3;
+  border: 1px solid #ca1942;
+
 }
 
 .finish_exercise_layout{
@@ -1490,6 +1552,73 @@ ol {
 
 }
 
+
+
+.voltar_exercise_layout{
+  text-decoration: none;
+  display: inline-block;
+  text-transform: capitalize;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 14px 55px;
+  background-color: #fff;
+  margin-left: 5%;
+  color: #2ed06e;
+  /*border-bottom: 2px solid #228849;*/
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  border-radius: 15px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  border: 1px solid #2ed06e;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
+}
+
+.voltar_exercise_layout:hover {
+  color: #535554;
+  background-color: #f3f3f3;
+  border: 1px solid #535554;
+
+}
+
+
+.comecar_exercise_layout{
+  text-decoration: none;
+  display: inline-block;
+  text-transform: capitalize;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 14px 55px;
+  background-color: #2ed06e;
+  color: #fff;
+  /*border-bottom: 2px solid #228849;*/
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  border-radius: 15px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  border: 1px solid #2ed06e;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
+}
+
+.comecar_exercise_layout:hover {
+  color: #2ed06e;
+  background-color: #fff;
+  border: 1px solid #2ed06e;
+
+}
+
+
+
+.button-comecar{
+  display: flex;
+}
+
+
+
+
 /* Estilos para o container da imagem */
 .img-exercicio {
   display: flex;
@@ -1500,12 +1629,66 @@ ol {
   margin-bottom: 3%
 }
 
-/* Estilos para a imagem real dentro do container */
 .img-exercicio img {
-  /* Define um tamanho maior para a imagem */
-  width: 30%; /* Você pode ajustar este valor para o tamanho desejado (ex: 70px, 90px, etc.) */
-  height: 50%; /* Mantém a proporção da imagem */
-  /* Garante que a imagem está centralizada se o container for flex */
+  width: 23%;
+  height: 43%;
+  display: block;
+}
+
+.img-exercicio-comecar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+  padding: 10px 0;
+  margin-bottom: 3%
+}
+
+.img-exercicio-comecar img {
+  width: 23%;
+  height: 43%;
+  display: block;
+}
+
+
+.img-exercicio-terminar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+  padding: 10px 0;
+}
+
+.img-exercicio-terminar img {
+  width: 27%;
+  height: 37%;
+  display: block;
+}
+
+.hr-divider{
+  border: 1px solid;
+  color: #2ed06e;
+}
+
+.hr-divider-error{
+  border: 1px solid;
+  color: #c82222;
+}
+
+
+.img-exercicio_audio{
+  display: flex;
+  justify-content: left;
+  align-items: start;
+  min-height: 100px;
+  padding: 10px 0;
+  margin-bottom: 3%
+}
+
+
+.img-exercicio_audio img{
+  width: 23%;
+  height: 43%;
   display: block;
 }
 
@@ -1518,6 +1701,57 @@ ol {
   margin-bottom: 2%;
   /* REMOVEMOS: margin-left: 10%; */
 }
+
+.opcao_layout_green{
+  text-decoration: none;
+  display: inline-block;
+  text-transform: capitalize;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 14px 30px;
+  background-color: rgb(46, 208, 110);
+  color: #fff;
+  border: 2px solid #146e41;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  border-radius: 15px;
+  position: relative;
+  z-index: 1;
+  margin-right: 45px;
+  overflow: hidden;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
+}
+
+.opcao_layout_red{
+  text-decoration: none;
+  display: inline-block;
+  text-transform: capitalize;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 14px 30px;
+  background-color: rgb(244, 9, 65);
+  color: #fff;
+  border: 2px solid #6e1a1a;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  border-radius: 15px;
+  position: relative;
+  z-index: 1;
+  margin-right: 45px;
+  overflow: hidden;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
+}
+
+.terminar-container{
+  justify-content: start;
+  text-align: center;
+  width: 80%;
+}
+
+.container-bottom-button{
+  margin-right: 10%;
+}
+
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .button .btn {
@@ -2925,6 +3159,30 @@ ol {
   border: 2px solid #5ebd5c;
 }
 
+.execise-custom-green {
+  margin-top: 12px;
+  padding: 4px 25px;
+  margin-right: 8px; /* Espaço entre as tags */
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #2ed06e;
+  border: 2px solid #2ed06e;
+}
+
+.execise-custom-error{
+  margin-top: 12px;
+  padding: 4px 25px;
+  margin-right: 8px; /* Espaço entre as tags */
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #830b1f;
+  border: 2px solid #830b1f;
+}
+
 .cursos-custom-yellow {
   display: inline-block;
   padding: 4px 25px;
@@ -2987,11 +3245,71 @@ ol {
 }
 
 
+.box-comecar-page{
+  text-align: center;
+  justify-content: center;
+}
+
+.titulo-aula-comecar{
+
+  font-size: 30px;
+  font-weight: bold;
+  color: #2ed06e;
+  font-style: italic;
+
+}
+
+.titulo-aula-error{
+  font-size: 30px;
+  font-weight: bold;
+  color: #830b1f;
+  font-style: italic;
+}
+
+.info-aula-terminar{
+  font-size: 25px;
+  font-weight: bold;
+  color: #0a001f;
+  font-style: italic;
+}
+
+.titulo-aula-terminar{
+
+  font-size: 40px;
+  font-weight: bold;
+  color: #2ed06e;
+  font-style: italic;
+
+}
+
+.titulo-info-aula-terminar{
+
+  font-size: 50px;
+  font-weight: bold;
+  color: #2ed06e;
+  font-style: italic;
+
+}
 
 
+.descricao-aula-comecar{
 
+  margin-left: 40%;
+  margin-right: 40%;
+  font-size: 30px;
+  font-weight: bold;
+  color: #15572f;
+  font-style: italic;
+}
 
-
+.descricao-aula-error{
+  margin-left: 15%;
+  margin-right: 15%;
+  font-size: 30px;
+  font-weight: bold;
+  color: #c82222;
+  font-style: italic;
+}
 
 
 

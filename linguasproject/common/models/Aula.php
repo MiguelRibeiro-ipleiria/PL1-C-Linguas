@@ -1,7 +1,7 @@
 <?php
 
 namespace common\models;
-use common\models\Fraseexercicio;
+use common\models\Frase;
 use Yii;
 
 /**
@@ -16,15 +16,14 @@ use Yii;
  * @property string $data_criacao
  *
  * @property AudioResource[] $audioResources
- * @property Audioexercicio[] $audios
+ * @property Audio[] $audios
  * @property Curso $curso
  * @property Frase[] $frases
  * @property ImagemResource[] $imagemResources
- * @property Imagemexercicio[] $imagems
+ * @property Imagem[] $imagems
  */
 class Aula extends \yii\db\ActiveRecord
 {
-
 
     /**
      * {@inheritdoc}
@@ -83,7 +82,7 @@ class Aula extends \yii\db\ActiveRecord
      */
     public function getAudios()
     {
-        return $this->hasMany(Audioe::class, ['aula_id' => 'id']);
+        return $this->hasMany(Audio::class, ['aula_id' => 'id']);
     }
 
     /**
@@ -132,6 +131,11 @@ class Aula extends \yii\db\ActiveRecord
         return $this->data_criacao = $hora;
     }
 
+    public function getResultados()
+    {
+        return $this->hasMany(Resultado::class, ['aula_idaula' => 'id']);
+    }
+
     public function getCountImageExercicios($id)
     {
         $count = Imagem::find()->where(['aula_id' => $id])->count();
@@ -160,5 +164,69 @@ class Aula extends \yii\db\ActiveRecord
         $comentarios = Comentario::find()->where(['aula_id' => $id]);
         return $comentarios;
     }
+
+    public function VerificaRespostadoExercicio($id_opcao){
+
+        $opcao = Opcoesai::find()->where(['id' => $id_opcao])->one();
+        if($opcao->iscorreta == true){
+            return true;
+        }
+        else{
+            return false;
+        }
+
+        /*if($opcao->audio_aula_id == null){
+            $opcoes = Opcoesai::find()->where(['id' => $id_opcao])->one();
+
+        }
+        elseif($opcao->frase_id == null){
+
+        }
+        elseif($opcao->imagem_aula_id == null){
+
+        }*/
+    }
+
+
+    public function setOpcaoRespondidaSession($id) {
+        $session = Yii::$app->session;
+        $session->set('OpcaoRespondida', $id);
+    }
+
+    public function getOpcaoRespondidaSession()
+    {
+        $session = Yii::$app->session;
+        return $session->get('OpcaoRespondida');
+
+    }
+
+
+    public function setExercisesDoneSession($id) {
+        $session = Yii::$app->session;
+
+        if ($session->has('frasesDone')) {
+            $arrayFrasesDone = $session->get('frasesDone');
+        } else {
+            $arrayFrasesDone = [];
+        }
+
+        array_push($arrayFrasesDone, $id);
+
+        $session->set('frasesDone', $arrayFrasesDone);
+    }
+
+    public function clearSessionExercises() {
+        session_destroy();
+    }
+
+    public function getExercisesDoneSession()
+    {
+        $session = Yii::$app->session;
+        return $session->get('frasesDone');
+
+    }
+
+
+
 
 }

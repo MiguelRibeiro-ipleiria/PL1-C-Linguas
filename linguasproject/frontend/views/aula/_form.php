@@ -5,7 +5,6 @@ use yii\widgets\ActiveForm;
 
 /** @var yii\web\View $this */
 /** @var common\models\Aula $model */
-/** @var yii\widgets\ActiveForm $form */
 ?>
 
 <div class="aula-form">

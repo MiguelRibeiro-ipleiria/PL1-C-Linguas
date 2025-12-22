@@ -2,12 +2,13 @@
 
 namespace backend\controllers;
 
+use common\models\Aula;
 use common\models\Frase;
 use common\models\FraseSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use common\models\OpcoesAi; 
+use common\models\Opcoesai;
 
 /**
  * FraseController implements the CRUD actions for Frase model.
@@ -82,16 +83,19 @@ class FraseController extends Controller
  
 
                 foreach ($postOpcoes as $dadosOpcao) {
-                    $opcao = new OpcoesAi();
+                    $opcao = new Opcoesai();
                     $opcao->load(['Opcoesai' => $dadosOpcao]);
-                    
                     $opcao->frase_id = $model->id;
-
                     $opcao->save();
-
                 }
 
+                $aula = Aula::findOne($aula_id);
+                $aula_frase = $aula->getFrases()->count();
+                $aula_imagem = $aula->getImagems()->count();
+                $aula_audio = $aula->getAudios()->count();
 
+                $aula->numero_de_exercicios = $aula_frase + $aula_imagem + $aula_audio;
+                $aula->save();
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
@@ -99,10 +103,10 @@ class FraseController extends Controller
         }
 
         $opcoes = [
-            new OpcoesAi(),
-            new OpcoesAi(),
-            new OpcoesAi(),
-            new OpcoesAi(),
+            new Opcoesai(),
+            new Opcoesai(),
+            new Opcoesai(),
+            new Opcoesai(),
         ];
 
         return $this->render('create', [

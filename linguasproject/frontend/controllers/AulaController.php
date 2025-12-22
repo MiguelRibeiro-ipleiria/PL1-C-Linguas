@@ -2,12 +2,18 @@
 
 namespace frontend\controllers;
 
-use common\models\AudioExercicio;
+use common\models\Audio;
 use common\models\Aula;
 use common\models\Comentario;
 use common\models\AulaSearch;
-use common\models\Fraseexercicio;
-use common\models\Imagemexercicio;
+use common\models\Frase;
+use common\models\Imagem;
+use common\models\Inscricao;
+use common\models\Opcoesai;
+use common\models\Resultado;
+use common\models\Utilizador;
+use DateTime;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -152,13 +158,154 @@ class AulaController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
+    public function actionAulacomecar($id)
+    {
+        $this->layout = false;
+        $model = $this->findModel($id);
+        return $this->render('aula_comecar', ['model' => $model]);
+    }
+
+
     public function actionAulaemexecucao($id)
     {
         $this->layout = false;
         $model = Aula::findOne($id);
-        return $this->render('aula_em_execucao', [
+        $opcao_respondida = null;
+
+        $utilizador = Utilizador::find()->where(['user_id' => \Yii::$app->user->id])->one();
+        $resultado_utilizador = Resultado::find()->where(['utilizador_id' => $utilizador->id])->one();
+
+
+        if($model->getExercisesDoneSession() == null){
+            $resultado_utilizador->data_inicio = date('Y-m-d H:i:s');
+            $resultado_utilizador->estado = "A estudar";
+            $resultado_utilizador->respostas_certas = 0;
+            $resultado_utilizador->respostas_erradas = 0;
+            $frase = $model->getFrases()->one();
+            $count_exercicios_respondidos = 1;
+        }
+        elseif($model->getOpcaoRespondidaSession() != null){
+
+            $opcao_respondida = Opcoesai::find()->where(['=', 'opcoesai.id', $model->getOpcaoRespondidaSession()])->one();
+            $frase = $opcao_respondida->getFrase()->where(['id' => $opcao_respondida->frase_id])->one();
+            $exercicios_respondidos = $model->getExercisesDoneSession();
+            $count_exercicios_respondidos = count($exercicios_respondidos);
+        }
+        else{
+            $exercicios_respondidos = $model->getExercisesDoneSession();
+            $count_exercicios_respondidos = count($exercicios_respondidos) + 1;
+            $frase = $model->getFrases()->where(['not in', 'frase.id', $model->getExercisesDoneSession()])->one();
+        }
+
+        if($frase == null){
+            //dd($model->getExercisesDoneSession());
+            return $this->redirect(['aulaterminar', 'id' => $id]);
+        }
+
+
+        //aulas - frases
+        //aulas - imagens
+        //aulas - audios
+        //dd($model->frases);
+        //$exercicio = \common\models\Frase::find()->where(['aula_id' => $model->id])->one();
+        //$opcoes = \common\models\Opcoesai::find()->where(['frase_id' => $exercicio->id])->all();
+
+        //dd($model->getExercisesDoneSession());
+
+
+
+        if($resultado_utilizador->save()){
+
+            return $this->render('aula_em_execucao', [
             'model' => $model,
-        ]);
+            'frase' => $frase,
+            'opcaorespondida' => $opcao_respondida,
+            'count_exercicios' => $count_exercicios_respondidos,
+            //'exercicio' => $exercicio,
+            //'opcoes' => $opcoes,
+            ]);
+        }
+        else{
+            return $this->redirect(['aula_terminar', 'id' => $id]);
+        }
 
     }
+
+    public function actionAulaterminar($id){
+
+//        $model = Aula::findOne($id);
+//        $utilizador = Utilizador::find()->where(['user_id' => \Yii::$app->user->id])->one();
+//        $resultado_utilizador = Resultado::find()->where(['utilizador_id' => $utilizador->id])->one();
+//
+//        $resultado_utilizador->data_fim = date('Y-m-d H:i:s');
+//        $inicio = strtotime($resultado_utilizador->data_inicio);
+//        $fim = strtotime($resultado_utilizador->data_fim);
+//        $segundos = $fim - $inicio;
+//
+//        $resultado_utilizador->tempo_estimado = $segundos;
+//
+//        $resultado_utilizador->estado = "Terminada";
+//        $resultado_utilizador->respostas_certas = $certas;
+//        $resultado_utilizador->respostas_erradas = $erradas;
+//        $resultado_utilizador->nota = (($certas) / $model->numero_de_exercicios) * 100;
+//
+//        if($resultado_utilizador->save()){
+//
+//            return $this->render('../resultado/view', [
+//                'model' => $resultado_utilizador,
+//            ]);
+//
+//        }
+//        else{
+//            return $this->redirect(['index']);
+//        }
+        $this->layout = false;
+
+        $model = Aula::findOne($id);
+        $utilizador = Utilizador::find()->where(['user_id' => \Yii::$app->user->id])->one();
+        $resultado_utilizador = Resultado::find()->where(['utilizador_id' => $utilizador->id, 'aula_idaula' => $id])->one();
+        $resultado_utilizador->data_fim = date('Y-m-d H:i:s');
+        $data_inicio = strtotime($resultado_utilizador->data_inicio);
+        $data_fim = strtotime($resultado_utilizador->data_fim);
+        $resultado_utilizador->tempo_estimado = $data_fim - $data_inicio;
+        $resultado_utilizador->estado = "Terminada";
+        $resultado_utilizador->nota = (int)(($resultado_utilizador->respostas_certas / $model->numero_de_exercicios) * 100);
+
+        if($resultado_utilizador->save()){
+            $model->clearSessionExercises();
+            return $this->render('aula_terminada', ['resultado' => $resultado_utilizador, 'model' => $model]);
+        }
+        else{
+            return $this->render('falha_na_aula', ['aula' => $model]);
+        }
+
+
+    }
+
+    public function actionAulacancelar($id){
+
+        $this->layout = false;
+        $model = Aula::findOne($id);
+        $utilizador = Utilizador::find()->where(['user_id' => \Yii::$app->user->id])->one();
+        $resultado_utilizador = Resultado::find()->where(['utilizador_id' => $utilizador->id, 'aula_idaula' => $id])->one();
+
+        $resultado_utilizador->data_inicio = null;
+        $resultado_utilizador->data_fim = null;
+        $resultado_utilizador->tempo_estimado = null;
+        $resultado_utilizador->estado = "Por Começar";
+        $resultado_utilizador->respostas_certas = null;
+        $resultado_utilizador->respostas_erradas = null;
+        $resultado_utilizador->nota = null;
+
+        if($resultado_utilizador->save()){
+            $model->clearSessionExercises();
+            return $this->render('aula_cancelada', ['model' => $model]);
+        }
+        else{
+            return $this->render('falha_na_aula', ['aula' => $model]);
+        }
+    }
+
+
+
 }

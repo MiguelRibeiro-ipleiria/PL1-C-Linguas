@@ -37,7 +37,7 @@ class Comentario extends \yii\db\ActiveRecord
             [['descricao_comentario', 'aula_id', 'hora_criada', 'utilizador_id'], 'required'],
             [['aula_id', 'utilizador_id'], 'integer'],
             [['hora_criada'], 'safe'],
-            [['descricao_comentario'], 'string', 'max' => 45],
+            [['descricao_comentario'], 'string', 'max' => 600],
             [['aula_id'], 'exist', 'skipOnError' => true, 'targetClass' => Aula::class, 'targetAttribute' => ['aula_id' => 'id']],
             [['utilizador_id'], 'exist', 'skipOnError' => true, 'targetClass' => Utilizador::class, 'targetAttribute' => ['utilizador_id' => 'id']],
         ];

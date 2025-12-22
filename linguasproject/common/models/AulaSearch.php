@@ -4,12 +4,12 @@ namespace common\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\aula;
+use common\models\Aula;
 
 /**
  * aulaSearch represents the model behind the search form of `common\models\aula`.
  */
-class aulaSearch extends aula
+class AulaSearch extends Aula
 {
     /**
      * {@inheritdoc}

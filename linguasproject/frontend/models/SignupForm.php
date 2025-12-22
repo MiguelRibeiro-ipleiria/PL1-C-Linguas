@@ -87,7 +87,6 @@ class SignupForm extends Model
         //cchave estrangeira no utilizador = $user->id;
        // utilizador->save();
 
-
         $utilizador = new Utilizador();
         $utilizador->data_nascimento = $this->data_nascimento;
         if ($utilizador->data_nascimento < date('Y-m-d') && $utilizador->data_nascimento > "1900-01-01") {

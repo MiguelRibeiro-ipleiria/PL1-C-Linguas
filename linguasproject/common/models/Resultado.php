@@ -13,7 +13,7 @@ use Yii;
  * @property string|null $data_fim
  * @property string $estado
  * @property int|null $nota
- * @property int|null $tempo_estimado
+ * @property string|null $tempo_estimado
  * @property string|null $data_agendamento
  * @property int|null $respostas_certas
  * @property int|null $respostas_erradas
@@ -41,8 +41,8 @@ class Resultado extends \yii\db\ActiveRecord
         return [
             [['data_inicio', 'data_fim', 'nota', 'tempo_estimado', 'data_agendamento', 'respostas_certas', 'respostas_erradas'], 'default', 'value' => null],
             [['utilizador_id', 'aula_idaula', 'estado'], 'required'],
-            [['utilizador_id', 'aula_idaula', 'nota', 'tempo_estimado', 'respostas_certas', 'respostas_erradas'], 'integer'],
-            [['data_inicio', 'data_fim', 'data_agendamento'], 'safe'],
+            [['utilizador_id', 'aula_idaula', 'nota', 'respostas_certas', 'respostas_erradas'], 'integer'],
+            [['data_inicio', 'data_fim', 'data_agendamento', 'tempo_estimado'], 'safe'],
             [['estado'], 'string', 'max' => 45],
             [['utilizador_id', 'aula_idaula'], 'unique', 'targetAttribute' => ['utilizador_id', 'aula_idaula']],
             [['aula_idaula'], 'exist', 'skipOnError' => true, 'targetClass' => Aula::class, 'targetAttribute' => ['aula_idaula' => 'id']],

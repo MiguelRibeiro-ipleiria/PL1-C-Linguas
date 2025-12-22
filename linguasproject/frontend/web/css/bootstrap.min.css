@@ -5374,7 +5374,9 @@ fieldset:disabled .btn {
     overflow: hidden;
     font-size: .75rem;
     background-color: #e9ecef;
-    border-radius: .50rem
+    border-radius: .50rem;
+    margin-left: 5%;
+    margin-top: 20px;
 }
 
 .progress-bar {
@@ -5386,6 +5388,19 @@ fieldset:disabled .btn {
     text-align: center;
     white-space: nowrap;
     background-color: #2ed06e;
+    transition: width .6s ease
+}
+
+
+.progress-bar-error {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #830b1f;
     transition: width .6s ease
 }
 
