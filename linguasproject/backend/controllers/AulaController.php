@@ -4,7 +4,7 @@ namespace backend\controllers;
 use common\models\User;
 use common\models\Utilizador;
 use common\models\aula;
-use common\models\aulaSearch;
+use common\models\AulaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -56,7 +56,7 @@ class AulaController extends Controller
     public function actionIndex()
     {
            
-                $searchModel = new aulaSearch();
+                $searchModel = new AulaSearch();
                 $dataProvider = $searchModel->search($this->request->queryParams);
 
                 return $this->render('index', [
