@@ -3,6 +3,7 @@ use yii\helpers\Html;
 use common\models\Dificuldade;
 use common\models\Idioma;
 use common\models\Utilizador;
+use common\models\Aula;
 use common\models\User;
 use common\models\Curso;
 use common\models\comentario;
@@ -80,19 +81,18 @@ $comentarios = Comentario::find()->where(['aula_id' => $model->id])->all();
                                 foreach($comentarios as $comentario){?>
                             <div class="post">
                                 <div class="user-block">
-                                    <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
+                                    
                                     <span class="username">
-                                <a href="#"><!--User::findOne($comentario->utilizador_id)->username;--></a>
+                                <a href="#"><?php
+                                $Utilizador = utilizador::findOne(['id'=>$comentario->utilizador_id]);
+                                echo User::findOne(['id'=>$Utilizador->user_id])->username;
+                                ?></a>
                                 </span>
-                                    <span class="description">Shared publicly - 7:45 PM today</span>
+                                    <span class="description"><?=$comentario->hora_criada?></span>
                                 </div>
                                 <!-- /.user-block -->
                                 <p>
                                     <?=$comentario->descricao_comentario?>
-                                </p>
-
-                                <p>
-                                    <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Demo File 1 v2</a>
                                 </p>
                             </div>
                             <?php }} ?>
@@ -127,6 +127,7 @@ $comentarios = Comentario::find()->where(['aula_id' => $model->id])->all();
                     <div>
                         <a href="<?= Url::to(['/aula/escolherexercicio', 'aula_id' => $model->id]) ?>" class="btn btn-success">Adicionar Exercicio</a>
                     </div>
+                                    
                 </div>
 
             </div>
@@ -136,4 +137,5 @@ $comentarios = Comentario::find()->where(['aula_id' => $model->id])->all();
     <!-- /.card -->
 
 </section>
+
 <!-- /.content -->

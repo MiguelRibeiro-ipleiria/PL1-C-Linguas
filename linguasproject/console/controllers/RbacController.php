@@ -522,6 +522,7 @@ class RbacController extends Controller
 
          //formador
          $auth->addChild($formador, $SearchLanguage);
+          $auth->addChild($formador, $ReadLanguage);
 
          //aluno
          $auth->addChild($aluno, $SearchLanguage);

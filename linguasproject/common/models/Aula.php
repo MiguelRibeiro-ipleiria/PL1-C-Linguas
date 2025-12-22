@@ -103,7 +103,7 @@ class Aula extends \yii\db\ActiveRecord
      */
     public function getFrases()
     {
-        return $this->hasMany(Fraseexercicio::class, ['aula_id' => 'id']);
+        return $this->hasMany(Frase::class, ['aula_id' => 'id']);
     }
 
     /**
@@ -146,7 +146,7 @@ class Aula extends \yii\db\ActiveRecord
 
     public function getCountFraseExercicios($id)
     {
-        $count = Fraseexercicio::find()->where(['aula_id' => $id])->count();
+        $count = Frase::find()->where(['aula_id' => $id])->count();
         return $count;
     }
 

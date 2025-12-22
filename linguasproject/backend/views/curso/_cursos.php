@@ -174,6 +174,10 @@ $dificuldade = Dificuldade::findOne(['id' => $model->dificuldade_id]);
                     <div>
                         <a href="<?= Url::to(['/curso/update', 'id' => $model->id]) ?>" class="btn btn-success">Alterar dados do Curso</a>
                     </div>
+                    <br>
+                    <div>
+                        <a href="<?= Url::to(['/aula/index','curso_id' => $model->id]) ?>" class="btn btn-success">Ver aulas do Curso</a>
+                    </div>
                 </div>
 
             </div>

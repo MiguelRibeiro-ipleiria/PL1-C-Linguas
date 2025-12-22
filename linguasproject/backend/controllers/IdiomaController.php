@@ -54,6 +54,7 @@ class IdiomaController extends Controller
      */
     public function actionIndex()
     {
+
         if(\Yii::$app->user->can('ReadLanguage')) {
 
             if ($this->request->isGet) {

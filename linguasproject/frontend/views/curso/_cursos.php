@@ -99,7 +99,7 @@ use \common\models\Utilizador;
                                 </div>
                             </div>
                     </div>
-            </div>
+                </div>
         </aside>
     </div>
 

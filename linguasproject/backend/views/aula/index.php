@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= \yii\widgets\ListView::widget([
         'dataProvider' => $dataProvider,
         'itemView' => '_aula',
+        'emptyText' => 'Este curso ainda não tem nenhuma aula.',
         'layout' => "<div class='cards-grid'>{items}</div>\n<div class='mt-4'>{pager}</div>",
         'itemOptions' => ['tag' => false],
     ]) ?>
