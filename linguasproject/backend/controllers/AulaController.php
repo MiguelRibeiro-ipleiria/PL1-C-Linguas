@@ -89,7 +89,7 @@ class AulaController extends Controller
      */
     public function actionCreate()
     {
-        $model = new aula();
+        $model = new Aula();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
@@ -152,7 +152,7 @@ class AulaController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = aula::findOne(['id' => $id])) !== null) {
+        if (($model = Aula::findOne(['id' => $id])) !== null) {
             return $model;
         }
 
