@@ -5,7 +5,7 @@ use common\models\Idioma;
 use common\models\Utilizador;
 use common\models\User;
 use common\models\Curso;
-use common\models\comentario;
+use common\models\Comentario;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
