@@ -3,6 +3,8 @@
 namespace backend\modules\api\controllers;
 
 use common\models\Idioma;
+use common\models\Inscricao;
+use common\models\Utilizador;
 use yii\rest\ActiveController;
 use Yii;
 use backend\modules\api\components\CustomAuth;
@@ -29,10 +31,36 @@ class CursoController extends ActiveController
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
             'class' => CustomAuth::className(),
-            'except' => ['index', 'view'],  //Excluir a autenticação aos metedos do controllador (excluir aos gets)
+            'except' => ['index', 'view', 'allcursos'],  //Excluir a autenticação aos metedos do controllador (excluir aos gets)
         ];
 
         return $behaviors;
+    }
+
+        public function checkAccess($action, $model = null, $params = [])
+    {
+//        if(isset(\Yii::$app->params['id'])){
+//            if($action === "delete"){
+//                if (!Yii::$app->user->can('DeleteLanguage')) {
+//                    if($action === "delete"){
+//                        throw new \yii\web\ForbiddenHttpException('Proibido');
+//                    }
+//                }
+//
+//            }
+//        }
+//        if(isset(\Yii::$app->params['id'])){
+//
+//            if(\Yii::$app->params['id'])
+//            {
+//                if($action === "delete"){
+//                    throw new \yii\web\ForbiddenHttpException('Proibido');
+//                }
+//            }
+//        }
+        // Bloquear DELETE se não tiver permissão
+
+
     }
 
 
@@ -42,6 +70,32 @@ class CursoController extends ActiveController
         $cursos = $CursosModel::find()->all();
         return ['count' => count($cursos)];
     }
+
+    public function actionAllcursos()
+    {
+        $CursosModel = new $this->modelClass;
+
+        $cursos = $CursosModel::find()
+            ->with(['idioma', 'dificuldade'])
+            ->asArray()
+            ->all();
+
+        $result = array_map(function($curso) {
+            return [
+                'id' => $curso['id'],
+                'titulo_curso' => $curso['titulo_curso'],
+                'status_ativo' => $curso['status_ativo'],
+                'curso_detalhe' => $curso['curso_detalhe'],
+                'data_criacao' => $curso['data_criacao'],
+                'idioma' => $curso['idioma']['lingua_descricao'] ?? null,
+                'dificuldade' => $curso['dificuldade']['grau_dificuldade'] ?? null,
+            ];
+        }, $cursos);
+
+        return $result;
+
+    }
+
 
 
     public function actionCountporidioma($idiomanome)
@@ -59,17 +113,36 @@ class CursoController extends ActiveController
 
     }
 
-    public function actionCurso($id)
+    public function actionCursoporutilizadorid($id)
     {
         $CursosModel = new $this->modelClass;
-        $curso = $CursosModel::find()->where(['id' => $id])->one();
+        $utilizador = Utilizador::findOne(['id' => $id]);
 
-        if($curso == null){
-            return "Curso não encontrado!";
+        $cursos = $CursosModel::find()
+            ->innerJoin('inscricao', 'inscricao.curso_idcurso = curso.id')
+            ->where(['inscricao.utilizador_id' => $id])
+            ->with(['idioma', 'dificuldade'])
+            ->asArray()
+            ->all();
+
+        if (empty($cursos)) {
+            return ['message' => 'Curso não encontrado!'];
         }
-        else{
-            return $curso;
-        }
+
+        // Transformar para JSON-friendly
+        $result = array_map(function($curso) {
+            return [
+                'id' => $curso['id'],
+                'titulo_curso' => $curso['titulo_curso'],
+                'status_ativo' => $curso['status_ativo'],
+                'idioma' => $curso['idioma']['lingua_descricao'] ?? null,
+                'dificuldade' => $curso['dificuldade']['grau_dificuldade'] ?? null,
+                'curso_detalhe' => $curso['curso_detalhe'] ?? null,
+                'data_criacao' => $curso['data_criacao'] ?? null,
+            ];
+        }, $cursos);
+
+        return $result;
     }
 
     public function actionCursosporidioma($idiomanome)

@@ -48,21 +48,13 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                ['class' => 'yii\rest\UrlRule','controller' => 'api/idioma',
-                'extraPatterns' => [
-                    'GET count' => 'count',  // 'count' é 'actionCount' - conta os idiomas
-                    'GET nomes' => 'nomes', // 'nomes' é 'actionNomes' - devolve os nome dos idiomas
-                    'GET {nome}' => 'idiomapornome',
-                    'DELETE {nome}' => 'deletepornome',
-                ],
-                'tokens' => [
-                    '{nome}' => '<nome:\\w+>', //[a-zA-Z0-9_] 1 ou + vezes (char)
-                ],
+                ['class' => 'yii\rest\UrlRule','controller' => 'api/idioma', 'pluralize' => true,
                 ],
                 ['class' => 'yii\rest\UrlRule','controller' => 'api/curso',
                     'extraPatterns' => [
+                        'GET all' => 'allcursos',  // 'count' é 'actionCount' - conta os idiomas
                         'GET count' => 'count',  // 'count' é 'actionCount' - conta os idiomas
-                        'GET {id}' => 'curso',  // 'count' é 'actionCurso' - devolve o curso consoante o id
+                        'GET utilizador/{id}' => 'cursoporutilizadorid',  // 'count' é 'actionCurso' - devolve o curso consoante o id
                         'GET {idiomanome}/count' => 'countporidioma',  // 'count' é 'actionCountPor' - devolve os cursos pelo idioma
                         'GET {idiomanome}' => 'cursosporidioma',  // 'count' é 'actionCountPor' - devolve os cursos pelo idioma
                     ],

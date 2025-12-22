@@ -2,12 +2,13 @@
 
 namespace frontend\controllers;
 
-use common\models\AudioExercicio;
+use common\models\Audio;
 use common\models\Aula;
 use common\models\Comentario;
 use common\models\AulaSearch;
 use common\models\Frase;
-use common\models\Imagemexercicio;
+use common\models\Imagem;
+use common\models\Inscricao;
 use common\models\Opcoesai;
 use common\models\Resultado;
 use common\models\Utilizador;
@@ -157,12 +158,19 @@ class AulaController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
+    public function actionAulacomecar($id)
+    {
+        $this->layout = false;
+        $model = $this->findModel($id);
+        return $this->render('aula_comecar', ['model' => $model]);
+    }
+
+
     public function actionAulaemexecucao($id)
     {
         $this->layout = false;
         $model = Aula::findOne($id);
         $opcao_respondida = null;
-
 
         $utilizador = Utilizador::find()->where(['user_id' => \Yii::$app->user->id])->one();
         $resultado_utilizador = Resultado::find()->where(['utilizador_id' => $utilizador->id])->one();
@@ -218,7 +226,7 @@ class AulaController extends Controller
             ]);
         }
         else{
-            return $this->redirect(['aulaterminar', 'id' => $id]);
+            return $this->redirect(['aula_terminar', 'id' => $id]);
         }
 
     }
@@ -251,6 +259,8 @@ class AulaController extends Controller
 //        else{
 //            return $this->redirect(['index']);
 //        }
+        $this->layout = false;
+
         $model = Aula::findOne($id);
         $utilizador = Utilizador::find()->where(['user_id' => \Yii::$app->user->id])->one();
         $resultado_utilizador = Resultado::find()->where(['utilizador_id' => $utilizador->id, 'aula_idaula' => $id])->one();
@@ -263,7 +273,7 @@ class AulaController extends Controller
 
         if($resultado_utilizador->save()){
             $model->clearSessionExercises();
-            return $this->redirect(['view', 'id' => $id]);
+            return $this->render('aula_terminada', ['resultado' => $resultado_utilizador, 'model' => $model]);
         }
         else{
             return $this->render('falha_na_aula', ['aula' => $model]);
@@ -274,6 +284,7 @@ class AulaController extends Controller
 
     public function actionAulacancelar($id){
 
+        $this->layout = false;
         $model = Aula::findOne($id);
         $utilizador = Utilizador::find()->where(['user_id' => \Yii::$app->user->id])->one();
         $resultado_utilizador = Resultado::find()->where(['utilizador_id' => $utilizador->id, 'aula_idaula' => $id])->one();
@@ -288,7 +299,7 @@ class AulaController extends Controller
 
         if($resultado_utilizador->save()){
             $model->clearSessionExercises();
-            return $this->redirect(['view', 'id' => $id]);
+            return $this->render('aula_cancelada', ['model' => $model]);
         }
         else{
             return $this->render('falha_na_aula', ['aula' => $model]);

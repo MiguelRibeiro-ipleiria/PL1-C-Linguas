@@ -45,7 +45,7 @@ use yii\widgets\ActiveForm;
             <div class="col-10">
                 <div class="progress">
                     <?php
-                        $percentagem = ($count_exercicios / $model->numero_de_exercicios) * 100;
+                        $percentagem = (int)(($count_exercicios / $model->numero_de_exercicios) * 100);
                     ?>
                     <div class="progress-bar" style="width: <?= $percentagem ?>%"></div>
                 </div>
@@ -55,7 +55,7 @@ use yii\widgets\ActiveForm;
             </div>
                <div class="col-1 d-flex justify-content-end">
                     <div class="button">
-                        <a href="<?php Url::to(['/aula/aulacancelar', 'id' => $model->id]) ?>" class="cancel_exercise_layout"><i class="bi bi-box-arrow-right"></i></a>
+                        <a href="<?= Url::to(['/aula/aulacancelar', 'id' => $model->id]) ?>" class="cancel_exercise_layout"><i class="bi bi-box-arrow-right"></i></a>
                     </div>
                </div>
         </div>
@@ -138,19 +138,19 @@ use yii\widgets\ActiveForm;
                                         foreach ($frase->opcoesais as $opcao){
                                             if($opcaorespondida->id == $opcao->id){
                                                 if($opcao->iscorreta == 1){?>
-                                                    <a href="" class="opcao_layout_green"><?= $opcao->descricao ?></a>
+                                                    <a class="opcao_layout_green"><?= $opcao->descricao ?></a>
                                                 <?php }
                                                 else{ ?>
-                                                    <a href="" class="opcao_layout_red"><?= $opcao->descricao ?></a>
+                                                    <a  class="opcao_layout_red"><?= $opcao->descricao ?></a>
                                                 <?php }
                                             }
                                             else{
                                                 if ($opcao->iscorreta == 1) { ?>
-                                                    <a href="" class="opcao_layout_green"><?= $opcao->descricao ?></a>
+                                                    <a  class="opcao_layout_green"><?= $opcao->descricao ?></a>
                                                 <?php }
                                                 // restantes
                                                 else { ?>
-                                                    <a href="" class="opcao_layout"><?= $opcao->descricao ?></a>
+                                                    <a  class="opcao_layout"><?= $opcao->descricao ?></a>
                                                 <?php }
                                             }
                                         }

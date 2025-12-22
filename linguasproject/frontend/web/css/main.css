@@ -1552,6 +1552,73 @@ ol {
 
 }
 
+
+
+.voltar_exercise_layout{
+  text-decoration: none;
+  display: inline-block;
+  text-transform: capitalize;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 14px 55px;
+  background-color: #fff;
+  margin-left: 5%;
+  color: #2ed06e;
+  /*border-bottom: 2px solid #228849;*/
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  border-radius: 15px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  border: 1px solid #2ed06e;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
+}
+
+.voltar_exercise_layout:hover {
+  color: #535554;
+  background-color: #f3f3f3;
+  border: 1px solid #535554;
+
+}
+
+
+.comecar_exercise_layout{
+  text-decoration: none;
+  display: inline-block;
+  text-transform: capitalize;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 14px 55px;
+  background-color: #2ed06e;
+  color: #fff;
+  /*border-bottom: 2px solid #228849;*/
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  border-radius: 15px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  border: 1px solid #2ed06e;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
+}
+
+.comecar_exercise_layout:hover {
+  color: #2ed06e;
+  background-color: #fff;
+  border: 1px solid #2ed06e;
+
+}
+
+
+
+.button-comecar{
+  display: flex;
+}
+
+
+
+
 /* Estilos para o container da imagem */
 .img-exercicio {
   display: flex;
@@ -1567,6 +1634,47 @@ ol {
   height: 43%;
   display: block;
 }
+
+.img-exercicio-comecar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+  padding: 10px 0;
+  margin-bottom: 3%
+}
+
+.img-exercicio-comecar img {
+  width: 23%;
+  height: 43%;
+  display: block;
+}
+
+
+.img-exercicio-terminar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+  padding: 10px 0;
+}
+
+.img-exercicio-terminar img {
+  width: 27%;
+  height: 37%;
+  display: block;
+}
+
+.hr-divider{
+  border: 1px solid;
+  color: #2ed06e;
+}
+
+.hr-divider-error{
+  border: 1px solid;
+  color: #c82222;
+}
+
 
 .img-exercicio_audio{
   display: flex;
@@ -1601,9 +1709,9 @@ ol {
   font-size: 15px;
   font-weight: 500;
   padding: 14px 30px;
-  background-color: rgba(46, 208, 110, 0.7);
+  background-color: rgb(46, 208, 110);
   color: #fff;
-  border: 1px solid #535554;
+  border: 2px solid #146e41;
   -webkit-transition: all 0.4s ease;
   transition: all 0.4s ease;
   border-radius: 15px;
@@ -1621,9 +1729,9 @@ ol {
   font-size: 15px;
   font-weight: 500;
   padding: 14px 30px;
-  background-color: rgba(202, 25, 66, 0.7);
+  background-color: rgb(244, 9, 65);
   color: #fff;
-  border: 1px solid #535554;
+  border: 2px solid #6e1a1a;
   -webkit-transition: all 0.4s ease;
   transition: all 0.4s ease;
   border-radius: 15px;
@@ -1634,6 +1742,15 @@ ol {
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
 }
 
+.terminar-container{
+  justify-content: start;
+  text-align: center;
+  width: 80%;
+}
+
+.container-bottom-button{
+  margin-right: 10%;
+}
 
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -3054,6 +3171,18 @@ ol {
   border: 2px solid #2ed06e;
 }
 
+.execise-custom-error{
+  margin-top: 12px;
+  padding: 4px 25px;
+  margin-right: 8px; /* Espaço entre as tags */
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #830b1f;
+  border: 2px solid #830b1f;
+}
+
 .cursos-custom-yellow {
   display: inline-block;
   padding: 4px 25px;
@@ -3116,11 +3245,71 @@ ol {
 }
 
 
+.box-comecar-page{
+  text-align: center;
+  justify-content: center;
+}
+
+.titulo-aula-comecar{
+
+  font-size: 30px;
+  font-weight: bold;
+  color: #2ed06e;
+  font-style: italic;
+
+}
+
+.titulo-aula-error{
+  font-size: 30px;
+  font-weight: bold;
+  color: #830b1f;
+  font-style: italic;
+}
+
+.info-aula-terminar{
+  font-size: 25px;
+  font-weight: bold;
+  color: #0a001f;
+  font-style: italic;
+}
+
+.titulo-aula-terminar{
+
+  font-size: 40px;
+  font-weight: bold;
+  color: #2ed06e;
+  font-style: italic;
+
+}
+
+.titulo-info-aula-terminar{
+
+  font-size: 50px;
+  font-weight: bold;
+  color: #2ed06e;
+  font-style: italic;
+
+}
 
 
+.descricao-aula-comecar{
 
+  margin-left: 40%;
+  margin-right: 40%;
+  font-size: 30px;
+  font-weight: bold;
+  color: #15572f;
+  font-style: italic;
+}
 
-
+.descricao-aula-error{
+  margin-left: 15%;
+  margin-right: 15%;
+  font-size: 30px;
+  font-weight: bold;
+  color: #c82222;
+  font-style: italic;
+}
 
 
 

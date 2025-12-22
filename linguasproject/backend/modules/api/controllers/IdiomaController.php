@@ -26,57 +26,43 @@ class IdiomaController extends ActiveController
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
             'class' => CustomAuth::className(),
-            'except' => ['index', 'view', 'count'],  //Excluir a autenticação aos metedos do controllador (excluir aos gets)
+            'except' => ['index', 'view',],  //Excluir a autenticação aos metedos do controllador (excluir aos gets)
         ];
 
         return $behaviors;
     }
 
-    public function checkAccess($action, $model = null, $params = [])
-    {
-        if(isset(\Yii::$app->params['id'])){
-            if($action === "delete"){
-                if (!Yii::$app->user->can('DeleteLanguage')) {
-                    if($action === "delete"){
-                        throw new \yii\web\ForbiddenHttpException('Proibido');
-                    }
-                }
-
-            }
-
-
-        }
-//        if(isset(\Yii::$app->params['id'])){
+//    public function checkAccess($action, $model = null, $params = [])
+//    {
+////        if(isset(\Yii::$app->params['id'])){
+////            if($action === "delete"){
+////                if (!Yii::$app->user->can('DeleteLanguage')) {
+////                    if($action === "delete"){
+////                        throw new \yii\web\ForbiddenHttpException('Proibido');
+////                    }
+////                }
+////
+////            }
+////        }
+////        if(isset(\Yii::$app->params['id'])){
+////
+////            if(\Yii::$app->params['id'])
+////            {
+////                if($action === "delete"){
+////                    throw new \yii\web\ForbiddenHttpException('Proibido');
+////                }
+////            }
+////        }
+//        // Bloquear DELETE se não tiver permissão
 //
-//            if(\Yii::$app->params['id'])
-//            {
-//                if($action === "delete"){
-//                    throw new \yii\web\ForbiddenHttpException('Proibido');
-//                }
+//        Yii::$app->user = $this->user;
+//        if ($action === 'delete') {
+//            if (!Yii::$app->user->can('DeleteLanguage')) {
+//                throw new \yii\web\ForbiddenHttpException('Não tens permissão para apagar idiomas.');
 //            }
 //        }
-    }
+//    }
 
-    public function actionCount()
-    {
-        $IdiomaModel = new $this->modelClass;
-        $idiomas = $IdiomaModel::find()->all();
-        return ['count' => count($idiomas)];
-    }
-
-    public function actionNomes()
-    {
-        $IdiomaModel = new $this->modelClass;
-        $nomes_idiomas = $IdiomaModel::find()->select(['lingua_descricao'])->all();
-        return $nomes_idiomas;
-    }
-
-    public function actionIdiomapornome($nome)
-    {
-        $IdiomaModel = new $this->modelClass;
-        $idioma = $IdiomaModel::find()->where(['lingua_descricao' => $nome])->one();
-        return $idioma;
-    }
 
 
 

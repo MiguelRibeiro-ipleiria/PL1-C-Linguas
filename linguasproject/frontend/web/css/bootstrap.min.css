@@ -5391,6 +5391,19 @@ fieldset:disabled .btn {
     transition: width .6s ease
 }
 
+
+.progress-bar-error {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #830b1f;
+    transition: width .6s ease
+}
+
 @media (prefers-reduced-motion:reduce) {
     .progress-bar {
         transition: none

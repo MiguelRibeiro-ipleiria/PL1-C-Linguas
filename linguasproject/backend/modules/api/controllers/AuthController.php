@@ -5,6 +5,7 @@ namespace backend\modules\api\controllers;
 use yii\rest\Controller; //CONTROLLER REST
 use yii\web\Response;
 use common\models\User;
+use common\models\Utilizador;
 
 class AuthController extends Controller
 {
@@ -13,6 +14,7 @@ class AuthController extends Controller
         $body = \Yii::$app->request->post();
 
         $user = User::findByUsername($body['username'] ?? null);
+        $utilizador = Utilizador::findOne(['user_id' => $user->id]);
 
         if (!$user || !$user->validatePassword($body['password'] ?? '')) {
             return ['status' => 'error', 'message' => 'Invalid credentials'];
@@ -21,7 +23,7 @@ class AuthController extends Controller
         return [
             'status' => 'success',
             'access_token' => $user->auth_key,
-            'user_id' => $user->id
+            'utilizador_id' => $utilizador->id
         ];
     }
 }
