@@ -3,7 +3,7 @@
 namespace backend\controllers;
 use common\models\User;
 use common\models\Utilizador;
-use common\models\aula;
+use common\models\Aula;
 use common\models\AulaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
