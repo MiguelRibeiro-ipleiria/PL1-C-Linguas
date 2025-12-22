@@ -16,7 +16,7 @@ use yii\helpers\Url;
                     <a href="<?= Url::to(['/user/update', 'id' => Yii::$app->user->identity->id]) ?>" >Os Meus Dados</a>
                     <a href="javascript:void(0)">Os Meus Cursos e Aulas</a>
                     <a href="<?= Url::to(['/comentario/index']) ?>">Os Meus Comentários</a>
-                    <a href="javascript:void(0)">Os Meus Progressos</a>
+                    <a href="<?= Url::to(['/user/meus-progressos', 'id' => Yii::$app->user->identity->id]) ?>" >Os Meus Progressos</a>
                     <a href="<?= Url::to(['/feedback/index']) ?>">Os Meus Feedbacks</a>
                 </div>
             </div>

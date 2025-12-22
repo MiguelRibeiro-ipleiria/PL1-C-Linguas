@@ -84,13 +84,26 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Updates an existing User model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $id
-     * @return string|\yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
+
+   public function actionMeusProgressos($id)
+{
+
+    $utilizador = Utilizador::findOne(['user_id' => $id]);
+
+    if (!$utilizador) {
+        throw new \yii\web\NotFoundHttpException('Perfil não encontrado.');
+    }
+
+    $meusProgressos = (new \yii\db\Query())
+        ->from('inscricao') 
+        ->where(['utilizador_id' => $utilizador->id])
+        ->all();
+
+    return $this->render('meus-progressos', [
+        'utilizador' => $utilizador,
+        'meusProgressos' => $meusProgressos,
+    ]);
+}
 
 
     public function actionUpdate()
