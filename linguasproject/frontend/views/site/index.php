@@ -168,7 +168,7 @@ $this->title = 'LEARNALOT';
             <div class="col-12">
                 <div class="section-title">
                     <h3 class="wow zoomIn" data-wow-delay=".2s">Algumas opiniões do nosso público</h3>
-                    <h2 class="wow fadeInUp" data-wow-delay=".4s">Comentários</h2>
+                    <h2 class="wow fadeInUp" data-wow-delay=".4s">Os meus comentários</h2>
                     <p class="wow fadeInUp" data-wow-delay=".6s">Aqui, consegue ver algumas opiniões de pessoas que já participaram nas nossas aulas e decidiram deixar
                         uma pequena avaliação para contextualizar novos alunos.</p>
                 </div>

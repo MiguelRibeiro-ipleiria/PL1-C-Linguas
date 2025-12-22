@@ -227,7 +227,7 @@ class UserController extends Controller
         $auth = Yii::$app->authManager;
 
         if (!Yii::$app->user->can('ReadUser')) {
-            return $this->redirect(['no_permisson']);
+            return $this->redirect(['site/no_permisson']);
         }
 
         $utilizadores = Utilizador::find()->where(['not', ['idioma_id' => null]])->all();

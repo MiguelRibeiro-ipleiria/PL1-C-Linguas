@@ -53,16 +53,17 @@ class AulaController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
-    {
-           
-                $searchModel = new AulaSearch();
-                $dataProvider = $searchModel->search($this->request->queryParams);
+    public function actionIndex($curso_id)
+    {      
+            $searchModel = new aulaSearch();
+            $dataProvider = $searchModel->search($this->request->queryParams);
+            $dataProvider->query->andWhere(['curso_id' => $curso_id]);
 
-                return $this->render('index', [
-                    'searchModel' => $searchModel,
-                    'dataProvider' => $dataProvider,
-                ]);
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+                    
+            ]);
 
     }
 

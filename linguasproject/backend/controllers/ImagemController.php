@@ -39,13 +39,17 @@ class ImagemController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new ImagemSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+     
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            $searchModel = new ImagemSearch();
+            $dataProvider = $searchModel->search($this->request->queryParams);
+
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+
+
     }
 
     /**

@@ -69,11 +69,11 @@ class CursoController extends Controller
 
                 if ($role == "formador") {
                     $utilizador = Utilizador::findOne(['user_id' => $user->id]);
-                    $idioma = $utilizador->idioma_id;
 
+                    
                     $searchModel = new CursoSearch();
                     $dataProvider = $searchModel->search($this->request->queryParams);
-                    $dataProvider->query->andWhere(['idioma_id' => $idioma]);
+                    $dataProvider->query->andWhere(['utilizador_id' => $utilizador->id]);
 
                 } elseif ($role == "admin") {
                     $searchModel = new CursoSearch();
@@ -162,15 +162,22 @@ class CursoController extends Controller
     {
         if(\Yii::$app->user->can('CreateCourse')) {
 
-            $model = new Curso();
+            $user_id = Yii::$app->user->id;
+            $utilizador = Utilizador::findOne(['user_id' => $user->id]);
 
+            $model = new Curso();
+    
             if ($this->request->isPost) {
                 if ($model->load($this->request->post())) {
                     $model->data_criacao = date('Y-m-d H:i:s');
                     $model->status_ativo = 1;
+                    $model->utilizador_id = $utilizador->id;
+
 
                     if ($model->save()) {
                         return $this->redirect(['view', 'id' => $model->id]);
+                    }else{
+                        var_dump($model->getErrors()); die();
                     }
                 }
             } else {
