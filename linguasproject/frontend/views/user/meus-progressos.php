@@ -133,7 +133,7 @@ use yii\helpers\Url;
                             ?>
                                 <div class="progress-item-card">
                                     <div class="course-pill">
-                                        <?= Html::encode($item['curso_idcurso']) ?> - Gramática
+                                        <?= Html::encode($item['curso_idcurso']) ?> - Gramática 
                                     </div>
 
                                     <div class="progress-wrapper">

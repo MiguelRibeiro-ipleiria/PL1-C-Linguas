@@ -62,11 +62,6 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Creates a new User model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
-     */
     public function actionCreate()
     {
         $model = new User();
@@ -85,25 +80,59 @@ class UserController extends Controller
     }
 
 
-   public function actionMeusProgressos($id)
-{
+    public function actionMeusProgressos($id)
+    {
 
-    $utilizador = Utilizador::findOne(['user_id' => $id]);
+        $utilizador = Utilizador::findOne(['user_id' => $id]);
 
-    if (!$utilizador) {
-        throw new \yii\web\NotFoundHttpException('Perfil não encontrado.');
+        if (!$utilizador) {
+            throw new \yii\web\NotFoundHttpException('Perfil não encontrado.');
+        }
+
+        $meusProgressos = (new \yii\db\Query())
+            ->from('inscricao') 
+            ->where(['utilizador_id' => $utilizador->id])
+            ->all();
+
+        return $this->render('meus-progressos', [
+            'utilizador' => $utilizador,
+            'meusProgressos' => $meusProgressos,
+        ]);
     }
 
-    $meusProgressos = (new \yii\db\Query())
-        ->from('inscricao') 
-        ->where(['utilizador_id' => $utilizador->id])
-        ->all();
+    
+    public function actionMeusCursosAulas($id)
+    {
+        $utilizador = Utilizador::findOne(['user_id' => $id]);
 
-    return $this->render('meus-progressos', [
-        'utilizador' => $utilizador,
-        'meusProgressos' => $meusProgressos,
-    ]);
-}
+        if (!$utilizador) {
+            throw new \yii\web\NotFoundHttpException('Utilizador não encontrado.');
+        }
+
+        $dadosCursos = (new \yii\db\Query())
+            ->select([
+                'i.curso_idcurso',
+                'i.data_inscricao',
+                'i.progresso',
+                'i.estado AS estado_inscricao',
+                'r.nota',
+                'r.estado AS estado_aula',
+                'r.data_inicio',
+                'r.data_fim',
+                'r.data_agendamento',
+                'r.tempo_estimado'
+            ])
+            ->from(['i' => 'inscricao'])
+            ->leftJoin(['r' => 'resultado'], 'i.utilizador_id = r.utilizador_id')
+            ->where(['i.utilizador_id' => $utilizador->id])
+            ->all();
+
+        return $this->render('meus-cursos-aulas', [
+            'utilizador' => $utilizador,
+            'dadosCursos' => $dadosCursos,
+        ]);
+    }
+
 
 
     public function actionUpdate()
