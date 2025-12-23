@@ -1,6 +1,9 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
+
+/** @var yii\data\ActiveDataProvider $dataProviderProgress */
+
 ?>
 
 <style>
@@ -125,37 +128,45 @@ use yii\helpers\Url;
                         </span>
                     </div>
 
-                    <div class="progress-list">
-                        <?php if (!empty($meusProgressos)): ?>
-                            <?php foreach ($meusProgressos as $item): 
-                                $perc = (int)$item['progresso']; 
-                                $color = ($perc == 100) ? '#2ecc71' : '#f1c40f';
-                            ?>
-                                <div class="progress-item-card">
-                                    <div class="course-pill">
-                                        <?= Html::encode($item['curso_idcurso']) ?> - Gramática
-                                    </div>
+                    <?= \yii\widgets\ListView::widget([
+                        'dataProvider' => $dataProviderProgress,
+                        'itemView' => '_progressos',
+                        'layout' => "<div class='cards-grid'>{items}</div>\n<div class='mt-4'>{pager}</div>",
+                        'itemOptions' => ['tag' => false],
+                    ]) ?>
 
-                                    <div class="progress-wrapper">
-                                        <span class="progresso-label">Progresso</span>
-                                        <div class="bar-outer">
-                                            <div class="bar-inner" style="width: <?= $perc ?>%; background-color: <?= $color ?>;"></div>
-                                        </div>
-                                        
-                                        <span class="perc-badge" style="background-color: <?= $color ?>;">
-                                            <?= $perc ?>%
-                                        </span>
-                                    </div>
 
-                                    <div class="status-badge">
-                                        <?= $perc == 100 ? 'Completo' : 'Em curso' ?>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <p class="text-center text-muted">Ainda não tem progressos.</p>
-                        <?php endif; ?>
-                    </div>
+<!--                    <div class="progress-list">-->
+<!--                        --><?php //if ($meusProgressos != null){ ?>
+<!--                            --><?php //foreach ($meusProgressos as $progresso){
+//                                $perc = (int)$progresso['progresso'];
+//                                $color = ($perc == 100) ? '#2ecc71' : '#f1c40f';
+//                            ?>
+<!--                                <div class="progress-item-card">-->
+<!--                                    <div class="course-pill">-->
+<!--                                        --><?php //= $progresso->curso->titulo_curso ?>
+<!--                                    </div>-->
+<!---->
+<!--                                    <div class="progress-wrapper">-->
+<!--                                        <span class="progresso-label">Progresso</span>-->
+<!--                                        <div class="bar-outer">-->
+<!--                                            <div class="bar-inner" style="width: --><?php //=  ?>/*; background-color: */<?php //= $color ?>/*;"></div>*/
+/*                                        </div>*/
+/*                                        */
+/*                                        <span class="perc-badge" style="background-color: */<?php //= $color ?>/*;">*/
+/*                                            */<?php //= $perc ?><!--%-->
+<!--                                        </span>-->
+<!--                                    </div>-->
+<!---->
+<!--                                    <div class="status-badge">-->
+<!--                                        --><?php //= $progresso->estado ?>
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            --><?php //} ?>
+<!--                        --><?php //} else{ ?>
+<!--                            <p class="text-center text-muted">Ainda não tem progressos.</p>-->
+<!--                        --><?php //} ?>
+<!--                    </div>-->
                 </div>
             </div>
         </div>

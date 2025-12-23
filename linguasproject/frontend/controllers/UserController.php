@@ -9,6 +9,7 @@ use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -86,24 +87,19 @@ class UserController extends Controller
 
 
    public function actionMeusProgressos($id)
-{
+    {
+        $utilizador = Utilizador::findOne(['user_id' => $id]);
 
-    $utilizador = Utilizador::findOne(['user_id' => $id]);
+        $QueryFindProgress = $utilizador->getInscricaos();
 
-    if (!$utilizador) {
-        throw new \yii\web\NotFoundHttpException('Perfil não encontrado.');
+        $dataProvider = new ActiveDataProvider([
+            'query' => $QueryFindProgress,
+        ]);
+
+        return $this->render('meus-progressos', [
+            'dataProviderProgress' => $dataProvider,
+        ]);
     }
-
-    $meusProgressos = (new \yii\db\Query())
-        ->from('inscricao') 
-        ->where(['utilizador_id' => $utilizador->id])
-        ->all();
-
-    return $this->render('meus-progressos', [
-        'utilizador' => $utilizador,
-        'meusProgressos' => $meusProgressos,
-    ]);
-}
 
 
     public function actionUpdate()

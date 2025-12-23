@@ -152,14 +152,14 @@ class Inscricao extends \yii\db\ActiveRecord
 
         $inscricao = Inscricao::find()->where(['curso_idcurso' => $curso_id, 'utilizador_id' => $utilizador_id])->one();
         $curso = $inscricao->getCurso();
-        $aulas = $curso->getAulas();
+        $aulas = $curso->aulas;
+
 
         $resultado_array = [];
         foreach ($aulas as $aula) {
-            $resultado = Resultado::find()->where(['aula_id', $aula->id, 'utilizador_id' => $utilizador_id])->one();
+            $resultado = Resultado::find()->where(['aula_idaula' => $aula->id, 'utilizador_id' => $utilizador_id])->one();
             array_push($resultado_array, $resultado);
         }
-
 
 
         foreach ($resultado_array as $resultado) {
