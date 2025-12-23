@@ -14,7 +14,7 @@ use yii\helpers\Url;
             <div class="widget popular-tag-widget">
                     <div class="tags">
                     <a href="<?= Url::to(['/user/update', 'id' => Yii::$app->user->identity->id]) ?>" >Os Meus Dados</a>
-                    <a href="javascript:void(0)">Os Meus Cursos e Aulas</a>
+                    <a href="<?= Url::to(['/user/meus-cursos-aulas', 'id' => Yii::$app->user->identity->id]) ?>" >Os Meus Cursos e Aulas</a>
                     <a href="<?= Url::to(['/comentario/index']) ?>">Os Meus Comentários</a>
                     <a href="<?= Url::to(['/user/meus-progressos', 'id' => Yii::$app->user->identity->id]) ?>" >Os Meus Progressos</a>
                     <a href="<?= Url::to(['/feedback/index']) ?>">Os Meus Feedbacks</a>
