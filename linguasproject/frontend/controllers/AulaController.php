@@ -173,8 +173,7 @@ class AulaController extends Controller
         $opcao_respondida = null;
 
         $utilizador = Utilizador::find()->where(['user_id' => \Yii::$app->user->id])->one();
-        $resultado_utilizador = Resultado::find()->where(['utilizador_id' => $utilizador->id])->one();
-
+        $resultado_utilizador = Resultado::find()->where(['utilizador_id' => $utilizador->id, 'aula_idaula' => $model->id])->one();
 
         if($model->getExercisesDoneSession() == null){
             $resultado_utilizador->data_inicio = date('Y-m-d H:i:s');
@@ -260,9 +259,9 @@ class AulaController extends Controller
 //            return $this->redirect(['index']);
 //        }
         $this->layout = false;
-
         $model = Aula::findOne($id);
         $utilizador = Utilizador::find()->where(['user_id' => \Yii::$app->user->id])->one();
+
         $resultado_utilizador = Resultado::find()->where(['utilizador_id' => $utilizador->id, 'aula_idaula' => $id])->one();
         $resultado_utilizador->data_fim = date('Y-m-d H:i:s');
         $data_inicio = strtotime($resultado_utilizador->data_inicio);
@@ -271,12 +270,27 @@ class AulaController extends Controller
         $resultado_utilizador->estado = "Terminada";
         $resultado_utilizador->nota = (int)(($resultado_utilizador->respostas_certas / $model->numero_de_exercicios) * 100);
 
+
         if($resultado_utilizador->save()){
             $model->clearSessionExercises();
-            return $this->render('aula_terminada', ['resultado' => $resultado_utilizador, 'model' => $model]);
+
+            $inscricao = Inscricao::findOne(['curso_idcurso' => $resultado_utilizador->aulaIdaula->curso_id, 'utilizador_id' => $resultado_utilizador->utilizador_id]);
+            if ($inscricao->VerificaEstadoCurso($inscricao->curso_idcurso, $inscricao->utilizador_id)) {
+                $inscricao->estado = "Concluído";
+            }
+            else{
+                $inscricao->estado = "Em curso";
+            }
+
+            if($inscricao->save()){
+                return $this->render('aula_terminada', ['resultado' => $resultado_utilizador, 'model' => $model]);
+            }
+            else{
+                return $this->render('aula_cancelada', ['model' => $model]);
+            }
         }
         else{
-            return $this->render('falha_na_aula', ['aula' => $model]);
+            return $this->render('aula_cancelada', ['model' => $model]);
         }
 
 
