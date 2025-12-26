@@ -13,20 +13,14 @@ use common\models\Curso;
 
     <?php $form = ActiveForm::begin();
 
-        $arraycursos = ArrayHelper::map(curso::find()->all(), 'id', 'titulo_curso');
-    
+
+        
 
     ?>
 
     <div class="row">
         <div class="col-9">
             <?= $form->field($model, 'titulo_aula')->textInput(['maxlength' => true]) ?>
-        </div>
-        <div class="col-3">
-            <?= $form->field($model, 'curso_id')->dropDownList(
-                ArrayHelper::map(Curso::find()->asArray()->all(), 'id', 'titulo_curso'),
-                ['prompt' => 'Selecione um curso']
-            ) ?>
         </div>
     </div>
     <div class="row">

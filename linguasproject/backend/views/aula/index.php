@@ -29,6 +29,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'emptyText' => 'Este curso ainda não tem nenhuma aula.',
         'layout' => "<div class='cards-grid'>{items}</div>\n<div class='mt-4'>{pager}</div>",
         'itemOptions' => ['tag' => false],
+        'viewParams' => [
+    ],
     ]) ?>
 
 

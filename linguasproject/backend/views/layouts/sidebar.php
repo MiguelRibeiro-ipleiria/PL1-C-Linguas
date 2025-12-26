@@ -70,6 +70,7 @@ use yii\helpers\Url;
                     ['label' => 'Dificuldade',  'icon' => 'exclamation-triangle', 'url' => ['/dificuldade/index']],
                     ['label' => 'Idiomas',  'icon' => 'language', 'url' => ['/idioma/index']],
                     ['label' => 'Cursos',  'icon' => 'book', 'url' => ['/curso/index']],
+                    ['label' => 'Aulas',  'icon' => 'book', 'url' => ['/aula/index']],
                     ['label' => 'EXERCÍCIOS', 'header' => true],
                     ['label' => 'Imagens',  'icon' => 'image', 'url' => ['/imagem/index']],
                     ['label' => 'Áudios',  'icon' => 'music', 'url' => ['/audio/index']],

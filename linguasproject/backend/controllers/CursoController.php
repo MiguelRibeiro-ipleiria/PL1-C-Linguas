@@ -163,7 +163,9 @@ class CursoController extends Controller
         if(\Yii::$app->user->can('CreateCourse')) {
 
             $user_id = Yii::$app->user->id;
-            $utilizador = Utilizador::findOne(['user_id' => $user->id]);
+
+            $utilizador = Utilizador::findOne(['user_id' => $user_id]);
+            
 
             $model = new Curso();
     

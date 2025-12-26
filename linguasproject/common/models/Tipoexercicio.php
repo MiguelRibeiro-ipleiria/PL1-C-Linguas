@@ -77,5 +77,6 @@ class Tipoexercicio extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Imagem::class, ['tipoexercicio_id' => 'id']);
     }
+    
 
 }

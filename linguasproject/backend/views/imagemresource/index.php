@@ -23,23 +23,21 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+<div class="card card-success">
+    <div class="card-body">
+        <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
-            'id',
-            'nome_imagem',
-            'nome_ficheiro',
-            [
-                'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, ImagemResource $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id' => $model->id]);
-                 }
-            ],
-        ],
-    ]); ?>
+        <?= \yii\widgets\ListView::widget([
+          'dataProvider' => $dataProvider,
+          'itemView' => '_imagemresource',
+          'layout' => "<div class='row'>{items}</div>\n<div class='mt-4'>{pager}</div>",
+            'itemOptions' => ['tag' => false],
+            ]) ?>
+
+
+        </div>
+    </div>
+</div>
 
 
 </div>

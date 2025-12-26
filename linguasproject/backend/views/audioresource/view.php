@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use hosanna\audiojs\AudioJs;
 
 /** @var yii\web\View $this */
 /** @var common\models\AudioResource $model */
@@ -34,5 +35,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'nome_ficheiro',
         ],
     ]) ?>
+    <?=AudioJs::widget([
+    'files'=>'UploadAudio/'.$model->nome_ficheiro, 
+    ]);?>
 
 </div>
