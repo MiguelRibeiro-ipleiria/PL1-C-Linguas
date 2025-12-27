@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\Aula;
 use common\models\Audio;
 use common\models\AudioSearch;
 use yii\web\Controller;
@@ -89,6 +90,13 @@ class AudioController extends Controller
                     $opcao->audio_aula_id = $aula_id;
                     $opcao->audio_audio_resource_id = $model->audio_resource_id;
 
+                    $aula = Aula::findOne($aula_id);
+                    $aula_frase = $aula->getFrases()->count();
+                    $aula_imagem = $aula->getImagems()->count();
+                    $aula_audio = $aula->getAudios()->count();
+
+                    $aula->numero_de_exercicios = $aula_frase + $aula_imagem + $aula_audio;
+                    $aula->save();
                     $opcao->save();
 
                    

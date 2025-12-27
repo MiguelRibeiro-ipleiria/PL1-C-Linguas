@@ -94,7 +94,7 @@ class Opcoesai extends \yii\db\ActiveRecord
      */
     public function getImagemImagemResource()
     {
-        return $this->hasOne(ImagemResource::class, ['imagem_resource_id' => 'imagem_imagem_resource_id', 'aula_id' => 'imagem_aula_id']);
+        return $this->hasOne(Imagem::class, ['imagem_resource_id' => 'imagem_imagem_resource_id', 'aula_id' => 'imagem_aula_id']);
     }
 
 }

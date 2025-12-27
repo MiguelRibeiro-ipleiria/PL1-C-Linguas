@@ -201,7 +201,7 @@ class Aula extends \yii\db\ActiveRecord
     }
 
 
-    public function setExercisesDoneSession($id) {
+    public function setExercisesFrasesDoneSession($id) {
         $session = Yii::$app->session;
 
         if ($session->has('frasesDone')) {
@@ -215,16 +215,61 @@ class Aula extends \yii\db\ActiveRecord
         $session->set('frasesDone', $arrayFrasesDone);
     }
 
-    public function clearSessionExercises() {
-        session_destroy();
-    }
-
-    public function getExercisesDoneSession()
+    public function getExercisesFraseDoneSession()
     {
         $session = Yii::$app->session;
         return $session->get('frasesDone');
 
     }
+
+    public function setExercisesImagensDoneSession($id) {
+        $session = Yii::$app->session;
+
+        if ($session->has('imagensDone')) {
+            $arrayImagensDone = $session->get('imagensDone');
+        } else {
+            $arrayImagensDone = [];
+        }
+
+        array_push($arrayImagensDone, $id);
+
+        $session->set('imagensDone', $arrayImagensDone);
+    }
+
+    public function getExercisesImagensDoneSession()
+    {
+        $session = Yii::$app->session;
+        return $session->get('imagensDone');
+
+    }
+
+
+    public function setExercisesAudiosDoneSession($id) {
+        $session = Yii::$app->session;
+
+        if ($session->has('audiosDone')) {
+            $arrayAudiosDone = $session->get('audiosDone');
+        } else {
+            $arrayAudiosDone = [];
+        }
+
+        array_push($arrayAudiosDone, $id);
+
+        $session->set('audiosDone', $arrayAudiosDone);
+    }
+
+    public function getExercisesAudiosDoneSession()
+    {
+        $session = Yii::$app->session;
+        return $session->get('audiosDone');
+
+    }
+
+
+    public function clearSessionExercises() {
+        session_destroy();
+    }
+
 
 
 

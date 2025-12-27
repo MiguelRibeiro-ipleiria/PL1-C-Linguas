@@ -168,36 +168,118 @@ class AulaController extends Controller
 
     public function actionAulaemexecucao($id)
     {
+
         $this->layout = false;
         $model = Aula::findOne($id);
         $opcao_respondida = null;
-
         $utilizador = Utilizador::find()->where(['user_id' => \Yii::$app->user->id])->one();
         $resultado_utilizador = Resultado::find()->where(['utilizador_id' => $utilizador->id, 'aula_idaula' => $model->id])->one();
+        $frase = null;
+        $imagem = null;
+        $audio = null;
 
-        if($model->getExercisesDoneSession() == null){
+
+        if($model->getExercisesFraseDoneSession() == null && $model->getExercisesImagensDoneSession() == null && $model->getExercisesAudiosDoneSession() == null){
             $resultado_utilizador->data_inicio = date('Y-m-d H:i:s');
             $resultado_utilizador->estado = "A estudar";
             $resultado_utilizador->respostas_certas = 0;
             $resultado_utilizador->respostas_erradas = 0;
             $frase = $model->getFrases()->one();
+            if($frase == null){
+                $imagem = $model->getImagems()->one();
+                if($imagem == null){
+                    $audio = $model->getAudios()->one();
+                    if($audio == null){
+                        return $this->redirect(['aulacancelar', 'id' => $id]);
+                    }
+                }
+            }
             $count_exercicios_respondidos = 1;
         }
         elseif($model->getOpcaoRespondidaSession() != null){
 
             $opcao_respondida = Opcoesai::find()->where(['=', 'opcoesai.id', $model->getOpcaoRespondidaSession()])->one();
             $frase = $opcao_respondida->getFrase()->where(['id' => $opcao_respondida->frase_id])->one();
-            $exercicios_respondidos = $model->getExercisesDoneSession();
-            $count_exercicios_respondidos = count($exercicios_respondidos);
+            if($frase == null){
+                $imagem = $opcao_respondida->getImagemImagemResource()->where(['imagem_resource_id' => $opcao_respondida->imagem_imagem_resource_id])->one();
+                if($imagem == null){
+                    $audio = $opcao_respondida->getAudioAudioResource()->where(['audio_resource_id' => $opcao_respondida->audio_audio_resource_id])->one();
+                }
+            }
+            $exercicios_respondidos_frases = $model->getExercisesFraseDoneSession();
+            $exercicios_respondidos_imagens = $model->getExercisesImagensDoneSession();
+            $exercicios_respondidos_audios = $model->getExercisesAudiosDoneSession();
+
+            if($exercicios_respondidos_frases == null){
+                $exercicios_respondidos_frases = [];
+            }
+            if($exercicios_respondidos_imagens == null){
+                $exercicios_respondidos_imagens = [];
+            }
+            if($exercicios_respondidos_audios == null){
+                $exercicios_respondidos_audios = [];
+            }
+
+            $count_exercicios_respondidos = (count($exercicios_respondidos_frases) + count($exercicios_respondidos_imagens) + + count($exercicios_respondidos_audios));
+
         }
         else{
-            $exercicios_respondidos = $model->getExercisesDoneSession();
-            $count_exercicios_respondidos = count($exercicios_respondidos) + 1;
-            $frase = $model->getFrases()->where(['not in', 'frase.id', $model->getExercisesDoneSession()])->one();
+
+            $exercicios_respondidos_frases = $model->getExercisesFraseDoneSession();
+            $exercicios_respondidos_imagens = $model->getExercisesImagensDoneSession();
+            $exercicios_respondidos_audios = $model->getExercisesAudiosDoneSession();
+
+            if($exercicios_respondidos_frases == null){
+                $exercicios_respondidos_frases = [];
+            }
+            if($exercicios_respondidos_imagens == null){
+                $exercicios_respondidos_imagens = [];
+            }
+            if($exercicios_respondidos_audios == null){
+                $exercicios_respondidos_audios = [];
+            }
+
+            $count_exercicios_respondidos = (count($exercicios_respondidos_frases) + count($exercicios_respondidos_imagens) + + count($exercicios_respondidos_audios)) + 1;
+
+
+            // Logica para a continuacao da aula
+            $frasesDone = $model->getExercisesFraseDoneSession();
+
+            if ($frasesDone != null) {
+                $frase = $model->getFrases()->where(['not in', 'frase.id', $frasesDone])->one();
+            }
+            else {
+                $frase = $model->getFrases()->one();
+            }
+
+
+            if ($frase == null) {
+
+                $imagensDone = $model->getExercisesImagensDoneSession();
+
+                if ($imagensDone != null) {
+                    $imagem = $model->getImagems()->where(['not in', 'imagem.imagem_resource_id', $imagensDone])->one();
+                }
+                else {
+                    $imagem = $model->getImagems()->one();
+                }
+
+                if ($imagem == null) {
+
+                    $audiosDone = $model->getExercisesAudiosDoneSession();
+                    if ($audiosDone != null) {
+                        $audio = $model->getAudios()->where(['not in', 'audio.audio_resource_id', $audiosDone])->one();
+                    }
+                    else {
+                        $audio = $model->getAudios()->one();
+                    }
+                }
+            }
+
         }
 
-        if($frase == null){
-            //dd($model->getExercisesDoneSession());
+        if($frase == null && $imagem == null && $audio == null){
+            //dd($model->getExercisesFraseDoneSession());
             return $this->redirect(['aulaterminar', 'id' => $id]);
         }
 
@@ -212,12 +294,13 @@ class AulaController extends Controller
         //dd($model->getExercisesDoneSession());
 
 
-
         if($resultado_utilizador->save()){
 
             return $this->render('aula_em_execucao', [
             'model' => $model,
             'frase' => $frase,
+            'imagem' => $imagem,
+            'audio' => $audio,
             'opcaorespondida' => $opcao_respondida,
             'count_exercicios' => $count_exercicios_respondidos,
             //'exercicio' => $exercicio,

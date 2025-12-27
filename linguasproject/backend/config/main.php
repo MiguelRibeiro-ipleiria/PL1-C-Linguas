@@ -88,6 +88,11 @@ return [
                         'POST login' => 'login',  // login verify action],
                     ]
                 ],
+                ['class' => 'yii\rest\UrlRule','controller' => 'api/utilizador',
+                    'extraPatterns' => [
+                        'GET {id}' => 'perfilutilizador',
+                    ]
+                ],
             ],
         ],
 

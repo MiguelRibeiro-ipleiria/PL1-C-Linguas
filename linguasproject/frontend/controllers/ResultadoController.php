@@ -2,8 +2,10 @@
 
 namespace frontend\controllers;
 
+use common\models\Audio;
 use common\models\Aula;
 use common\models\Frase;
+use common\models\Imagem;
 use common\models\Opcoesai;
 use common\models\Resultado;
 use common\models\ResultadoSearch;
@@ -114,7 +116,7 @@ class ResultadoController extends Controller
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($aula_id, $frase_id, $imagem_id = null, $audio_id = null)
+    public function actionUpdate($aula_id, $frase_id = null, $imagem_resource_id = null, $audio_resource_id = null)
     {
 //        $model = $this->findModel($utilizador_id, $aula_idaula);
 //
@@ -126,16 +128,30 @@ class ResultadoController extends Controller
 //            'model' => $model,
 //        ]);
 
-
+        $frase = null;
+        $imagem = null;
+        $audio = null;
 
         if ($this->request->isPost) {
             $aula = Aula::findOne($aula_id);
             //$aula->clearSessionExercises();
-            $frase = Frase::findOne($frase_id);
-            $opcao_respondida = $frase->getOpcoesais()->where(['=', 'opcoesai.id', $this->request->post('opcao_id')])->one();
+            if($frase_id != null){
+                $frase = Frase::findOne($frase_id);
+                $opcao_respondida = $frase->getOpcoesais()->where(['=', 'opcoesai.id', $this->request->post('opcao_frase_id')])->one();
+            }
+            elseif($imagem_resource_id != null){
+                $imagem = Imagem::findOne(['imagem_resource_id' => $imagem_resource_id, 'aula_id' => $aula_id]);
+                $opcao_respondida = $imagem->getOpcoesais()->where(['=', 'opcoesai.id', $this->request->post('opcao_imagem_id')])->one();
+            }
+            elseif($audio_resource_id != null){
+                $audio = Audio::findOne(['audio_resource_id' => $audio_resource_id, 'aula_id' => $aula_id]);
+                $opcao_respondida = $audio->getOpcoesais()->where(['=', 'opcoesai.id', $this->request->post('opcao_audio_id')])->one();
+            }
 
             $utilizador = Utilizador::find()->where(['user_id' => \Yii::$app->user->id])->one();
             $resultado_user = Resultado::find()->where(['utilizador_id' => $utilizador->id, 'aula_idaula' => $aula_id])->one();
+
+
             if($opcao_respondida->iscorreta == 1){
                 $resultado_user->respostas_certas++;
             }
@@ -143,9 +159,17 @@ class ResultadoController extends Controller
                 $resultado_user->respostas_erradas++;
             }
 
-            $aula->setExercisesDoneSession($frase_id);
-            $aula->setOpcaoRespondidaSession($opcao_respondida->id);
+            if($frase != null){
+                $aula->setExercisesFrasesDoneSession($frase_id);
+            }
+            elseif($imagem != null){
+                $aula->setExercisesImagensDoneSession($imagem->imagem_resource_id); //pq existe uma protecao que nao permite inserir dois exercicios com a mesma imagem!
+            }
+            elseif($audio != null){
+                $aula->setExercisesAudiosDoneSession($audio->audio_resource_id); //pq existe uma protecao que nao permite inserir dois exercicios com a mesma imagem!
+            }
 
+            $aula->setOpcaoRespondidaSession($opcao_respondida->id);
             if($resultado_user->save()){
 
                 //var_dump($resultado_user);
