@@ -15,19 +15,31 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <div class="row">
+        <div class="col-md-1">
+            <?= $form->field($model, 'id')->label('ID') ?>
+        </div>
 
-    <?= $form->field($model, 'assunto_feedback') ?>
+        <div class="col-md-3">
+            <?= $form->field($model, 'assunto_feedback')->label('Assunto*') ?>
+        </div>
 
-    <?= $form->field($model, 'descricao_feedback') ?>
+        <div class="col-md-3">
+            <?= $form->field($model, 'descricao_feedback')->label('Mensagem*') ?>
+        </div>
 
-    <?= $form->field($model, 'hora_criada') ?>
+        <div class="col-md-2">
+            <?= $form->field($model, 'utilizador_id')->label('Utilizador*') ?>
+        </div>
 
-    <?= $form->field($model, 'utilizador_id') ?>
+        <div class="col-md-3">
+            <?= $form->field($model, 'hora_criada')->input('date')->label('Hora Criada') ?>
+        </div>
+    </div>
 
-    <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>
+    <div class="form-group mb-0">
+        <?= Html::submitButton('Search', ['class' => 'btn btn-success btn-sm']) ?>
+        <?= Html::a('Reset', ['index'], ['class' => 'btn btn-outline-secondary btn-sm']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -14,49 +14,75 @@ use yii\grid\GridView;
 
 $this->title = 'Feedbacks';
 $this->params['breadcrumbs'][] = $this->title;
+
+// 1. Registro do CSS para manter as cores verdes nos links e ações
+$this->registerCss("
+    .grid-view th a, .grid-view .action-column a { color: #28a745 !important; font-weight: bold; }
+    .table-responsive { margin-top: 1.5rem; }
+    .card-success:not(.card-outline) > .card-header { background-color: #28a745; }
+");
 ?>
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title"><?= Html::encode($this->title) ?></h3>
-        <div class="card-tools">
-            <?= Html::a('Create Feedback', ['create'], ['class' => 'btn btn-success btn-sm']) ?>
+
+<div class="feedback-index">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <p>
+            <?= Html::a('Create Feedback', ['create'], ['class' => 'btn btn-success']) ?>
+        </p>
+    </div>
+
+    <div class="card card-success">
+        <div class="card-header">
+            <h3 class="card-title">Sistema de Filtragem de Feedbacks</h3>
+        </div>
+        <div class="card-body">
+            <?php // Renderiza o formulário de busca. Certifica-te que o ficheiro _search.php existe na pasta feedback ?>
+            <?= $this->render('_search', ['model' => $searchModel]); ?>
         </div>
     </div>
 
-    <div class="card-body p-0">
-        <div class="table-responsive">
-            <?= GridView::widget([
-                'dataProvider' => $dataProvider,
-                'filterModel' => $searchModel,
-                'tableOptions' => [
-                    'class' => 'table table-striped m-0',
-                ],
-                'layout' => "{items}\n<div class='card-footer clearfix'>{pager}</div>",
-                'columns' => [
-                    'id',
-                    'assunto_feedback',
-                    'descricao_feedback',
-                    'hora_criada',
-                    [
-                        'label' => 'Utilizador',
-                        'format' => 'raw',
-                        'value' => function($model) {
-                            $utilizador = Utilizador::findOne(['id' => $model->utilizador_id]);
-                            $user = User::findOne(['id' => $utilizador->user_id]);
-                            return $user->username;
-                        }
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <?= GridView::widget([
+                    'dataProvider' => $dataProvider,
+                    // Removemos o 'filterModel' => $searchModel para o filtro não aparecer dentro da tabela
+                    'summary' => false, 
+                    'tableOptions' => [
+                        'class' => 'table table-striped m-0',
                     ],
-                    //'utilizador_id',
-                    [
-                        'class' => ActionColumn::className(),
-                        'header' => 'Ações',
-                        'urlCreator' => function ($action, Feedback $model) {
-                            return Url::toRoute([$action, 'id' => $model->id]);
-                        },
+                    'layout' => "{items}\n<div class='card-footer clearfix'>{pager}</div>",
+                    'columns' => [
+                        [
+                            'attribute' => 'id',
+                            'contentOptions' => ['style' => 'width: 60px;'],
+                        ],
+                        'assunto_feedback',
+                        'descricao_feedback',
+                        'hora_criada',
+                        [
+                            'label' => 'Utilizador',
+                            'format' => 'raw',
+                            'value' => function($model) {
+                                $utilizador = Utilizador::findOne(['id' => $model->utilizador_id]);
+                                if ($utilizador) {
+                                    $user = User::findOne(['id' => $utilizador->user_id]);
+                                    return $user ? Html::encode($user->username) : '(sem user)';
+                                }
+                                return '(não encontrado)';
+                            }
+                        ],
+                        [
+                            'class' => ActionColumn::className(),
+                            'header' => 'Ações',
+                            'contentOptions' => ['class' => 'action-column', 'style' => 'width: 100px;'],
+                            'urlCreator' => function ($action, Feedback $model) {
+                                return Url::toRoute([$action, 'id' => $model->id]);
+                            },
+                        ],
                     ],
-                ],
-            ]); ?>
-
+                ]); ?>
+            </div>
         </div>
     </div>
 </div>

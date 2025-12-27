@@ -4,6 +4,7 @@ namespace backend\controllers;
 use common\models\User;
 use common\models\Utilizador;
 use common\models\Aula;
+use common\models\Curso;
 use common\models\AulaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -11,6 +12,7 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
 /**
  * AulaController implements the CRUD actions for aula model.
  */
@@ -53,8 +55,17 @@ class AulaController extends Controller
      *
      * @return string
      */
-    public function actionIndex($curso_id)
+    public function actionIndex($curso_id = null)
     {      
+        $auth = Yii::$app->authManager;
+
+        $user = User::findOne(Yii::$app->user->id);
+        $utilizador = Utilizador::findOne(['user_id' => $user->id]);
+        $userRoles = $auth->getRolesByUser($user->id);
+        $role = key($userRoles);
+
+
+        if($curso_id !=null){
             $searchModel = new aulaSearch();
             $dataProvider = $searchModel->search($this->request->queryParams);
             $dataProvider->query->andWhere(['curso_id' => $curso_id]);
@@ -64,6 +75,27 @@ class AulaController extends Controller
                 'dataProvider' => $dataProvider,
                     
             ]);
+        }else{
+            
+            if ($role == "formador") {
+
+            $searchModel = new aulaSearch();
+            $dataProvider = $searchModel->search($this->request->queryParams);
+            $dataProvider->query->andWhere(['utilizador_id' => $utilizador->id]);
+            } elseif ($role == "admin") {
+            
+                $searchModel = new aulaSearch();
+                $dataProvider = $searchModel->search($this->request->queryParams);
+            }
+
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+
+                    
+            ]);
+
+        }
 
     }
 
@@ -92,10 +124,17 @@ class AulaController extends Controller
     {
         $model = new Aula();
 
+        $user_id = Yii::$app->user->id;
+        $utilizador = Utilizador::findOne(['user_id' => $user_id]);
+
+
+        $arraycursos = ArrayHelper::map(curso::find()->where(['utilizador_id'=>$utilizador->id])->all(), 'id', 'titulo_curso');
+
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
 
                 $model->setDataCriacao();
+                $model->utilizador_id = $utilizador->id;
 
                 if($model->save()){
                     return $this->redirect(['view', 'id' => $model->id]);
@@ -107,6 +146,7 @@ class AulaController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'arraycursos'=>$arraycursos,
         ]);
     }
 

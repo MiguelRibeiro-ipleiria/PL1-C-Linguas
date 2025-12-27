@@ -20,6 +20,11 @@ $auth = Yii::$app->authManager;
 //$dificuldade = Dificuldade::findOne(['id' => $model->dificuldade_id]);
 $curso = Curso::findOne(['id' => $model->curso_id]);
 $comentarios = Comentario::find()->where(['aula_id' => $model->id])->all();
+$Utilizador = Utilizador::findOne(['id' => $model->utilizador_id]);
+$Usercreate = User::findOne(['id' => $Utilizador->user_id]);
+
+
+
 
 ?>
 
@@ -118,6 +123,9 @@ $comentarios = Comentario::find()->where(['aula_id' => $model->id])->all();
                         </p>
                         <p class="text-sm">Nome do curso
                             <b class="d-block"><?= $curso->titulo_curso ?></b>
+                        </p>
+                        <p class="text-sm">Criador
+                            <b class="d-block"><?= $Usercreate->username?></b>
                         </p>
                     </div>
                     <div>
