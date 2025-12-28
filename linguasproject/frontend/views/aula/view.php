@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\helpers\Url;
+use yii\widgets\ActiveForm;
 
 
 /** @var yii\web\View $this */
@@ -13,6 +14,7 @@ use yii\helpers\Url;
 /** @var int $commentscount */
 /** @var yii\data\ActiveDataProvider $DataCommentsProvider */
 /** @var common\models\Comentario $modelcomentario */
+/** @var common\models\Resultado $resultado */
 
 $this->title = $model->titulo_aula;
 $this->params['breadcrumbs'][] = ['label' => 'Aulas', 'url' => ['index']];
@@ -64,7 +66,19 @@ $this->params['breadcrumbs'][] = $this->title;
                                                             </p>
                                                             <div class="boxflex flex-space-between">
                                                                 <button id="close_dialog">Não</button>
-                                                                <button id="confirm_dialog" class="cta">Sim</button>
+                                                                <button>
+                                                                    <?php
+                                                                    $form = ActiveForm::begin(['action' => ['/aula/aulacomecar', 'id' => $model->id]]); ?>
+                                                                    <?= Html::submitButton(
+                                                                        'Sim',
+                                                                        [
+                                                                            'class' => 'cta',
+                                                                            'id'=> 'confirm_dialog',
+                                                                        ]
+                                                                    ) ?>
+
+                                                                    <?php ActiveForm::end(); ?>
+                                                                </button>
                                                             </div>
                                                         </dialog>
                                                     </div>
@@ -117,31 +131,35 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="aula-detail-card">
                             <div class="row d-flex align-items-center g-0">
 
-                                <div class="col-9 aula-content-area">
+                                <div class="col-7 aula-content-area">
 
                                     <div class="card-header-aula-flex">
-                                        <h3 class="card-aula-title"><?= $model->titulo_aula ?></h3>
+                                        <h3 class="card-aula-title">Agendamento</h3>
                                     </div>
                                     <p class="card-aula-description mt-2">
-                                        <?= $model->descricao_aula ?>
+                                        Faça o agendamento da sua aula, e organize-se nos seus estudos!
                                     </p>
-                                    <span class="badge-custom level-badge">Tempo Estimado: <?= $model->tempo_estimado ?></span>
-                                    <span class="badge-custom level-badge">Exercícios Disponíveis: <?= $model->numero_de_exercicios ?> exercícios</span>
+                                    <div class="button">
+                                        <?php
+
+                                        $form = ActiveForm::begin(['action' => ['/resultado/agendamento', 'aula_id' => $model->id],])
+                                        ?>
+
+                                        <?= Html::submitButton('Agendar', ['class' => 'styliesh']) ?>
+                                    </div>
                                 </div>
 
-                                <div class="col-3 d-flex justify-content-center align-items-center aula-action-area">
-                                    <section class="intro-video-area section-idiomas-cursos">
-                                        <div class="inner-content-head">
-                                            <div class="inner-content">
-                                                <div class="intro-video-play">
-                                                    <div class="play-thumb wow zoomIn" data-wow-delay=".2s">
-                                                        <a href="<?= Url::to(['/aula/aulacomecar', 'id' => $model->id]) ?>"
-                                                        ><i class="lni lni-play"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </section>
+                                <div class="col-5 d-flex justify-content-center align-items-center aula-action-area">
+
+                                    <div class="form-group">
+                                        <label></label>
+                                        <?= $form->field($resultado, 'data_agendamento')->input('datetime-local', [
+                                            'class' => 'datepicker-custom' // Nova classe aqui
+                                        ])->label(false) ?>
+                                    </div>
+
+                                    <?php ActiveForm::end(); ?>
+
                                 </div>
                             </div>
                         </div>

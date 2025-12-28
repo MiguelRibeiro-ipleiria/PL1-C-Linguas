@@ -70,6 +70,10 @@ class AulaController extends Controller
         $model = $this->findModel($id);
         $modelcomentario = new Comentario();
 
+        $user_id = \Yii::$app->user->id;
+        $utilizador = Utilizador::find()->where(['user_id' => $user_id])->one();
+        $resultado = Resultado::find()->where(['aula_idaula' => $id, 'utilizador_id' => $utilizador->id])->one();
+
         $query_comentarios = $model->getComments($id);
         $DataCommentsProvider = new ActiveDataProvider([
             'query' => $query_comentarios,
@@ -83,6 +87,7 @@ class AulaController extends Controller
             'commentscount' => $model->getCountComments($id),
             'DataCommentsProvider' => $DataCommentsProvider,
             'modelcomentario' => $modelcomentario,
+            'resultado' => $resultado,
         ]);
     }
 

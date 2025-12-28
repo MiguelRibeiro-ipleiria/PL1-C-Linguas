@@ -180,6 +180,48 @@ class ResultadoController extends Controller
         }
     }
 
+
+    public function actionAgendamento($aula_id)
+    {
+        $user_id = \Yii::$app->user->id;
+        $utilizador = Utilizador::find()->where(['user_id' => $user_id])->one();
+        $resultado = Resultado::find()->where(['aula_idaula' => $aula_id, 'utilizador_id' => $utilizador->id])->one();
+
+        if ($this->request->isPost) {
+
+            if ($resultado->load($this->request->post())) {
+
+                if ($resultado->data_agendamento > date('Y-m-d')) {
+                    $resultado->estado = "Agendada";
+                    $resultado->data_inicio = null;
+                    $resultado->data_fim = null;
+                    $resultado->respostas_erradas = null;
+                    $resultado->respostas_certas = null;
+                    $resultado->nota = null;
+                    $resultado->tempo_estimado = null;
+                    if($resultado->save()){
+                        return $this->render('agendamento_validado', [
+                            'resultado' => $resultado,
+                        ]);
+                    }
+                    else{
+                        return $this->redirect(['aula/view',
+                            'id' => $resultado->aulaIdaula->id]);
+                    }
+                }
+                return $this->redirect(['aula/view',
+                    'id' => $resultado->aulaIdaula->id]);
+            }
+
+            else{
+                return $this->redirect(['aula/view',
+                    'id' => $resultado->aulaIdaula->id]);
+            }
+        }
+
+    }
+
+
     /**
      * Deletes an existing Resultado model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -188,6 +230,7 @@ class ResultadoController extends Controller
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
+
     public function actionDelete($utilizador_id, $aula_idaula)
     {
         $this->findModel($utilizador_id, $aula_idaula)->delete();

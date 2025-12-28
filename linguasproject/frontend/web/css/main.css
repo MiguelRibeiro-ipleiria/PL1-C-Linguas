@@ -3689,6 +3689,21 @@ ol {
         COMENTARIOS VIEW DESIGN
 ========================================= */
 
+.comment-card-compact .tags{
+  border: 1px solid #e1e1e1; /* Borda mais fina */
+  border-top: 2px solid #2ed06e;
+  border-bottom: 2px solid #2ed06e;
+  border-radius: 8px;        /* Bordas arredondadas suaves */
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Sombra leve em vez de borda grossa */
+}
+
+.comment-card-relative {
+  position: relative;
+  padding: 15px !important; /* Reduz o "vazio" dentro da caixa */
+}
+
+
 .card-comment-title {
   font-size: 1.5rem;
   color: #2ed06e;
@@ -5627,10 +5642,36 @@ blockquote span {
   color: white;
 }
 
+.datepicker-custom {
 
+  border: 2px solid #2ed06e; /* Cor verde do seu tema */
+  border-radius: 30px;
+  padding: 10px 20px;
+  color: #555;
+  font-weight: 500;
+  outline: none;
+  transition: all 0.3s ease;
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
 
+.datepicker-custom:focus {
+  box-shadow: 0 0 10px rgba(14, 243, 66, 0.2);
+  background-color: #fff;
+}
 
+.datepicker-custom::-webkit-calendar-picker-indicator {
+  /* Este filtro transforma o ícone em #2ed06e */
+  filter: invert(66%) sepia(58%) saturate(515%) hue-rotate(92deg) brightness(97%) contrast(91%);
+  cursor: pointer;
+  padding: 5px;
+  transition: all 0.3s ease;
+}
 
+.datepicker-custom::-webkit-calendar-picker-indicator:hover {
+  /* Opcional: um brilho suave ao passar o rato */
+  filter: invert(66%) sepia(58%) saturate(515%) hue-rotate(92deg) brightness(110%) contrast(91%);
+}
 
 /* Placeholder */
 .account-login .form-group .form-controlle::placeholder {
@@ -5909,6 +5950,7 @@ blockquote span {
   right: 15px;
   cursor: pointer;
   z-index: 10;
+  margin-left: 10px;
 }
 
 .icon-comment-delete{
@@ -5916,6 +5958,12 @@ blockquote span {
   font-size: 120%;
 
 }
+
+
+.icon-comment-delete:hover{
+  color: #22683e;
+}
+
 
 /* DIALOG AULA BOX */
 dialog {

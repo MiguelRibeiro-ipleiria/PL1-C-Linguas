@@ -97,35 +97,19 @@ class UserController extends Controller
 
 
     
-    public function actionMeusCursosAulas($id)
+    public function actionMeusCursosAulas()
     {
-        $utilizador = Utilizador::findOne(['user_id' => $id]);
 
-        if (!$utilizador) {
-            throw new \yii\web\NotFoundHttpException('Utilizador não encontrado.');
-        }
+        $utilizador = Utilizador::findOne(['user_id' => \Yii::$app->user->id]);
 
-        $dadosCursos = (new \yii\db\Query())
-            ->select([
-                'i.curso_idcurso',
-                'i.data_inscricao',
-                'i.progresso',
-                'i.estado AS estado_inscricao',
-                'r.nota',
-                'r.estado AS estado_aula',
-                'r.data_inicio',
-                'r.data_fim',
-                'r.data_agendamento',
-                'r.tempo_estimado'
-            ])
-            ->from(['i' => 'inscricao'])
-            ->leftJoin(['r' => 'resultado'], 'i.utilizador_id = r.utilizador_id')
-            ->where(['i.utilizador_id' => $utilizador->id])
-            ->all();
+        $QueryFindInscricoes = $utilizador->getInscricaos();
+
+        $dataProviderInscricoes = new ActiveDataProvider([
+            'query' => $QueryFindInscricoes,
+        ]);
 
         return $this->render('meus-cursos-aulas', [
-            'utilizador' => $utilizador,
-            'dadosCursos' => $dadosCursos,
+            'dataProviderInscricoes' => $dataProviderInscricoes,
         ]);
     }
 
