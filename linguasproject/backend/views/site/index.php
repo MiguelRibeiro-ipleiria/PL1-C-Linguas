@@ -18,6 +18,7 @@ $totalCursos = Curso::find()->count();
 $totalIdiomas = Idioma::find()->count();
 $totalFeedbacks = Feedback::find()->count();
 $totalImagens = ImagemResource::find()->count();
+$totalExercicios = 345;
 ?>
 
 <div class="container-fluid">
@@ -116,17 +117,17 @@ $totalImagens = ImagemResource::find()->count();
             ]) ?>
         </div>
         <div class="col-md-4">
-            <?= InfoBox::widget([
-                'text' => 'Atividade de Progressos',
-                'number' => '1,200',
-                'icon' => 'fas fa-chart-line',
-                'theme' => 'warning',
-                'progress' => [
-                    'width' => '85%',
-                    'description' => 'Aumento de 85% este mês'
-                ]
-            ]) ?>
-        </div>
+    <?= InfoBox::widget([
+        'text' => 'Exercícios Existentes',
+        'number' => $totalExercicios , // Usa a variável ou exibe 0 se não estiver definida
+        'icon' => 'fas fa-tasks',            // Ícone de lista de tarefas/exercícios
+        'theme' => 'warning',                // Mantém a cor amarela original
+        'progress' => [
+            'width' => '100%',               // Barra completa para indicar o total atual
+            'description' => 'Total de exercícios no sistema'
+        ]
+    ]) ?>
+</div>
     </div>
 
     <div class="row mt-3">
