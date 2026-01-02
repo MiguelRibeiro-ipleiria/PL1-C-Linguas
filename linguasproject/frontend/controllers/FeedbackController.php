@@ -8,6 +8,7 @@ use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
 
 /**
  * FeedbackController implements the CRUD actions for Feedback model.
@@ -39,12 +40,16 @@ class FeedbackController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new FeedbackSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        $utilizador = Utilizador::findOne(['user_id' => Yii::$app->user->id]);
+
+        $QueryFindFeedbacks = $utilizador->getFeedbacks();
+
+        $dataProviderFeedbacks = new ActiveDataProvider([
+            'query' => $QueryFindFeedbacks,
+        ]);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'dataProviderFeedbacks' => $dataProviderFeedbacks,
         ]);
     }
 

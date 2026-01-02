@@ -81,10 +81,6 @@ class AulaController extends Controller
 
         return $this->render('view', [
             'model' => $model,
-            'imgexercicios' => $model->getCountImageExercicios($id),
-            'audioexercicios' => $model->getCountAudioExercicios($id),
-            'fraseexercicios' => $model->getCountFraseExercicios($id),
-            'commentscount' => $model->getCountComments($id),
             'DataCommentsProvider' => $DataCommentsProvider,
             'modelcomentario' => $modelcomentario,
             'resultado' => $resultado,
@@ -284,20 +280,8 @@ class AulaController extends Controller
         }
 
         if($frase == null && $imagem == null && $audio == null){
-            //dd($model->getExercisesFraseDoneSession());
             return $this->redirect(['aulaterminar', 'id' => $id]);
         }
-
-
-        //aulas - frases
-        //aulas - imagens
-        //aulas - audios
-        //dd($model->frases);
-        //$exercicio = \common\models\Frase::find()->where(['aula_id' => $model->id])->one();
-        //$opcoes = \common\models\Opcoesai::find()->where(['frase_id' => $exercicio->id])->all();
-
-        //dd($model->getExercisesDoneSession());
-
 
         if($resultado_utilizador->save()){
 

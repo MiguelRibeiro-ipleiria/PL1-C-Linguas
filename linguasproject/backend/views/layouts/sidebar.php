@@ -79,8 +79,8 @@ use yii\helpers\Url;
                     ['label' => 'imagens (resource)' ,  'icon' => 'image','url' => ['/imagemresource/index']],
                     ['label' => 'audio (resource)',  'icon' => 'music','url' => ['/audioresource/index']],
                     ['label' => 'PROGRESSOS DOS UTILIZADORES', 'header' => true],
-                    ['label' => 'Nos Cursos',  'icon' => 'user','url' => ['/inscricao/index']],
-                    ['label' => 'Nas Aulas',  'icon' => 'tasks','url' => ['/tipoexercicio/index']],
+                    ['label' => 'Inscrições nos Cursos',  'icon' => 'user','url' => ['/inscricao/index']],
+                    ['label' => 'Resultados das Aulas',  'icon' => 'tasks','url' => ['/resultado/index']],
                 ],
             ]);
             ?>

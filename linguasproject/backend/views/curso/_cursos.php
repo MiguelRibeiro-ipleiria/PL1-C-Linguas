@@ -16,8 +16,6 @@ use yii\helpers\Url;
 <?php
 $auth = Yii::$app->authManager;
 
-$idioma = Idioma::findOne(['id' => $model->idioma_id]);
-$dificuldade = Dificuldade::findOne(['id' => $model->dificuldade_id]);
 ?>
 
 <section class="content">
@@ -25,7 +23,7 @@ $dificuldade = Dificuldade::findOne(['id' => $model->dificuldade_id]);
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title"><?= $model->titulo_curso ?><b>  (<?= $idioma->lingua_descricao ?>)</b></h3>
+            <h3 class="card-title"><?= $model->titulo_curso ?><b>  (<?= $model->idioma->lingua_descricao ?>)</b></h3>
 
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -46,14 +44,14 @@ $dificuldade = Dificuldade::findOne(['id' => $model->dificuldade_id]);
                                     <span class="info-box-text text-center text-muted">Formadores Disponíveis</span>
                                     <span class="info-box-number text-center text-muted mb-0">
                                         <?php
-                                        $utilizadores = Utilizador::find()->where(['idioma_id' => $idioma->id])->all();
+                                        $utilizadores = Utilizador::find()->where(['idioma_id' => $model->idioma->id])->all();
                                         $count = 0;
                                         foreach ($utilizadores as $utilizador) {
 
-                                            $user = User::findOne(['id' => $utilizador->user_id]);
+                                            $user = $utilizador->getUser()->one();
                                             $UserRoles = $auth->getRolesByUser($user->id);
                                             $userrole = key($UserRoles);
-                                            if($userrole == "formador" && $utilizador->idioma_id == $idioma->id){
+                                            if($userrole == "formador" && $utilizador->idioma_id == $model->idioma->id){
                                                 $count ++;
                                             }
                                         }
@@ -67,7 +65,7 @@ $dificuldade = Dificuldade::findOne(['id' => $model->dificuldade_id]);
                             <div class="info-box bg-light">
                                 <div class="info-box-content">
                                     <span class="info-box-text text-center text-muted">Aulas do Curso</span>
-                                    <span class="info-box-number text-center text-muted mb-0"><?=$countAulas = Aula::find()->where(['curso_id' => $model->id])->count();?></span>
+                                    <span class="info-box-number text-center text-muted mb-0"><?= $model->getAulas()->count() ?></span>
                                 </div>
                             </div>
                         </div>
@@ -91,69 +89,6 @@ $dificuldade = Dificuldade::findOne(['id' => $model->dificuldade_id]);
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <h4>Recent Activity</h4>
-                            <div class="post">
-                                <div class="user-block">
-                                    <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
-                                    <span class="username">
-                          <a href="#">Jonathan Burke Jr.</a>
-                        </span>
-                                    <span class="description">Shared publicly - 7:45 PM today</span>
-                                </div>
-                                <!-- /.user-block -->
-                                <p>
-                                    Lorem ipsum represents a long-held tradition for designers,
-                                    typographers and the like. Some people hate it and argue for
-                                    its demise, but others ignore.
-                                </p>
-
-                                <p>
-                                    <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Demo File 1 v2</a>
-                                </p>
-                            </div>
-
-                            <div class="post clearfix">
-                                <div class="user-block">
-                                    <img class="img-circle img-bordered-sm" src="../../dist/img/user7-128x128.jpg" alt="User Image">
-                                    <span class="username">
-                          <a href="#">Sarah Ross</a>
-                        </span>
-                                    <span class="description">Sent you a message - 3 days ago</span>
-                                </div>
-                                <!-- /.user-block -->
-                                <p>
-                                    Lorem ipsum represents a long-held tradition for designers,
-                                    typographers and the like. Some people hate it and argue for
-                                    its demise, but others ignore.
-                                </p>
-                                <p>
-                                    <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Demo File 2</a>
-                                </p>
-                            </div>
-
-                            <div class="post">
-                                <div class="user-block">
-                                    <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
-                                    <span class="username">
-                          <a href="#">Jonathan Burke Jr.</a>
-                        </span>
-                                    <span class="description">Shared publicly - 5 days ago</span>
-                                </div>
-                                <!-- /.user-block -->
-                                <p>
-                                    Lorem ipsum represents a long-held tradition for designers,
-                                    typographers and the like. Some people hate it and argue for
-                                    its demise, but others ignore.
-                                </p>
-
-                                <p>
-                                    <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Demo File 1 v1</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
                     <h3 class="text-primary"><i class="fas fa-book"></i>   <?= $model->titulo_curso ?></h3>
@@ -165,17 +100,14 @@ $dificuldade = Dificuldade::findOne(['id' => $model->dificuldade_id]);
                             <b class="d-block"><?= $model->curso_detalhe ?></b>
                         </p>
                         <p class="text-sm">Idioma do Curso
-                            <b class="d-block"><?= $idioma->lingua_descricao ?></b>
+                            <b class="d-block"><?= $model->idioma->lingua_descricao ?></b>
                         </p>
                         <p class="text-sm">Dificuldade do Curso
-                            <b class="d-block"><?= $dificuldade->grau_dificuldade ?></b>
+                            <b class="d-block"><?= $model->dificuldade->grau_dificuldade ?></b>
                         </p>
                     </div>
                     <div>
                         <a href="<?= Url::to(['/curso/update', 'id' => $model->id]) ?>" class="btn btn-success">Alterar dados do Curso</a>
-                    </div>
-                    <br>
-                    <div>
                         <a href="<?= Url::to(['/aula/index','curso_id' => $model->id]) ?>" class="btn btn-success">Ver aulas do Curso</a>
                     </div>
                 </div>

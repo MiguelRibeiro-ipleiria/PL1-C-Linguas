@@ -8,10 +8,6 @@ use yii\widgets\ActiveForm;
 
 /** @var yii\web\View $this */
 /** @var common\models\Aula $model */
-/** @var int $imgexercicios */
-/** @var int $audioexercicios */
-/** @var int $fraseexercicios */
-/** @var int $commentscount */
 /** @var yii\data\ActiveDataProvider $DataCommentsProvider */
 /** @var common\models\Comentario $modelcomentario */
 /** @var common\models\Resultado $resultado */
@@ -103,16 +99,16 @@ $this->params['breadcrumbs'][] = $this->title;
                                     </div>
                                     <br>
                                     <?php
-                                        if($imgexercicios >= 1){ ?>
-                                            <span class="badge-custom level-badge"><?= $imgexercicios ?>x Exercícios de Imagens</span>
+                                        if($model->getImagems()->count() >= 1){ ?>
+                                            <span class="badge-custom level-badge"><?= $model->getImagems()->count() ?>x Exercícios de Imagens</span>
                                         <?php }
 
-                                        if($audioexercicios >= 1){ ?>
-                                            <span class="badge-custom level-badge"><?= $audioexercicios ?>x Exercícios de Áudio</span>
+                                        if($model->getAudios()->count() >= 1){ ?>
+                                            <span class="badge-custom level-badge"><?= $model->getAudios()->count() ?>x Exercícios de Áudio</span>
                                         <?php }
 
-                                        if($fraseexercicios >= 1){ ?>
-                                            <span class="badge-custom level-badge"><?= $fraseexercicios ?>x Exercícios de Frases</span>
+                                        if($model->getFrases()->count() >= 1){ ?>
+                                            <span class="badge-custom level-badge"><?= $model->getFrases()->count() ?>x Exercícios de Frases</span>
                                         <?php }
 
                                     ?>
@@ -166,7 +162,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                 </div>
             </div>
-            <span class="badge-custom-comments-title level-badge"><?= $commentscount ?> Comentários</span>
+            <span class="badge-custom-comments-title level-badge"><?= $model->getComentarios()->count() ?> Comentários</span>
             <div class="row">
                 <?= \yii\widgets\ListView::widget([
                     'dataProvider' => $DataCommentsProvider,

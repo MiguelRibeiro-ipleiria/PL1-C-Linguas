@@ -162,7 +162,7 @@ class UserController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        $model->status = 9;
+        $model->status = 0; //Por politica nunca se eliminar um user, portanto mudamos o status para 0 (DELETED)
         $model ->save();
 
         return $this->redirect(['index']);

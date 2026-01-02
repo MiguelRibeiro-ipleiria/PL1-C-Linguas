@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-            
+
     <?= \yii\widgets\ListView::widget([
         'dataProvider' => $dataProvider,
         'itemView' => '_aula',
@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'layout' => "<div class='cards-grid'>{items}</div>\n<div class='mt-4'>{pager}</div>",
         'itemOptions' => ['tag' => false],
         'viewParams' => [
-    ],
+        ],
     ]) ?>
 
 

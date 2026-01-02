@@ -55,8 +55,8 @@ return [
                         'GET all' => 'allcursos',  // 'count' é 'actionCount' - conta os idiomas
                         'GET count' => 'count',  // 'count' é 'actionCount' - conta os idiomas
                         'GET utilizador/{id}' => 'cursoporutilizadorid',  // 'count' é 'actionCurso' - devolve o curso consoante o id
-                        'GET {idiomanome}/count' => 'countporidioma',  // 'count' é 'actionCountPor' - devolve os cursos pelo idioma
-                        'GET {idiomanome}' => 'cursosporidioma',  // 'count' é 'actionCountPor' - devolve os cursos pelo idioma
+                        'GET idioma/{idiomanome}/count' => 'countporidioma',  // 'count' é 'actionCountPor' - devolve os cursos pelo idioma
+                        'GET idioma/{idiomanome}' => 'cursosporidioma',  // 'count' é 'actionCountPor' - devolve os cursos pelo idioma
                     ],
                     'tokens' => [
                         '{id}' => '<id:\\d+>',
@@ -91,7 +91,32 @@ return [
                 ['class' => 'yii\rest\UrlRule','controller' => 'api/utilizador',
                     'extraPatterns' => [
                         'GET {id}' => 'perfilutilizador',
+                        'GET count/inscritos/{id}' => 'countcursosinscritos',
+                        'GET count/aulaconcluidas/{id}' => 'countaulasterminadas',
+                        'GET count/progresso/{id}' => 'countprogresso',
+                        'PUT {id}' => 'putdadosporid',
                     ]
+                ],
+                ['class' => 'yii\rest\UrlRule','controller' => 'api/comentario','pluralize' => true,
+                    'extraPatterns' => [
+                        'GET aula/{aula_id}' => 'getcomentarioporaula',
+                        'DELETE {id}' => 'delporid',
+                        'POST novo' => 'postnovo',
+                    ],
+                    'tokens' => [
+                        '{id}' => '<id:\\d+>',
+                        '{aula_id}' => '<aula_id:\\d+>',
+                    ],
+                ],
+                ['class' => 'yii\rest\UrlRule','controller' => 'api/aula','pluralize' => true,
+                    'extraPatterns' => [
+                        'GET curso/{curso_id}' => 'aulasporcurso',
+                        'GET tipoexercicios/{id}' => 'tipoexerciciosporaula'
+                    ],
+                    'tokens' => [
+                        '{id}' => '<id:\\d+>',
+                        '{curso_id}' => '<curso_id:\\d+>',
+                    ],
                 ],
             ],
         ],

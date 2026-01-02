@@ -16,14 +16,21 @@ use yii\grid\GridView;
 
 <div class="container">
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-    
-    <div class="row">
-        <?= \yii\widgets\ListView::widget([
-            'dataProvider' => $dataProvider,
-            'itemView' => '../aula/_comments',
-            'layout' => "<div class='row'>{items}</div>\n<div class='mt-4'>{pager}</div>",
-            'itemOptions' => ['tag' => false],
-        ]) ?>
+
+    <div class="section-header">Os Meus Comentários</div>
+
+    <div class="main-card">
+        <div class="row">
+            <?= \yii\widgets\ListView::widget([
+                'dataProvider' => $dataProvider,
+                'itemView' => '_comments',
+                'layout' => "<div class='row'>{items}</div>\n<div class='mt-4'>{pager}</div>",
+                'itemOptions' => ['tag' => false],
+            ]) ?>
+        </div>
+        <h9 class="text-advice" data-wow-delay=".4s">*Comentários de aulas em cursos não subscritos não serão mostrados</h9>
+
     </div>
+
 
 </div>

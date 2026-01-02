@@ -22,103 +22,72 @@ use yii\widgets\ActiveForm;
 
     ?>
 
-
-    <div class="container">
-        <aside class="col-lg-24 col-md-12 col-12">
-            <div class="sidebar">
-                <div class="widget-content popular-tag-widget">
-                    <div class="tags">
-                        <div class="title-perfil">
-                            <p>Os Meus Dados</p>
-                        </div>
-                        <br>
-                        <br>
-                        <div class="row">
-                            <div class="col-4">
-                                <div class="form-group">
-                                    <?= Html::label('Username', 'username') ?>
-                                    <?= Html::input(
-                                        'text',
-                                        'username',
-                                        $model->username,
-                                        ['class' => 'form-perfil form-control'] // Adicionei form-control para ficar igual aos outros inputs
-                                    ) ?>
-                                </div>
-                            </div>
-
-                            <div class="col-4">
-                                <div class="form-group">
-                                    <?= Html::label('Email', 'email') ?>
-                                    <?= Html::input(
-                                        'text',
-                                        'email',
-                                        $model->email,
-                                        ['class' => 'form-perfil form-control'] // Adicionei form-control para ficar igual aos outros inputs
-                                    ) ?>
-                                </div>
-                            </div>
-
-                            <div class="col-4">
-                                <div class="form-group">
-                                    <?= Html::label('Data de Nascimento', 'data_nascimento') ?>
-                                    <?= Html::input(
-                                        'date',
-                                        'data_nascimento',
-                                        $valorData,
-                                        ['class' => 'form-perfil form-control'] // Adicionei form-control para ficar igual aos outros inputs
-                                    ) ?>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="form-group">
-                                    <?= Html::label('Nº de Telefone', 'telefone') ?>
-                                    <?= Html::input(
-                                        'text',
-                                        'telefone',
-                                        $valorNumeroTelefone,
-                                        ['class' => 'form-perfil form-control'] // Adicionei form-control para ficar igual aos outros inputs
-                                    ) ?>
-                                </div>
-                            </div>
-
-                            <div class="col-4">
-                                <div class="form-group">
-                                    <?= Html::label('Nacionalidade', 'nacionalidade') ?>
-                                    <?= Html::input(
-                                        'text',
-                                        'nacionalidade',
-                                        $valorNacionalidade,
-                                        ['class' => 'form-perfil form-control'] // Adicionei form-control para ficar igual aos outros inputs
-                                    ) ?>
-                                </div>
-                            </div>
-
-                            <div class="col-4">
-                                <div class="form-group">
-                                    <?= Html::label('Data de Criação', 'data_criacao') ?>
-                                    <?= Html::input(
-                                        'text',
-                                        'data_criacao',
-                                        $valorDataCriacao,
-                                        ['class' => 'form-perfil form-control' , 'disabled' => true] // Adicionei form-control para ficar igual aos outros inputs
-                                    ) ?>
-                                </div>
-                            </div>
-                            <br>
-
-                            <div class="col-12">
-                                <br>
-                                <div class="button">
-                                    <?= Html::submitButton('Guardar Dados Alterados', ['class' => 'btn btn-success']) ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="row g-4 mt-2">
+        <div class="col-md-4">
+            <?= Html::label('Username', 'username', ['class' => 'label-green']) ?>
+            <?= Html::input(
+                'text',
+                'username',
+                $model->username,
+                ['class' => 'form-control input-custom', 'disabled' => true] // Adicionei form-control para ficar igual aos outros inputs
+            ) ?>
+        </div>
+        <div class="col-md-4">
+            <?= Html::label('Email', 'email', ['class' => 'label-green']) ?>
+            <?= Html::input(
+                'text',
+                'email',
+                $model->email,
+                ['class' => 'form-control input-custom', 'disabled' => true] // Adicionei form-control para ficar igual aos outros inputs
+            ) ?>
+        </div>
+        <div class="col-md-4">
+            <?= Html::label('Data de Nascimento', 'data_nascimento', ['class' => 'label-green']) ?>
+            <?= Html::input(
+                'date',
+                'data_nascimento',
+                $valorData,
+                ['class' => 'form-control input-custom'] // Adicionei form-control para ficar igual aos outros inputs
+            ) ?>
+        </div>
+        <div class="col-md-4">
+            <?= Html::label('Nº de Telefone', 'telefone', ['class' => 'label-green']) ?>
+            <?= Html::input(
+                'text',
+                'telefone',
+                $valorNumeroTelefone,
+                ['class' => 'form-control input-custom'] // Adicionei form-control para ficar igual aos outros inputs
+            ) ?>
+        </div>
+        <div class="col-md-4">
+            <?= Html::label('Nacionalidade', 'nacionalidade', ['class' => 'label-green']) ?>
+            <?= Html::input(
+                'text',
+                'nacionalidade',
+                $valorNacionalidade,
+                ['class' => 'form-control input-custom'] // Adicionei form-control para ficar igual aos outros inputs
+            ) ?>
+        </div>
+        <div class="col-md-4">
+            <?= Html::label('Membro Desde', 'data_criacao', ['class' => 'label-green']) ?>
+            <?= Html::input(
+                'text',
+                'data_criacao',
+                $valorDataCriacao,
+                ['class' => 'form-control input-custom', 'disabled' => true] // Adicionei form-control para ficar igual aos outros inputs
+            ) ?>
+        </div>
+        <br>
+        <div class="col-12 text-center mt-5">
+            <div class="button">
+                <?= Html::submitButton(
+                    'Guardar os dados alterados',
+                    ['class' => 'btn btn-success ']
+                ) ?>
             </div>
-        </aside>
+        </div>
+
+        <?php ActiveForm::end(); ?>
+
     </div>
-
-    <?php ActiveForm::end(); ?>
-
 </div>
