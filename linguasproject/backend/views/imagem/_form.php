@@ -20,9 +20,21 @@ use common\models\ImagemResource;
     
     ?>
 
+    <?php
+    if($aula_id == null){?>
+
+        <?=$form->field($model, 'aula_id')->dropDownList($arrayaulas)?>
+    <?php
+    }
+    ?>
+
+
+    <?=$form->field($model, 'tipoexercicio_id')->dropDownList($arrayTipoexercicio)?>
+
     <?= $form->field($model, 'imagem_resource_id')->dropDownList($arrayImagens) ?>
 
     <?= $form->field($model, 'pergunta')->textInput(['maxlength' => true]) ?>
+
 
     <h3>Opções da IA</h3>
     <?php

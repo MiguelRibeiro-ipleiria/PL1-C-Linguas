@@ -5,6 +5,11 @@ use common\models\Curso;
 use common\models\Idioma;
 use common\models\Dificuldade;
 use common\models\ImagemResource;
+use common\models\AudioResource;
+use common\models\Audio;
+use common\models\Imagem;
+use common\models\Frase;
+use common\models\Inscricao;
 use yii\helpers\Url;
 use hail812\adminlte\widgets\InfoBox;
 use hail812\adminlte\widgets\SmallBox;
@@ -18,7 +23,14 @@ $totalCursos = Curso::find()->count();
 $totalIdiomas = Idioma::find()->count();
 $totalFeedbacks = Feedback::find()->count();
 $totalImagens = ImagemResource::find()->count();
-$totalExercicios = 345;
+$totalAudios = AudioResource::find()->count();
+$totalAudiosex = Audio::find()->count();
+$totalImagemsex = Imagem::find()->count();
+$totalFraseex = Frase::find()->count();
+$totalExercicios = $totalImagemsex + $totalAudiosex + $totalFraseex;
+
+$cursos = Curso::find()->all();
+
 ?>
 
 <div class="container-fluid">
@@ -107,7 +119,7 @@ $totalExercicios = 345;
         <div class="col-md-4">
             <?= InfoBox::widget([
                 'text' => 'Áudios Submetidos',
-                'number' => '531',
+                'number' => $totalAudios,
                 'icon' => 'fas fa-microphone',
                 'theme' => 'success',
                 'progress' => [
@@ -172,27 +184,27 @@ $totalExercicios = 345;
                         <table class="table m-0">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>Nome</th>
                                     <th>Estado</th>
-                                    <th>Popularidade</th>
+                                    <th>Inscrições</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php foreach($cursos as $curso){
+
+                                ?>
                                 <tr>
-                                    <td>CURSO-9842</td>
-                                    <td><span class="badge badge-success">Ativo</span></td>
-                                    <td><div class="sparkbar" data-color="#00a65a">Alto</div></td>
+                                    <td><?=$curso->titulo_curso?></td>
+                                    <td><span class="badge badge-success"><?php if($curso->status_ativo == 1){
+                                        echo'ativo';
+                                     }
+                                     else{
+                                        echo'Desativo';
+                                     }?></span></td>
+                                    <td><div class="sparkbar" data-color="#00a65a"><?=$inscricaocurso = Inscricao::find()->where(['curso_idcurso'=>$curso->id])->count();?></div></td>
                                 </tr>
-                                <tr>
-                                    <td>CURSO-1848</td>
-                                    <td><span class="badge badge-warning">Pendente</span></td>
-                                    <td><div class="sparkbar" data-color="#f39c12">Médio</div></td>
-                                </tr>
-                                <tr>
-                                    <td>CURSO-7429</td>
-                                    <td><span class="badge badge-danger">Arquivado</span></td>
-                                    <td><div class="sparkbar" data-color="#f56954">Baixo</div></td>
-                                </tr>
+                                <?php } ?>
+                                
                             </tbody>
                         </table>
                     </div>
