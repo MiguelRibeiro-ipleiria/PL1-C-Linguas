@@ -14,11 +14,12 @@ use yii\widgets\ActiveForm;
 </head>
 <body>
 
+                  <?php
+                    $this->title = 'Informações da Conta';
+                  ?>
+
     <div class="card card-primary card-outline mb-4">
                   <!--begin::Header-->
-                  <div class="card-header">
-                    <div class="card-title">Informações da conta</div>
-                  </div>
                   <!--end::Header-->
                   <!--begin::Form-->
                   <form>

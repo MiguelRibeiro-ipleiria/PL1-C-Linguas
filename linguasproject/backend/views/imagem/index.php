@@ -10,12 +10,10 @@ use yii\grid\GridView;
 /** @var common\models\ImagemSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Imagems';
+$this->title = 'Imagens';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="imagem-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a('Create Imagem', ['create'], ['class' => 'btn btn-success']) ?>

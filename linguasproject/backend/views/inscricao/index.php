@@ -10,12 +10,11 @@ use yii\grid\GridView;
 /** @var common\models\InscricaoSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Inscricaos';
+$this->title = 'Inscrições';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="inscricao-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a('Create Inscricao', ['create'], ['class' => 'btn btn-success']) ?>

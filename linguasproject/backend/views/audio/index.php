@@ -15,7 +15,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="audio-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php
     ?>
     <p>
