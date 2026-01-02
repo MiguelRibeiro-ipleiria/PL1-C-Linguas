@@ -7,8 +7,6 @@ use common\models\Idioma;
 use common\models\User;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
-
-
 ?>
 <section class="content">
     <div class="container-fluid">
@@ -81,28 +79,21 @@ use yii\helpers\Url;
                                     <div class="timeline-body">
                                         <?= $feedback->descricao_feedback ?>
                                     </div>
-
-                                    <div class="timeline-footer">
-                                        <a class="btn btn-primary btn-sm">Read more</a>
-                                        <a class="btn btn-danger btn-sm">Delete</a>
-                                    </div>
                                 </div>
                             </div>
                         <?php }
                         elseif ($time['type'] == 'utilizador') {
                             $utilizador = Utilizador::findOne($time['id']);
-                            $user = User::findOne($utilizador->user_id);
-                            $idioma = Idioma::findOne($utilizador->idioma_id)
                             ?>
                             <div>
                                 <i class="fas fa-user bg-green"></i>
                                 <div class="timeline-item">
                                     <span class="time"><i class="fas fa-clock"></i> <?= $utilizador->data_inscricao ?> </span>
-                                    <h3 class="timeline-header no-border"><a href="<?= Url::to(['/user/view', 'id' => $user->id]) ?>"><?= $user->username ?> - </a> Criou uma nova conta</h3>
+                                    <h3 class="timeline-header no-border"><a href="<?= Url::to(['/user/view', 'id' => $utilizador->user->id]) ?>"><?= $utilizador->user->username ?> - </a> Criou uma nova conta</h3>
                                     <?php
-                                        if($idioma != null){ ?>
+                                        if($utilizador->idioma_id != null){ ?>
                                             <div class="timeline-body bg-warning">
-                                                <a href="<?= Url::to(['/user/formador']) ?>">Quer ser Formador (<?= $idioma->lingua_descricao ?>)</a>
+                                                <a href="<?= Url::to(['/user/formador']) ?>">Quer ser Formador (<?= $utilizador->idioma->lingua_descricao ?>)</a>
                                             </div>
                                         <?php }
                                     ?>

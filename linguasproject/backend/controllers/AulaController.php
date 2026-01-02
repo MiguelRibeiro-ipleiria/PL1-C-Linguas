@@ -56,7 +56,7 @@ class AulaController extends Controller
      * @return string
      */
     public function actionIndex($curso_id = null)
-    {      
+    {
         $auth = Yii::$app->authManager;
 
         $user = User::findOne(Yii::$app->user->id);
@@ -73,17 +73,17 @@ class AulaController extends Controller
             return $this->render('index', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
-                    
+
             ]);
         }else{
-            
+
             if ($role == "formador") {
 
-            $searchModel = new aulaSearch();
-            $dataProvider = $searchModel->search($this->request->queryParams);
-            $dataProvider->query->andWhere(['utilizador_id' => $utilizador->id]);
+                $searchModel = new aulaSearch();
+                $dataProvider = $searchModel->search($this->request->queryParams);
+                $dataProvider->query->andWhere(['utilizador_id' => $utilizador->id]);
             } elseif ($role == "admin") {
-            
+
                 $searchModel = new aulaSearch();
                 $dataProvider = $searchModel->search($this->request->queryParams);
             }
@@ -92,7 +92,7 @@ class AulaController extends Controller
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
 
-                    
+
             ]);
 
         }

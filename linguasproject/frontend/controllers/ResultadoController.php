@@ -6,6 +6,7 @@ use common\models\Audio;
 use common\models\Aula;
 use common\models\Frase;
 use common\models\Imagem;
+use common\models\Inscricao;
 use common\models\Opcoesai;
 use common\models\Resultado;
 use common\models\ResultadoSearch;
@@ -200,9 +201,19 @@ class ResultadoController extends Controller
                     $resultado->nota = null;
                     $resultado->tempo_estimado = null;
                     if($resultado->save()){
-                        return $this->render('agendamento_validado', [
-                            'resultado' => $resultado,
-                        ]);
+                        $inscricao = Inscricao::findOne(['utilizador_id' => $resultado->utilizador_id, 'curso_idcurso' => $resultado->aulaIdaula->curso->id]);
+                        if ($inscricao->VerificaEstadoCurso($inscricao->curso_idcurso, $inscricao->utilizador_id)) {
+                            $inscricao->estado = "Concluído";
+                        }
+                        else{
+                            $inscricao->estado = "Em curso";
+                        }
+
+                        if($inscricao->save()){
+                            return $this->render('agendamento_validado', [
+                                'resultado' => $resultado,
+                            ]);
+                        }
                     }
                     else{
                         return $this->redirect(['aula/view',

@@ -1,6 +1,7 @@
 <?php
 
 namespace common\models;
+use app\mosquitto\phpMQTT;
 
 use Yii;
 
@@ -147,5 +148,43 @@ class Utilizador extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        //Obter dados do registo em causa
+        $id = $this->id;
+        $data_nascimento = $this->data_nascimento;
+        $numero_telefone = $this->numero_telefone;
+        $nacionalidade = $this->nacionalidade;
+
+        $myObj=new \stdClass();
+        $myObj->id=$id;
+        $myObj->data_nascimento=$data_nascimento;
+        $myObj->numero_telefone=$numero_telefone;
+        $myObj->nacionalidade=$nacionalidade;
+        $myJSON = json_encode($myObj);
+        if($insert)
+            $this->FazPublishNoMosquitto("UTILIZADOR", "Utilizador Alterado: " . $myJSON);
+        else
+            $this->FazPublishNoMosquitto("UTILIZADOR","Utilizador Alterado: " . $myJSON);
+    }
+
+    public function FazPublishNoMosquitto($canal,$msg)
+    {
+        $server = "127.0.0.1";
+        $port = 1883;
+        $username = ""; // set your username
+        $password = ""; // set your password
+        $client_id = "phpMQTT-publisher"; // unique!
+        $mqtt = new \app\mosquitto\phpMQTT($server, $port, $client_id);
+        if ($mqtt->connect(true, NULL, $username, $password))
+        {
+            $mqtt->publish($canal, $msg, 0);
+            $mqtt->close();
+        }
+        else { file_put_contents("debug.output","Time out!"); }
+    }
+
 
 }

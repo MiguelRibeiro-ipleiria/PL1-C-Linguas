@@ -80,9 +80,9 @@ class UserController extends Controller
         ]);
     }
 
-   public function actionMeusProgressos($id)
+    public function actionMeusProgressos()
     {
-        $utilizador = Utilizador::findOne(['user_id' => $id]);
+        $utilizador = Utilizador::findOne(['user_id' => \Yii::$app->user->id]);
 
         $QueryFindProgress = $utilizador->getInscricaos();
 
@@ -96,7 +96,6 @@ class UserController extends Controller
     }
 
 
-    
     public function actionMeusCursosAulas()
     {
 
@@ -121,37 +120,39 @@ class UserController extends Controller
 
         if ($this->request->isPost) {
 
-            $username = $this->request->post('username');
-            $email = $this->request->post('email');
             $data_nascimento = $this->request->post('data_nascimento');
             $numero_telefone = $this->request->post('telefone');
             $nacionalidade = $this->request->post('nacionalidade');
 
-            $user->username = $username;
-            $user->email = $email;
-            $utilizador->data_nascimento = $data_nascimento;
-            $utilizador->numero_telefone = $numero_telefone;
-            $utilizador->nacionalidade = $nacionalidade;
+            if ($data_nascimento < date('Y-m-d') && $data_nascimento > "1900-01-01") {
 
-            if($utilizador->save() && $user->save()) {
-                return $this->render('update', [
-                    'user' => $user,
-                    'utilizador' => $utilizador,
-                ]);
+                $dois_primeiro_numeros = substr($numero_telefone, 0, 2);
+
+                if(mb_strlen($numero_telefone) == 9  && ($dois_primeiro_numeros == "91" || $dois_primeiro_numeros == "93" || $dois_primeiro_numeros == "96") ){
+                    $utilizador->data_nascimento = $data_nascimento;
+                    $utilizador->numero_telefone = $numero_telefone;
+                    $utilizador->nacionalidade = $nacionalidade;
+
+                    if ($utilizador->save()) {
+                        return $this->render('update', [
+                            'model' => $user,
+                            'utilizador' => $utilizador,
+                        ]);
+                    }
+                }
+
             }
-            else{
-
-            }
-
-            //&& $model->load($this->request->post()) && $model->save();
 
         }
 
         return $this->render('update', [
-            'user' => $user,
+            'model' => $user,
             'utilizador' => $utilizador,
         ]);
+
     }
+
+
 
     /**
      * Deletes an existing User model.

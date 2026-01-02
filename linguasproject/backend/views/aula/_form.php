@@ -14,7 +14,7 @@ use common\models\Curso;
     <?php $form = ActiveForm::begin();
 
 
-        
+
 
     ?>
 

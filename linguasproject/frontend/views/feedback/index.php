@@ -4,21 +4,12 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 /** @var yii\web\View $this */
-/** @var common\models\FeedbackSearch $searchModel */
-/** @var yii\data\ActiveDataProvider $dataProvider */
+/** @var yii\data\ActiveDataProvider $dataProviderFeedbacks */
 
 ?>
 
 <style>
-    .feedback-visual-container {
-        border-top: 3px solid #2ecc71 !important;
-        border-bottom: 3px solid #2ecc71 !important;
-        background-color: #fff;
-        padding: 60px 40px;
-        border-radius: 15px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        min-height: 400px;
-    }
+
 
     .badge-main-title {
         background-color: #1a252f !important;
@@ -40,7 +31,9 @@ use yii\helpers\Url;
     }
 
     .feedback-card:hover {
-        border-color: #2ecc71;
+        border-right: 2px solid #2ecc71;
+        border-left: 2px solid #2ecc71;
+
     }
 
     .feedback-left {
@@ -68,60 +61,34 @@ use yii\helpers\Url;
 
 .feedback-description {
         color: #444;
-        font-size: 1rem; 
+        font-size: 1rem;
         line-height: 1.6;
         padding-top: 5px;
-        font-weight: 600; 
+        font-weight: 600;
     }
 
-    .popular-tag-widget .tags a[href*="feedback"] {
-        background-color: #2ecc71 !important;
-        color: white !important;
-        border-color: #2ecc71 !important;
-    }
+
 </style>
 
 <?= $this->render('../user/_profile_menu') ?>
 
-<div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-11">
 
-            <div class="feedback-visual-container">
-                
-                <div class="text-center">
-                    <span class="badge badge-main-title rounded-pill">
-                        OS MEUS FEEDBACKS
-                    </span>
-                </div>
+<div class="container">
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-                <div class="feedback-list">
-                    <?php 
-                    $feedbacks = $dataProvider->getModels();
-                    if (empty($feedbacks)): ?>
-                        <p class="text-center text-muted">Ainda não enviou nenhum feedback.</p>
-                    <?php else: ?>
-                        <?php foreach ($feedbacks as $feedback): ?>
-                            <div class="feedback-card shadow-sm">
-                                <div class="feedback-left">
-                                    <div class="subject-pill">
-                                        <?= Html::encode($feedback->assunto_feedback) ?>
-                                    </div>
-                                    <div class="feedback-date">
-                                        <?= date('d/m/Y H:i', strtotime($feedback->hora_criada)) ?>
-                                    </div>
-                                </div>
+    <div class="section-header">Os Meus Feedbacks</div>
 
-                                <div class="feedback-description">
-                                    <?= Html::encode($feedback->descricao_feedback) ?>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </div>
-
-            </div>
-
+    <div class="main-card">
+        <div class="row">
+            <?= \yii\widgets\ListView::widget([
+                'dataProvider' => $dataProviderFeedbacks,
+                'itemView' => '_feedbacks',
+                'layout' => "<div class='row'>{items}</div>\n<div class='mt-4'>{pager}</div>",
+                'itemOptions' => ['tag' => false],
+            ]) ?>
         </div>
+        <h9 class="text-advice" data-wow-delay=".4s">Qualquer tipo de problema, clique <a href="<?= Url::to(['/feedback/create']) ?>">aqui</a>!</h9>
+
     </div>
+
 </div>

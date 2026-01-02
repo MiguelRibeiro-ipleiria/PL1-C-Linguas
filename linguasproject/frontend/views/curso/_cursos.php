@@ -68,9 +68,13 @@ use \common\models\Utilizador;
                                                                 <a href="<?= Url::to(['/site/login']) ?>" class="styliesh">Inscrever-me</a>
                                                             </div>
                                                         <?php }
+                                                        elseif($model->status_ativo == 0){ ?>
+                                                            <div class="button">
+                                                                <a class="styliesh-off">Desativado</a>
+                                                            </div>
+                                                        <?php }
                                                         elseif(\Yii::$app->user->can('SearchCourse') && !(Inscricao::verificainscricao($model->id, Utilizador::find()->where(['user_id' => \Yii::$app->user->id])->one()))){ ?>
                                                             <div class="button">
-
                                                                 <?php
                                                                     $utilizador = Utilizador::find()->where(['user_id' => \Yii::$app->user->id])->one();
                                                                     $form = ActiveForm::begin(['action' => ['/inscricao/delete', 'utilizador_id' => $utilizador->id,'curso_idcurso' => $model->id]]); ?>

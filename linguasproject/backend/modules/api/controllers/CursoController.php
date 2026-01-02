@@ -129,7 +129,6 @@ class CursoController extends ActiveController
             return ['message' => 'Curso não encontrado!'];
         }
 
-        // Transformar para JSON-friendly
         $result = array_map(function($curso) {
             return [
                 'id' => $curso['id'],

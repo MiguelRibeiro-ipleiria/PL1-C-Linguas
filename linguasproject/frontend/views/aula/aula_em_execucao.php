@@ -78,7 +78,8 @@ use yii\widgets\ActiveForm;
                             <div>
                                 <div class="col-12 box-divider">
                                 </div>
-                            </div>
+                                <div class="tags">
+                                    <div class="d-flex justify-content-center">
                             <?php
                             if($opcaorespondida == null){
                                 $form = ActiveForm::begin(['action' => ['/resultado/update', 'aula_id' => $model->id, 'imagem_resource_id' => $imagem->imagemResource->id]]);
@@ -121,6 +122,7 @@ use yii\widgets\ActiveForm;
                                     $model->setOpcaoRespondidaSession($opcao_null);
                                 }
                                 ?>
+                                </div>
                         </div>
                     <?php } elseif($frase != null){ ?>
                         <div class="filter popular-tag-widget">

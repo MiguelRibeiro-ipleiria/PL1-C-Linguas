@@ -125,6 +125,11 @@ class Aula extends \yii\db\ActiveRecord
         return $this->hasMany(Imagem::class, ['aula_id' => 'id']);
     }
 
+    public function getComentarios()
+    {
+        return $this->hasMany(Comentario::class, ['aula_id' => 'id']);
+    }
+
     public function setDataCriacao()
     {
         $hora = date('y-m-d H:i:s');
@@ -134,24 +139,6 @@ class Aula extends \yii\db\ActiveRecord
     public function getResultados()
     {
         return $this->hasMany(Resultado::class, ['aula_idaula' => 'id']);
-    }
-
-    public function getCountImageExercicios($id)
-    {
-        $count = Imagem::find()->where(['aula_id' => $id])->count();
-        return $count;
-    }
-
-    public function getCountAudioExercicios($id)
-    {
-        $count = Audio::find()->where(['aula_id' => $id])->count();
-        return $count;
-    }
-
-    public function getCountFraseExercicios($id)
-    {
-        $count = Frase::find()->where(['aula_id' => $id])->count();
-        return $count;
     }
 
     public function getCountComments($id)

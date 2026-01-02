@@ -40,10 +40,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'created_at',
             'updated_at',
             'verification_token',
-            'idutilizador',
             [
                 'label' => 'Role',
-                'value' => $userrole,
+                'value' => $userrole === null ? "Sem role" : $userrole,
             ],
         ],
     ]) ?>

@@ -89,5 +89,60 @@ class Comentario extends \yii\db\ActiveRecord
         return $this->utilizador_id = $utilizador->id;
     }
 
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        //Obter dados do registo em causa
+        $id = $this->id;
+        $descricao_comentario = $this->descricao_comentario;
+        $aula_id = $this->aula_id;
+        $hora_criada = $this->hora_criada ;
+        $utilizador_id = $this->utilizador_id;
+
+        $myObj=new \stdClass();
+        $myObj->id=$id;
+        $myObj->descricao_comentario=$descricao_comentario;
+        $myObj->aula_id=$aula_id;
+        $myObj->hora_criada=$hora_criada;
+        $myObj->utilizador_id=$utilizador_id;
+        $myJSON = json_encode($myObj);
+        if($insert)
+            $this->FazPublishNoMosquitto("COMENTARIOS", "Comentário Criado:" . $myJSON);
+        else
+            $this->FazPublishNoMosquitto("COMENTARIOS",$myJSON);
+    }
+
+    public function afterDelete()
+    {
+        parent::afterDelete();
+        $prod_id= $this->id;
+        $myObj=new \stdClass();
+        $myObj->id=$prod_id;
+        $myJSON = json_encode($myObj);
+        $this->FazPublishNoMosquitto("COMENTARIOS", "Comentário Eliminado: ". $myJSON);
+    }
+
+
+    public function FazPublishNoMosquitto($canal,$msg)
+    {
+        $server = "127.0.0.1";
+        $port = 1883;
+        $username = ""; // set your username
+        $password = ""; // set your password
+        $client_id = "phpMQTT-publisher"; // unique!
+        $mqtt = new \app\mosquitto\phpMQTT($server, $port, $client_id);
+        if ($mqtt->connect(true, NULL, $username, $password))
+        {
+            $mqtt->publish($canal, $msg, 0);
+            $mqtt->close();
+        }
+        else { file_put_contents("debug.output","Time out!"); }
+    }
+
+
+
+
+
+
 
 }

@@ -157,6 +157,7 @@ AppAsset::register($this);
     <script src="<?= Yii::getAlias('@web').'js/glightbox.min.js'; ?>"</script>
     <script src="<?= Yii::getAlias('@web').'js/count-up.min.js'; ?>"</script>
     <script src="<?= Yii::getAlias('@web').'js/main.js'; ?>"</script>
+
 </body>
 </html>
 

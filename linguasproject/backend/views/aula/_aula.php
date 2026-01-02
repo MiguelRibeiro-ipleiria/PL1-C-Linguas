@@ -19,12 +19,8 @@ $auth = Yii::$app->authManager;
 
 //$dificuldade = Dificuldade::findOne(['id' => $model->dificuldade_id]);
 $curso = Curso::findOne(['id' => $model->curso_id]);
-$comentarios = Comentario::find()->where(['aula_id' => $model->id])->all();
 $Utilizador = Utilizador::findOne(['id' => $model->utilizador_id]);
 $Usercreate = User::findOne(['id' => $Utilizador->user_id]);
-
-
-
 
 ?>
 
@@ -78,20 +74,17 @@ $Usercreate = User::findOne(['id' => $Utilizador->user_id]);
                     <div class="row">
                         <div class="col-12">
                             <h4>Comentários</h4>
-                            <?php if($comentarios == null){
+                            <?php if($model->getComentarios() == null){
 
                                 echo 'Ainda sem comentários.';
                             }
                             else{
-                                foreach($comentarios as $comentario){?>
+                                foreach($model->getComentarios()->all() as $comentario){?>
                             <div class="post">
                                 <div class="user-block">
-                                    
+
                                     <span class="username">
-                                <a href="#"><?php
-                                $Utilizador = utilizador::findOne(['id'=>$comentario->utilizador_id]);
-                                echo User::findOne(['id'=>$Utilizador->user_id])->username;
-                                ?></a>
+                                <?= $comentario->utilizador->user->username ?>
                                 </span>
                                     <span class="description"><?=$comentario->hora_criada?></span>
                                 </div>

@@ -3689,6 +3689,62 @@ ol {
         COMENTARIOS VIEW DESIGN
 ========================================= */
 
+.main-card {
+  background: #ffffff; /* Adicione o ponto e vírgula aqui */
+  border-radius: 1.5%;
+  box-shadow: 0 4px 25px rgba(0,0,0,0.08);
+  padding: 40px;
+  max-width: 1200px;
+  margin: 40px auto;
+
+  border-top: 4px solid #2ed06e;
+  border-bottom: 4px solid #2ed06e;
+
+  position: relative;
+  overflow: hidden; /* Opcional: garante que o conteúdo não saia das bordas arredondadas */
+}
+
+.status-pill {
+  padding: 5px 18px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+  text-transform: capitalize;
+}
+
+.status-active { background: #4ade80; }
+
+.text-advice{
+  font-weight: bold;
+  color: #2ed06e;
+}
+
+.lesson-link {
+  text-decoration: none !important;
+  display: block;
+  color: inherit;
+  transition: transform 0.2s ease;
+}
+
+.lesson-link:hover {
+  text-decoration: none;
+  transform: translateY(-3px);
+}
+
+.section-header {
+  background: #1a2333;
+  color: white;
+  width: fit-content;
+  padding: 12px 45px;
+  border-radius: 50px;
+  margin: 0 auto 50px auto;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 18px;
+}
+
 .comment-card-compact .tags{
   border: 1px solid #e1e1e1; /* Borda mais fina */
   border-top: 2px solid #2ed06e;
@@ -7085,5 +7141,117 @@ dialog::backdrop {
   border-radius: 25%;
   border: 1px solid #3e3e3e;
 
+}
 
+
+/* ==============================================
+          MEUS CURSOS E AULAS
+=================================================*/
+
+.profile-content-container {
+  background-color: #f8f9fa;
+  padding: 60px 0;
+  min-height: 90vh;
+}
+
+
+.course-wrapper {
+  border: 2px solid #f0f2f5;
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 35px;
+  position: relative;
+  background: #f8f8f8;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+}
+
+.language-tag {
+  position: absolute;
+  top: -15px;
+  left: 25px;
+  background: #4ade80;
+  color: white;
+  padding: 6px 25px;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 14px;
+  box-shadow: 0 2px 5px rgba(74, 222, 128, 0.3);
+}
+
+.course-main-info {
+  background: #1a2333;
+  color: white;
+  padding: 14px 28px;
+  border-radius: 12px;
+  display: inline-block;
+  min-width: 280px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  font-size: 17px;
+}
+
+.info-badge {
+  background: #4ade80;
+  color: white;
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 10px;
+  width: fit-content;
+}
+
+.lesson-card {
+
+  border-top: 2px solid #2ed06e;
+  border-bottom: 2px solid #2ed06e;
+
+  border-right: 1.5px solid #eef2f7;
+  border-left: 1.5px solid #eef2f7;
+
+  border-radius: 18px;
+  padding: 18px 25px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  box-shadow: 0 4px 5px rgba(74, 222, 128, 0.3);
+
+}
+
+
+
+.lesson-title { color: #4ade80; font-weight: 800; font-size: 16px; margin-right: 12px; }
+
+.time-pill {
+  background: #333;
+  color: white;
+  padding: 5px 14px;
+  border-radius: 50px;
+  font-size: 12px;
+  margin-left: 10px;
+}
+
+.score-circle {
+  background: #4ade80;
+  color: white;
+  height: 48px;
+  width: 90px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 15px;
+}
+
+
+.date-text {
+  font-size: 12px;
+  color: #64748b;
+  display: block;
+  margin-top: 8px;
+  font-weight: 500;
 }

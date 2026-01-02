@@ -488,7 +488,6 @@ class RbacController extends Controller
         $auth->addChild($admin, $DeleteCourse);
         $auth->addChild($admin, $SearchCourse);
 
-
         //formador
         $auth->addChild($formador, $CreateCourse);
         $auth->addChild($formador, $ReadCourse);
@@ -501,9 +500,7 @@ class RbacController extends Controller
 
         /*----------------lessons management-----------*/
         //admin
-        $auth->addChild($admin, $CreateLesson);
         $auth->addChild($admin, $ReadLesson);
-        $auth->addChild($admin, $UpdateLesson);
         $auth->addChild($admin, $DeleteLesson);
 
         //formador

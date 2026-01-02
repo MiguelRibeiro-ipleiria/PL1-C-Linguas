@@ -161,7 +161,6 @@ class Inscricao extends \yii\db\ActiveRecord
             array_push($resultado_array, $resultado);
         }
 
-
         foreach ($resultado_array as $resultado) {
             if ($resultado->estado != "Terminada") {
                 return false;
@@ -173,6 +172,28 @@ class Inscricao extends \yii\db\ActiveRecord
     }
 
 
+    public static function CountResultadoDaInscricaoDoCurso($curso_id, $utilizador_id){
+
+        $inscricao = Inscricao::find()->where(['curso_idcurso' => $curso_id, 'utilizador_id' => $utilizador_id])->one();
+        $curso = $inscricao->getCurso();
+        $aulas = $curso->aulas;
+        $cont = 0;
+
+        $resultado_array = [];
+        foreach ($aulas as $aula) {
+            $resultado = Resultado::find()->where(['aula_idaula' => $aula->id, 'utilizador_id' => $utilizador_id])->one();
+            array_push($resultado_array, $resultado);
+        }
+
+        foreach ($resultado_array as $resultado) {
+            if ($resultado->estado == "Terminada") {
+                $cont++;
+            }
+        }
+
+        return $cont;
+
+    }
 
 
 }
