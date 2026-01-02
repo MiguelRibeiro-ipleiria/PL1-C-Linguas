@@ -10,6 +10,12 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\models\opcoesai;
 use yii\helpers\ArrayHelper;
+use Yii;
+use yii\data\ActiveDataProvider;
+use common\models\User;
+use common\models\Utilizador;
+use common\models\Tipoexercicio;
+
 const OPCOES = null;
 
 /**
@@ -70,12 +76,27 @@ class AudioController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate($aula_id,$tipoexercicio_id)
+    public function actionCreate($aula_id = null)
     {
         $model = new Audio();
         $model->aula_id =$aula_id;
-        $model->tipoexercicio_id = $tipoexercicio_id;
-        
+
+        $auth = Yii::$app->authManager;
+        $user_id = Yii::$app->user->id;
+        $utilizador = Utilizador::findOne(['user_id' => $user_id]);
+        $userRoles = $auth->getRolesByUser($user_id);
+        $role = key($userRoles);    
+
+        $query = Aula::find();
+
+
+        if ($role !== 'admin') {
+            $query->where(['utilizador_id' => $utilizador->id]);
+        }
+
+        $arrayaulas = ArrayHelper::map($query->all(), 'id', 'titulo_aula');
+        $arrayTipoexercicio = ArrayHelper::map(Tipoexercicio::find()->all(), 'id', 'descricao');
+
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {                
 
@@ -115,7 +136,10 @@ class AudioController extends Controller
         ];
         return $this->render('create', [
             'model' => $model,
-            'opcoes' => $opcoes 
+            'opcoes' => $opcoes,
+            'arrayaulas' => $arrayaulas,
+            'aula_id' =>$aula_id,
+            'arrayTipoexercicio'=>$arrayTipoexercicio,
         ]);
     }
 

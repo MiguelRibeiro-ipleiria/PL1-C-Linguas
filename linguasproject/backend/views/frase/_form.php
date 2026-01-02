@@ -17,14 +17,20 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'partefrases_1')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'partefrases_2')->textInput(['maxlength' => true]) ?>
+    
+   <?php
+    if($aula_id == null){?>
+
+        <?=$form->field($model, 'aula_id')->dropDownList($arrayaulas)?>
+    <?php
+    }
+    ?>
 
 
+    <?=$form->field($model, 'tipoexercicio_id')->dropDownList($arrayTipoexercicio)?>
 
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-    </div>
 
-        <?php
+    <?php
     foreach ($opcoes as $i => $opcao){ ?>
 
     <div class="card" style="padding: 10px; margin-bottom: 15px;">

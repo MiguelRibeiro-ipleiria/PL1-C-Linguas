@@ -18,6 +18,15 @@ use common\models\AudioResource;
 
     <?= $form->field($model, 'audio_resource_id')->dropDownList($arrayAudios) ?>
 
+   <?php
+    if($aula_id == null){?>
+
+        <?=$form->field($model, 'aula_id')->dropDownList($arrayaulas)?>
+    <?php
+    }
+    ?>
+
+    <?=$form->field($model, 'tipoexercicio_id')->dropDownList($arrayTipoexercicio)?>
 
 
     <?= $form->field($model, 'pergunta')->textInput(['maxlength' => true]) ?>

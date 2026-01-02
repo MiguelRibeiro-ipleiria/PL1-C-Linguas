@@ -124,11 +124,20 @@ class AulaController extends Controller
     {
         $model = new Aula();
 
+        $auth = Yii::$app->authManager;
         $user_id = Yii::$app->user->id;
         $utilizador = Utilizador::findOne(['user_id' => $user_id]);
+        $userRoles = $auth->getRolesByUser($user_id);
+        $role = key($userRoles);
+
+        $query = Curso::find();
 
 
-        $arraycursos = ArrayHelper::map(curso::find()->where(['utilizador_id'=>$utilizador->id])->all(), 'id', 'titulo_curso');
+        if ($role !== 'admin') {
+            $query->where(['utilizador_id' => $utilizador->id]);
+        }
+
+        $arraycursos = ArrayHelper::map($query->all(), 'id', 'titulo_curso');
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {

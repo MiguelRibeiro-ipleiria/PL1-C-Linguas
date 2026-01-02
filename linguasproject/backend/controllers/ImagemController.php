@@ -9,6 +9,12 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\models\OpcoesAi;
+use Yii;
+use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
+use common\models\User;
+use common\models\Utilizador;
+use common\models\Tipoexercicio;
 
 /**
  * ImagemController implements the CRUD actions for Imagem model.
@@ -72,11 +78,27 @@ class ImagemController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate($aula_id, $tipoexercicio_id)
+    public function actionCreate($aula_id = null)
     {
         $model = new Imagem();
-        $model->aula_id =$aula_id;
-        $model->tipoexercicio_id =$tipoexercicio_id;
+        $model->aula_id = $aula_id;
+
+
+        $auth = Yii::$app->authManager;
+        $user_id = Yii::$app->user->id;
+        $utilizador = Utilizador::findOne(['user_id' => $user_id]);
+        $userRoles = $auth->getRolesByUser($user_id);
+        $role = key($userRoles);    
+
+        $query = Aula::find();
+
+
+        if ($role !== 'admin') {
+            $query->where(['utilizador_id' => $utilizador->id]);
+        }
+
+        $arrayaulas = ArrayHelper::map($query->all(), 'id', 'titulo_aula');
+        $arrayTipoexercicio = ArrayHelper::map(Tipoexercicio::find()->all(), 'id', 'descricao');
         
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {                
@@ -98,13 +120,13 @@ class ImagemController extends Controller
                 }
 
                 $aula = Aula::findOne($aula_id);
-                $aula_frase = $aula->getFrases()->count();
-                $aula_imagem = $aula->getImagems()->count();
-                $aula_audio = $aula->getAudios()->count();
+                //$aula_frase = $aula->getFrases()->count();
+                //$aula_imagem = $aula->getImagems()->count();
+                //$aula_audio = $aula->getAudios()->count();
 
-                $aula->numero_de_exercicios = $aula_frase + $aula_imagem + $aula_audio;
-                $aula->save();
-                return $this->redirect(['view', 'imagem_resource_id' => $model->imagem_resource_id, 'aula_id' => $model->aula_id]);
+                //$aula->numero_de_exercicios = $aula_frase + $aula_imagem + $aula_audio;
+                //$aula->save();
+                //return $this->redirect(['view', 'imagem_resource_id' => $model->imagem_resource_id, 'aula_id' => $model->aula_id]);
             }
         } else {
             $model->loadDefaultValues();
@@ -119,7 +141,12 @@ class ImagemController extends Controller
 
         return $this->render('create', [
             'model' => $model,
-            'opcoes' => $opcoes 
+            'opcoes' => $opcoes, 
+            'arrayaulas' => $arrayaulas,
+            'aula_id' =>$aula_id,
+            'arrayTipoexercicio'=>$arrayTipoexercicio,
+
+            
         ]);
         
 
