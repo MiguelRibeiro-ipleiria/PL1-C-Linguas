@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /** @var yii\web\View $this */
-/** @var common\models\InscricaoSearch $model */
+/** @var common\models\ResultadoSearch $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
 
-<div class="inscricao-search">
+<div class="resultado-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -21,21 +21,29 @@ use yii\widgets\ActiveForm;
         </div>
 
         <div class="col-md-2">
-            <?= $form->field($model, 'curso_idcurso')->label('ID Curso') ?>
+            <?= $form->field($model, 'aula_idaula')->label('ID Aula') ?>
         </div>
 
         <div class="col-md-3">
-            <?= $form->field($model, 'data_inscricao')->input('date')->label('Data Inscrição') ?>
+            <?= $form->field($model, 'estado')->label('Estado*') ?>
         </div>
 
-        <div class="col-md-3">
-            <?= $form->field($model, 'progresso')->label('Progresso') ?>
-        </div>
-
-        <div class="col-md-2">
-            <?= $form->field($model, 'estado')->label('Estado') ?>
+        <div class="col-md-5">
+            <?= $form->field($model, 'data_inicio')->input('date')->label('Data Início') ?>
         </div>
     </div>
+
+    <?php // echo $form->field($model, 'data_fim') ?>
+
+    <?php // echo $form->field($model, 'nota') ?>
+
+    <?php // echo $form->field($model, 'tempo_estimado') ?>
+
+    <?php // echo $form->field($model, 'data_agendamento') ?>
+
+    <?php // echo $form->field($model, 'respostas_certas') ?>
+
+    <?php // echo $form->field($model, 'respostas_erradas') ?>
 
     <div class="form-group mb-0">
         <?= Html::submitButton('Search', ['class' => 'btn btn-success btn-sm']) ?>

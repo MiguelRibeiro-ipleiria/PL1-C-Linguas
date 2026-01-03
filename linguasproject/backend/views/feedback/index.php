@@ -15,7 +15,6 @@ use yii\grid\GridView;
 $this->title = 'Feedbacks';
 $this->params['breadcrumbs'][] = $this->title;
 
-// 1. Registro do CSS para manter as cores verdes nos links e ações
 $this->registerCss("
     .grid-view th a, .grid-view .action-column a { color: #28a745 !important; font-weight: bold; }
     .table-responsive { margin-top: 1.5rem; }
@@ -36,7 +35,7 @@ $this->registerCss("
             <h3 class="card-title">Sistema de Filtragem de Feedbacks</h3>
         </div>
         <div class="card-body">
-            <?php // Renderiza o formulário de busca. Certifica-te que o ficheiro _search.php existe na pasta feedback ?>
+            <?php ?>
             <?= $this->render('_search', ['model' => $searchModel]); ?>
         </div>
     </div>
@@ -46,7 +45,7 @@ $this->registerCss("
             <div class="table-responsive">
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
-                    // Removemos o 'filterModel' => $searchModel para o filtro não aparecer dentro da tabela
+            
                     'summary' => false, 
                     'tableOptions' => [
                         'class' => 'table table-striped m-0',
@@ -59,7 +58,6 @@ $this->registerCss("
                         ],
                         'assunto_feedback',
                         'descricao_feedback',
-                        'hora_criada',
                         [
                             'label' => 'Utilizador',
                             'format' => 'raw',
@@ -72,6 +70,7 @@ $this->registerCss("
                                 return '(não encontrado)';
                             }
                         ],
+                        'hora_criada',
                         [
                             'class' => ActionColumn::className(),
                             'header' => 'Ações',
