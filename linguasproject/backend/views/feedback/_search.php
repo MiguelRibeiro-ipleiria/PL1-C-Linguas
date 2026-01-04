@@ -6,6 +6,8 @@ use yii\widgets\ActiveForm;
 /** @var yii\web\View $this */
 /** @var common\models\FeedbackSearch $model */
 /** @var yii\widgets\ActiveForm $form */
+/** @var array $estados_feedback */
+
 ?>
 
 <div class="feedback-search">
@@ -34,6 +36,10 @@ use yii\widgets\ActiveForm;
 
         <div class="col-md-3">
             <?= $form->field($model, 'hora_criada')->input('date')->label('Hora Criada') ?>
+        </div>
+
+        <div class="col-md-3">
+            <?= $form->field($model, 'estado_feedback')->dropDownList($estados_feedback) ?>
         </div>
     </div>
 

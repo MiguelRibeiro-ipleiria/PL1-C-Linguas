@@ -130,28 +130,6 @@ class Aula extends \yii\db\ActiveRecord
         return $this->hasMany(Comentario::class, ['aula_id' => 'id']);
     }
 
-    public function setDataCriacao()
-    {
-        $hora = date('y-m-d H:i:s');
-        return $this->data_criacao = $hora;
-    }
-
-    public function getResultados()
-    {
-        return $this->hasMany(Resultado::class, ['aula_idaula' => 'id']);
-    }
-
-    public function getCountComments($id)
-    {
-        $count = Comentario::find()->where(['aula_id' => $id])->count();
-        return $count;
-    }
-    public function getComments($id)
-    {
-        $comentarios = Comentario::find()->where(['aula_id' => $id]);
-        return $comentarios;
-    }
-
     public function VerificaRespostadoExercicio($id_opcao){
 
         $opcao = Opcoesai::find()->where(['id' => $id_opcao])->one();

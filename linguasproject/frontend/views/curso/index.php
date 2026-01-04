@@ -32,6 +32,8 @@ $this->title = 'Cursos';
                 'itemView' => '_cursos',
                 'layout' => "<div class='row'>{items}</div>\n<div class='mt-4'>{pager}</div>",
                 'itemOptions' => ['tag' => false],
+                'emptyText' => 'Ainda não temos cursos disponíveis. Aguarde até que adicionar-mos!'
+
             ]) ?>
 
 

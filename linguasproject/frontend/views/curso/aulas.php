@@ -9,7 +9,6 @@ use yii\grid\GridView;
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $DataAulasProvider */
 /** @var common\models\Curso $curso */
-/** @var common\models\Idioma $idioma */
 
 ?>
 
@@ -18,8 +17,17 @@ use yii\grid\GridView;
         <div class="row">
             <div class="col-12">
                 <div class="section-title">
-                    <h2 class="wow fadeInUp" data-wow-delay=".4s"><?= $idioma->lingua_descricao ?> - <?= $curso->titulo_curso ?></h2>
-                    <h3 class="wow zoomIn" data-wow-delay=".2s"><?= $DataAulasProvider->getCount() ?> aulas disponíveis</h3>
+                    <h2 class="wow fadeInUp" data-wow-delay=".4s"><?= $curso->idioma->lingua_descricao ?> - <?= $curso->titulo_curso ?></h2>
+                    <h3 class="wow zoomIn" data-wow-delay=".2s">
+                        <?php
+                        if($curso->getAulas()->count() > 1){ ?>
+                            <?= $curso->getAulas()->count() ?> aulas disponíveis
+                        <?php }elseif($curso->getAulas()->count() == 1){ ?>
+                            <?= $curso->getAulas()->count() ?> aula disponível
+                        <?php } else{ ?>
+                            Sem aulas disponíveis
+                        <?php }?>
+                    </h3>
 
                 </div>
             </div>
@@ -32,7 +40,8 @@ use yii\grid\GridView;
                         'dataProvider' => $DataAulasProvider,
                         'itemView' => '_cursos_aulas',
                         'layout' => "<div class='cards-grid'>{items}</div>\n<div class='mt-4'>{pager}</div>",
-                        'itemOptions' => ['tag' => false]])
+                        'itemOptions' => ['tag' => false],
+                        'emptyText' => 'Pedimos desculpa, mas não temos registos de aulas neste curso. Procure outro que lhe agrade!'])
                     ?>
                 </div>
             </div>

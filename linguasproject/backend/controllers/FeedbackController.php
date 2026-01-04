@@ -56,15 +56,24 @@ class FeedbackController extends Controller
 
             $searchModel = new FeedbackSearch();
             $dataProvider = $searchModel->search($this->request->queryParams);
+            $estados_feedback = [
+                'Submetido' => 'Submetido',
+                'Necessita Informação' => 'Necessita Informação',
+                'Em progresso' => 'Em progresso',
+                'Arquivado' => 'Arquivado',
+                'Concluído' => 'Concluído',
+            ];
 
             return $this->render('index', [
+                'estados_feedback' => $estados_feedback,
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
             ]);
         }
         else{
             return $this->redirect(['site/no_permisson']);
-        }    }
+        }
+    }
 
     /**
      * Displays a single Feedback model.
@@ -75,7 +84,6 @@ class FeedbackController extends Controller
     public function actionView($id)
     {
         if (\Yii::$app->user->can('ReadFeedback')) {
-
 
             return $this->render('view', [
                 'model' => $this->findModel($id),
@@ -97,6 +105,14 @@ class FeedbackController extends Controller
 
             $model = new Feedback();
 
+            $estados_feedback = [
+                'Submetido' => 'Submetido',
+                'Necessita Informação' => 'Necessita Informação',
+                'Em progresso' => 'Em progresso',
+                'Arquivado' => 'Arquivado',
+                'Concluído' => 'Concluído',
+            ];
+
             if ($this->request->isPost) {
                 if ($model->load($this->request->post()) && $model->save()) {
                     return $this->redirect(['view', 'id' => $model->id]);
@@ -106,6 +122,7 @@ class FeedbackController extends Controller
             }
 
             return $this->render('create', [
+                'estados_feedback' => $estados_feedback,
                 'model' => $model,
             ]);
         }
@@ -126,12 +143,19 @@ class FeedbackController extends Controller
         if (\Yii::$app->user->can('UpdateFeedback')) {
 
             $model = $this->findModel($id);
-
+            $estados_feedback = [
+                'Submetido' => 'Submetido',
+                'Necessita Informação' => 'Necessita Informação',
+                'Em progresso' => 'Em progresso',
+                'Arquivado' => 'Arquivado',
+                'Concluído' => 'Concluído',
+            ];
             if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
 
             return $this->render('update', [
+                'estados_feedback' => $estados_feedback,
                 'model' => $model,
             ]);
         }

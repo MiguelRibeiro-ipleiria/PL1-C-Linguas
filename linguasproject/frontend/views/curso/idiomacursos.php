@@ -33,7 +33,7 @@ $this->title = 'Cursos - ' . $idioma->lingua_descricao;
                         'itemView' => '_idioma_cursos',
                         'layout' => "<div class='cards-grid'>{items}</div>\n<div class='mt-4'>{pager}</div>",
                         'itemOptions' => ['tag' => false],
-                        'emptyText' => 'Ainda sem cursos disponíveis, escolha outra língua para aprender ' ])?>
+                        'emptyText' => 'Ainda sem cursos disponíveis, escolha outra língua para aprender!' ])?>
                 </div>
             </div>
             <div class="col-4">

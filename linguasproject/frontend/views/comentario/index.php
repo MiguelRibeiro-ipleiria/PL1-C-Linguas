@@ -26,6 +26,7 @@ use yii\grid\GridView;
                 'itemView' => '_comments',
                 'layout' => "<div class='row'>{items}</div>\n<div class='mt-4'>{pager}</div>",
                 'itemOptions' => ['tag' => false],
+                'emptyText' => 'Sem comentários, dê o seu feedback sobre as aulas!',
             ]) ?>
         </div>
         <h9 class="text-advice" data-wow-delay=".4s">*Comentários de aulas em cursos não subscritos não serão mostrados</h9>

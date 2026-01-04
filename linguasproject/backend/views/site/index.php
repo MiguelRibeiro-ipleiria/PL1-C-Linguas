@@ -9,16 +9,13 @@ use yii\helpers\Url;
 use hail812\adminlte\widgets\InfoBox;
 use hail812\adminlte\widgets\SmallBox;
 
+/** @var int $count_dos_exercicios */
+
+
 $this->title = 'Painel de Gestão LinguasProject';
 $this->params['breadcrumbs'] = [['label' => $this->title]];
 
-// Busca de dados dinâmicos
-$totalUsers = User::find()->count();
-$totalCursos = Curso::find()->count();
-$totalIdiomas = Idioma::find()->count();
-$totalFeedbacks = Feedback::find()->count();
-$totalImagens = ImagemResource::find()->count();
-$totalExercicios = 345;
+
 ?>
 
 <div class="container-fluid">
@@ -59,7 +56,7 @@ $totalExercicios = 345;
     <div class="row">
         <div class="col-lg-3 col-6">
             <?= SmallBox::widget([
-                'title' => $totalUsers,
+                'title' => User::find()->count(),
                 'text' => 'Utilizadores',
                 'icon' => 'fas fa-user-friends',
                 'theme' => 'info',
@@ -67,7 +64,7 @@ $totalExercicios = 345;
         </div>
         <div class="col-lg-3 col-6">
             <?= SmallBox::widget([
-                'title' => $totalIdiomas,
+                'title' => Idioma::find()->count(),
                 'text' => 'Idiomas',
                 'icon' => 'fas fa-globe',
                 'theme' => 'success',
@@ -75,7 +72,7 @@ $totalExercicios = 345;
         </div>
         <div class="col-lg-3 col-6">
             <?= SmallBox::widget([
-                'title' => $totalCursos,
+                'title' => Curso::find()->count(),
                 'text' => 'Cursos',
                 'icon' => 'fas fa-graduation-cap',
                 'theme' => 'warning',
@@ -83,7 +80,7 @@ $totalExercicios = 345;
         </div>
         <div class="col-lg-3 col-6">
             <?= SmallBox::widget([
-                'title' => $totalFeedbacks,
+                'title' => Feedback::find()->count(),
                 'text' => 'Feedbacks',
                 'icon' => 'fas fa-comments',
                 'theme' => 'danger',
@@ -95,7 +92,7 @@ $totalExercicios = 345;
         <div class="col-md-4">
             <?= InfoBox::widget([
                 'text' => 'Recursos de Imagem',
-                'number' => $totalImagens,
+                'number' => ImagemResource::find()->count(),
                 'icon' => 'far fa-image',
                 'theme' => 'info',
                 'progress' => [
@@ -119,7 +116,7 @@ $totalExercicios = 345;
         <div class="col-md-4">
     <?= InfoBox::widget([
         'text' => 'Exercícios Existentes',
-        'number' => $totalExercicios , // Usa a variável ou exibe 0 se não estiver definida
+        'number' => $count_dos_exercicios , // Usa a variável ou exibe 0 se não estiver definida
         'icon' => 'fas fa-tasks',            // Ícone de lista de tarefas/exercícios
         'theme' => 'warning',                // Mantém a cor amarela original
         'progress' => [

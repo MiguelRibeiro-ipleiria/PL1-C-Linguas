@@ -79,7 +79,7 @@ class InscricaoController extends Controller
         $model->curso_idcurso = $curso_id;
 
 
-        if($model->verificainscricao($curso_id, $utilizador->id) && $model->save()){
+        if(!($model->verificainscricao($curso_id, $utilizador->id)) && $model->save()){
 
             $model->inscricaonasaulas($curso_id, $utilizador->id);
             $curso = $model->getCurso();
@@ -127,7 +127,7 @@ class InscricaoController extends Controller
     public function actionDelete($utilizador_id, $curso_idcurso)
     {
         if(Inscricao::desinscricaonasaulas($curso_idcurso, $utilizador_id)){
-            if(!Inscricao::verificainscricao($curso_idcurso, $utilizador_id)){
+            if(Inscricao::verificainscricao($curso_idcurso, $utilizador_id)){
                 $inscricao = Inscricao::findOne(['utilizador_id' => $utilizador_id, 'curso_idcurso' => $curso_idcurso]);
                 $inscricao->delete();
             }

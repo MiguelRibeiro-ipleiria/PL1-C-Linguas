@@ -6,6 +6,8 @@ use common\models\Aula;
 use common\models\Idioma;
 use common\models\Curso;
 use common\models\CursoSearch;
+use common\models\Inscricao;
+use common\models\Utilizador;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -164,8 +166,9 @@ class CursoController extends Controller
     public function actionAulas($id)
     {
         $model = Curso::findOne(['id' => $id]);
-        if($model->status_ativo == 1){
-            $idioma = Idioma::findOne(['id' => $model->idioma_id]);
+        $utilizador = Utilizador::findOne(['user_id' => \Yii::$app->user->id]);
+
+        if($model->status_ativo == 1 && Inscricao::verificainscricao($id, $utilizador->id)){
             $query_aulas = Aula::find()->where(['curso_id' => $id]);
             $DataAulasProvider = new ActiveDataProvider([
                 'query' => $query_aulas,
@@ -174,11 +177,10 @@ class CursoController extends Controller
             return $this->render('aulas', [
                 'DataAulasProvider' => $DataAulasProvider,
                 'curso' => $model,
-                'idioma' => $idioma,
             ]);
         }
         else{
-            return $this->redirect(\Yii::$app->request->referrer);
+            return $this->redirect(['curso/idiomacursos', 'id' => $model->idioma_id]);
         }
 
 

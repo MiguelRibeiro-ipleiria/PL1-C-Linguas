@@ -1,6 +1,7 @@
 <?php
 
 /** @var yii\web\View $this */
+/** @var yii\data\ActiveDataProvider $DataComentariosProvider */
 
 use common\models\comentarioSearch;
 use common\models\Inscricao;
@@ -11,6 +12,7 @@ use common\models\Utilizador;
 use yii\helpers\ArrayHelper;
 use Yii;
 use yii\db\Expression;
+
 
 $this->title = 'LEARNALOT';
 ?>
@@ -175,90 +177,15 @@ $this->title = 'LEARNALOT';
             </div>
         </div>
         <div class="row testimonial-slider">
-            <div class="col-lg-6 col-12 ">
-                <!-- Start Single Testimonial -->
-                <div class="single-testimonial">
-                    <div class="inner-content">
-                        <div class="quote-icon">
-                            <i class="lni lni-quotation"></i>
-                        </div>
-                        <div class="text">
-                            <p>“A vast number of clients decide to create dedicated software is the
-                                online store. It is nothing but a website with a catalog of products and the
-                                possibility.”</p>
-                        </div>
-                        <div class="author">
-                            <h4 class="name">Somalia D Silva
-                                <span class="deg">Business Manager</span>
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Single Testimonial -->
-            </div>
-            <div class="col-lg-6 col-12 ">
-                <!-- Start Single Testimonial -->
-                <div class="single-testimonial">
-                    <div class="inner-content">
-                        <div class="quote-icon">
-                            <i class="lni lni-quotation"></i>
-                        </div>
-                        <div class="text">
-                            <p>“A vast number of clients decide to create dedicated software is the
-                                online store. It is nothing but a website with a catalog of products and the
-                                possibility.”</p>
-                        </div>
-                        <div class="author">
-                            <h4 class="name">David Warner
-                                <span class="deg">Web Developer</span>
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Single Testimonial -->
-            </div>
-            <div class="col-lg-6 col-12 ">
-                <!-- Start Single Testimonial -->
-                <div class="single-testimonial">
-                    <div class="inner-content">
-                        <div class="quote-icon">
-                            <i class="lni lni-quotation"></i>
-                        </div>
-                        <div class="text">
-                            <p>“A vast number of clients decide to create dedicated software is the
-                                online store. It is nothing but a website with a catalog of products and the
-                                possibility.”</p>
-                        </div>
-                        <div class="author">
-                            <h4 class="name">Jems Gilario
-                                <span class="deg">Graphics Designer</span>
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Single Testimonial -->
-            </div>
-            <div class="col-lg-6 col-12 ">
-                <!-- Start Single Testimonial -->
-                <div class="single-testimonial">
-                    <div class="inner-content">
-                        <div class="quote-icon">
-                            <i class="lni lni-quotation"></i>
-                        </div>
-                        <div class="text">
-                            <p>“A vast number of clients decide to create dedicated software is the
-                                online store. It is nothing but a website with a catalog of products and the
-                                possibility.”</p>
-                        </div>
-                        <div class="author">
-                            <h4 class="name">David Warner
-                                <span class="deg">Web Developer</span>
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Single Testimonial -->
-            </div>
+
+            <?= \yii\widgets\ListView::widget([
+                'dataProvider' => $DataComentariosProvider,
+                'itemView' => '_comentarios_home',
+                'layout' => "{items}",
+                'itemOptions' => ['tag' => false],
+                'options' => ['class' => 'row'],
+                'emptyText' => 'Ainda não temos comentários. Seja o primeiro!',
+            ]); ?>
 
         </div>
     </div>

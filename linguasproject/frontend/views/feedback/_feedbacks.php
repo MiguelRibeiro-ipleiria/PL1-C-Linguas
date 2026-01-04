@@ -7,23 +7,35 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 ?>
-<a class="lesson-link">
-    <div class="feedback-list">
-        <div class="feedback-card shadow-sm">
-            <div class="feedback-left">
-                <div class="subject-pill">
-                    <?= Html::encode($model->assunto_feedback) ?>
-                </div>
-                <div class="feedback-date">
-                    <?= date('d/m/Y H:i', strtotime($model->hora_criada)) ?>
-                </div>
-            </div>
 
-            <div class="feedback-description">
-                <?= Html::encode($model->descricao_feedback) ?>
-            </div>
+<div class="feedback-card shadow-sm">
+    <div class="feedback-col feedback-info">
+        <div class="subject-pill">
+            <?= $model->assunto_feedback ?>
         </div>
     </div>
-</a>
+
+    <div class="feedback-col feedback-content">
+        <p><?= $model->descricao_feedback ?></p>
+    </div>
+
+    <div class="feedback-col feedback-status">
+        <div class="status-pill ">
+            <?php
+            if($model->estado_feedback == 'Submetido' || $model->estado_feedback == 'Em progresso'){ ?>
+                <p class="status-submited"><?= $model->estado_feedback ?></p>
+            <?php }
+            elseif($model->estado_feedback == 'Arquivado' || $model->estado_feedback == 'Concluído'){ ?>
+                <p class="status-success"><?= $model->estado_feedback ?></p>
+            <?php }
+            else{ ?>
+                <p class="status-missing"><?= $model->estado_feedback ?></p>
+            <?php }
+            ?>
+        </div>
+        <span class="feedback-date"><?= date('d/m/Y H:i', strtotime($model->hora_criada)) ?></span>
+
+    </div>
+</div>
 
 

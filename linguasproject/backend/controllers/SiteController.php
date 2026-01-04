@@ -2,6 +2,8 @@
 
 namespace backend\controllers;
 
+use common\models\Aula;
+use common\models\Curso;
 use common\models\LoginForm;
 use Couchbase\User;
 use Yii;
@@ -71,7 +73,19 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+
+        $aulas = Aula::find()->all();
+        $count_dos_exercicios = 0;
+        foreach ($aulas as $aula) {
+            $aula_audio = $aula->getAudios()->count();
+            $aula_imagem = $aula->getImagems()->count();
+            $aula_frase = $aula->getFrases()->count();
+
+            $count_dos_exercicios = $count_dos_exercicios + $aula_audio + $aula_frase + $aula_imagem;
+        }
+
+
+        return $this->render('index', ['count_dos_exercicios' => $count_dos_exercicios]);
     }
 
     public function actionTimeline()

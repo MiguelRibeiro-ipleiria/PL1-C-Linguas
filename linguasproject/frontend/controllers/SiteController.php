@@ -2,10 +2,12 @@
 
 namespace frontend\controllers;
 
+use common\models\Comentario;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\data\ActiveDataProvider;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -15,6 +17,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use yii\db\Expression;
 
 /**
  * Site controller
@@ -75,7 +78,18 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $query = Comentario::find()
+            ->orderBy(new Expression('RAND()'))
+            ->limit(4);
+
+        $DataComentariosProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => false,
+        ]);
+
+        return $this->render('index', [
+            'DataComentariosProvider' => $DataComentariosProvider,
+        ]);
     }
 
     public function actionPerfil()

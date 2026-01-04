@@ -19,6 +19,7 @@ use yii\helpers\Url;
                     'itemView' => '_progressos',
                     'layout' => "<div class='cards-grid'>{items}</div>\n<div class='mt-4'>{pager}</div>",
                     'itemOptions' => ['tag' => false],
+                    'emptyText' => 'Sem progressos, começa um curso e diverte-te!',
                 ]) ?>
 
             </div>

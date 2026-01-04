@@ -80,6 +80,7 @@ class FeedbackController extends Controller
                 $model->hora_criada = date('Y-m-d H:i:s');
                 $utilizador = Utilizador::findOne(['user_id' => Yii::$app->user->id]);
                 $model->utilizador_id = $utilizador->id;
+                $model->estado_feedback = "Submetido";
                 if($model->save()){
                     return $this->redirect(['index', 'id' => $model->id]);
                 }

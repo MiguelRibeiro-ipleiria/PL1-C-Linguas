@@ -68,23 +68,29 @@ class AulaController extends Controller
     {
 
         $model = $this->findModel($id);
-        $modelcomentario = new Comentario();
-
         $user_id = \Yii::$app->user->id;
         $utilizador = Utilizador::find()->where(['user_id' => $user_id])->one();
-        $resultado = Resultado::find()->where(['aula_idaula' => $id, 'utilizador_id' => $utilizador->id])->one();
 
-        $query_comentarios = $model->getComments($id);
-        $DataCommentsProvider = new ActiveDataProvider([
-            'query' => $query_comentarios,
-        ]);
+        if($model->curso->status_ativo == 1 && Inscricao::verificainscricao($model->curso_id, $utilizador->id)){
+            $modelcomentario = new Comentario();
+            $resultado = Resultado::find()->where(['aula_idaula' => $id, 'utilizador_id' => $utilizador->id])->one();
 
-        return $this->render('view', [
-            'model' => $model,
-            'DataCommentsProvider' => $DataCommentsProvider,
-            'modelcomentario' => $modelcomentario,
-            'resultado' => $resultado,
-        ]);
+            $query_comentarios = $model->getComentarios();
+            $DataCommentsProvider = new ActiveDataProvider([
+                'query' => $query_comentarios,
+            ]);
+
+            return $this->render('view', [
+                'model' => $model,
+                'DataCommentsProvider' => $DataCommentsProvider,
+                'modelcomentario' => $modelcomentario,
+                'resultado' => $resultado,
+            ]);
+        }
+        else{
+            return $this->redirect(['curso/idiomacursos', 'id' => $model->curso->idioma_id]);
+        }
+
     }
 
     /**

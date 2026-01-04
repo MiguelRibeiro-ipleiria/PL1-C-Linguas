@@ -97,6 +97,14 @@
       <path value="$PROJECT_DIR$/linguasproject/vendor/masterminds/html5" />
       <path value="$PROJECT_DIR$/linguasproject/vendor/nikic/php-parser" />
       <path value="$PROJECT_DIR$/linguasproject/vendor/cebe/markdown" />
+      <path value="$PROJECT_DIR$/linguasproject/vendor/yiisoft/yii2-bootstrap4" />
+      <path value="$PROJECT_DIR$/linguasproject/vendor/npm-asset/bootstrap" />
+      <path value="$PROJECT_DIR$/linguasproject/vendor/almasaeed2010/adminlte" />
+      <path value="$PROJECT_DIR$/linguasproject/vendor/hail812/yii2-adminlte3" />
+      <path value="$PROJECT_DIR$/linguasproject/vendor/hail812/yii2-adminlte-widgets" />
+      <path value="$PROJECT_DIR$/linguasproject/vendor/denar90/yii2-wavesurfer-audio-widget" />
+      <path value="$PROJECT_DIR$/linguasproject/vendor/hosannahighertech/yii2-audiojs" />
+      <path value="$PROJECT_DIR$/linguasproject/vendor/npm-asset/wavesurfer.js" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.4">

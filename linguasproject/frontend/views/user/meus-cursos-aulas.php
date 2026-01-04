@@ -21,6 +21,7 @@ use yii\helpers\Html;
             'itemView' => '_cursos_aulas',
             'layout' => "<div class='cards-grid'>{items}</div>\n<div class='mt-4'>{pager}</div>",
             'itemOptions' => ['tag' => false],
+            'emptyText' => 'Não foram encontrados cursos ou aulas inscritas.',
         ]) ?>
 
     </div>

@@ -11,6 +11,8 @@ use yii\grid\GridView;
 /** @var yii\web\View $this */
 /** @var common\models\FeedbackSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
+/** @var array $estados_feedback */
+
 
 $this->title = 'Feedbacks';
 $this->params['breadcrumbs'][] = $this->title;
@@ -27,7 +29,7 @@ $this->registerCss("
 
     <div class="d-flex justify-content-between align-items-center mb-3">
         <p>
-            <?= Html::a('Create Feedback', ['create'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a('Create Feedback', ['create', 'estados_feedback' => $estados_feedback], ['class' => 'btn btn-success']) ?>
         </p>
     </div>
 
@@ -37,7 +39,7 @@ $this->registerCss("
         </div>
         <div class="card-body">
             <?php // Renderiza o formulário de busca. Certifica-te que o ficheiro _search.php existe na pasta feedback ?>
-            <?= $this->render('_search', ['model' => $searchModel]); ?>
+            <?= $this->render('_search', ['model' => $searchModel, 'estados_feedback' => $estados_feedback]); ?>
         </div>
     </div>
 
@@ -72,6 +74,7 @@ $this->registerCss("
                                 return '(não encontrado)';
                             }
                         ],
+                        'estado_feedback',
                         [
                             'class' => ActionColumn::className(),
                             'header' => 'Ações',

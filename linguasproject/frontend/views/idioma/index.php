@@ -32,6 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'itemView' => '_idioma',
                 'layout' => "<div class='row'>{items}</div>\n<div class='mt-4'>{pager}</div>",
                 'itemOptions' => ['tag' => false],
+                'emptyText' => 'Ainda não temos idiomas disponíveis. Aguarde até que adicionar-mos!'
             ]) ?>
         </div>
     </div>

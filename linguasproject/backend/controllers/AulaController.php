@@ -133,9 +133,8 @@ class AulaController extends Controller
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
 
-                $model->setDataCriacao();
+                $model->date('y-m-d H:i:s');;
                 $model->utilizador_id = $utilizador->id;
-
                 if($model->save()){
                     return $this->redirect(['view', 'id' => $model->id]);
                 }

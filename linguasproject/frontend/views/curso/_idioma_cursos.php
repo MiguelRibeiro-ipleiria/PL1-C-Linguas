@@ -18,7 +18,16 @@ use yii\helpers\Html;
                     <div class="card-header-flex">
                         <h3 class="card-course-title"><?= $model->titulo_curso ?></h3>
                         <span class="badge-custom level-badge"><?= $model->dificuldade->grau_dificuldade ?></span>
-                        <span class="badge-custom classes-badge">2 aulas</span>
+                        <span class="badge-custom classes-badge">
+                            <?php
+                                if($model->getAulas()->count() > 1){ ?>
+                                    <?= $model->getAulas()->count() ?> aulas
+                                <?php }elseif($model->getAulas()->count() == 1){ ?>
+                                    <?= $model->getAulas()->count() ?> aula
+                            <?php } else{ ?>
+                                    Sem aulas
+                                <?php }?>
+                        </span>
 
                     </div>
                     <p class="card-course-description mt-2">
@@ -27,7 +36,7 @@ use yii\helpers\Html;
                 </div>
 
                 <?php
-                    if(\Yii::$app->user->can('SearchCourse') && (Inscricao::verificainscricao($model->id, Utilizador::find()->where(['user_id' => \Yii::$app->user->id])->one()))){ ?>
+                    if(\Yii::$app->user->can('SearchCourse') && !(Inscricao::verificainscricao($model->id, Utilizador::find()->where(['user_id' => \Yii::$app->user->id])->one()))){ ?>
                         <div class="col-4 d-flex justify-content-center align-items-center course-action-area">
                             <section class="intro-video-area section-idiomas-cursos">
                                 <div class="inner-content-head">

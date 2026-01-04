@@ -34,6 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'descricao_feedback',
             'hora_criada',
             'utilizador_id',
+            'estado_feedback',
         ],
     ]) ?>
 

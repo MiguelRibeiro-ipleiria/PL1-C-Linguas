@@ -18,7 +18,7 @@ class FeedbackSearch extends Feedback
     {
         return [
             [['id', 'utilizador_id'], 'integer'],
-            [['assunto_feedback', 'descricao_feedback', 'hora_criada'], 'safe'],
+            [['assunto_feedback', 'descricao_feedback', 'hora_criada', 'estado_feedback'], 'safe'],
         ];
     }
 
@@ -65,7 +65,8 @@ class FeedbackSearch extends Feedback
         ]);
 
         $query->andFilterWhere(['like', 'assunto_feedback', $this->assunto_feedback])
-            ->andFilterWhere(['like', 'descricao_feedback', $this->descricao_feedback]);
+            ->andFilterWhere(['like', 'descricao_feedback', $this->descricao_feedback])
+            ->andFilterWhere(['like', 'estado_feedback', $this->estado_feedback]);
 
         return $dataProvider;
     }
