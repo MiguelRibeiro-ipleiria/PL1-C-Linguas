@@ -14,13 +14,17 @@ use Yii;
  * @property string $tempo_estimado
  * @property int $curso_id
  * @property string $data_criacao
+ * @property int|null $utilizador_id
  *
  * @property AudioResource[] $audioResources
  * @property Audio[] $audios
+ * @property Comentario[] $comentarios
  * @property Curso $curso
  * @property Frase[] $frases
  * @property ImagemResource[] $imagemResources
  * @property Imagem[] $imagems
+ * @property Resultado[] $resultados
+ * @property Utilizador $utilizador
  */
 class Aula extends \yii\db\ActiveRecord
 {
@@ -40,12 +44,13 @@ class Aula extends \yii\db\ActiveRecord
     {
         return [
             [['titulo_aula', 'descricao_aula', 'numero_de_exercicios', 'tempo_estimado', 'curso_id', 'data_criacao'], 'required'],
-            [['numero_de_exercicios', 'curso_id'], 'integer'],
+            [['numero_de_exercicios', 'curso_id', 'utilizador_id'], 'integer'],
             [['titulo_aula'], 'string', 'max' => 50],
             [['descricao_aula'], 'string', 'max' => 80],
             [['tempo_estimado'], 'string', 'max' => 25],
             [['data_criacao'], 'string', 'max' => 45],
             [['curso_id'], 'exist', 'skipOnError' => true, 'targetClass' => Curso::class, 'targetAttribute' => ['curso_id' => 'id']],
+            [['utilizador_id'], 'exist', 'skipOnError' => true, 'targetClass' => Utilizador::class, 'targetAttribute' => ['utilizador_id' => 'id']],
         ];
     }
 
@@ -62,6 +67,7 @@ class Aula extends \yii\db\ActiveRecord
             'tempo_estimado' => 'Tempo Estimado',
             'curso_id' => 'Curso',
             'data_criacao' => 'Data Criacao',
+            'utilizador_id' => 'Utilizador ID'
         ];
     }
 
@@ -93,6 +99,11 @@ class Aula extends \yii\db\ActiveRecord
     public function getCurso()
     {
         return $this->hasOne(Curso::class, ['id' => 'curso_id']);
+    }
+
+    public function getUtilizador()
+    {
+        return $this->hasOne(Utilizador::class, ['id' => 'utilizador_id']);
     }
 
     /**

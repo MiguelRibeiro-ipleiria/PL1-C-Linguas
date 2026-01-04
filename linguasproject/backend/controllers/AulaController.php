@@ -82,6 +82,8 @@ class AulaController extends Controller
                 $searchModel = new aulaSearch();
                 $dataProvider = $searchModel->search($this->request->queryParams);
                 $dataProvider->query->andWhere(['utilizador_id' => $utilizador->id]);
+
+
             } elseif ($role == "admin") {
 
                 $searchModel = new aulaSearch();

@@ -16,12 +16,6 @@ use yii\helpers\Url;
 
 <?php
 $auth = Yii::$app->authManager;
-
-//$dificuldade = Dificuldade::findOne(['id' => $model->dificuldade_id]);
-$curso = Curso::findOne(['id' => $model->curso_id]);
-$Utilizador = Utilizador::findOne(['id' => $model->utilizador_id]);
-$Usercreate = User::findOne(['id' => $Utilizador->user_id]);
-
 ?>
 
 <section class="content">
@@ -47,10 +41,8 @@ $Usercreate = User::findOne(['id' => $Utilizador->user_id]);
                         <div class="col-12 col-sm-4">
                             <div class="info-box bg-light">
                                 <div class="info-box-content">
-                                    <span class="info-box-text text-center text-muted">Formadores Disponíveis</span>
-                                    <span class="info-box-number text-center text-muted mb-0">
-                                       
-                                    </span>
+                                    <span class="info-box-text text-center text-muted">Dono da Aula</span>
+                                    <span class="info-box-number text-center text-muted mb-0"><?= $model->utilizador->user->username ?></span>
                                 </div>
                             </div>
                         </div>
@@ -58,15 +50,15 @@ $Usercreate = User::findOne(['id' => $Utilizador->user_id]);
                             <div class="info-box bg-light">
                                 <div class="info-box-content">
                                     <span class="info-box-text text-center text-muted">Curso</span>
-                                    <span class="info-box-number text-center text-muted mb-0"><?=$curso->titulo_curso?></span>
+                                    <span class="info-box-number text-center text-muted mb-0"><?=$model->curso->titulo_curso?></span>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 col-sm-4">
                             <div class="info-box bg-light">
                                 <div class="info-box-content">
-                                    <span class="info-box-text text-center text-muted">Estado do Curso</span>
-                                    <span class="info-box-number text-center text-muted mb-0">
+                                    <span class="info-box-text text-center text-muted">Número de Exercícios</span>
+                                    <span class="info-box-number text-center text-muted mb-0"><?= $model->numero_de_exercicios ?></span>
                                 </div>
                             </div>
                         </div>
@@ -74,7 +66,7 @@ $Usercreate = User::findOne(['id' => $Utilizador->user_id]);
                     <div class="row">
                         <div class="col-12">
                             <h4>Comentários</h4>
-                            <?php if($model->getComentarios() == null){
+                            <?php if ($model->getComentarios()->count() <= 0) {
 
                                 echo 'Ainda sem comentários.';
                             }
@@ -93,6 +85,7 @@ $Usercreate = User::findOne(['id' => $Utilizador->user_id]);
                                     <?=$comentario->descricao_comentario?>
                                 </p>
                             </div>
+
                             <?php }} ?>
 
 
@@ -101,24 +94,18 @@ $Usercreate = User::findOne(['id' => $Utilizador->user_id]);
                 </div>
                 <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
                     <h3 class="text-primary"><i class="fas fa-book"></i>   <?= $model->titulo_aula ?></h3>
-                    <span class="time text-muted"><i class="fas fa-clock"></i> <?= $model->tempo_estimado ?></span>
+                    <span class="time text-muted"><i class="fas fa-clock"></i> <?= $model->tempo_estimado ?> de tempo estimado</span>
                     <br>
                     <br>
                     <div class="text-muted">
                         <p class="text-sm">Descrição do Curso
                             <b class="d-block"><?= $model->descricao_aula ?></b>
                         </p>
-                        <p class="text-sm">Numero de exercícios
-                            <b class="d-block"><?= $model->numero_de_exercicios ?></b>
-                        </p>
                         <p class="text-sm">Data de criação
                             <b class="d-block"><?= $model->data_criacao ?></b>
                         </p>
                         <p class="text-sm">Nome do curso
-                            <b class="d-block"><?= $curso->titulo_curso ?></b>
-                        </p>
-                        <p class="text-sm">Criador
-                            <b class="d-block"><?= $Usercreate->username?></b>
+                            <b class="d-block"><?= $model->curso->titulo_curso ?></b>
                         </p>
                     </div>
                     <div>
