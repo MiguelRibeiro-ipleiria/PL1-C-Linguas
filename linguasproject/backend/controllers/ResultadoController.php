@@ -3,19 +3,14 @@
 namespace backend\controllers;
 
 use common\models\Resultado;
+use common\models\ResultadoSearch;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-/**
- * ResultadoController implements the CRUD actions for Resultado model.
- */
 class ResultadoController extends Controller
 {
-    /**
-     * @inheritDoc
-     */
     public function behaviors()
     {
         return array_merge(
@@ -31,40 +26,17 @@ class ResultadoController extends Controller
         );
     }
 
-    /**
-     * Lists all Resultado models.
-     *
-     * @return string
-     */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Resultado::find(),
-            /*
-            'pagination' => [
-                'pageSize' => 50
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'utilizador_id' => SORT_DESC,
-                    'aula_idaula' => SORT_DESC,
-                ]
-            ],
-            */
-        ]);
+        $searchModel = new ResultadoSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
 
-    /**
-     * Displays a single Resultado model.
-     * @param int $utilizador_id Utilizador ID
-     * @param int $aula_idaula Aula Idaula
-     * @return string
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionView($utilizador_id, $aula_idaula)
     {
         return $this->render('view', [
@@ -72,11 +44,6 @@ class ResultadoController extends Controller
         ]);
     }
 
-    /**
-     * Creates a new Resultado model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
-     */
     public function actionCreate()
     {
         $model = new Resultado();
@@ -94,14 +61,6 @@ class ResultadoController extends Controller
         ]);
     }
 
-    /**
-     * Updates an existing Resultado model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $utilizador_id Utilizador ID
-     * @param int $aula_idaula Aula Idaula
-     * @return string|\yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionUpdate($utilizador_id, $aula_idaula)
     {
         $model = $this->findModel($utilizador_id, $aula_idaula);
@@ -115,14 +74,6 @@ class ResultadoController extends Controller
         ]);
     }
 
-    /**
-     * Deletes an existing Resultado model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $utilizador_id Utilizador ID
-     * @param int $aula_idaula Aula Idaula
-     * @return \yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionDelete($utilizador_id, $aula_idaula)
     {
         $this->findModel($utilizador_id, $aula_idaula)->delete();
@@ -130,14 +81,6 @@ class ResultadoController extends Controller
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the Resultado model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $utilizador_id Utilizador ID
-     * @param int $aula_idaula Aula Idaula
-     * @return Resultado the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     protected function findModel($utilizador_id, $aula_idaula)
     {
         if (($model = Resultado::findOne(['utilizador_id' => $utilizador_id, 'aula_idaula' => $aula_idaula])) !== null) {

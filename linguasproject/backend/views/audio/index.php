@@ -12,36 +12,60 @@ use yii\grid\GridView;
 
 $this->title = 'Audios';
 $this->params['breadcrumbs'][] = $this->title;
+
+$this->registerCss("
+    .grid-view th a, .grid-view .action-column a { color: #28a745 !important; font-weight: bold; }
+    .table-responsive { margin-top: 1.5rem; }
+    .card-success:not(.card-outline) > .card-header { background-color: #28a745; }
+");
 ?>
+
 <div class="audio-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php
-    ?>
-    <p>
-        <?= Html::a('Create Audio', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <p>
+            <?= Html::a('Create Audio', ['create'], ['class' => 'btn btn-success']) ?>
+        </p>
+    </div>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <div class="card card-success">
+        <div class="card-header">
+            <h3 class="card-title">Sistema de Filtragem de Audios</h3>
+        </div>
+        <div class="card-body">
+            <?= $this->render('_search', ['model' => $searchModel]); ?>
+        </div>
+    </div>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'audio_resource_id',
-            'aula_id',
-            'pergunta',
-            'tipoexercicio_id',
-            [
-                'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Audio $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'audio_resource_id' => $model->audio_resource_id, 'aula_id' => $model->aula_id]);
-                 }
-            ],
-        ],
-    ]); ?>
-
-
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <?= GridView::widget([
+                    'dataProvider' => $dataProvider,
+                    'summary' => false,
+                    'tableOptions' => [
+                        'class' => 'table table-striped m-0',
+                    ],
+                    'layout' => "{items}\n<div class='card-footer clearfix'>{pager}</div>",
+                    'columns' => [
+                        [
+                            'attribute' => 'audio_resource_id',
+                            'contentOptions' => ['style' => 'width: 80px;'],
+                        ],
+                        'aula_id',
+                        'pergunta',
+                        'tipoexercicio_id',
+                        [
+                            'class' => ActionColumn::className(),
+                            'header' => 'Ações',
+                            'contentOptions' => ['class' => 'action-column', 'style' => 'width: 100px;'],
+                            'urlCreator' => function ($action, Audio $model, $key, $index, $column) {
+                                return Url::toRoute([$action, 'audio_resource_id' => $model->audio_resource_id, 'aula_id' => $model->aula_id]);
+                            }
+                        ],
+                    ],
+                ]); ?>
+            </div>
+        </div>
+    </div>
 </div>

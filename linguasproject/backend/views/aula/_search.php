@@ -15,23 +15,35 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <div class="row">
+        <div class="col-md-1">
+            <?= $form->field($model, 'id') ?>
+        </div>
 
-    <?= $form->field($model, 'titulo_aula') ?>
+        <div class="col-md-3">
+            <?= $form->field($model, 'titulo_aula') ?>
+        </div>
 
-    <?= $form->field($model, 'descricao_aula') ?>
+        <div class="col-md-3">
+            <?= $form->field($model, 'descricao_aula') ?>
+        </div>
 
-    <?= $form->field($model, 'numero_de_exercicios') ?>
+        <div class="col-md-2">
+            <?= $form->field($model, 'numero_de_exercicios') ?>
+        </div>
 
-    <?= $form->field($model, 'tempo_estimado') ?>
+        <div class="col-md-3">
+            <?= $form->field($model, 'tempo_estimado') ?>
+        </div>
+    </div>
 
     <?php // echo $form->field($model, 'curso_id') ?>
 
     <?php // echo $form->field($model, 'data_criacao') ?>
 
-    <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>
+    <div class="form-group mb-0">
+        <?= Html::submitButton('Search', ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Reset', ['index'], ['class' => 'btn btn-outline-secondary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

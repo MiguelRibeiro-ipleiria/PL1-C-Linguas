@@ -15,15 +15,19 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <div class="row">
+        <div class="col-md-1">
+            <?= $form->field($model, 'id')->label('ID') ?>
+        </div>
 
-    <?= $form->field($model, 'username') ?>
+        <div class="col-md-4">
+            <?= $form->field($model, 'username')->label('Username*') ?>
+        </div>
 
-    <?= $form->field($model, 'auth_key') ?>
-
-    <?= $form->field($model, 'password_hash') ?>
-
-    <?= $form->field($model, 'password_reset_token') ?>
+        <div class="col-md-4">
+            <?= $form->field($model, 'email')->label('Email*') ?>
+        </div>
+    </div>
 
     <?php // echo $form->field($model, 'email') ?>
 
@@ -37,9 +41,9 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'idutilizador') ?>
 
-    <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>
+    <div class="form-group mb-0">
+        <?= Html::submitButton('Search', ['class' => 'btn btn-success btn-sm']) ?>
+        <?= Html::a('Reset', ['index'], ['class' => 'btn btn-outline-secondary btn-sm']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

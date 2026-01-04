@@ -48,16 +48,15 @@ use common\models\Dificuldade;
                 </div>
             </div>
             <div class="row">
-                <div class="col-12">
-                    <div class="form-group">
-                        <?= Html::submitButton('Search', ['class' => 'btn btn-success']) ?>
-                    </div>
+            <div class="form-group mb-0">
+                    <?= Html::submitButton('Search', ['class' => 'btn btn-success']) ?>
+                    <?= Html::a('Reset', ['index'], ['class' => 'btn btn-outline-secondary']) ?>
+                </div>
                 </div>
             </div>
 
         </div>
     </div>
-
     <?php // echo $form->field($model, 'data_criacao') ?>
 
 

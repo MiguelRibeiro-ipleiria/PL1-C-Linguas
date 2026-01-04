@@ -14,23 +14,15 @@ use yii\widgets\ActiveForm;
 
 
 ?>
+
+                <?php
+                    $this->title = 'Pedidos de Formação';
+                ?>
 <div class="row">
 
     <!-- CARD DE ORDERS -->
     <div class="col-md-12">
         <div class="card">
-            <div class="card-header border-transparent">
-                <h3 class="card-title">Pedidos de Formação</h3>
-
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            </div>
 
             <div class="card-body p-0">
                 <div class="table-responsive">

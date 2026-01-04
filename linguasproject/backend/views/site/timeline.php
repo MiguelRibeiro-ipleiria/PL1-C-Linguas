@@ -14,7 +14,9 @@ use yii\helpers\Url;
             <div class="col-md-12">
 
                 <div class="timeline">
-
+                <?php
+                    $this->title = 'Timeline';
+                ?>
                     <div class="time-label">
                 <span class="bg-red">
                     <?php
