@@ -108,12 +108,12 @@ class AudioController extends Controller
                     $opcao->load(['Opcoesai' => $dadosOpcao]);
                     
 
-                    $opcao->audio_aula_id = $aula_id;
+                    $opcao->audio_aula_id = $model->aula_id;
                     $opcao->audio_audio_resource_id = $model->audio_resource_id;
                     $opcao->save();
 
-                    $aula = Aula::findOne($aula_id);
-                    $aula->numero_de_exercicios = $aula->VerificaNumeroDeExercicios($aula_id);
+                    $aula = Aula::findOne($model->aula_id);
+                    $aula->numero_de_exercicios = $aula->VerificaNumeroDeExercicios($model->aula_id);
                     $aula->save();
 
                    

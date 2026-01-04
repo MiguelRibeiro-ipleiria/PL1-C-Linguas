@@ -36,7 +36,7 @@ use common\models\ImagemResource;
     <?= $form->field($model, 'pergunta')->textInput(['maxlength' => true]) ?>
 
 
-    <h3>Opções da IA</h3>
+    <h3>Opções</h3>
     <?php
     foreach ($opcoes as $i => $opcao){ ?>
 
@@ -48,6 +48,7 @@ use common\models\ImagemResource;
     </div>
 
     <?php }?>
+
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

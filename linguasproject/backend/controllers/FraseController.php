@@ -112,8 +112,8 @@ class FraseController extends Controller
                     $opcao->save();
                 }
 
-                $aula = Aula::findOne($aula_id);
-                $aula->numero_de_exercicios = $aula->VerificaNumeroDeExercicios($aula_id);
+                $aula = Aula::findOne($model->aula_id);
+                $aula->numero_de_exercicios = $aula->VerificaNumeroDeExercicios($model->aula_id);
                 $aula->save();
                 return $this->redirect(['view', 'id' => $model->id]);
             }
