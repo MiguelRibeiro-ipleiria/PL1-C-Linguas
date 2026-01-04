@@ -105,22 +105,26 @@ class ImagemController extends Controller
 
 
                 $postOpcoes = $this->request->post('Opcoesai', []);
- 
 
-                foreach ($postOpcoes as $dadosOpcao) {
-                    $opcao = new OpcoesAi();
-                    $opcao->load(['Opcoesai' => $dadosOpcao]);
+                    foreach ($postOpcoes as $dadosOpcao) {
+                        $opcao = new OpcoesAi();
+                        $opcao->load(['Opcoesai' => $dadosOpcao]);
+
+
+
+                        $opcao->imagem_aula_id = $model->aula_id;
                     
+                        $opcao->imagem_imagem_resource_id = $model->imagem_resource_id;
 
-                    $opcao->imagem_aula_id = $aula_id;
-                    $opcao->imagem_imagem_resource_id = $model->imagem_resource_id;
+                        $opcao->save();
+                        
+                        
+                    }
+              
+                
+                $aula = Aula::findOne($model->aula_id);
 
-                    $opcao->save();
-
-                }
-
-                $aula = Aula::findOne($aula_id);
-                $aula->numero_de_exercicios = $aula->VerificaNumeroDeExercicios($aula_id);
+                $aula->numero_de_exercicios = $aula->VerificaNumeroDeExercicios($model->aula_id);
                 $aula->save();
                 //return $this->redirect(['view', 'imagem_resource_id' => $model->imagem_resource_id, 'aula_id' => $model->aula_id]);
             }
