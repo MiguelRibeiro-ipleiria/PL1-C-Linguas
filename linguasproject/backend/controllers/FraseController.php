@@ -113,11 +113,7 @@ class FraseController extends Controller
                 }
 
                 $aula = Aula::findOne($aula_id);
-                $aula_frase = $aula->getFrases()->count();
-                $aula_imagem = $aula->getImagems()->count();
-                $aula_audio = $aula->getAudios()->count();
-
-                $aula->numero_de_exercicios = $aula_frase + $aula_imagem + $aula_audio;
+                $aula->numero_de_exercicios = $aula->VerificaNumeroDeExercicios($aula_id);
                 $aula->save();
                 return $this->redirect(['view', 'id' => $model->id]);
             }
