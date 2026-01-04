@@ -72,17 +72,16 @@ class AudioResource extends \yii\db\ActiveRecord
 
      public function upload()
     {
-        if ($this->nome_ficheiro) {
+        if ($this->nome_ficheiro)
+        {
 
-        $fileName = $this->nome_ficheiro->baseName . '.' . $this->nome_ficheiro->extension;
-
-        $this->nome_ficheiro->saveAs(Yii::getAlias('@backend/web/uploads/uploadAudio/') . $fileName);
-
-
-         $this->nome_ficheiro = $fileName;
+            $fileName = $this->nome_ficheiro->baseName . '.' . $this->nome_ficheiro->extension;
+            $this->nome_ficheiro->saveAs(Yii::getAlias('@backend/web/uploads/uploadAudio/') . $fileName);
+            $this->nome_ficheiro = $fileName;
 
             return true;
-        } else {
+        }
+        else {
             return false;
         }
     }

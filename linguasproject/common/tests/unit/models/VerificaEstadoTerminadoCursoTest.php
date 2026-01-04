@@ -30,11 +30,11 @@ class VerificaEstadoTerminadoCursoTest extends \Codeception\Test\Unit
         $idioma->lingua_objetivo = "Aprender Português";
         $idioma->lingua_bandeira = "Portugal.png";
         $idioma->lingua_sigla = "PT";
-        $idioma->save();
+        $this->assertTrue($idioma->save());
 
         $dificuldade = new Dificuldade();
         $dificuldade->grau_dificuldade = "Médio";
-        $dificuldade->save();
+        $this->assertTrue($dificuldade->save());
 
         $user = new User();
         $user->username = "testesuser123";
@@ -50,9 +50,9 @@ class VerificaEstadoTerminadoCursoTest extends \Codeception\Test\Unit
         $utilizador->idioma_id = $idioma->id;
         $utilizador->data_inscricao = date('Y-m-d H:i:s');
         $user->status = User::STATUS_ACTIVE;
-        $user->save();
+        $this->assertTrue($user->save());
         $utilizador->user_id = $user->id;
-        $utilizador->save();
+        $this->assertTrue($utilizador->save());
 
         $curso = new Curso();
         $curso->titulo_curso = "Curso de Português";
@@ -62,7 +62,7 @@ class VerificaEstadoTerminadoCursoTest extends \Codeception\Test\Unit
         $curso->dificuldade_id = $dificuldade->id;
         $curso->utilizador_id = $utilizador->id;
         $curso->status_ativo = 1;
-        $curso->save();
+        $this->assertTrue($curso->save());
 
         $aula_um = new Aula();
         $aula_um->titulo_aula = "Pretérito Perfeito";
@@ -71,7 +71,8 @@ class VerificaEstadoTerminadoCursoTest extends \Codeception\Test\Unit
         $aula_um->data_criacao = date('Y-m-d H:i:s');
         $aula_um->curso_id = $curso->id;
         $aula_um->tempo_estimado = "90min";
-        $aula_um->save();
+        $aula_um->utilizador_id = $utilizador->id;
+        $this->assertTrue($aula_um->save());
 
         $aula_dois = new Aula();
         $aula_dois->titulo_aula = "Presente do Indicativo";
@@ -80,7 +81,8 @@ class VerificaEstadoTerminadoCursoTest extends \Codeception\Test\Unit
         $aula_dois->data_criacao = date('Y-m-d H:i:s');
         $aula_dois->curso_id = $curso->id;
         $aula_dois->tempo_estimado = "120min";
-        $aula_dois->save();
+        $aula_dois->utilizador_id = $utilizador->id;
+        $this->assertTrue($aula_dois->save());
 
         $inscricao = new Inscricao();
         $inscricao->curso_idcurso = $curso->id;
@@ -88,7 +90,7 @@ class VerificaEstadoTerminadoCursoTest extends \Codeception\Test\Unit
         $inscricao->data_inscricao = date('Y-m-d H:i:s');
         $inscricao->progresso = 0;
         $inscricao->estado = "Inscrito";
-        $inscricao->save();
+        $this->assertTrue($inscricao->save());
 
         $resultado_um = new Resultado();
         $resultado_um->estado = "Terminada";
@@ -100,13 +102,13 @@ class VerificaEstadoTerminadoCursoTest extends \Codeception\Test\Unit
         $resultado_um->nota = 50;
         $resultado_um->data_inicio = "2026-01-03 19:57:47";
         $resultado_um->data_fim = "2026-01-03 19:57:52";
-        $resultado_um->save();
+        $this->assertTrue($resultado_um->save());
 
         $resultado_dois = new Resultado();
         $resultado_dois->estado = "Por Começar";
         $resultado_dois->utilizador_id = $utilizador->id;
         $resultado_dois->aula_idaula = $aula_dois->id;
-        $resultado_dois->save();
+        $this->assertTrue($resultado_dois->save());
 
 
         /*Apenas existe uma aula que tem o estado "Terminada", ou seja, tende a devolver false porque nem todas
@@ -124,11 +126,11 @@ class VerificaEstadoTerminadoCursoTest extends \Codeception\Test\Unit
         $idioma->lingua_objetivo = "Aprender Português";
         $idioma->lingua_bandeira = "Portugal.png";
         $idioma->lingua_sigla = "PT";
-        $idioma->save();
+        $this->assertTrue($idioma->save());
 
         $dificuldade = new Dificuldade();
         $dificuldade->grau_dificuldade = "Médio";
-        $dificuldade->save();
+        $this->assertTrue($dificuldade->save());
 
         $user = new User();
         $user->username = "testesuser123";
@@ -144,9 +146,9 @@ class VerificaEstadoTerminadoCursoTest extends \Codeception\Test\Unit
         $utilizador->idioma_id = $idioma->id;
         $utilizador->data_inscricao = date('Y-m-d H:i:s');
         $user->status = User::STATUS_ACTIVE;
-        $user->save();
+        $this->assertTrue($user->save());
         $utilizador->user_id = $user->id;
-        $utilizador->save();
+        $this->assertTrue($utilizador->save());
 
         $curso = new Curso();
         $curso->titulo_curso = "Curso de Português";
@@ -156,7 +158,7 @@ class VerificaEstadoTerminadoCursoTest extends \Codeception\Test\Unit
         $curso->dificuldade_id = $dificuldade->id;
         $curso->utilizador_id = $utilizador->id;
         $curso->status_ativo = 1;
-        $curso->save();
+        $this->assertTrue($curso->save());
 
         $aula_um = new Aula();
         $aula_um->titulo_aula = "Pretérito Perfeito";
@@ -165,7 +167,8 @@ class VerificaEstadoTerminadoCursoTest extends \Codeception\Test\Unit
         $aula_um->data_criacao = date('Y-m-d H:i:s');
         $aula_um->curso_id = $curso->id;
         $aula_um->tempo_estimado = "90min";
-        $aula_um->save();
+        $aula_um->utilizador_id = $utilizador->id;
+        $this->assertTrue($aula_um->save());
 
         $aula_dois = new Aula();
         $aula_dois->titulo_aula = "Presente do Indicativo";
@@ -174,7 +177,8 @@ class VerificaEstadoTerminadoCursoTest extends \Codeception\Test\Unit
         $aula_dois->data_criacao = date('Y-m-d H:i:s');
         $aula_dois->curso_id = $curso->id;
         $aula_dois->tempo_estimado = "120min";
-        $aula_dois->save();
+        $aula_dois->utilizador_id = $utilizador->id;
+        $this->assertTrue($aula_dois->save());
 
         $inscricao = new Inscricao();
         $inscricao->curso_idcurso = $curso->id;
@@ -182,7 +186,7 @@ class VerificaEstadoTerminadoCursoTest extends \Codeception\Test\Unit
         $inscricao->data_inscricao = date('Y-m-d H:i:s');
         $inscricao->progresso = 0;
         $inscricao->estado = "Inscrito";
-        $inscricao->save();
+        $this->assertTrue($inscricao->save());
 
         $resultado_um = new Resultado();
         $resultado_um->estado = "Terminada";
@@ -194,7 +198,7 @@ class VerificaEstadoTerminadoCursoTest extends \Codeception\Test\Unit
         $resultado_um->nota = 50;
         $resultado_um->data_inicio = "2026-01-03 19:57:47";
         $resultado_um->data_fim = "2026-01-03 19:57:52";
-        $resultado_um->save();
+        $this->assertTrue($resultado_um->save());
 
         $resultado_dois = new Resultado();
         $resultado_dois->estado = "Terminada";
@@ -206,7 +210,7 @@ class VerificaEstadoTerminadoCursoTest extends \Codeception\Test\Unit
         $resultado_dois->nota = 100;
         $resultado_dois->data_inicio = "2026-01-03 19:59:47";
         $resultado_dois->data_fim = "2026-01-03 20:00:52";
-        $resultado_dois->save();
+        $this->assertTrue($resultado_dois->save());
 
         /*Agora existem dois aulas que tem o estado "Terminada", ou seja, tende a devolver true porque todas
         as aulas desse curso inscrito estão terminadas*/

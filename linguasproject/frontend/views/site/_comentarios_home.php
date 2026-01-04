@@ -4,8 +4,18 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 
 $auth = Yii::$app->authManager;
-$UserRoles = $auth->getRolesByUser($model->utilizador->user->id);
-$user_role = key($UserRoles);
+
+if($model->utilizador->user->id == null){
+
+}
+else{
+    $UserRoles = $auth->getRolesByUser($model->utilizador->user->id);
+    $user_role = key($UserRoles);
+}
+
+
+
+
 ?>
 
 <div class="col-lg-6 col-12 mb-4">

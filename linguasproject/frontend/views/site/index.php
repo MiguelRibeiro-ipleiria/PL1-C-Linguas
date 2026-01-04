@@ -10,7 +10,6 @@ use yii\data\ActiveDataProvider;
 use common\models\Comentario;
 use common\models\Utilizador;
 use yii\helpers\ArrayHelper;
-use Yii;
 use yii\db\Expression;
 
 
@@ -29,15 +28,15 @@ $this->title = 'LEARNALOT';
                     <p>Avalia, Escolhe e DIVERTE-TE a estudar e a aprender as diversas línguas disponíveis.
                     </p>
                     <div class="button">
-                        <a href="<?= Yii::$app->user->isGuest ? Url::to(['/site/signup']) : Url::to(['/site/index']) ?>" class="btn">
-                            <?= Yii::$app->user->isGuest ? 'Inscreve-te' : 'O meu perfil' ?>
+                        <a href="<?= \Yii::$app->user->isGuest ? Url::to(['/site/signup']) : Url::to(['/site/index']) ?>" class="btn">
+                            <?= \Yii::$app->user->isGuest ? 'Inscreve-te' : 'O meu perfil' ?>
                         </a>
                     </div>
                 </div>
             </div>
             <div class="col-lg-7 col-12">
                 <div class="hero-image wow fadeInRight" data-wow-delay=".4s">
-                    <img class="main-image" src="<?= Yii::getAlias('@web').'/img/nav-image-turtle.jpg'; ?>" alt="Turtle Image">
+                    <img class="main-image" src="<?= \Yii::getAlias('@web').'/img/nav-image-turtle.jpg'; ?>" alt="Turtle Image">
                 </div>
             </div>
         </div>
@@ -118,7 +117,7 @@ $this->title = 'LEARNALOT';
                 <!-- Start Single Team -->
                 <div class="single-team">
                     <div class="team-image">
-                        <img src="<?= Yii::getAlias('@web').'/img/profile_icon.webp'; ?>" alt="André Ventura Profile Image">
+                        <img src="<?= \Yii::getAlias('@web').'/img/profile_icon.webp'; ?>" alt="André Ventura Profile Image">
                     </div>
                     <div class="content">
                         <h4>André Santos
@@ -132,7 +131,7 @@ $this->title = 'LEARNALOT';
                 <!-- Start Single Team -->
                 <div class="single-team">
                     <div class="team-image">
-                        <img src="<?= Yii::getAlias('@web').'/img/profile_icon.webp'; ?>" alt="Guilherme Ferreira Profile Image">
+                        <img src="<?= \Yii::getAlias('@web').'/img/profile_icon.webp'; ?>" alt="Guilherme Ferreira Profile Image">
                     </div>
                     <div class="content">
                         <h4>Guilherme Ferreira
@@ -146,7 +145,7 @@ $this->title = 'LEARNALOT';
                 <!-- Start Single Team -->
                 <div class="single-team">
                     <div class="team-image">
-                        <img src="<?= Yii::getAlias('@web').'/img/profile_icon.webp'; ?>" alt="Miguel Ribeiro Profile Image">
+                        <img src="<?= \Yii::getAlias('@web').'/img/profile_icon.webp'; ?>" alt="Miguel Ribeiro Profile Image">
                     </div>
                     <div class="content">
                         <h4>Miguel Ribeiro

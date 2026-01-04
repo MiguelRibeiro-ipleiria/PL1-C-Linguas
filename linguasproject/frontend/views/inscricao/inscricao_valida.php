@@ -27,9 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             de <?= $curso->idioma->lingua_descricao ?> está agora registada. Aproveite-a!</p>
                     </div>
                     <div class="button button-center">
-                        <a href="<?= Url::to(['/curso/aulas', 'id' => $curso->id]) ?>" class="btn">
-                            Continuar para o curso
-                        </a>
+                        <a href="<?= Url::to(['/curso/aulas', 'id' => $curso->id]) ?>" class="btn">Continuar para o curso</a>
                     </div>
                 </div>
             </div>

@@ -141,29 +141,6 @@ class Aula extends \yii\db\ActiveRecord
         return $this->hasMany(Comentario::class, ['aula_id' => 'id']);
     }
 
-    public function VerificaRespostadoExercicio($id_opcao){
-
-        $opcao = Opcoesai::find()->where(['id' => $id_opcao])->one();
-        if($opcao->iscorreta == true){
-            return true;
-        }
-        else{
-            return false;
-        }
-
-        /*if($opcao->audio_aula_id == null){
-            $opcoes = Opcoesai::find()->where(['id' => $id_opcao])->one();
-
-        }
-        elseif($opcao->frase_id == null){
-
-        }
-        elseif($opcao->imagem_aula_id == null){
-
-        }*/
-    }
-
-
     public function VerificaNumeroDeExercicios($aula_id){
 
         $aula = Aula::findOne($aula_id);

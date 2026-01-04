@@ -98,7 +98,6 @@ class Inscricao extends \yii\db\ActiveRecord
     public static function desinscricaonasaulas($curso_idcurso, $utilizador_id){
 
         $aulas = Aula::find()->where(['curso_id' => $curso_idcurso])->all();
-
         if($aulas != null){
             foreach ($aulas as $aula){
                 Resultado::deleteAll(['aula_idaula' => $aula->id, 'utilizador_id' => $utilizador_id]);
@@ -127,8 +126,6 @@ class Inscricao extends \yii\db\ActiveRecord
     public static function inscricaonasaulas($curso_id, $utilizador_id){
 
         $aulas = Aula::find()->where(['curso_id' => $curso_id])->all();
-
-
         if($aulas != null){
             foreach ($aulas as $aula){
 
@@ -190,8 +187,5 @@ class Inscricao extends \yii\db\ActiveRecord
         }
 
         return $cont;
-
     }
-
-
 }

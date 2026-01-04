@@ -28,11 +28,11 @@ class VerificaInscricaoUtilizadorTest extends \Codeception\Test\Unit
         $idioma->lingua_objetivo = "Aprender Português";
         $idioma->lingua_bandeira = "Portugal.png";
         $idioma->lingua_sigla = "PT";
-        $idioma->save();
+        $this->assertTrue($idioma->save());
 
         $dificuldade = new Dificuldade();
         $dificuldade->grau_dificuldade = "Médio";
-        $dificuldade->save();
+        $this->assertTrue($dificuldade->save());
 
         $user = new User();
         $user->username = "testesuser123";
@@ -48,9 +48,9 @@ class VerificaInscricaoUtilizadorTest extends \Codeception\Test\Unit
         $utilizador->idioma_id = $idioma->id;
         $utilizador->data_inscricao = date('Y-m-d H:i:s');
         $user->status = User::STATUS_ACTIVE;
-        $user->save();
+        $this->assertTrue($user->save());
         $utilizador->user_id = $user->id;
-        $utilizador->save();
+        $this->assertTrue($utilizador->save());
 
         $curso = new Curso();
         $curso->titulo_curso = "Curso de Português";
@@ -60,7 +60,7 @@ class VerificaInscricaoUtilizadorTest extends \Codeception\Test\Unit
         $curso->dificuldade_id = $dificuldade->id;
         $curso->utilizador_id = $utilizador->id;
         $curso->status_ativo = 1;
-        $curso->save();
+        $this->assertTrue($curso->save());
 
         //Apenas o cursos e o utilizador estão criados, a inscrição nunca é feita!
 
@@ -76,11 +76,11 @@ class VerificaInscricaoUtilizadorTest extends \Codeception\Test\Unit
         $idioma->lingua_objetivo = "Aprender Português";
         $idioma->lingua_bandeira = "Portugal.png";
         $idioma->lingua_sigla = "PT";
-        $idioma->save();
+        $this->assertTrue($idioma->save());
 
         $dificuldade = new Dificuldade();
         $dificuldade->grau_dificuldade = "Médio";
-        $dificuldade->save();
+        $this->assertTrue($dificuldade->save());
 
         $user = new User();
         $user->username = "testesuser123";
@@ -96,9 +96,9 @@ class VerificaInscricaoUtilizadorTest extends \Codeception\Test\Unit
         $utilizador->idioma_id = $idioma->id;
         $utilizador->data_inscricao = date('Y-m-d H:i:s');
         $user->status = User::STATUS_ACTIVE;
-        $user->save();
+        $this->assertTrue($user->save());
         $utilizador->user_id = $user->id;
-        $utilizador->save();
+        $this->assertTrue($utilizador->save());
 
         $curso = new Curso();
         $curso->titulo_curso = "Curso de Português";
@@ -108,7 +108,7 @@ class VerificaInscricaoUtilizadorTest extends \Codeception\Test\Unit
         $curso->dificuldade_id = $dificuldade->id;
         $curso->utilizador_id = $utilizador->id;
         $curso->status_ativo = 1;
-        $curso->save();
+        $this->assertTrue($curso->save());
 
         $inscricao = new Inscricao();
         $inscricao->curso_idcurso = $curso->id;
@@ -116,7 +116,7 @@ class VerificaInscricaoUtilizadorTest extends \Codeception\Test\Unit
         $inscricao->data_inscricao = date('Y-m-d H:i:s');
         $inscricao->progresso = 0;
         $inscricao->estado = "Inscrito";
-        $inscricao->save();
+        $this->assertTrue($inscricao->save());
 
         $resultado = Inscricao::verificainscricao($curso->id, $utilizador->id);
         $this->assertTrue($resultado);
