@@ -13,8 +13,6 @@ $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="feedback-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <?= $this->render('_form', [
         'estados_feedback' => $estados_feedback,
         'model' => $model,

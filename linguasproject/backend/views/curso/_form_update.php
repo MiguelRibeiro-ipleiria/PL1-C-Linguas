@@ -50,7 +50,7 @@ use yii\helpers\ArrayHelper;
         <?=
         $form->field($model, 'status_ativo')->radioList([
             1 => 'Ativado',
-            0 => 'Desativado'], ['itemOptions' => ['disabled' => true]]);
+            0 => 'Desativado'], ['itemOptions' => ['disabled' => false]]);
         ?>
 
         <?php
@@ -59,7 +59,7 @@ use yii\helpers\ArrayHelper;
     <?=
         $form->field($model, 'status_ativo')->radioList([
             1 => 'Ativado',
-            0 => 'Desativado'], ['itemOptions' => ['disabled' => false]]);
+            0 => 'Desativado'], ['itemOptions' => ['disabled' => true]]);
     ?><?php
     }
     ?>

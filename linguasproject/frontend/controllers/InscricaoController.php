@@ -79,20 +79,24 @@ class InscricaoController extends Controller
         $model->curso_idcurso = $curso_id;
 
 
-        if(!($model->verificainscricao($curso_id, $utilizador->id)) && $model->save()){
+        if(\Yii::$app->user->can('CreateInscricoesPessoal') && \Yii::$app->user->can('CreateResultadosPessoal')){
+            if(!($model->verificainscricao($curso_id, $utilizador->id)) && $model->save()){
 
-            $model->inscricaonasaulas($curso_id, $utilizador->id);
-            $curso = $model->getCurso();
-            return $this->render('inscricao_valida', [
-                'curso' => $curso,
-            ]);
+                $model->inscricaonasaulas($curso_id, $utilizador->id);
+                $curso = $model->getCurso();
+                return $this->render('inscricao_valida', [
+                    'curso' => $curso,
+                ]);
+            }
+            else{
+                $curso = $model->getCurso();
+                return $this->render('inscricao_jafeita', [
+                    'curso' => $curso,
+                ]);
+            }
         }
-        else{
-            $curso = $model->getCurso();
-            return $this->render('inscricao_jafeita', [
-                'curso' => $curso,
-            ]);
-        }
+        return $this->redirect('../site/login');
+
     }
 
     /**

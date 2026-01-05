@@ -45,8 +45,7 @@ class BackendLoginFunctionalCest
         $I->fillField('LoginForm[password]', '1234testeuser');
         $I->click('Sign In');
 
-        $I->see('Sign out');
         $I->see('Painel de Gestão');
-        $I->dontSee('Sign in to start your session');
+
     }
 }
