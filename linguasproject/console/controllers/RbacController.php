@@ -525,6 +525,9 @@ class RbacController extends Controller
         $auth->addChild($admin, $DeleteDificuldade);
         $auth->addChild($admin, $UpdateDificuldade);
 
+        //formador
+        $auth->addChild($formador, $ReadDificuldade);
+
 
         /*----------------Comment management-----------*/
 
