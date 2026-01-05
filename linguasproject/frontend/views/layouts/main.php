@@ -10,6 +10,8 @@ use yii\bootstrap5\Html;
 use yii\bootstrap5\Nav;
 use yii\bootstrap5\NavBar;
 use yii\helpers\Url;
+use common\models\User;
+use common\models\Utilizador;
 
 AppAsset::register($this);
 ?>
@@ -33,7 +35,7 @@ AppAsset::register($this);
 
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
-    <?php $this->head() ?>
+    <?php $this->head(); ?>
 </head>
 <body class="d-flex flex-column h-100">
 <?php $this->beginBody() ?>
@@ -88,24 +90,32 @@ AppAsset::register($this);
                         </div> <!-- navbar collapse -->
 
                         <!-- Botão da direita (mantém o estilo do template) -->
-                        <div class="button home-btn">
-                            <?php
-                            if (Yii::$app->user->isGuest) {
-                                $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-                            }
+                       <div class="button home-btn">
+    <?php
+    if (Yii::$app->user->isGuest) {
+        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
+        echo Html::tag('div', Html::a('Login', ['/site/login'], ['class' => ['btn btn-link login text-decoration-none']]), ['class' => ['d-flex']]);
+    } else {
+        $auth = Yii::$app->authManager;
+        $userRoles = $auth->getRolesByUser(Yii::$app->user->id);
+        $role = key($userRoles);
 
-                            if (Yii::$app->user->isGuest) {
-                                echo Html::tag('div',Html::a('Login',['/site/login'],['class' => ['btn btn-link login text-decoration-none']]),['class' => ['d-flex']]);
-                            } else {
-                                echo Html::beginForm(['/site/logout'], 'post', ['class' => 'd-flex'])
-                                    . Html::submitButton(
-                                        'Logout',
-                                        ['class' => 'btn btn-link logout text-decoration-none']
-                                    )
-                                    . Html::endForm();
-                            }
-                            ?>
-                        </div>
+        echo Html::beginTag('div', ['class' => 'd-flex align-items-center']);
+
+            echo Html::beginForm(['/site/logout'], 'post', ['class' => 'me-2'])
+                . Html::submitButton('Logout', ['class' => 'btn btn-link logout text-decoration-none'])
+                . Html::endForm();
+
+            if ($role == 'admin' || $role == 'formador') {
+                echo Html::beginForm(['../../backend/web'], 'post')
+                    . Html::submitButton('Backend', ['class' => 'btn btn-link logout text-decoration-none'])
+                    . Html::endForm();
+            }
+
+        echo Html::endTag('div');
+    }
+    ?>
+</div>
                     </nav>
                     <!-- End Navbar -->
                 </div>
