@@ -5,16 +5,8 @@ use yii\helpers\Html;
 
 $auth = Yii::$app->authManager;
 
-if($model->utilizador->user->id == null){
-
-}
-else{
-    $UserRoles = $auth->getRolesByUser($model->utilizador->user->id);
-    $user_role = key($UserRoles);
-}
-
-
-
+$UserRoles = $auth->getRolesByUser($model->utilizador->user->id);
+$user_role = key($UserRoles);
 
 ?>
 

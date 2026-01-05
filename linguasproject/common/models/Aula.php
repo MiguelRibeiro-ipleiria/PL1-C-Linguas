@@ -144,12 +144,17 @@ class Aula extends \yii\db\ActiveRecord
     public function VerificaNumeroDeExercicios($aula_id){
 
         $aula = Aula::findOne($aula_id);
-        $exercicios_de_frases = $aula->getFrases()->count();
-        $exercicios_de_imagens = $aula->getImagems()->count();
-        $exercicios_de_audios = $aula->getAudios()->count();
+        if($aula){
+            $exercicios_de_frases = $aula->getFrases()->count();
+            $exercicios_de_imagens = $aula->getImagems()->count();
+            $exercicios_de_audios = $aula->getAudios()->count();
 
-        $total_de_exercicios = $exercicios_de_audios + $exercicios_de_imagens + $exercicios_de_frases;
-        return $total_de_exercicios;
+            $total_de_exercicios = $exercicios_de_audios + $exercicios_de_imagens + $exercicios_de_frases;
+            return $total_de_exercicios;
+        }
+        else{
+            return  false;
+        }
     }
 
 

@@ -85,8 +85,11 @@ class Inscricao extends \yii\db\ActiveRecord
 
     public static function verificainscricao($curso_id, $utilizador_id){
 
-        $inscricao = Inscricao::find()->where(['curso_idcurso' => $curso_id, 'utilizador_id' => $utilizador_id])->all();
+        if($curso_id == null|| $utilizador_id == null){
+            return false;
+        }
 
+        $inscricao = Inscricao::find()->where(['curso_idcurso' => $curso_id, 'utilizador_id' => $utilizador_id])->all();
         if($inscricao != null){
             return true;
         }
@@ -125,6 +128,10 @@ class Inscricao extends \yii\db\ActiveRecord
 
     public static function inscricaonasaulas($curso_id, $utilizador_id){
 
+        if (!$curso_id || !$utilizador_id) {
+            return false;
+        }
+
         $aulas = Aula::find()->where(['curso_id' => $curso_id])->all();
         if($aulas != null){
             foreach ($aulas as $aula){
@@ -133,11 +140,13 @@ class Inscricao extends \yii\db\ActiveRecord
                 $model_resultado->utilizador_id = $utilizador_id;
                 $model_resultado->aula_idaula = $aula->id;
                 $model_resultado->estado = "Por começar";
+
                 if(!$model_resultado->save()){
                     Resultado::deleteAll(['aula_idaula' => $aula->id, 'utilizador_id' => $utilizador_id]);
                     return false;
                 }
             }
+            return true;
         }
         else{
             return false;
@@ -146,6 +155,10 @@ class Inscricao extends \yii\db\ActiveRecord
     }
 
     public static function VerificaEstadoCurso($curso_id, $utilizador_id){
+
+        if($curso_id == null || $utilizador_id == null){
+            return false;
+        }
 
         $inscricao = Inscricao::find()->where(['curso_idcurso' => $curso_id, 'utilizador_id' => $utilizador_id])->one();
         $curso = $inscricao->getCurso();

@@ -99,17 +99,23 @@ $this->params['breadcrumbs'][] = $this->title;
                                     </div>
                                     <br>
                                     <?php
-                                        if($model->getImagems()->count() >= 1){ ?>
-                                            <span class="badge-custom level-badge"><?= $model->getImagems()->count() ?>x Exercícios de Imagens</span>
-                                        <?php }
 
-                                        if($model->getAudios()->count() >= 1){ ?>
-                                            <span class="badge-custom level-badge"><?= $model->getAudios()->count() ?>x Exercícios de Áudio</span>
+                                        if(($model->getImagems()->count() + $model->getFrases()->count() + $model->getAudios()->count()) == 0){ ?>
+                                            <span class="badge-red level-badge">Sem exercícios para praticar!</span>
                                         <?php }
+                                        else{
+                                            if($model->getImagems()->count() >= 1){ ?>
+                                                <span class="badge-custom level-badge"><?= $model->getImagems()->count() ?>x Exercícios de Imagens</span>
+                                            <?php }
 
-                                        if($model->getFrases()->count() >= 1){ ?>
-                                            <span class="badge-custom level-badge"><?= $model->getFrases()->count() ?>x Exercícios de Frases</span>
-                                        <?php }
+                                            if($model->getAudios()->count() >= 1){ ?>
+                                                <span class="badge-custom level-badge"><?= $model->getAudios()->count() ?>x Exercícios de Áudio</span>
+                                            <?php }
+
+                                            if($model->getFrases()->count() >= 1){ ?>
+                                                <span class="badge-custom level-badge"><?= $model->getFrases()->count() ?>x Exercícios de Frases</span>
+                                            <?php }
+                                        }
 
                                     ?>
                                 </div>

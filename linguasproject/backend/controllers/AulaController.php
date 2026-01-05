@@ -1,6 +1,7 @@
 <?php
 
 namespace backend\controllers;
+use common\models\Resultado;
 use common\models\User;
 use common\models\Utilizador;
 use common\models\Aula;
@@ -144,9 +145,9 @@ class AulaController extends Controller
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
 
-                $model->date('y-m-d H:i:s');;
+                $model->data_criacao = date('y-m-d H:i:s');
                 $model->utilizador_id = $utilizador->id;
-                if($model->save()){
+                if($model->save() && Resultado::ReeinscreverUtilizadoresEmAulas($model->id)){
                     return $this->redirect(['view', 'id' => $model->id]);
                 }
             }

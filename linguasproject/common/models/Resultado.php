@@ -89,4 +89,44 @@ class Resultado extends \yii\db\ActiveRecord
         return $this->hasOne(Utilizador::class, ['id' => 'utilizador_id']);
     }
 
+    public static function ReeinscreverUtilizadoresEmAulas($aula_id){
+
+        $aula = Aula::findOne($aula_id);
+        if(!$aula){
+            return false;
+        }
+        $curso = $aula->curso;
+        if(!$curso){
+            return false;
+        }
+
+        $inscricoes = Inscricao::find()->where(['curso_idcurso' => $curso->id])->all();
+
+        if($inscricoes){
+            foreach ($inscricoes as $inscricao) {
+                $resultado = new Resultado();
+                $resultado->utilizador_id = $inscricao->utilizador_id;
+                $resultado->aula_idaula = $aula->id;
+                $resultado->estado = "Por começar";
+                if(!$resultado->save()){
+                    Resultado::deleteAll(['aula_idaula' => $aula->id]);
+                    return false;
+                }
+                $inscricao = Inscricao::find()->where(['curso_idcurso' => $curso->id, 'utilizador_id' => $resultado->utilizador_id])->one();
+                if(!Inscricao::VerificaEstadoCurso($curso->id, $inscricao->utilizador_id)){
+                    $inscricao->estado = "Em curso";
+                }
+                else{
+                    $inscricao->estado = "Concluído";
+                }
+                if(!$inscricao->save()){
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        return true;
+    }
+
 }

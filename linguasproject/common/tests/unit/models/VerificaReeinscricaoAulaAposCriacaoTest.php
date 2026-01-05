@@ -3,24 +3,31 @@
 
 namespace common\tests\Unit\models;
 
+use common\models\Aula;
 use common\models\Curso;
 use common\models\Dificuldade;
 use common\models\Idioma;
 use common\models\Inscricao;
+use common\models\Resultado;
 use common\models\User;
 use common\models\Utilizador;
 use common\tests\UnitTester;
 
-class VerificaInscricaoUtilizadorTest extends \Codeception\Test\Unit
+class VerificaReeinscricaoAulaAposCriacaoTest extends \Codeception\Test\Unit
 {
+
+    /* APÓS A CRIACAO DE UMA AULA, SE ALGUM UTILIZADOR ESTIVER INSCRITO NO CURSO DESSA AULA, A MESMA PRECISARÁ
+    DE SER REGISTADA NA TABELA "RESULTADO" E O ESTADO DA "INSCRICAO" DEVIDAMENTE ALTERADO. (CASO O ALUNO JA
+    TENHA ACABADO O CURSO, AO SER ADICIONADA MAIS UMA AULA A INSCRICÃO NÃO ESTÁ "CONCLUÍDA"). */
+
+    /* ESTE "METODO" DE LÓGICA DE NEGÓCIO SÓ RETORNA FALSE CASO EXISTE ALGUM ERRO A GUARDAR O REGISTO */
+
+    /* PORÉM EXISTEM 2 CENÁRIOS DE VALIDAÇÃO DE "TRUE", CASO NÃO ESTEJA NINGUEM INSCRITO NO CURSO E CASO ESTEJA
+    ALGUÉM INSCRITO NO CURSO. SÃO ESSES 2 CENÁRIOS QUE TESTAMOS */
 
     protected UnitTester $tester;
 
-    protected function _before()
-    {
-    }
-
-    public function testVerificainscricaoinvalida()
+    public function testVerificaReeinscricaoValidaSemInscricoesNoCurso()
     {
         $idioma = new Idioma();
         $idioma->lingua_descricao = "Português";
@@ -62,13 +69,24 @@ class VerificaInscricaoUtilizadorTest extends \Codeception\Test\Unit
         $curso->status_ativo = 1;
         $this->assertTrue($curso->save());
 
-        //Apenas o cursos e o utilizador estão criados, a inscrição nunca é feita!
+        $aula = new Aula();
+        $aula->titulo_aula = "Presente do Indicativo";
+        $aula->descricao_aula = "Expressa uma ação no momento presente, hábitos, verdades universais!";
+        $aula->numero_de_exercicios = 4;
+        $aula->data_criacao = date('Y-m-d H:i:s');
+        $aula->curso_id = $curso->id;
+        $aula->tempo_estimado = "120min";
+        $aula->utilizador_id = $utilizador->id;
+        $this->assertTrue($aula->save());
 
-        $resultado = Inscricao::verificainscricao($curso->id, $utilizador->id);
-        $this->assertFalse($resultado);
-    }
+        /*O que está a acontecer é que a aula está a ser criada, porém não existe nenhuma inscrição registada
+        com o curso da aula que está a ser criada. Retorna TRUE! */
 
-    public function testVerificainscricaovalida()
+            $resultado = Resultado::ReeinscreverUtilizadoresEmAulas($aula->id);
+            $this->assertTrue($resultado);
+        }
+
+    public function testVerificaReeinscricaoValidaComInscricoesNoCurso()
     {
         $idioma = new Idioma();
         $idioma->lingua_descricao = "Português";
@@ -118,13 +136,34 @@ class VerificaInscricaoUtilizadorTest extends \Codeception\Test\Unit
         $inscricao->estado = "Inscrito";
         $this->assertTrue($inscricao->save());
 
-        $resultado = Inscricao::verificainscricao($curso->id, $utilizador->id);
-        $this->assertTrue($resultado);
+        $aula = new Aula();
+        $aula->titulo_aula = "Presente do Indicativo";
+        $aula->descricao_aula = "Expressa uma ação no momento presente, hábitos, verdades universais!";
+        $aula->numero_de_exercicios = 4;
+        $aula->data_criacao = date('Y-m-d H:i:s');
+        $aula->curso_id = $curso->id;
+        $aula->tempo_estimado = "120min";
+        $aula->utilizador_id = $utilizador->id;
+        $this->assertTrue($aula->save());
 
+        /*O que está a acontecer é que a aula está a ser criada, porém não existe nenhuma inscrição registada
+        com o curso da aula que está a ser criada. Retorna TRUE! */
+
+        $resultado = Resultado::ReeinscreverUtilizadoresEmAulas($aula->id);
+        $this->assertTrue($resultado);
     }
-    public function testVerificainscricaoFalhaComParamtrosNull()
+
+    public function testReeinscricaoFalhaComAulaInexistente()
     {
-        $resultado = Inscricao::verificainscricao(null, null);
+        //Testar o metodo com o parametro COM UM ID INEXISTENTE
+        $resultado = Resultado::ReeinscreverUtilizadoresEmAulas(999);
+        $this->assertFalse($resultado);
+    }
+
+    public function testReeinscricaoFalhaComParametroNulo()
+    {
+        //Testar o metodo com o parametro NULL
+        $resultado = Resultado::ReeinscreverUtilizadoresEmAulas(null);
         $this->assertFalse($resultado);
     }
 }

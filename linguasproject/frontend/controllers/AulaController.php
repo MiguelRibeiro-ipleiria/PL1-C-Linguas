@@ -68,28 +68,34 @@ class AulaController extends Controller
     {
 
         $model = $this->findModel($id);
-        $user_id = \Yii::$app->user->id;
-        $utilizador = Utilizador::find()->where(['user_id' => $user_id])->one();
 
-        if($model->curso->status_ativo == 1 && Inscricao::verificainscricao($model->curso_id, $utilizador->id)){
-            $modelcomentario = new Comentario();
-            $resultado = Resultado::find()->where(['aula_idaula' => $id, 'utilizador_id' => $utilizador->id])->one();
+        if(!(\Yii::$app->user->isGuest)){
+            $user = \Yii::$app->user;
+            $utilizador = Utilizador::find()->where(['user_id' => $user->id])->one();
 
-            $query_comentarios = $model->getComentarios();
-            $DataCommentsProvider = new ActiveDataProvider([
-                'query' => $query_comentarios,
-            ]);
+            if($model->curso->status_ativo == 1 && Inscricao::verificainscricao($model->curso_id, $utilizador->id) && $user->can('ReadLesson')){
+                $modelcomentario = new Comentario();
+                $resultado = Resultado::find()->where(['aula_idaula' => $id, 'utilizador_id' => $utilizador->id])->one();
 
-            return $this->render('view', [
-                'model' => $model,
-                'DataCommentsProvider' => $DataCommentsProvider,
-                'modelcomentario' => $modelcomentario,
-                'resultado' => $resultado,
-            ]);
+                $query_comentarios = $model->getComentarios();
+                $DataCommentsProvider = new ActiveDataProvider([
+                    'query' => $query_comentarios,
+                ]);
+
+                return $this->render('view', [
+                    'model' => $model,
+                    'DataCommentsProvider' => $DataCommentsProvider,
+                    'modelcomentario' => $modelcomentario,
+                    'resultado' => $resultado,
+                ]);
+            }
+            return $this->redirect(['curso/idiomacursos', 'id' => $model->curso->idioma_id]);
+
         }
         else{
-            return $this->redirect(['curso/idiomacursos', 'id' => $model->curso->idioma_id]);
+            return $this->redirect('../site/login');
         }
+
 
     }
 
