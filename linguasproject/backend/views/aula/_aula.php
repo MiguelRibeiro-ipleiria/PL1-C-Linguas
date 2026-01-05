@@ -84,11 +84,11 @@ $auth = Yii::$app->authManager;
                                     <span class="description"><?=$comentario->hora_criada?></span>
                                 </div>
                                 <!-- /.user-block -->
-                                <p>
+                                 <p>
                                     <?=$comentario->descricao_comentario?>
                                 </p>
                             </div>
-
+                                
                             <?php }} ?>
                         </span>
                       </div>
