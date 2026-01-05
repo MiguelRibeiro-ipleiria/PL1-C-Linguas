@@ -41,23 +41,12 @@ $auth = Yii::$app->authManager;
                         <div class="col-12 col-sm-4">
                             <div class="info-box bg-light">
                                 <div class="info-box-content">
-                                    <span class="info-box-text text-center text-muted">Formadores Disponíveis</span>
-                                    <span class="info-box-number text-center text-muted mb-0">
-                                        <?php
-                                        $utilizadores = Utilizador::find()->where(['idioma_id' => $model->idioma->id])->all();
-                                        $count = 0;
-                                        foreach ($utilizadores as $utilizador) {
+                                    <span class="info-box-text text-center text-muted">Criador Do Curso</span>
+                                    <span class="info-box-number text-center text-muted mb-0"><?php
 
-                                            $user = $utilizador->getUser()->one();
-                                            $UserRoles = $auth->getRolesByUser($user->id);
-                                            $userrole = key($UserRoles);
-                                            if($userrole == "formador" && $utilizador->idioma_id == $model->idioma->id){
-                                                $count ++;
-                                            }
-                                        }
-                                        echo $count;
-                                        ?>
-                                    </span>
+                                        $utilizador = Utilizador::findOne($model->utilizador_id);
+                                        $user = User::findOne(['id' => $utilizador->user_id]);
+                                        echo $user->username ?></span>
                                 </div>
                             </div>
                         </div>
