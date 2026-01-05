@@ -6,20 +6,23 @@ namespace frontend\tests\Functional;
 use common\models\Aula;
 use common\models\Curso;
 use common\models\Dificuldade;
-use common\models\Inscricao;
-use frontend\tests\FunctionalTester;
-use common\models\Comentario;
+use common\models\Frase;
 use common\models\Idioma;
+use common\models\Inscricao;
+use common\models\Opcoesai;
+use common\models\Resultado;
+use common\models\Tipoexercicio;
 use common\models\User;
 use common\models\Utilizador;
+use frontend\tests\FunctionalTester;
 
-class CriarComentarioNaAulaCest
+class ResponderAUmaAulaCest
 {
 
     protected FunctionalTester $tester;
-    public function tentarComentarNumaAula(FunctionalTester $I)
-    {
 
+    public function tentarParticiparEResponderAUmaAula(FunctionalTester $I)
+    {
         $idioma = new Idioma();
         $idioma->lingua_descricao = "Português";
         $idioma->data_criacao = date("Y-m-d H:i:s");
@@ -69,12 +72,47 @@ class CriarComentarioNaAulaCest
         $aula = new Aula();
         $aula->titulo_aula = "Pretérito Perfeito";
         $aula->descricao_aula = "Tempo verbal do passado que indica uma ação concluída num momento específico";
-        $aula->numero_de_exercicios = 2;
+        $aula->numero_de_exercicios = 1;
         $aula->data_criacao = date('Y-m-d H:i:s');
         $aula->curso_id = $curso->id;
         $aula->tempo_estimado = "90min";
         $aula->utilizador_id = $utilizador->id;
         $I->assertTrue($aula->save());
+
+        $tipo_exercicio = new TipoExercicio();
+        $tipo_exercicio->descricao = "Exercícios Frases";
+        $I->assertTrue($tipo_exercicio->save());
+
+        $frase = new Frase();
+        $frase->partefrases_1 = "O João ";
+        $frase->partefrases_2 = " ao shopping, ontem!";
+        $frase->aula_id = $aula->id;
+        $frase->tipoexercicio_id = $tipo_exercicio->id;
+        $I->assertTrue($frase->save());
+
+        $opcao_1_frase = new Opcoesai();
+        $opcao_1_frase->frase_id = $frase->id;
+        $opcao_1_frase->iscorreta = 1;
+        $opcao_1_frase->descricao = "foi";
+        $I->assertTrue($opcao_1_frase->save());
+
+        $opcao_2_frase = new Opcoesai();
+        $opcao_2_frase->frase_id = $frase->id;
+        $opcao_2_frase->iscorreta = 0;
+        $opcao_2_frase->descricao = "vai";
+        $I->assertTrue($opcao_2_frase->save());
+
+        $opcao_3_frase = new Opcoesai();
+        $opcao_3_frase->frase_id = $frase->id;
+        $opcao_3_frase->iscorreta = 0;
+        $opcao_3_frase->descricao = "irá";
+        $I->assertTrue($opcao_3_frase->save());
+
+        $opcao_4_frase = new Opcoesai();
+        $opcao_4_frase->frase_id = $frase->id;
+        $opcao_4_frase->iscorreta = 0;
+        $opcao_4_frase->descricao = "foram";
+        $I->assertTrue($opcao_4_frase->save());
 
         $inscricao = new Inscricao();
         $inscricao->curso_idcurso = $curso->id;
@@ -84,30 +122,57 @@ class CriarComentarioNaAulaCest
         $inscricao->estado = "Inscrito";
         $I->assertTrue($inscricao->save());
 
+        $resultado = new Resultado();
+        $resultado->estado = "Por Começar";
+        $resultado->utilizador_id = $utilizador->id;
+        $resultado->aula_idaula = $aula->id;
+        $I->assertTrue($resultado->save());
+
 
         $I->amOnPage('/site/login');
         $I->fillField('LoginForm[username]', 'testesuser123');
         $I->fillField('LoginForm[password]', '1234testeuser');
         $I->click(['name' => 'login-button']);
 
-        $I->amOnPage('/site/index');
+// 1. Ir para a lista de idiomas
         $I->amOnPage('/idioma/index');
         $I->see('As Nossas Línguas');
-        $I->click('.single-service-link');
+        $I->click('Português');
 
-        $I->amOnPage('/curso/idiomacursos?id=' . $idioma->id);
+// 2. Na página IDIOMA_CURSO (Onde aparecem os cards dos cursos)
+// Em vez de .styliesh, clica no ícone de seta (bi-arrow-right) ou no título do curso
         $I->see($curso->titulo_curso);
-        $I->click('.styliesh');
+// Como o link para aulas está num <a> com a classe .styliesh ao lado do botão desinscrever
+        $I->click('.bi-arrow-right');
 
-        $I->amOnPage('/curso/aulas?id=' . $curso->id);
+// 3. Na página CURSOS_AULAS (A que corresponde à tua imagem)
         $I->see($aula->titulo_aula);
-        $I->click('.styliesh');
+// IMPORTANTE: Usa o texto exato do teu PHP: "Ver aula"
+        $I->click('Ver aula');
+
+// --- INTERAÇÃO NA VIEW DA AULA ---
+        $I->seeInCurrentUrl('/aula/view');
+
+// Abrir o Dialog de início
+        $I->click('#open_start_aula');
+        $I->see('Deseja começar a Aula?', '#title_start_aula');
+
+// Confirmar o início (Botão Sim)
+        $I->click('#confirm_start_aula');
+
+// --- EXECUÇÃO DO EXERCÍCIO ---
+        $I->see('Completa a Frase', '.title-exercicio-audio');
+        $I->click('foi'); // Opção correta configurada no setup
+        $I->seeElement('.opcao_layout_green');
+
+// Avançar e Concluir
+        $I->click('Seguinte');
+        $I->see('Concluir');
+        $I->click('Concluir');
+
 
         $I->amOnPage('/aula/view?id=' . $aula->id);
-        $I->see('Comentários');
-        $I->fillField('Comentario[descricao_comentario]', 'O percurso completo funcionou!');
-        $I->click('Enviar Comentário');
-        $I->see('O percurso completo funcionou!');
+
 
     }
 }

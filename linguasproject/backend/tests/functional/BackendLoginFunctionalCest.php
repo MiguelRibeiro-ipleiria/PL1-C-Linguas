@@ -11,17 +11,14 @@ class BackendLoginFunctionalCest
 {
     public function tryLogin(FunctionalTester $I)
     {
-        // 1. Criar Idioma
         $idioma = new Idioma();
         $idioma->lingua_descricao = "Português";
         $idioma->data_criacao = date("Y-m-d H:i:s");
         $idioma->lingua_objetivo = "Aprender Português";
         $idioma->lingua_bandeira = "Portugal.png";
         $idioma->lingua_sigla = "PT";
-        // USAR $I em vez de $this
         $I->assertTrue($idioma->save());
 
-        // 2. Criar User
         $user = new User();
         $user->username = "testesuser123";
         $user->email = "usertest@gmail.com";

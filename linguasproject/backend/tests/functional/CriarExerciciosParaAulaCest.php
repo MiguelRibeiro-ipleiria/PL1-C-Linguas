@@ -1,25 +1,25 @@
 <?php
 
 
-namespace frontend\tests\Functional;
+namespace backend\tests\Functional;
 
+use backend\tests\FunctionalTester;
 use common\models\Aula;
 use common\models\Curso;
 use common\models\Dificuldade;
-use common\models\Inscricao;
-use frontend\tests\FunctionalTester;
-use common\models\Comentario;
 use common\models\Idioma;
+use common\models\Inscricao;
+use common\models\Tipoexercicio;
 use common\models\User;
 use common\models\Utilizador;
 
-class CriarComentarioNaAulaCest
+class CriarExerciciosParaAulaCest
 {
 
     protected FunctionalTester $tester;
-    public function tentarComentarNumaAula(FunctionalTester $I)
-    {
 
+    public function tentarCriarExerciciosNumaAula(\frontend\tests\FunctionalTester $I)
+    {
         $idioma = new Idioma();
         $idioma->lingua_descricao = "Português";
         $idioma->data_criacao = date("Y-m-d H:i:s");
@@ -50,11 +50,8 @@ class CriarComentarioNaAulaCest
         $I->assertTrue($utilizador->save());
 
         $auth = \Yii::$app->authManager;
-        $authorRole = $auth->getRole('aluno');
+        $authorRole = $auth->getRole('admin');
         $auth->assign($authorRole, $user->getId());
-
-        $p1 = $auth->getPermission('SearchLanguage');
-        $auth->assign($p1, $user->getId());
 
         $curso = new Curso();
         $curso->titulo_curso = "Curso de Português";
@@ -66,6 +63,10 @@ class CriarComentarioNaAulaCest
         $curso->status_ativo = 1;
         $I->assertTrue($curso->save());
 
+        $tipo_exercicio = new Tipoexercicio();
+        $tipo_exercicio->descricao = "Frase";
+        $I->assertTrue($tipo_exercicio->save());
+
         $aula = new Aula();
         $aula->titulo_aula = "Pretérito Perfeito";
         $aula->descricao_aula = "Tempo verbal do passado que indica uma ação concluída num momento específico";
@@ -76,38 +77,34 @@ class CriarComentarioNaAulaCest
         $aula->utilizador_id = $utilizador->id;
         $I->assertTrue($aula->save());
 
-        $inscricao = new Inscricao();
-        $inscricao->curso_idcurso = $curso->id;
-        $inscricao->utilizador_id = $utilizador->id;
-        $inscricao->data_inscricao = date('Y-m-d H:i:s');
-        $inscricao->progresso = 0;
-        $inscricao->estado = "Inscrito";
-        $I->assertTrue($inscricao->save());
-
-
         $I->amOnPage('/site/login');
         $I->fillField('LoginForm[username]', 'testesuser123');
         $I->fillField('LoginForm[password]', '1234testeuser');
-        $I->click(['name' => 'login-button']);
+        $I->click('Sign In');
 
-        $I->amOnPage('/site/index');
-        $I->amOnPage('/idioma/index');
-        $I->see('As Nossas Línguas');
-        $I->click('.single-service-link');
-
-        $I->amOnPage('/curso/idiomacursos?id=' . $idioma->id);
-        $I->see($curso->titulo_curso);
-        $I->click('.styliesh');
-
-        $I->amOnPage('/curso/aulas?id=' . $curso->id);
+        $I->amOnPage('/aula/index');
         $I->see($aula->titulo_aula);
-        $I->click('.styliesh');
+        $I->click('Adicionar Exercicio');
 
-        $I->amOnPage('/aula/view?id=' . $aula->id);
-        $I->see('Comentários');
-        $I->fillField('Comentario[descricao_comentario]', 'O percurso completo funcionou!');
-        $I->click('Enviar Comentário');
-        $I->see('O percurso completo funcionou!');
+        $I->amOnPage('/aula/escolherexercicio?id=' . $aula->id);
+        $I->see('Frases');
+        $I->click('a[href*="frase"]');
+
+        $I->amOnPage('/frase/create?aula_id=' . $aula->id);
+        $I->fillField('Frase[partefrases_1]', 'O gato está');
+        $I->fillField('Frase[partefrases_2]', 'no telhado.');
+        $I->selectOption('Frase[tipoexercicio_id]', (string)$tipo_exercicio->id);
+
+        $I->fillField('Opcoesai[0][descricao]', 'sentado');
+        $I->checkOption('input[name="Opcoesai[0][iscorreta]"][type="checkbox"]');
+
+        $I->fillField('Opcoesai[1][descricao]', 'a correr');
+        $I->fillField('Opcoesai[2][descricao]', 'a saltar');
+        $I->fillField('Opcoesai[3][descricao]', 'a dormir');
+
+        $I->click('Save');
+        $I->seeInCurrentUrl('/frase/view');
+        $I->see('O gato está');
 
     }
 }

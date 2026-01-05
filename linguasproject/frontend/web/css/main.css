@@ -6120,18 +6120,18 @@ dialog::backdrop {
 }
 
 /* Botão CTA (Confirmar) */
-#confirm_dialog {
+#confirm_start_aula {
   background-color: #2ed06e; /* Cor primária do Google/Look Moderno */
   color: #ffffff;
   border: none;
   font-family: 'Spartan', sans-serif;
 }
 
-#confirm_dialog:hover {
+#confirm_start_aula:hover {
   background-color: #168742;
 }
 
-#confirm_dialog:active, #close_dialog:active {
+#confirm_start_aula:active, #close_dialog:active {
   transform: scale(0.98);
 }
 /* FIM DIALOG AULA BOX */

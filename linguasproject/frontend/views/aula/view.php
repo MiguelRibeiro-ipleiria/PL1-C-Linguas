@@ -52,10 +52,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                             <div class="inner-content">
                                                 <div class="intro-video-play">
                                                     <div class="play-thumb wow zoomIn" data-wow-delay=".2s">
-                                                        <a id="open_dialog"><i class="lni lni-play"></i></a>
-                                                        <dialog aria-labelledby="dialog_title" aria-describedby="dialog_description">
+                                                        <a id="open_start_aula"><i class="lni lni-play"></i></a>
+                                                        <dialog aria-labelledby="title_start_aula" aria-describedby="dialog_description">
                                                             <img src="<?= Yii::getAlias('@web').'/img/logo_dialog.png'; ?>" alt="Illustration of Location Services" />
-                                                            <h2 id="dialog_title" class="h2">Deseja começar a Aula?</h2>
+                                                            <h2 id="title_start_aula" class="h2">Deseja começar a Aula?</h2>
                                                             <p id="dialog_description">
                                                                 Ao clicar em "Sim" irá começar a sua aula "<?= $model->titulo_aula ?>", preste atenção
                                                                 e responda corretamente.
@@ -69,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                         'Sim',
                                                                         [
                                                                             'class' => 'cta',
-                                                                            'id'=> 'confirm_dialog',
+                                                                            'id'=> 'confirm_start_aula',
                                                                         ]
                                                                     ) ?>
 
@@ -207,7 +207,7 @@ $this->params['breadcrumbs'][] = $this->title;
     import dialogPolyfill from "https://cdn.skypack.dev/dialog-polyfill@0.5.6";
 
     const dialog = document.querySelector("dialog");
-    const openDialogBtn = document.getElementById("open_dialog");
+    const openDialogBtn = document.getElementById("open_start_aula");
     const closeDialogBtn = document.getElementById("close_dialog");
 
     const elements = dialog.querySelectorAll(
