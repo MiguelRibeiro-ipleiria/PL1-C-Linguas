@@ -100,62 +100,96 @@ $this->title = 'LEARNALOT';
 </div>
 <!-- End Services Area -->
 <!-- Start Team Area -->
+<style>
+    .team.section {
+        background-color: #f9f9f9;
+        padding: 80px 0;
+    }
+    .single-team {
+        background: #fff;
+        padding: 40px 20px;
+        border-radius: 15px;
+        text-align: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        height: 100%;
+    }
+    .team-icon-circle {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #eafaf1; 
+        color: #2ecc71;    
+        font-size: 40px;    
+        transition: 0.3s;
+    }
+    .single-team:hover .team-icon-circle {
+        background: #2ecc71;
+        color: #fff;
+    }
+    .single-team h4 {
+        font-size: 20px;
+        color: #081828;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+    .single-team h4 span {
+        display: block;
+        font-size: 14px;
+        color: #888;
+        font-weight: 500;
+        text-transform: uppercase;
+        margin-top: 5px;
+        letter-spacing: 1px;
+    }
+</style>
+
 <section class="team section">
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
             <div class="col-12">
                 <div class="section-title">
                     <h3 class="wow zoomIn" data-wow-delay=".2s">A Nossa Equipa</h3>
-                    <h2 class="wow fadeInUp" data-wow-delay=".4s">Conheça a Nossa Equipa</h2>
-                    <p class="wow fadeInUp" data-wow-delay=".6s">Este são o membros por de trás de todo este sistema de ensino de Línguas.
-                        Qualquer dúvida contacte a página do "feedback", que um nós terá o gosto de auxiliá-lo.</p>
+                    <h2 class="wow fadeInUp" data-wow-delay=".4s">Conheça os Fundadores</h2>
+                    <p class="wow fadeInUp" data-wow-delay=".6s">A equipa dedicada por detrás do sistema LEARNALOT.</p>
                 </div>
             </div>
         </div>
         <div class="row justify-content-center">
             <div class="col-lg-3 col-md-6 col-12 wow fadeInUp" data-wow-delay=".3s">
-                <!-- Start Single Team -->
                 <div class="single-team">
-                    <div class="team-image">
-                        <img src="<?= \Yii::getAlias('@web').'/img/profile_icon.webp'; ?>" alt="André Ventura Profile Image">
+                    <div class="team-icon-circle">
+                        <i class="bi bi-person-fill"></i>
                     </div>
                     <div class="content">
-                        <h4>André Santos
-                            <span>Administrador</span>
-                        </h4>
+                        <h4>André Santos<span>Administrador</span></h4>
                     </div>
                 </div>
-                <!-- End Single Team -->
             </div>
             <div class="col-lg-3 col-md-6 col-12 wow fadeInUp" data-wow-delay=".5s">
-                <!-- Start Single Team -->
                 <div class="single-team">
-                    <div class="team-image">
-                        <img src="<?= \Yii::getAlias('@web').'/img/profile_icon.webp'; ?>" alt="Guilherme Ferreira Profile Image">
+                    <div class="team-icon-circle">
+                        <i class="bi bi-person-fill"></i>
                     </div>
                     <div class="content">
-                        <h4>Guilherme Ferreira
-                            <span>Administrador</span>
-                        </h4>
+                        <h4>Guilherme Ferreira<span>Administrador</span></h4>
                     </div>
                 </div>
-                <!-- End Single Team -->
             </div>
             <div class="col-lg-3 col-md-6 col-12 wow fadeInUp" data-wow-delay=".7s">
-                <!-- Start Single Team -->
                 <div class="single-team">
-                    <div class="team-image">
-                        <img src="<?= \Yii::getAlias('@web').'/img/profile_icon.webp'; ?>" alt="Miguel Ribeiro Profile Image">
+                    <div class="team-image"> <div class="team-icon-circle">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
                     </div>
                     <div class="content">
-                        <h4>Miguel Ribeiro
-                            <span>Administrador</span>
-                        </h4>
+                        <h4>Miguel Ribeiro<span>Administrador</span></h4>
                     </div>
                 </div>
-                <!-- End Single Team -->
-            </div>
-                <!-- End Single Team -->
             </div>
         </div>
     </div>
