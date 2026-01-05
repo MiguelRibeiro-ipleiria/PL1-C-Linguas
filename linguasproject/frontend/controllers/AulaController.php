@@ -73,7 +73,7 @@ class AulaController extends Controller
             $user = \Yii::$app->user;
             $utilizador = Utilizador::find()->where(['user_id' => $user->id])->one();
 
-            if($model->curso->status_ativo == 1 && Inscricao::verificainscricao($model->curso_id, $utilizador->id) && $user->can('ReadLesson')){
+            if($model->curso->status_ativo == 1 && Inscricao::verificainscricao($model->curso_id, $utilizador->id)){
                 $modelcomentario = new Comentario();
                 $resultado = Resultado::find()->where(['aula_idaula' => $id, 'utilizador_id' => $utilizador->id])->one();
 

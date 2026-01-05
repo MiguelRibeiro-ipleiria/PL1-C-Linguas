@@ -5,6 +5,7 @@ namespace backend\controllers;
 use common\models\Aula;
 use common\models\Frase;
 use common\models\FraseSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -36,7 +37,21 @@ class FraseController extends Controller
                         'delete' => ['POST'],
                     ],
                 ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'denyCallback' => function () {
+                        return \Yii::$app->response->redirect(['../../frontend/web/']);
+                    },
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'actions' => ['index', 'view', 'create', 'update', 'delete', 'findopcoes'],
+                            'roles' => ['admin', 'formador'],
+                        ],
+                    ],
+                ],
             ]
+
         );
     }
 
@@ -47,13 +62,19 @@ class FraseController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new FraseSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        if (\Yii::$app->user->can('ReadExerciseFrase')) {
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            $searchModel = new FraseSearch();
+            $dataProvider = $searchModel->search($this->request->queryParams);
+
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -64,9 +85,14 @@ class FraseController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        if (\Yii::$app->user->can('ReadExerciseFrase')) {
+
+            return $this->render('view', [
+                'model' => $this->findModel($id),
+            ]);
+        }else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -76,68 +102,72 @@ class FraseController extends Controller
      */
     public function actionCreate($aula_id = null)
     {
-        
-        $model = new Frase();
+        if (\Yii::$app->user->can('CreateExerciseFrase')) {
 
-        $model->aula_id =$aula_id;
+            $model = new Frase();
 
-        
-        $auth = Yii::$app->authManager;
-        $user_id = Yii::$app->user->id;
-        $utilizador = Utilizador::findOne(['user_id' => $user_id]);
-        $userRoles = $auth->getRolesByUser($user_id);
-        $role = key($userRoles);    
-
-        $query = Aula::find();
-        
-
-        if ($role !== 'admin') {
-            $query->where(['utilizador_id' => $utilizador->id]);
-        }
-
-        $arrayaulas = ArrayHelper::map($query->all(), 'id', 'titulo_aula');
-        $arrayTipoexercicio = ArrayHelper::map(Tipoexercicio::find()->all(), 'id', 'descricao');
-
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            $model->aula_id = $aula_id;
 
 
-                 $postOpcoes = $this->request->post('Opcoesai', []);
- 
+            $auth = Yii::$app->authManager;
+            $user_id = Yii::$app->user->id;
+            $utilizador = Utilizador::findOne(['user_id' => $user_id]);
+            $userRoles = $auth->getRolesByUser($user_id);
+            $role = key($userRoles);
 
-                foreach ($postOpcoes as $dadosOpcao) {
-                    $opcao = new Opcoesai();
-                    $opcao->load(['Opcoesai' => $dadosOpcao]);
-                    $opcao->frase_id = $model->id;
-                    $opcao->save();
-                }
+            $query = Aula::find();
 
-                $aula = Aula::findOne($model->aula_id);
-                $aula->numero_de_exercicios = $aula->VerificaNumeroDeExercicios($model->aula_id);
-                $aula->save();
-                return $this->redirect(['view', 'id' => $model->id]);
+
+            if ($role !== 'admin') {
+                $query->where(['utilizador_id' => $utilizador->id]);
             }
-        } else {
-            $model->loadDefaultValues();
+
+            $arrayaulas = ArrayHelper::map($query->all(), 'id', 'titulo_aula');
+            $arrayTipoexercicio = ArrayHelper::map(Tipoexercicio::find()->all(), 'id', 'descricao');
+
+            if ($this->request->isPost) {
+                if ($model->load($this->request->post()) && $model->save()) {
+
+
+                    $postOpcoes = $this->request->post('Opcoesai', []);
+
+
+                    foreach ($postOpcoes as $dadosOpcao) {
+                        $opcao = new Opcoesai();
+                        $opcao->load(['Opcoesai' => $dadosOpcao]);
+                        $opcao->frase_id = $model->id;
+                        $opcao->save();
+                    }
+
+                    $aula = Aula::findOne($model->aula_id);
+                    $aula->numero_de_exercicios = $aula->VerificaNumeroDeExercicios($model->aula_id);
+                    $aula->save();
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+            } else {
+                $model->loadDefaultValues();
+            }
+
+            $opcoes = [
+                new Opcoesai(),
+                new Opcoesai(),
+                new Opcoesai(),
+                new Opcoesai(),
+            ];
+
+            return $this->render('create', [
+                'model' => $model,
+                'opcoes' => $opcoes,
+                'arrayaulas' => $arrayaulas,
+                'aula_id' => $aula_id,
+                'arrayTipoexercicio' => $arrayTipoexercicio,
+
+
+            ]);
         }
-
-        $opcoes = [
-            new Opcoesai(),
-            new Opcoesai(),
-            new Opcoesai(),
-            new Opcoesai(),
-        ];
-
-        return $this->render('create', [
-            'model' => $model,
-            'opcoes'=>$opcoes,
-            'arrayaulas' => $arrayaulas,
-            'aula_id' =>$aula_id,
-            'arrayTipoexercicio'=>$arrayTipoexercicio,
-
-        
-
-        ]);
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -149,24 +179,32 @@ class FraseController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        if (\Yii::$app->user->can('UpdateExerciseFrase')) {
 
-        $opcoes = $this->FindOpcoes($id);
-            
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            $model = $this->findModel($id);
 
-            if (Opcoesai::loadMultiple($opcoes, $this->request->post()) && Opcoesai::validateMultiple($opcoes)) {
-                foreach ($opcoes as $opcao) {
-                    $opcao->save(false);
+            $opcoes = $this->FindOpcoes($id);
+            $arrayTipoexercicio = ArrayHelper::map(Tipoexercicio::find()->all(), 'id', 'descricao');
+
+            if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+
+                if (Opcoesai::loadMultiple($opcoes, $this->request->post()) && Opcoesai::validateMultiple($opcoes)) {
+                    foreach ($opcoes as $opcao) {
+                        $opcao->save(false);
+                    }
                 }
+                return $this->redirect(['view', 'id' => $model->id]);
             }
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
 
-        return $this->render('update', [
-            'model' => $model,
-            'opcoes' =>$opcoes
-        ]);
+            return $this->render('update', [
+                'model' => $model,
+                'opcoes' => $opcoes,
+                'arrayTipoexercicio' => $arrayTipoexercicio
+            ]);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -178,13 +216,19 @@ class FraseController extends Controller
      */
     public function actionDelete($id)
     {
-        $opcoes = $this->FindOpcoes($id);
-        foreach($opcoes as $opcao){
-            $opcao->delete();
-        }
-        $this->findModel($id)->delete();
+        if (\Yii::$app->user->can('DeleteExerciseFrase')) {
 
-        return $this->redirect(['index']);
+            $opcoes = $this->FindOpcoes($id);
+            foreach ($opcoes as $opcao) {
+                $opcao->delete();
+            }
+            $this->findModel($id)->delete();
+
+            return $this->redirect(['index']);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -205,9 +249,15 @@ class FraseController extends Controller
 
     protected function FindOpcoes($frase_id){
 
-        $opcoes = Opcoesai::findAll(['frase_id'=>$frase_id]);
-        return $opcoes;
+        if (\Yii::$app->user->can('ReadOpcoes')) {
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+            $opcoes = Opcoesai::findAll(['frase_id' => $frase_id]);
+            return $opcoes;
+
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 }

@@ -58,46 +58,53 @@ class AulaController extends Controller
      */
     public function actionIndex($curso_id = null)
     {
-        $auth = Yii::$app->authManager;
 
-        $user = User::findOne(Yii::$app->user->id);
-        $utilizador = Utilizador::findOne(['user_id' => $user->id]);
-        $userRoles = $auth->getRolesByUser($user->id);
-        $role = key($userRoles);
+        if(\Yii::$app->user->can('ReadLesson')) {
+
+            $auth = Yii::$app->authManager;
+
+            $user = User::findOne(Yii::$app->user->id);
+            $utilizador = Utilizador::findOne(['user_id' => $user->id]);
+            $userRoles = $auth->getRolesByUser($user->id);
+            $role = key($userRoles);
 
 
-        if($curso_id !=null){
-            $searchModel = new aulaSearch();
-            $dataProvider = $searchModel->search($this->request->queryParams);
-            $dataProvider->query->andWhere(['curso_id' => $curso_id]);
-
-            return $this->render('index', [
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
-
-            ]);
-        }else{
-
-            if ($role == "formador") {
-
+            if ($curso_id != null) {
                 $searchModel = new aulaSearch();
                 $dataProvider = $searchModel->search($this->request->queryParams);
-                $dataProvider->query->andWhere(['utilizador_id' => $utilizador->id]);
+                $dataProvider->query->andWhere(['curso_id' => $curso_id]);
+
+                return $this->render('index', [
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+
+                ]);
+            } else {
+
+                if ($role == "formador") {
+
+                    $searchModel = new aulaSearch();
+                    $dataProvider = $searchModel->search($this->request->queryParams);
+                    $dataProvider->query->andWhere(['utilizador_id' => $utilizador->id]);
 
 
-            } elseif ($role == "admin") {
+                } elseif ($role == "admin") {
 
-                $searchModel = new aulaSearch();
-                $dataProvider = $searchModel->search($this->request->queryParams);
+                    $searchModel = new aulaSearch();
+                    $dataProvider = $searchModel->search($this->request->queryParams);
+                }
+
+                return $this->render('index', [
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+
+
+                ]);
+
             }
-
-            return $this->render('index', [
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
-
-
-            ]);
-
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
         }
 
     }
@@ -112,10 +119,15 @@ class AulaController extends Controller
      */
     public function actionView($id)
     {
+        if(\Yii::$app->user->can('ReadLesson')) {
 
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+            return $this->render('view', [
+                'model' => $this->findModel($id),
+            ]);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -125,40 +137,47 @@ class AulaController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Aula();
+        if(\Yii::$app->user->can('CreateLesson')) {
 
-        $auth = Yii::$app->authManager;
-        $user_id = Yii::$app->user->id;
-        $utilizador = Utilizador::findOne(['user_id' => $user_id]);
-        $userRoles = $auth->getRolesByUser($user_id);
-        $role = key($userRoles);
+            $model = new Aula();
 
-        $query = Curso::find();
+            $auth = Yii::$app->authManager;
+            $user_id = Yii::$app->user->id;
+            $utilizador = Utilizador::findOne(['user_id' => $user_id]);
+            $userRoles = $auth->getRolesByUser($user_id);
+            $role = key($userRoles);
+
+            $query = Curso::find();
 
 
-        if ($role !== 'admin') {
-            $query->where(['utilizador_id' => $utilizador->id]);
-        }
-
-        $arraycursos = ArrayHelper::map($query->all(), 'id', 'titulo_curso');
-
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post())) {
-
-                $model->data_criacao = date('y-m-d H:i:s');
-                $model->utilizador_id = $utilizador->id;
-                if($model->save() && Resultado::ReeinscreverUtilizadoresEmAulas($model->id)){
-                    return $this->redirect(['view', 'id' => $model->id]);
-                }
+            if ($role !== 'admin') {
+                $query->where(['utilizador_id' => $utilizador->id]);
             }
-        } else {
-            $model->loadDefaultValues();
-        }
 
-        return $this->render('create', [
-            'model' => $model,
-            'arraycursos'=>$arraycursos,
-        ]);
+            $arraycursos = ArrayHelper::map($query->all(), 'id', 'titulo_curso');
+
+            if ($this->request->isPost) {
+                if ($model->load($this->request->post())) {
+
+                    $model->numero_de_exercicios = 0;
+                    $model->data_criacao = date('y-m-d H:i:s');
+                    $model->utilizador_id = $utilizador->id;
+                    if ($model->save() && Resultado::ReeinscreverUtilizadoresEmAulas($model->id)) {
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    }
+                }
+            } else {
+                $model->loadDefaultValues();
+            }
+
+            return $this->render('create', [
+                'model' => $model,
+                'arraycursos' => $arraycursos,
+            ]);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -170,28 +189,34 @@ class AulaController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-        $auth = Yii::$app->authManager;
-        $user_id = Yii::$app->user->id;
-        $utilizador = Utilizador::findOne(['user_id' => $user_id]);
-        $userRoles = $auth->getRolesByUser($user_id);
-        $role = key($userRoles);
+        if(\Yii::$app->user->can('UpdateLesson')) {
 
-        $query = Curso::find();
-        if ($role !== 'admin') {
-            $query->where(['utilizador_id' => $utilizador->id]);
+            $model = $this->findModel($id);
+            $auth = Yii::$app->authManager;
+            $user_id = Yii::$app->user->id;
+            $utilizador = Utilizador::findOne(['user_id' => $user_id]);
+            $userRoles = $auth->getRolesByUser($user_id);
+            $role = key($userRoles);
+
+            $query = Curso::find();
+            if ($role !== 'admin') {
+                $query->where(['utilizador_id' => $utilizador->id]);
+            }
+            $arraycursos = ArrayHelper::map($query->all(), 'id', 'titulo_curso');
+
+
+            if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+
+            return $this->render('update', [
+                'model' => $model,
+                'arraycursos' => $arraycursos,
+            ]);
         }
-        $arraycursos = ArrayHelper::map($query->all(), 'id', 'titulo_curso');
-
-
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        else{
+            return $this->redirect(['site/no_permisson']);
         }
-
-        return $this->render('update', [
-            'model' => $model,
-            'arraycursos'=>$arraycursos,
-        ]);
     }
 
     /**
@@ -203,9 +228,17 @@ class AulaController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        if(\Yii::$app->user->can('DeleteLesson')) {
 
-        return $this->redirect(['index']);
+            $model = $this->findModel($id);
+            if($model->AulaEliminadaRequisitos($id)){
+                $model->delete();
+            }
+            return $this->redirect(['index']);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**

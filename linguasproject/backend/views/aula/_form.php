@@ -25,7 +25,6 @@ use common\models\Curso;
     </div>
     <div class="row">
         <div class="col-3">
-            <?= $form->field($model, 'numero_de_exercicios')->textInput() ?>
             <?= $form->field($model, 'tempo_estimado')->textInput(['maxlength' => true]) ?>
         </div>
         <div class="col-9">

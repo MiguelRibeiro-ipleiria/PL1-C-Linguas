@@ -141,6 +141,54 @@ class Aula extends \yii\db\ActiveRecord
         return $this->hasMany(Comentario::class, ['aula_id' => 'id']);
     }
 
+
+    public function AulaEliminadaRequisitos($id){
+
+        $model = Aula::findOne($id);
+
+        if($model){
+            if($model->getFrases()->all() != null){
+                foreach ($model->getFrases()->all() as $frase){
+                    foreach ($frase->getOpcoesais()->all() as $opcao) {
+                        $opcao->delete();
+                    }
+                    $frase->delete();
+                }
+            }
+            if($model->getImagems()->all() != null){
+                foreach ($model->getImagems()->all() as $imagem){
+                    foreach ($imagem->getOpcoesais()->all() as $opcao) {
+                        $opcao->delete();
+                    }
+                    $imagem->delete();
+                }
+            }
+            if($model->getAudios()->all() != null){
+                foreach ($model->getAudios()->all() as $audio){
+                    foreach ($audio->getOpcoesais()->all() as $opcao) {
+                        $opcao->delete();
+                    }
+                    $audio->delete();
+                }
+            }
+
+            $resultados = Resultado::find()->where(['aula_idaula' => $model->id])->all();
+            if (!empty($resultados)) {
+                foreach ($resultados as $resultado) {
+                    $resultado->delete();
+                }
+            }
+            return true;
+
+        }
+        else{
+            return false;
+        }
+
+
+    }
+
+
     public function VerificaNumeroDeExercicios($aula_id){
 
         $aula = Aula::findOne($aula_id);
