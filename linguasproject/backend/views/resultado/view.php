@@ -6,14 +6,12 @@ use yii\widgets\DetailView;
 /** @var yii\web\View $this */
 /** @var common\models\Resultado $model */
 
-$this->title = $model->utilizador_id;
+$this->title = $model->utilizador->user->username . ' (' . $model->aulaIdaula->titulo_aula . ')';
 $this->params['breadcrumbs'][] = ['label' => 'Resultados', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="resultado-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a('Update', ['update', 'utilizador_id' => $model->utilizador_id, 'aula_idaula' => $model->aula_idaula], ['class' => 'btn btn-primary']) ?>

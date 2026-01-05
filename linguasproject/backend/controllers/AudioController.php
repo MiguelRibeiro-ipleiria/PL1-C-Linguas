@@ -5,6 +5,7 @@ namespace backend\controllers;
 use common\models\Aula;
 use common\models\Audio;
 use common\models\AudioSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -37,6 +38,19 @@ class AudioController extends Controller
                         'delete' => ['POST'],
                     ],
                 ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'denyCallback' => function () {
+                        return \Yii::$app->response->redirect(['../../frontend/web/']);
+                    },
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'actions' => ['index', 'view', 'create', 'update', 'delete', 'findopcoes'],
+                            'roles' => ['admin', 'formador'],
+                        ],
+                    ],
+                ],
             ]
         );
     }
@@ -48,13 +62,18 @@ class AudioController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new AudioSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        if (\Yii::$app->user->can('ReadExerciseSound')) {
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            $searchModel = new AudioSearch();
+            $dataProvider = $searchModel->search($this->request->queryParams);
+
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -66,9 +85,14 @@ class AudioController extends Controller
      */
     public function actionView($audio_resource_id, $aula_id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($audio_resource_id, $aula_id),
-        ]);
+        if (\Yii::$app->user->can('ReadExerciseSound')) {
+
+            return $this->render('view', [
+                'model' => $this->findModel($audio_resource_id, $aula_id),
+            ]);
+        }else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -78,65 +102,70 @@ class AudioController extends Controller
      */
     public function actionCreate($aula_id = null)
     {
-        $model = new Audio();
-        $model->aula_id =$aula_id;
+        if (\Yii::$app->user->can('CreateExerciseSound')) {
 
-        $auth = Yii::$app->authManager;
-        $user_id = Yii::$app->user->id;
-        $utilizador = Utilizador::findOne(['user_id' => $user_id]);
-        $userRoles = $auth->getRolesByUser($user_id);
-        $role = key($userRoles);    
+            $model = new Audio();
+            $model->aula_id = $aula_id;
 
-        $query = Aula::find();
+            $auth = Yii::$app->authManager;
+            $user_id = Yii::$app->user->id;
+            $utilizador = Utilizador::findOne(['user_id' => $user_id]);
+            $userRoles = $auth->getRolesByUser($user_id);
+            $role = key($userRoles);
 
-
-        if ($role !== 'admin') {
-            $query->where(['utilizador_id' => $utilizador->id]);
-        }
-
-        $arrayaulas = ArrayHelper::map($query->all(), 'id', 'titulo_aula');
-        $arrayTipoexercicio = ArrayHelper::map(Tipoexercicio::find()->all(), 'id', 'descricao');
-
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {                
+            $query = Aula::find();
 
 
-                $postOpcoes = $this->request->post('Opcoesai', []);
-
-                foreach ($postOpcoes as $dadosOpcao) {
-                    $opcao = new OpcoesAi();
-                    $opcao->load(['Opcoesai' => $dadosOpcao]);
-                    
-
-                    $opcao->audio_aula_id = $model->aula_id;
-                    $opcao->audio_audio_resource_id = $model->audio_resource_id;
-                    $opcao->save();
-
-                    $aula = Aula::findOne($model->aula_id);
-                    $aula->numero_de_exercicios = $aula->VerificaNumeroDeExercicios($model->aula_id);
-                    $aula->save();
-
-                   
-                }
-
-                return $this->redirect(['view', 'audio_resource_id' => $model->audio_resource_id, 'aula_id' => $model->aula_id]);
+            if ($role !== 'admin') {
+                $query->where(['utilizador_id' => $utilizador->id]);
             }
-        } else {
-            $model->loadDefaultValues();
+
+            $arrayaulas = ArrayHelper::map($query->all(), 'id', 'titulo_aula');
+            $arrayTipoexercicio = ArrayHelper::map(Tipoexercicio::find()->all(), 'id', 'descricao');
+
+            if ($this->request->isPost) {
+                if ($model->load($this->request->post()) && $model->save()) {
+
+
+                    $postOpcoes = $this->request->post('Opcoesai', []);
+
+                    foreach ($postOpcoes as $dadosOpcao) {
+                        $opcao = new OpcoesAi();
+                        $opcao->load(['Opcoesai' => $dadosOpcao]);
+
+
+                        $opcao->audio_aula_id = $model->aula_id;
+                        $opcao->audio_audio_resource_id = $model->audio_resource_id;
+                        $opcao->save();
+
+                        $aula = Aula::findOne($model->aula_id);
+                        $aula->numero_de_exercicios = $aula->VerificaNumeroDeExercicios($model->aula_id);
+                        $aula->save();
+
+
+                    }
+
+                    return $this->redirect(['view', 'audio_resource_id' => $model->audio_resource_id, 'aula_id' => $model->aula_id]);
+                }
+            } else {
+                $model->loadDefaultValues();
+            }
+            $opcoes = [
+                new OpcoesAi(),
+                new OpcoesAi(),
+                new OpcoesAi(),
+                new OpcoesAi(),
+            ];
+            return $this->render('create', [
+                'model' => $model,
+                'opcoes' => $opcoes,
+                'arrayaulas' => $arrayaulas,
+                'aula_id' => $aula_id,
+                'arrayTipoexercicio' => $arrayTipoexercicio,
+            ]);
+        }else{
+            return $this->redirect(['site/no_permisson']);
         }
-        $opcoes = [
-            new OpcoesAi(),
-            new OpcoesAi(),
-            new OpcoesAi(),
-            new OpcoesAi(),
-        ];
-        return $this->render('create', [
-            'model' => $model,
-            'opcoes' => $opcoes,
-            'arrayaulas' => $arrayaulas,
-            'aula_id' =>$aula_id,
-            'arrayTipoexercicio'=>$arrayTipoexercicio,
-        ]);
     }
 
     /**
@@ -149,23 +178,30 @@ class AudioController extends Controller
      */
     public function actionUpdate($audio_resource_id, $aula_id)
     {
-        $model = $this->findModel($audio_resource_id, $aula_id);
-        $opcoes = $this->FindOpcoes($audio_resource_id, $aula_id);
+        if (\Yii::$app->user->can('UpdateExerciseSound')) {
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            if (Opcoesai::loadMultiple($opcoes, $this->request->post()) && Opcoesai::validateMultiple($opcoes)) {
-                foreach ($opcoes as $opcao) {
-                    $opcao->save(false);
+            $model = $this->findModel($audio_resource_id, $aula_id);
+            $opcoes = $this->FindOpcoes($audio_resource_id, $aula_id);
+            $arrayTipoexercicio = ArrayHelper::map(Tipoexercicio::find()->all(), 'id', 'descricao');
+
+            if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+                if (Opcoesai::loadMultiple($opcoes, $this->request->post()) && Opcoesai::validateMultiple($opcoes)) {
+                    foreach ($opcoes as $opcao) {
+                        $opcao->save(false);
+                    }
                 }
+                return $this->redirect(['view', 'audio_resource_id' => $model->audio_resource_id, 'aula_id' => $model->aula_id]);
             }
-            return $this->redirect(['view', 'audio_resource_id' => $model->audio_resource_id, 'aula_id' => $model->aula_id]);
-        }
 
-        return $this->render('update', [
-            'model' => $model,
-            'opcoes'=>$opcoes,
-            
-        ]);
+            return $this->render('update', [
+                'model' => $model,
+                'opcoes' => $opcoes,
+                'arrayTipoexercicio' => $arrayTipoexercicio
+
+            ]);
+        }else{
+            return $this->redirect(['site/no_permisson']);
+        }
 
     }
 
@@ -181,13 +217,17 @@ class AudioController extends Controller
      */
     public function actionDelete($audio_resource_id, $aula_id)
     {
-         
-        $opcoes = $this->FindOpcoes($audio_resource_id, $aula_id);
-        foreach($opcoes as $opcao){
-            $opcao->delete();
+        if (\Yii::$app->user->can('DeleteExerciseSound')) {
+
+            $opcoes = $this->FindOpcoes($audio_resource_id, $aula_id);
+            foreach ($opcoes as $opcao) {
+                $opcao->delete();
+            }
+            $this->findModel($audio_resource_id, $aula_id)->delete();
+            return $this->redirect(['index']);
+        }else{
+            return $this->redirect(['site/no_permisson']);
         }
-        $this->findModel($audio_resource_id, $aula_id)->delete();
-        return $this->redirect(['index']);
     }
 
     /**
@@ -209,9 +249,15 @@ class AudioController extends Controller
 
     protected function FindOpcoes($audio_resource_id, $aula_id){
 
-        $opcoes = Opcoesai::findAll(['audio_audio_resource_id' => $audio_resource_id, 'audio_aula_id' => $aula_id]);
-        return $opcoes;
+        if (\Yii::$app->user->can('ReadOpcoes')) {
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+            $opcoes = Opcoesai::findAll(['audio_audio_resource_id' => $audio_resource_id, 'audio_aula_id' => $aula_id]);
+            return $opcoes;
+
+            throw new NotFoundHttpException('The requested page does not exist.');
+
+        }else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 }

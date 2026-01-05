@@ -3,7 +3,8 @@ use common\models\Feedback;
 use common\models\User;
 use common\models\Curso;
 use common\models\Idioma;
-use common\models\Dificuldade;
+use common\models\Aula;
+use common\models\Tipoexercicio;
 use common\models\ImagemResource;
 use common\models\AudioResource;
 use common\models\Audio;
@@ -59,12 +60,28 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
 
     <div class="row">
         <div class="col-lg-3 col-6">
-            <?= SmallBox::widget([
-                'title' => User::find()->count(),
-                'text' => 'Utilizadores',
-                'icon' => 'fas fa-user-friends',
-                'theme' => 'info',
-            ]) ?>
+            <?php
+            if (\Yii::$app->user->can('ReadUser')) { ?>
+
+                <?= SmallBox::widget([
+                    'title' => User::find()->count(),
+                    'text' => 'Utilizadores',
+                    'icon' => 'fas fa-user-friends',
+                    'theme' => 'info',
+                ]) ?>
+
+            <?php }
+            else { ?>
+
+                <?= SmallBox::widget([
+                    'title' => Tipoexercicio::find()->count(),
+                    'text' => 'Tipo Exercícios',
+                    'icon' => 'fas fa-exclamation-triangle',
+                    'theme' => 'info',
+                ]) ?>
+
+            <?php }
+            ?>
         </div>
         <div class="col-lg-3 col-6">
             <?= SmallBox::widget([
@@ -82,14 +99,31 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
                 'theme' => 'warning',
             ]) ?>
         </div>
-        <div class="col-lg-3 col-6">
-            <?= SmallBox::widget([
-                'title' => Feedback::find()->count(),
-                'text' => 'Feedbacks',
-                'icon' => 'fas fa-comments',
-                'theme' => 'danger',
-            ]) ?>
-        </div>
+
+        <?php
+        if (\Yii::$app->user->can('ReadFeedback')) { ?>
+
+            <div class="col-lg-3 col-6">
+                <?= SmallBox::widget([
+                    'title' => Feedback::find()->count(),
+                    'text' => 'Feedbacks',
+                    'icon' => 'fas fa-comments',
+                    'theme' => 'danger',
+                ]) ?>
+            </div>
+
+        <?php
+        }else{ ?>
+            <div class="col-lg-3 col-6">
+                <?= SmallBox::widget([
+                    'title' => Aula::find()->count(),
+                    'text' => 'Aulas',
+                    'icon' => 'fas fa-book',
+                    'theme' => 'danger',
+                ]) ?>
+            </div>
+        <?php }
+        ?>
     </div>
 
     <div class="row">

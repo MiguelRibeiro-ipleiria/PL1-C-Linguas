@@ -6,14 +6,12 @@ use yii\widgets\DetailView;
 /** @var yii\web\View $this */
 /** @var common\models\Inscricao $model */
 
-$this->title = $model->utilizador_id;
+$this->title = $model->utilizador->user->username . ' (' . $model->cursoIdcurso->titulo_curso . ')';
 $this->params['breadcrumbs'][] = ['label' => 'Inscricaos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="inscricao-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a('Update', ['update', 'utilizador_id' => $model->utilizador_id, 'curso_idcurso' => $model->curso_idcurso], ['class' => 'btn btn-primary']) ?>

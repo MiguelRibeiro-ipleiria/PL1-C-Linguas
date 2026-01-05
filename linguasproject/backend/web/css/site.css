@@ -123,3 +123,7 @@ a:hover{
 .btn:hover{
     color: #fff !important;
 }
+
+.btn-hover-view:hover { background-color: #17a2b8; color: #fff}
+.btn-hover-update:hover { background-color: #ffc107; color: #fff}
+.btn-hover-delete:hover { background-color: #dc3545; color: #fff; }

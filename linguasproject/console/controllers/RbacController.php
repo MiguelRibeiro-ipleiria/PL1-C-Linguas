@@ -250,6 +250,7 @@ class RbacController extends Controller
         $UpdateLessonSound->description = 'Editar dados de um som usado nas aulas';
         $auth->add($UpdateLessonSound);
 
+
         // BackendAccess
         $CanAccessBackend = $auth->createPermission('CanAccessBackend');
         $CanAccessBackend->description = 'Users que podem aceder ás páginas do backend';
@@ -257,8 +258,6 @@ class RbacController extends Controller
 
 
         /* IMAGE, AUDIO AND FRASE EXERCICIOS PERMISSONS */
-
-
 
         /* AUDIOS */
 
@@ -306,22 +305,22 @@ class RbacController extends Controller
 
 
         /* FRASES */
-        // CreateLessonSound
+        // CreateLessonFrase
         $CreateExerciseFrase = $auth->createPermission('CreateExerciseFrase');
         $CreateExerciseFrase->description = 'Criar um exercicio de áudio para as aulas';
         $auth->add($CreateExerciseFrase);
 
-        // DeleteLessonSound
+        // DeleteLessonFrase
         $DeleteExerciseFrase = $auth->createPermission('DeleteExerciseFrase');
         $DeleteExerciseFrase->description = 'Eliminar um exercicio de áudio para as aulas';
         $auth->add($DeleteExerciseFrase);
 
-        // ReadLessonSound
+        // ReadLessonFrase
         $ReadExerciseFrase = $auth->createPermission('ReadExerciseFrase');
         $ReadExerciseFrase->description = 'Ler um exercicio de áudio para as aulas';
         $auth->add($ReadExerciseFrase);
 
-        // UpdateLessonSound
+        // UpdateLessonFrase
         $UpdateExerciseFrase = $auth->createPermission('UpdateExerciseFrase');
         $UpdateExerciseFrase->description = 'Alterar um exercicio de áudio para as aulas';
         $auth->add($UpdateExerciseFrase);
@@ -384,6 +383,10 @@ class RbacController extends Controller
         $CreateInscricoes->description = 'Criar uma inscricao';
         $auth->add($CreateInscricoes);
 
+        $CreateInscricoesPessoal = $auth->createPermission('CreateInscricoesPessoal');
+        $CreateInscricoesPessoal->description = 'Criar uma inscrição pessoal de um curso';
+        $auth->add($CreateInscricoesPessoal);
+
         $DeleteInscricoes = $auth->createPermission('DeleteInscricoes');
         $DeleteInscricoes->description = 'Eliminar incricao de um user';
         $auth->add($DeleteInscricoes);
@@ -392,6 +395,47 @@ class RbacController extends Controller
         $UpdateInscricoes->description = 'Alterar algum dado da inscricao de um user';
         $auth->add($UpdateInscricoes);
 
+
+        /* ACESSO ÁS INCRICOES */
+
+        $ReadResultados = $auth->createPermission('ReadResultados');
+        $ReadResultados->description = 'Ver os resultados das aulas de todos os users';
+        $auth->add($ReadResultados);
+
+        $CreateResultados = $auth->createPermission('CreateResultados');
+        $CreateResultados->description = 'Criar um resultado de uma aula de um user';
+        $auth->add($CreateResultados);
+
+        $CreateResultadosPessoal = $auth->createPermission('CreateResultadosPessoal');
+        $CreateResultadosPessoal->description = 'Criar um resultado de uma aula pessoais';
+        $auth->add($CreateResultadosPessoal);
+
+        $DeleteResultados = $auth->createPermission('DeleteResultados');
+        $DeleteResultados->description = 'Eliminar um resultado de uma aula de um user';
+        $auth->add($DeleteResultados);
+
+        $UpdateResultados = $auth->createPermission('UpdateResultados');
+        $UpdateResultados->description = 'Alterar algum dado do resultado de uma aula de um user';
+        $auth->add($UpdateResultados);
+
+
+        /* OPÇOES DE EXERCICIOS MANAGMENT */
+
+        $ReadOpcoes = $auth->createPermission('ReadOpcoes');
+        $ReadOpcoes->description = 'Ver as Opções dos exercicios criadas';
+        $auth->add($ReadOpcoes);
+
+        $CreateOpcoes = $auth->createPermission('CreateOpcoes');
+        $CreateOpcoes->description = 'Criar uma opcão de um exercicio';
+        $auth->add($CreateOpcoes);
+
+        $DeleteOpcoes = $auth->createPermission('DeleteOpcoes');
+        $DeleteOpcoes->description = 'Eliminar uma opcão de um exercicio';
+        $auth->add($DeleteOpcoes);
+
+        $UpdateOpcoes = $auth->createPermission('UpdateOpcoes');
+        $UpdateOpcoes->description = 'Alterar algum dado de uma opçao de um exercicio';
+        $auth->add($UpdateOpcoes);
 
 
         /*----------------Timeline Managment-----------*/
@@ -427,12 +471,29 @@ class RbacController extends Controller
         $auth->addChild($admin, $CreateInscricoes);
         $auth->addChild($admin, $DeleteInscricoes);
         $auth->addChild($admin, $UpdateInscricoes);
+        $auth->addChild($admin, $CreateInscricoesPessoal);
 
         //formador
-        $auth->addChild($formador, $CreateInscricoes);
+        $auth->addChild($formador, $CreateInscricoesPessoal);
 
         //aluno
-        $auth->addChild($aluno, $CreateInscricoes);
+        $auth->addChild($aluno, $CreateInscricoesPessoal);
+
+
+        /*------------Resultados Managment-------------*/
+        //admin
+        $auth->addChild($admin, $ReadResultados);
+        $auth->addChild($admin, $CreateResultados);
+        $auth->addChild($admin, $DeleteResultados);
+        $auth->addChild($admin, $UpdateResultados);
+        $auth->addChild($admin, $CreateResultadosPessoal);
+
+        //formador
+        $auth->addChild($formador, $CreateResultadosPessoal);
+
+        //aluno
+        $auth->addChild($aluno, $CreateResultadosPessoal);
+
 
 
         /*----------------Backend Managment-----------*/
@@ -513,6 +574,8 @@ class RbacController extends Controller
 
         /*----------------lessons management-----------*/
         //admin
+        $auth->addChild($admin, $CreateLesson);
+        $auth->addChild($admin, $UpdateLesson);
         $auth->addChild($admin, $ReadLesson);
         $auth->addChild($admin, $DeleteLesson);
 
@@ -522,7 +585,60 @@ class RbacController extends Controller
         $auth->addChild($formador, $UpdateLesson);
         $auth->addChild($formador, $DeleteLesson);
 
-         /*----------------Language management-----------*/
+        /*----------------Opcoes management-----------*/
+        //admin
+        $auth->addChild($admin, $ReadOpcoes);
+        $auth->addChild($admin, $CreateOpcoes);
+        $auth->addChild($admin, $UpdateOpcoes);
+        $auth->addChild($admin, $DeleteOpcoes);
+
+        //formador
+        $auth->addChild($formador, $ReadOpcoes);
+        $auth->addChild($formador, $CreateOpcoes);
+        $auth->addChild($formador, $UpdateOpcoes);
+        $auth->addChild($formador, $DeleteOpcoes);
+
+
+        /*----------------Frases management-----------*/
+        //admin
+        $auth->addChild($admin, $CreateExerciseFrase);
+        $auth->addChild($admin, $ReadExerciseFrase);
+        $auth->addChild($admin, $DeleteExerciseFrase);
+        $auth->addChild($admin, $UpdateExerciseFrase);
+
+        //formador
+        $auth->addChild($formador, $CreateExerciseFrase);
+        $auth->addChild($formador, $ReadExerciseFrase);
+        $auth->addChild($formador, $DeleteExerciseFrase);
+        $auth->addChild($formador, $UpdateExerciseFrase);
+
+        /*----------------Sound management-----------*/
+        //admin
+        $auth->addChild($admin, $CreateExerciseSound);
+        $auth->addChild($admin, $ReadExerciseSound);
+        $auth->addChild($admin, $DeleteExerciseSound);
+        $auth->addChild($admin, $UpdateExerciseSound);
+
+        //formador
+        $auth->addChild($formador, $CreateExerciseSound);
+        $auth->addChild($formador, $ReadExerciseSound);
+        $auth->addChild($formador, $DeleteExerciseSound);
+        $auth->addChild($formador, $UpdateExerciseSound);
+
+        /*----------------Image management-----------*/
+        //admin
+        $auth->addChild($admin, $CreateExerciseImage);
+        $auth->addChild($admin, $ReadExerciseImage);
+        $auth->addChild($admin, $DeleteExerciseImage);
+        $auth->addChild($admin, $UpdateExerciseImage);
+
+        //formador
+        $auth->addChild($formador, $CreateExerciseImage);
+        $auth->addChild($formador, $ReadExerciseImage);
+        $auth->addChild($formador, $DeleteExerciseImage);
+        $auth->addChild($formador, $UpdateExerciseImage);
+
+        /*----------------Language management-----------*/
         //Admin
          $auth->addChild($admin, $CreateLanguage);
          $auth->addChild($admin, $ReadLanguage);

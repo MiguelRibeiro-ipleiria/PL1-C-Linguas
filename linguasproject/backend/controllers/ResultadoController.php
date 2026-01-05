@@ -5,6 +5,7 @@ namespace backend\controllers;
 use common\models\Resultado;
 use common\models\ResultadoSearch;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -22,63 +23,105 @@ class ResultadoController extends Controller
                         'delete' => ['POST'],
                     ],
                 ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'denyCallback' => function () {
+                        return \Yii::$app->response->redirect(['../../frontend/web/']);
+                    },
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                            'roles' => ['admin', 'formador'],
+                        ],
+                    ],
+                ],
             ]
         );
     }
 
     public function actionIndex()
     {
-        $searchModel = new ResultadoSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        if (\Yii::$app->user->can('ReadResultados')) {
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            $searchModel = new ResultadoSearch();
+            $dataProvider = $searchModel->search($this->request->queryParams);
+
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     public function actionView($utilizador_id, $aula_idaula)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($utilizador_id, $aula_idaula),
-        ]);
+        if (\Yii::$app->user->can('ReadResultados')) {
+
+            return $this->render('view', [
+                'model' => $this->findModel($utilizador_id, $aula_idaula),
+            ]);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     public function actionCreate()
     {
-        $model = new Resultado();
+        if (\Yii::$app->user->can('CreateResultados')) {
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'utilizador_id' => $model->utilizador_id, 'aula_idaula' => $model->aula_idaula]);
+            $model = new Resultado();
+
+            if ($this->request->isPost) {
+                if ($model->load($this->request->post()) && $model->save()) {
+                    return $this->redirect(['view', 'utilizador_id' => $model->utilizador_id, 'aula_idaula' => $model->aula_idaula]);
+                }
+            } else {
+                $model->loadDefaultValues();
             }
-        } else {
-            $model->loadDefaultValues();
-        }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        }else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     public function actionUpdate($utilizador_id, $aula_idaula)
     {
-        $model = $this->findModel($utilizador_id, $aula_idaula);
+        if (\Yii::$app->user->can('UpdateResultados')) {
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'utilizador_id' => $model->utilizador_id, 'aula_idaula' => $model->aula_idaula]);
+            $model = $this->findModel($utilizador_id, $aula_idaula);
+
+            if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'utilizador_id' => $model->utilizador_id, 'aula_idaula' => $model->aula_idaula]);
+            }
+
+            return $this->render('update', [
+                'model' => $model,
+            ]);
         }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     public function actionDelete($utilizador_id, $aula_idaula)
     {
-        $this->findModel($utilizador_id, $aula_idaula)->delete();
+        if (\Yii::$app->user->can('DeleteResultados')) {
 
-        return $this->redirect(['index']);
+            $this->findModel($utilizador_id, $aula_idaula)->delete();
+
+            return $this->redirect(['index']);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     protected function findModel($utilizador_id, $aula_idaula)

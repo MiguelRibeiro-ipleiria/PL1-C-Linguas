@@ -6,14 +6,12 @@ use yii\widgets\DetailView;
 /** @var yii\web\View $this */
 /** @var common\models\Dificuldade $model */
 
-$this->title = $model->id;
+$this->title = $model->id . ' (' . $model->grau_dificuldade . ')';
 $this->params['breadcrumbs'][] = ['label' => 'Dificuldades', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="dificuldade-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>

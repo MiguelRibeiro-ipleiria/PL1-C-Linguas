@@ -8,10 +8,6 @@ use yii\helpers\Url;
 
 <style>
     .card-idioma:hover { transform: translateY(-1px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-    
-    .btn-hover-view:hover { background-color: #17a2b8; color: #fff} 
-    .btn-hover-update:hover { background-color: #ffc107; color: #fff} 
-    .btn-hover-delete:hover { background-color: #dc3545; color: #fff; } 
 </style>
 
 <div class="col-md-6 col-lg-4 col-xl-3 mb-4">

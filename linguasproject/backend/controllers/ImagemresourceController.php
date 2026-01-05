@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use common\models\ImagemResource;
 use common\models\ImagemResourceSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -28,6 +29,19 @@ class ImagemresourceController extends Controller
                         'delete' => ['POST'],
                     ],
                 ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'denyCallback' => function () {
+                        return \Yii::$app->response->redirect(['../../frontend/web/']);
+                    },
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                            'roles' => ['admin', 'formador'],
+                        ],
+                    ],
+                ],
             ]
         );
     }
@@ -39,13 +53,19 @@ class ImagemresourceController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new ImagemResourceSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        if (\Yii::$app->user->can('ReadLessonImage')) {
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            $searchModel = new ImagemResourceSearch();
+            $dataProvider = $searchModel->search($this->request->queryParams);
+
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }else{
+            return $this->redirect(['site/no_permisson']);
+        }
+
     }
 
     /**
@@ -56,9 +76,16 @@ class ImagemresourceController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        if (\Yii::$app->user->can('ReadLessonImage')) {
+
+            return $this->render('view', [
+                'model' => $this->findModel($id),
+            ]);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
+
     }
 
     /**
@@ -68,25 +95,31 @@ class ImagemresourceController extends Controller
      */
     public function actionCreate()
     {
-        $model = new ImagemResource();
+        if (\Yii::$app->user->can('CreateLessonImage')) {
 
-       if ($this->request->isPost) {
+            $model = new ImagemResource();
 
-        $model->load($this->request->post());
+            if ($this->request->isPost) {
 
-        $model->nome_ficheiro = UploadedFile::getInstance($model, 'nome_ficheiro');
+                $model->load($this->request->post());
 
-        if($model->upload()){
+                $model->nome_ficheiro = UploadedFile::getInstance($model, 'nome_ficheiro');
 
-            if ($model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                if ($model->upload()) {
+
+                    if ($model->save()) {
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    }
+                }
             }
+
+            return $this->render('create', [
+                'model' => $model,
+            ]);
         }
-        
-    }
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -98,15 +131,21 @@ class ImagemresourceController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        if (\Yii::$app->user->can('UpdateLessonImage')) {
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            $model = $this->findModel($id);
+
+            if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+
+            return $this->render('update', [
+                'model' => $model,
+            ]);
         }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -118,9 +157,14 @@ class ImagemresourceController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        if (\Yii::$app->user->can('DeleteLessonImage')) {
 
-        return $this->redirect(['index']);
+            $this->findModel($id)->delete();
+
+            return $this->redirect(['index']);
+        }else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**

@@ -5,6 +5,7 @@ namespace backend\controllers;
 use common\models\Aula;
 use common\models\Imagem;
 use common\models\ImagemSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -35,6 +36,19 @@ class ImagemController extends Controller
                         'delete' => ['POST'],
                     ],
                 ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'denyCallback' => function () {
+                        return \Yii::$app->response->redirect(['../../frontend/web/']);
+                    },
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'actions' => ['index', 'view', 'create', 'update', 'delete', 'findopcoes'],
+                            'roles' => ['admin', 'formador'],
+                        ],
+                    ],
+                ],
             ]
         );
     }
@@ -46,7 +60,7 @@ class ImagemController extends Controller
      */
     public function actionIndex()
     {
-     
+        if (\Yii::$app->user->can('ReadExerciseImage')) {
 
             $searchModel = new ImagemSearch();
             $dataProvider = $searchModel->search($this->request->queryParams);
@@ -55,7 +69,10 @@ class ImagemController extends Controller
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
             ]);
-
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
 
     }
 
@@ -68,9 +85,15 @@ class ImagemController extends Controller
      */
     public function actionView($imagem_resource_id, $aula_id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($imagem_resource_id, $aula_id),
-        ]);
+        if (\Yii::$app->user->can('ReadExerciseImage')) {
+
+            return $this->render('view', [
+                'model' => $this->findModel($imagem_resource_id, $aula_id),
+            ]);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -80,74 +103,78 @@ class ImagemController extends Controller
      */
     public function actionCreate($aula_id = null)
     {
-        $model = new Imagem();
-        $model->aula_id = $aula_id;
+        if (\Yii::$app->user->can('CreateExerciseImage')) {
+
+            $model = new Imagem();
+            $model->aula_id = $aula_id;
 
 
-        $auth = Yii::$app->authManager;
-        $user_id = Yii::$app->user->id;
-        $utilizador = Utilizador::findOne(['user_id' => $user_id]);
-        $userRoles = $auth->getRolesByUser($user_id);
-        $role = key($userRoles);    
+            $auth = Yii::$app->authManager;
+            $user_id = Yii::$app->user->id;
+            $utilizador = Utilizador::findOne(['user_id' => $user_id]);
+            $userRoles = $auth->getRolesByUser($user_id);
+            $role = key($userRoles);
 
-        $query = Aula::find();
-
-
-        if ($role !== 'admin') {
-            $query->where(['utilizador_id' => $utilizador->id]);
-        }
-
-        $arrayaulas = ArrayHelper::map($query->all(), 'id', 'titulo_aula');
-        $arrayTipoexercicio = ArrayHelper::map(Tipoexercicio::find()->all(), 'id', 'descricao');
-        
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {                
+            $query = Aula::find();
 
 
-                $postOpcoes = $this->request->post('Opcoesai', []);
+            if ($role !== 'admin') {
+                $query->where(['utilizador_id' => $utilizador->id]);
+            }
+
+            $arrayaulas = ArrayHelper::map($query->all(), 'id', 'titulo_aula');
+            $arrayTipoexercicio = ArrayHelper::map(Tipoexercicio::find()->all(), 'id', 'descricao');
+
+            if ($this->request->isPost) {
+                if ($model->load($this->request->post()) && $model->save()) {
+
+
+                    $postOpcoes = $this->request->post('Opcoesai', []);
 
                     foreach ($postOpcoes as $dadosOpcao) {
                         $opcao = new OpcoesAi();
                         $opcao->load(['Opcoesai' => $dadosOpcao]);
 
 
-
                         $opcao->imagem_aula_id = $model->aula_id;
-                    
+
                         $opcao->imagem_imagem_resource_id = $model->imagem_resource_id;
 
                         $opcao->save();
-                        
-                        
+
                     }
-              
-                
-                $aula = Aula::findOne($model->aula_id);
 
-                $aula->numero_de_exercicios = $aula->VerificaNumeroDeExercicios($model->aula_id);
-                $aula->save();
-                //return $this->redirect(['view', 'imagem_resource_id' => $model->imagem_resource_id, 'aula_id' => $model->aula_id]);
+
+                    $aula = Aula::findOne($model->aula_id);
+
+                    $aula->numero_de_exercicios = $aula->VerificaNumeroDeExercicios($model->aula_id);
+                    $aula->save();
+                    //return $this->redirect(['view', 'imagem_resource_id' => $model->imagem_resource_id, 'aula_id' => $model->aula_id]);
+                }
+            } else {
+                $model->loadDefaultValues();
             }
-        } else {
-            $model->loadDefaultValues();
+
+            $opcoes = [
+                new OpcoesAi(),
+                new OpcoesAi(),
+                new OpcoesAi(),
+                new OpcoesAi(),
+            ];
+
+            return $this->render('create', [
+                'model' => $model,
+                'opcoes' => $opcoes,
+                'arrayaulas' => $arrayaulas,
+                'aula_id' => $aula_id,
+                'arrayTipoexercicio' => $arrayTipoexercicio,
+
+
+            ]);
         }
-
-        $opcoes = [
-            new OpcoesAi(),
-            new OpcoesAi(),
-            new OpcoesAi(),
-            new OpcoesAi(),
-        ];
-
-        return $this->render('create', [
-            'model' => $model,
-            'opcoes' => $opcoes, 
-            'arrayaulas' => $arrayaulas,
-            'aula_id' =>$aula_id,
-            'arrayTipoexercicio'=>$arrayTipoexercicio,
-
-            
-        ]);
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
         
 
     }
@@ -162,25 +189,34 @@ class ImagemController extends Controller
      */
     public function actionUpdate($imagem_resource_id, $aula_id)
     {
-        $model = $this->findModel($imagem_resource_id, $aula_id);
+        if (\Yii::$app->user->can('UpdateExerciseImage')) {
 
-        $opcoes = $this->FindOpcoes($imagem_resource_id, $aula_id);
+            $model = $this->findModel($imagem_resource_id, $aula_id);
 
-         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {                
-            if (Opcoesai::loadMultiple($opcoes, $this->request->post()) && Opcoesai::validateMultiple($opcoes)) {
-                foreach ($opcoes as $opcao) {
-                    $opcao->save(false);
+            $arrayTipoexercicio = ArrayHelper::map(Tipoexercicio::find()->all(), 'id', 'descricao');
+            $opcoes = $this->FindOpcoes($imagem_resource_id, $aula_id);
+
+
+            if ($this->request->isPost) {
+                if ($model->load($this->request->post()) && $model->save()) {
+                    if (Opcoesai::loadMultiple($opcoes, $this->request->post()) && Opcoesai::validateMultiple($opcoes)) {
+                        foreach ($opcoes as $opcao) {
+                            $opcao->save(false);
+                        }
+                    }
+                    return $this->redirect(['view', 'imagem_resource_id' => $model->imagem_resource_id, 'aula_id' => $model->aula_id]);
                 }
             }
-                return $this->redirect(['view', 'imagem_resource_id' => $model->imagem_resource_id, 'aula_id' => $model->aula_id]);
-            }
-        }
 
-        return $this->render('update', [
-            'model' => $model,
-            'opcoes'=>$opcoes,
-        ]);
+            return $this->render('update', [
+                'model' => $model,
+                'opcoes' => $opcoes,
+                'arrayTipoexercicio' => $arrayTipoexercicio,
+            ]);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -193,14 +229,19 @@ class ImagemController extends Controller
      */
     public function actionDelete($imagem_resource_id, $aula_id)
     {
-        $opcoes = $this->FindOpcoes($imagem_resource_id, $aula_id);
-        
-        foreach($opcoes as $opcao){
-            $opcao->delete();
-        }
-        $this->findModel($imagem_resource_id, $aula_id)->delete();
+        if (\Yii::$app->user->can('DeleteExerciseImage')) {
 
-        return $this->redirect(['index']);
+            $opcoes = $this->FindOpcoes($imagem_resource_id, $aula_id);
+
+            foreach ($opcoes as $opcao) {
+                $opcao->delete();
+            }
+            $this->findModel($imagem_resource_id, $aula_id)->delete();
+
+            return $this->redirect(['index']);
+        }else{
+
+        }
     }
 
     /**
@@ -223,10 +264,15 @@ class ImagemController extends Controller
 
     protected function FindOpcoes($imagem_resource_id, $aula_id){
 
-        $opcoes = Opcoesai::findAll(['imagem_imagem_resource_id' => $imagem_resource_id, 'imagem_aula_id' => $aula_id]);
-        return $opcoes;
+        if (\Yii::$app->user->can('ReadOpcoes')) {
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+            $opcoes = Opcoesai::findAll(['imagem_imagem_resource_id' => $imagem_resource_id, 'imagem_aula_id' => $aula_id]);
+            return $opcoes;
+
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }else{
+
+        }
     }
 }
 
