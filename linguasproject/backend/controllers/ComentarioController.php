@@ -112,7 +112,7 @@ class ComentarioController extends Controller
     {
         if(\Yii::$app->user->can('CreateComment')) {
 
-            $model = new comentario();
+            $model = new Comentario();
 
             if ($this->request->isPost) {
                 if ($model->load($this->request->post())) {
