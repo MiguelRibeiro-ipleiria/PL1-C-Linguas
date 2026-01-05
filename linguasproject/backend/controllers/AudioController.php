@@ -223,7 +223,15 @@ class AudioController extends Controller
             foreach ($opcoes as $opcao) {
                 $opcao->delete();
             }
-            $this->findModel($audio_resource_id, $aula_id)->delete();
+            $audio = $this->findModel($audio_resource_id, $aula_id);
+            $aula = Aula::findOne($audio->aula_id);
+            $audio->delete();
+
+            $aula->numero_de_exercicios = $aula->VerificaNumeroDeExercicios($aula->id);
+            if($aula->save()){
+                return $this->redirect(['index']);
+            }
+
             return $this->redirect(['index']);
         }else{
             return $this->redirect(['site/no_permisson']);

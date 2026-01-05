@@ -5,7 +5,7 @@ namespace backend\controllers;
 use common\models\comentario;
 use common\models\User;
 use common\models\Aula;
-use common\models\comentarioSearch;
+use common\models\ComentarioSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -67,7 +67,7 @@ class ComentarioController extends Controller
 
             }
             else{
-                $searchModel = new comentarioSearch();
+                $searchModel = new ComentarioSearch();
                 $dataProvider = $searchModel->search($this->request->queryParams);
             }
 
