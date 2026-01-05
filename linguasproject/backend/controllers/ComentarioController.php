@@ -67,7 +67,7 @@ class ComentarioController extends Controller
 
             }
             else{
-                $searchModel = new comentarioSearch();
+                $searchModel = new ComentarioSearch();
                 $dataProvider = $searchModel->search($this->request->queryParams);
             }
 
