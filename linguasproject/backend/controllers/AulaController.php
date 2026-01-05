@@ -171,6 +171,18 @@ class AulaController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $auth = Yii::$app->authManager;
+        $user_id = Yii::$app->user->id;
+        $utilizador = Utilizador::findOne(['user_id' => $user_id]);
+        $userRoles = $auth->getRolesByUser($user_id);
+        $role = key($userRoles);
+
+        $query = Curso::find();
+        if ($role !== 'admin') {
+            $query->where(['utilizador_id' => $utilizador->id]);
+        }
+        $arraycursos = ArrayHelper::map($query->all(), 'id', 'titulo_curso');
+
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -178,6 +190,7 @@ class AulaController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'arraycursos'=>$arraycursos,
         ]);
     }
 

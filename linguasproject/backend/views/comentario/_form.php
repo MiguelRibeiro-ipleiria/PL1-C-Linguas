@@ -23,8 +23,6 @@ use common\models\User;
 
         <?= $form->field($model, 'aula_id')->dropDownlist($arrayaulas) ?>
 
-        <?= $form->field($model, 'hora_criada')->textInput() ?>
-
         <?= $form->field($model, 'utilizador_id')->textInput() ?>
 
     <div class="form-group">

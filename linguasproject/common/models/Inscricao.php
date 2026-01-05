@@ -194,7 +194,7 @@ class Inscricao extends \yii\db\ActiveRecord
         }
 
         foreach ($resultado_array as $resultado) {
-            if ($resultado->estado == "Terminada") {
+            if ($resultado->estado == "Terminada" || $resultado->estado == null) {
                 $cont++;
             }
         }

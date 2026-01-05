@@ -39,27 +39,11 @@ class UserController extends Controller
                 ],
                 'access' => [
                     'class' => AccessControl::class,
-                    'only' => ['index', 'view', 'create', 'update', 'delete'],
                     'rules' => [
                         [
                             'allow' => true,
-                            'actions' => ['index', 'view'],
-                            'roles' => ['ReadUser'],
-                        ],
-                        [
-                            'allow' => true,
-                            'actions' => ['create'],
-                            'roles' => ['CreatUser'],
-                        ],
-                        [
-                            'allow' => true,
-                            'actions' => ['update'],
-                            'roles' => ['UpdateUser'],
-                        ],
-                        [
-                            'allow' => true,
-                            'actions' => ['delete'],
-                            'roles' => ['DeleteUser'],
+                            'actions' => ['index', 'view', 'create', 'update', 'delete', 'role', 'formador', 'account'],
+                            'roles' => ['admin', 'formador'],
                         ],
                     ],
                     'denyCallback' => function () {
@@ -99,15 +83,21 @@ class UserController extends Controller
      */
     public function actionView($id)
     {
-        $auth = Yii::$app->authManager;
-        $model = $this->findModel($id);
-        $UserRoles = $auth->getRolesByUser($model->id);
-        $userrole = key($UserRoles);
+        if (\Yii::$app->user->can('ReadUser')) {
 
-        return $this->render('view', [
-            'model' => $model,
-            'userrole' => $userrole,
-        ]);
+                $auth = Yii::$app->authManager;
+            $model = $this->findModel($id);
+            $UserRoles = $auth->getRolesByUser($model->id);
+            $userrole = key($UserRoles);
+
+            return $this->render('view', [
+                'model' => $model,
+                'userrole' => $userrole,
+            ]);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -117,19 +107,24 @@ class UserController extends Controller
      */
     public function actionCreate()
     {
-        $model = new User();
+        if (\Yii::$app->user->can('CreateUser')) {
+            $model = new User();
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($this->request->isPost) {
+                if ($model->load($this->request->post()) && $model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+            } else {
+                $model->loadDefaultValues();
             }
-        } else {
-            $model->loadDefaultValues();
-        }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -141,15 +136,20 @@ class UserController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        if (\Yii::$app->user->can('UpdateUser')) {
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            $model = $this->findModel($id);
+
+            if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+
+            return $this->render('update', [
+                'model' => $model,
+            ]);
+        }else{
+            return $this->redirect(['site/no_permisson']);
         }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
     }
 
     /**
@@ -161,11 +161,17 @@ class UserController extends Controller
      */
     public function actionDelete($id)
     {
-        $model = $this->findModel($id);
-        $model->status = 0; //Por politica nunca se eliminar um user, portanto mudamos o status para 0 (DELETED)
-        $model ->save();
+        if (\Yii::$app->user->can('DeleteUser')) {
 
-        return $this->redirect(['index']);
+            $model = $this->findModel($id);
+            $model->status = 0; //Por politica nunca se eliminar um user, portanto mudamos o status para 0 (DELETED)
+            $model->save();
+
+            return $this->redirect(['index']);
+        }
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
     }
 
     /**
@@ -186,35 +192,41 @@ class UserController extends Controller
 
     public function actionRole($id)
     {
-        $auth = Yii::$app->authManager;
-        $user = $this->findModel($id);
-        $roles = $auth->getRoles();
+        if (\Yii::$app->user->can('GiveRole')) {
 
-        if ($this->request->isPost) {
+            $auth = Yii::$app->authManager;
+            $user = $this->findModel($id);
+            $roles = $auth->getRoles();
 
-            $RoleSelecionada = $this->request->post('role');
-            $auth->revokeAll($user->id);
+            if ($this->request->isPost) {
 
-            if ($RoleSelecionada != null) {
-                $NovaRole = $auth->getRole($RoleSelecionada);
-                $auth->assign($NovaRole, $user->getId());
-                return $this->render('view', [
-                    'model' => $user,
-                    'userrole' => $NovaRole->name
-                ]);
+                $RoleSelecionada = $this->request->post('role');
+                $auth->revokeAll($user->id);
+
+                if ($RoleSelecionada != null) {
+                    $NovaRole = $auth->getRole($RoleSelecionada);
+                    $auth->assign($NovaRole, $user->getId());
+                    return $this->render('view', [
+                        'model' => $user,
+                        'userrole' => $NovaRole->name
+                    ]);
+                }
             }
+
+
+            $UserRoles = $auth->getRolesByUser($user->id);
+            $userrole = key($UserRoles);
+            $ListadeRoles = \yii\helpers\ArrayHelper::map($roles, 'name', 'name');
+
+            return $this->render('role', [
+                'user' => $user,
+                'ListadeRoles' => $ListadeRoles,
+                'userrole' => $userrole,
+            ]);
         }
-
-        $UserRoles = $auth->getRolesByUser($user->id);
-        $userrole = key($UserRoles);
-        $ListadeRoles = \yii\helpers\ArrayHelper::map($roles, 'name', 'name');
-
-        return $this->render('role', [
-            'user' => $user,
-            'ListadeRoles' => $ListadeRoles,
-            'userrole' => $userrole,
-        ]);
-
+        else{
+            return $this->redirect(['site/no_permisson']);
+        }
 
         //vai buscar ao authmanager, vai buscar o user a ser alterado vai buscar as roles do user, e todas as roles
 
@@ -224,42 +236,48 @@ class UserController extends Controller
 
     public function actionFormador()
     {
-        $auth = Yii::$app->authManager;
+        if (\Yii::$app->user->can('GiveRole')) {
 
-        if (!Yii::$app->user->can('ReadUser')) {
-            return $this->redirect(['site/no_permisson']);
-        }
+            $auth = Yii::$app->authManager;
 
-        $utilizadores = Utilizador::find()->where(['not', ['idioma_id' => null]])->all();
+            if (!Yii::$app->user->can('ReadUser')) {
+                return $this->redirect(['site/no_permisson']);
+            }
 
-        $utilizadorerole = [];
+            $utilizadores = Utilizador::find()->where(['not', ['idioma_id' => null]])->all();
 
-        if (Yii::$app->request->isPost) {
-            $roleSelecionada = Yii::$app->request->post('role');
-            $userId = Yii::$app->request->post('userid');
+            $utilizadorerole = [];
 
-            if ($userId && $roleSelecionada) {
-                $auth->revokeAll($userId);                // remover roles atuais
-                $novaRole = $auth->getRole($roleSelecionada);
-                if ($novaRole) {
-                    $auth->assign($novaRole, $userId);    // atribuir nova role
+            if (Yii::$app->request->isPost) {
+                $roleSelecionada = Yii::$app->request->post('role');
+                $userId = Yii::$app->request->post('userid');
+
+                if ($userId && $roleSelecionada) {
+                    $auth->revokeAll($userId);                // remover roles atuais
+                    $novaRole = $auth->getRole($roleSelecionada);
+                    if ($novaRole) {
+                        $auth->assign($novaRole, $userId);    // atribuir nova role
+                    }
                 }
             }
+
+            foreach ($utilizadores as $utilizador) {
+                $userRoles = $auth->getRolesByUser($utilizador->user_id);
+                $role = key($userRoles); // obtém o nome da role
+
+                $utilizadorerole[] = [
+                    "user" => $utilizador,
+                    "role" => $role,
+                ];
+            }
+
+            return $this->render('formador', [
+                'arrayusererole' => $utilizadorerole
+            ]);
         }
-
-        foreach ($utilizadores as $utilizador) {
-            $userRoles = $auth->getRolesByUser($utilizador->user_id);
-            $role = key($userRoles); // obtém o nome da role
-
-            $utilizadorerole[] = [
-                "user" => $utilizador,
-                "role" => $role,
-            ];
+        else{
+            return $this->redirect(['site/no_permisson']);
         }
-
-        return $this->render('formador', [
-            'arrayusererole' => $utilizadorerole
-        ]);
     }
 
 
@@ -271,9 +289,6 @@ class UserController extends Controller
         return $this->render('account', [
             'user' => $model    
         ]);
-        
-        
-
     }
 
 

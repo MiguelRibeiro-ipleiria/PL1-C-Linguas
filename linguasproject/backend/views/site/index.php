@@ -17,7 +17,7 @@ use hail812\adminlte\widgets\SmallBox;
 /** @var int $count_dos_exercicios */
 
 
-$this->title = 'Painel de Gestão LinguasProject';
+$this->title = 'Painel de Gestão LEARNALOT';
 $this->params['breadcrumbs'] = [['label' => $this->title]];
 
 ?>
@@ -132,37 +132,40 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
     </div>
 
     <div class="row mt-3">
-        <div class="col-md-6">
-            <div class="card card-outline card-dark">
-                <div class="card-header">
-                    <h3 class="card-title"><i class="fas fa-list mr-1"></i> Lista de Feedbacks Recentes</h3>
+        <?php
+            if (\Yii::$app->user->can('ReadFeedback')) { ?>
+                <div class="col-md-6">
+                    <div class="card card-outline card-dark">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-list mr-1"></i> Lista de Feedbacks Recentes</h3>
+                        </div>
+                        <div class="card-body p-0">
+                            <ul class="todo-list" data-widget="todo-list">
+                                <?php
+                                $feedbacks = Feedback::find()->orderBy(['hora_criada' => SORT_DESC])->limit(6)->all();
+                                foreach ($feedbacks as $feedback):
+                                    $dataCriada = new DateTime($feedback->hora_criada);
+                                    $intervalo = (new DateTime())->diff($dataCriada);
+                                    $tempo = $intervalo->d > 0 ? $intervalo->d . "d" : ($intervalo->h > 0 ? $intervalo->h . "h" : $intervalo->i . "m");
+                                    ?>
+                                    <li>
+                                        <span class="handle"><i class="fas fa-ellipsis-v"></i></span>
+                                        <span class="text"><?= htmlspecialchars($feedback->assunto_feedback) ?></span>
+                                        <small class="badge badge-secondary"><i class="far fa-clock"></i> <?= $tempo ?></small>
+                                        <div class="tools">
+                                            <a href="<?= Url::to(['/feedback/view', 'id' => $feedback->id]) ?>"><i class="fas fa-eye"></i></a>
+                                        </div>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                        <div class="card-footer clearfix">
+                            <a href="<?= Url::to(['/feedback/index']) ?>" class="btn btn-sm btn-secondary float-right">Ver Todos</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body p-0">
-                    <ul class="todo-list" data-widget="todo-list">
-                        <?php
-                        $feedbacks = Feedback::find()->orderBy(['hora_criada' => SORT_DESC])->limit(6)->all();
-                        foreach ($feedbacks as $feedback): 
-                            $dataCriada = new DateTime($feedback->hora_criada);
-                            $intervalo = (new DateTime())->diff($dataCriada);
-                            $tempo = $intervalo->d > 0 ? $intervalo->d . "d" : ($intervalo->h > 0 ? $intervalo->h . "h" : $intervalo->i . "m");
-                        ?>
-                        <li>
-                            <span class="handle"><i class="fas fa-ellipsis-v"></i></span>
-                            <span class="text"><?= htmlspecialchars($feedback->assunto_feedback) ?></span>
-                            <small class="badge badge-secondary"><i class="far fa-clock"></i> <?= $tempo ?></small>
-                            <div class="tools">
-                                <a href="<?= Url::to(['/feedback/view', 'id' => $feedback->id]) ?>"><i class="fas fa-eye"></i></a>
-                            </div>
-                        </li>
-                        <?php endforeach; ?>
-                    </ul>
-                </div>
-                <div class="card-footer clearfix">
-                    <a href="<?= Url::to(['/feedback/index']) ?>" class="btn btn-sm btn-secondary float-right">Ver Todos</a>
-                </div>
-            </div>
-        </div>
-
+            <?php }
+        ?>
         <div class="col-md-6">
             <div class="card card-outline card-primary">
                 <div class="card-header border-transparent">

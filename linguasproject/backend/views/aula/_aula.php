@@ -66,29 +66,7 @@ $auth = Yii::$app->authManager;
                     <div class="row">
                         <div class="col-12">
                             <h4>Comentários</h4>
-                            <?php if ($model->getComentarios()->count() <= 0) {
-
-                                echo 'Ainda sem comentários.';
-                            }
-                            else{
-                                foreach($model->getComentarios()->all() as $comentario){?>
-                            <div class="post">
-                                <div class="user-block">
-
-                                    <span class="username">
-                                <?= $comentario->utilizador->user->username ?>
-                                </span>
-                                    <span class="description"><?=$comentario->hora_criada?></span>
-                                </div>
-                                <!-- /.user-block -->
-                                <p>
-                                    <?=$comentario->descricao_comentario?>
-                                </p>
-                            </div>
-
-                            <?php }} ?>
-
-
+                            <a href="<?= Url::to(['/comentario/index', 'aula_id' => $model->id]) ?>" class="btn btn-success">Ver Comentários desta Aula</a>
                         </div>
                     </div>
                 </div>
@@ -109,12 +87,10 @@ $auth = Yii::$app->authManager;
                         </p>
                     </div>
                     <div>
-                        <a href="<?= Url::to(['/aula/update', 'id' => $model->id]) ?>" class="btn btn-success">Alterar dados do Curso</a>
-                    </div>
-                        <br>
-                    <div>
+                        <a href="<?= Url::to(['/aula/update', 'id' => $model->id]) ?>" class="btn btn-success">Alterar dados da Aula</a>
                         <a href="<?= Url::to(['/aula/escolherexercicio', 'aula_id' => $model->id]) ?>" class="btn btn-success">Adicionar Exercicio</a>
                     </div>
+
                                     
                 </div>
 

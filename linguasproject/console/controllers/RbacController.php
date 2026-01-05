@@ -26,6 +26,11 @@ class RbacController extends Controller
         $auth->add($aluno);
 
 
+        $ReadTimeline = $auth->createPermission('ReadTimeline');
+        $ReadTimeline->description = 'Pode ver a timeline do backend';
+        $auth->add($ReadTimeline);
+
+
         /*MESSAGING PERMISSIONS*/
         // CreateFeedback
         $CreateFeedback = $auth->createPermission('CreateFeedback');
@@ -114,6 +119,10 @@ class RbacController extends Controller
         $DeleteUser = $auth->createPermission('DeleteUser');
         $DeleteUser->description = 'Eliminar um utilizador';
         $auth->add($DeleteUser);
+
+        $GiveRole = $auth->createPermission('GiveRole');
+        $GiveRole->description = 'Atribuir ou alterar a role de um utilizador';
+        $auth->add($GiveRole);
 
 
         /*COURSES MANAGEMENT PERMISSIONS*/
@@ -385,6 +394,9 @@ class RbacController extends Controller
 
 
 
+        /*----------------Timeline Managment-----------*/
+        //admin
+        $auth->addChild($admin, $ReadTimeline);
 
         /*----------------Profile Managment-----------*/
         //admin
@@ -478,6 +490,7 @@ class RbacController extends Controller
         $auth->addChild($admin, $UpdateUser);
         $auth->addChild($admin, $DeleteUser);
         $auth->addChild($admin, $CreateUser);
+        $auth->addChild($admin, $GiveRole);
 
         /*------------------Courses management----------*/
         //admin

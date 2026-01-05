@@ -53,15 +53,23 @@ class ComentarioController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex($aula_id = null)
     {
         if(\Yii::$app->user->can('ReadComment')) {
 
             $arrayUsers= ArrayHelper::map(User::find()->asArray()->all(), 'id', 'username');
-            $arrayAula= ArrayHelper::map(Aula::find()->asArray()->all(), 'id', 'titulo_aula'); 
+            $arrayAula= ArrayHelper::map(Aula::find()->asArray()->all(), 'id', 'titulo_aula');
 
-            $searchModel = new comentarioSearch();
-            $dataProvider = $searchModel->search($this->request->queryParams);
+            if($aula_id != null){
+                $searchModel = new ComentarioSearch();
+                $dataProvider = $searchModel->search($this->request->queryParams);
+                $dataProvider->query->andWhere(['aula_id' => $aula_id]);
+
+            }
+            else{
+                $searchModel = new comentarioSearch();
+                $dataProvider = $searchModel->search($this->request->queryParams);
+            }
 
             return $this->render('index', [
                 'searchModel' => $searchModel,
@@ -69,6 +77,7 @@ class ComentarioController extends Controller
                 'arrayUsers' => $arrayUsers,
                 'arrayAula' => $arrayAula,
             ]);
+
         }
         else{
             return $this->redirect(['site/no_permisson']);
@@ -106,8 +115,11 @@ class ComentarioController extends Controller
             $model = new comentario();
 
             if ($this->request->isPost) {
-                if ($model->load($this->request->post()) && $model->save()) {
-                    return $this->redirect(['view', 'id' => $model->id]);
+                if ($model->load($this->request->post())) {
+                    $model->hora_criada = date('Y-m-d H:i:s');
+                    if($model->save()){
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    }
                 }
             } else {
                 $model->loadDefaultValues();

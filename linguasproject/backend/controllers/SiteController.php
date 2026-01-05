@@ -73,24 +73,32 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-
         $aulas = Aula::find()->all();
-        $count_dos_exercicios = 0;
-        foreach ($aulas as $aula) {
-            $aula_audio = $aula->getAudios()->count();
-            $aula_imagem = $aula->getImagems()->count();
-            $aula_frase = $aula->getFrases()->count();
+        if($aulas){
+            $count_dos_exercicios = 0;
+            foreach ($aulas as $aula) {
+                $aula_audio = $aula->getAudios()->count();
+                $aula_imagem = $aula->getImagems()->count();
+                $aula_frase = $aula->getFrases()->count();
 
-            $count_dos_exercicios = $count_dos_exercicios + $aula_audio + $aula_frase + $aula_imagem;
+                $count_dos_exercicios = $count_dos_exercicios + $aula_audio + $aula_frase + $aula_imagem;
+            }
         }
-
+        else{
+            $count_dos_exercicios = 0;
+        }
 
         return $this->render('index', ['count_dos_exercicios' => $count_dos_exercicios]);
     }
 
     public function actionTimeline()
     {
-        return $this->render('timeline');
+        if (\Yii::$app->user->can('ReadTimeline')) {
+            return $this->render('timeline');
+        }
+        else{
+            return $this->redirect(['no_permisson']);
+        }
     }
 
     public function actionNo_permisson()
