@@ -9,7 +9,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use common\models\opcoesai;
+use common\models\Opcoesai;
 use yii\helpers\ArrayHelper;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -130,7 +130,7 @@ class AudioController extends Controller
                     $postOpcoes = $this->request->post('Opcoesai', []);
 
                     foreach ($postOpcoes as $dadosOpcao) {
-                        $opcao = new OpcoesAi();
+                        $opcao = new Opcoesai();
                         $opcao->load(['Opcoesai' => $dadosOpcao]);
 
 
@@ -151,10 +151,10 @@ class AudioController extends Controller
                 $model->loadDefaultValues();
             }
             $opcoes = [
-                new OpcoesAi(),
-                new OpcoesAi(),
-                new OpcoesAi(),
-                new OpcoesAi(),
+                new Opcoesai(),
+                new Opcoesai(),
+                new Opcoesai(),
+                new Opcoesai(),
             ];
             return $this->render('create', [
                 'model' => $model,
