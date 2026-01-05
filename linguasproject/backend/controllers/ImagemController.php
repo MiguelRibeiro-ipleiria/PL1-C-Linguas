@@ -9,7 +9,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use common\models\OpcoesAi;
+use common\models\Opcoesai;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
@@ -132,7 +132,7 @@ class ImagemController extends Controller
                     $postOpcoes = $this->request->post('Opcoesai', []);
 
                     foreach ($postOpcoes as $dadosOpcao) {
-                        $opcao = new OpcoesAi();
+                        $opcao = new Opcoesai();
                         $opcao->load(['Opcoesai' => $dadosOpcao]);
 
 
@@ -156,10 +156,10 @@ class ImagemController extends Controller
             }
 
             $opcoes = [
-                new OpcoesAi(),
-                new OpcoesAi(),
-                new OpcoesAi(),
-                new OpcoesAi(),
+                new Opcoesai(),
+                new Opcoesai(),
+                new Opcoesai(),
+                new Opcoesai(),
             ];
 
             return $this->render('create', [
