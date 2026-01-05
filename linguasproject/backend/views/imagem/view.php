@@ -6,14 +6,12 @@ use yii\widgets\DetailView;
 /** @var yii\web\View $this */
 /** @var common\models\Imagem $model */
 
-$this->title = $model->imagem_resource_id;
+$this->title = $model->imagem_resource_id . ' (' . $model->imagemResource->nome_ficheiro . ')';
 $this->params['breadcrumbs'][] = ['label' => 'Imagems', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="imagem-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a('Update', ['update', 'imagem_resource_id' => $model->imagem_resource_id, 'aula_id' => $model->aula_id], ['class' => 'btn btn-primary']) ?>
