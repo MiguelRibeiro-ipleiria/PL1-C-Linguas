@@ -236,7 +236,15 @@ class ImagemController extends Controller
             foreach ($opcoes as $opcao) {
                 $opcao->delete();
             }
-            $this->findModel($imagem_resource_id, $aula_id)->delete();
+
+            $imagem = $this->findModel($imagem_resource_id, $aula_id);
+            $aula = Aula::findOne($imagem->aula_id);
+            $imagem->delete();
+
+            $aula->numero_de_exercicios = $aula->VerificaNumeroDeExercicios($aula->id);
+            if($aula->save()){
+                return $this->redirect(['index']);
+            }
 
             return $this->redirect(['index']);
         }else{

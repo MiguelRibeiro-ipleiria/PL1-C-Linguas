@@ -113,7 +113,7 @@ $auth = Yii::$app->authManager;
                     <br>
                     <div>
                         <a href="<?= Url::to(['/curso/view', 'id' => $model->id]) ?>" class="btn btn-success">Ver todos os dados do Curso</a>
-                        <?php $form = ActiveForm::begin(['action' => ['/aula/delete', 'id' => $model->id], 'options' => ['style' => 'display:inline-block;']]); ?>
+                        <?php $form = ActiveForm::begin(['action' => ['/curso/delete', 'id' => $model->id], 'options' => ['style' => 'display:inline-block;']]); ?>
                         <?= Html::submitButton(
                             'Eliminar Aula',
                             [

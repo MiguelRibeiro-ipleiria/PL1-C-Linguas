@@ -164,6 +164,9 @@ class Inscricao extends \yii\db\ActiveRecord
         $curso = $inscricao->getCurso();
         $aulas = $curso->aulas;
 
+        if($inscricao == null || $curso == null){
+            return false;
+        }
 
         $resultado_array = [];
         foreach ($aulas as $aula) {
@@ -172,7 +175,7 @@ class Inscricao extends \yii\db\ActiveRecord
         }
 
         foreach ($resultado_array as $resultado) {
-            if ($resultado->estado != "Terminada" || $resultado->estado == null) {
+            if ($resultado->estado != "Terminada") {
                 return false;
             }
         }
@@ -186,6 +189,10 @@ class Inscricao extends \yii\db\ActiveRecord
         $curso = $inscricao->getCurso();
         $aulas = $curso->aulas;
         $cont = 0;
+
+        if($inscricao != null || $curso != null){
+            return false;
+        }
 
         $resultado_array = [];
         foreach ($aulas as $aula) {

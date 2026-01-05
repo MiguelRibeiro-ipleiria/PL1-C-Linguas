@@ -12,7 +12,6 @@ class RbacController extends Controller
         $auth->removeAll();
 
         //roles
-
         $admin = $auth->createRole('admin');
         $admin->description = 'Admin do website';
         $auth->add($admin);

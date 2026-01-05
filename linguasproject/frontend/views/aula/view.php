@@ -60,21 +60,18 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                 Ao clicar em "Sim" irá começar a sua aula "<?= $model->titulo_aula ?>", preste atenção
                                                                 e responda corretamente.
                                                             </p>
-                                                            <div class="boxflex flex-space-between">
-                                                                <button id="close_dialog">Não</button>
-                                                                <button>
-                                                                    <?php
-                                                                    $form = ActiveForm::begin(['action' => ['/aula/aulacomecar', 'id' => $model->id]]); ?>
-                                                                    <?= Html::submitButton(
-                                                                        'Sim',
-                                                                        [
-                                                                            'class' => 'cta',
-                                                                            'id'=> 'confirm_start_aula',
-                                                                        ]
-                                                                    ) ?>
+                                                            <div class="boxflex dialog-footer-actions">
+                                                                <button type="button" id="close_dialog" class="btn-dialog-secondary">Não</button>
 
-                                                                    <?php ActiveForm::end(); ?>
-                                                                </button>
+                                                                <?php $form = ActiveForm::begin([
+                                                                    'action' => ['/aula/aulacomecar', 'id' => $model->id], // ajuste o link conforme a página
+                                                                    'options' => ['class' => 'form-dialog-inline']
+                                                                ]); ?>
+                                                                <?= Html::submitButton('Sim', [
+                                                                    'class' => 'btn-dialog-primary',
+                                                                    'id' => 'confirm_dialog',
+                                                                ]) ?>
+                                                                <?php ActiveForm::end(); ?>
                                                             </div>
                                                         </dialog>
                                                     </div>

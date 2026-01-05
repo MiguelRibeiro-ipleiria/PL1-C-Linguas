@@ -6101,12 +6101,65 @@ dialog p {
   font-family: 'Spartan', sans-serif;
 }
 
-/* Botão Padrão/Fechar */
+/* Estilo do botão 'Sim' (pode ser fundo branco com borda preta ou cor de destaque) */
+.confirm-btn {
+  background-color: #ffffff;
+  color: #000;
+  border: 1px solid #000;
+}
+
+/* Estilo do botão 'Não' (cinza claro) */
+#close_dialog {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.form-dialog-footer,
+#close_dialog {
+  flex: 1;             /* Isso força ambos a terem a mesma largura */
+}
+
+/* Estilização comum aos dois botões */
+.btn-dialog-footer {
+  width: 100%;         /* Garante que o botão dentro do form preencha o flex */
+  padding: 12px 0;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  transition: all 0.3s ease;
+}
+
+/* Container que segura os dois botões */
+.custom-dialog-actions {
+  display: flex;
+  gap: 15px; /* Espaço entre os botões */
+  justify-content: center;
+  width: 100%;
+  margin-top: 20px;
+}
+
+/* Força o botão "Não" e o "Formulário" a terem o mesmo tamanho */
+.btn-dialog, .form-dialog {
+  flex: 1;
+  display: flex;
+}
+
+/* Garante que os botões ocupem todo o espaço do flex individual */
+.btn-dialog, .form-dialog button {
+  width: 100%;
+  padding: 10px 0; /* Ajuste a altura conforme desejar */
+  text-align: center;
+  border-radius: 5px; /* Para arredondar as bordas */
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Estilo específico do botão Não (exemplo) */
 #close_dialog {
   background-color: #f0f0f0;
-  color: #333;
   border: 1px solid #ccc;
-  font-family: 'Spartan', sans-serif;
+  color: #333;
 }
 
 dialog::backdrop {
@@ -6116,7 +6169,7 @@ dialog::backdrop {
 }
 
 #close_dialog:hover {
-  background-color: #e0e0e0;
+  background-color: #ccc;
 }
 
 /* Botão CTA (Confirmar) */
@@ -6134,6 +6187,59 @@ dialog::backdrop {
 #confirm_start_aula:active, #close_dialog:active {
   transform: scale(0.98);
 }
+
+.btn-dialog-footer:hover {
+  filter: brightness(0.9);
+}
+
+/* Container que segura os dois lados */
+.dialog-footer-actions {
+  display: flex !important;
+  gap: 15px;
+  width: 100%;
+  margin-top: 25px;
+  justify-content: space-between;
+}
+
+/* Força o botão 'Não' e o 'Formulário' a terem o mesmo tamanho */
+.btn-dialog-secondary,
+.form-dialog-inline {
+  flex: 1;
+  display: flex;
+}
+
+/* Estilo base para os dois botões ficarem iguais */
+.btn-dialog-secondary,
+.btn-dialog-primary {
+  width: 100%;
+  padding: 15px 0;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  text-align: center;
+  transition: 0.2s;
+}
+
+/* Estilo do botão Não (Cinza) */
+.btn-dialog-secondary {
+  background-color: #f2f2f2;
+  color: #333;
+}
+
+/* Estilo do botão Sim (Verde igual à imagem) */
+.btn-dialog-primary {
+  background-color: #2ecc71; /* Cor verde da sua imagem */
+  color: white;
+  border: none;
+}
+
+.btn-dialog-primary:hover {
+  background-color: #27ae60;
+}
+
+
 /* FIM DIALOG AULA BOX */
 
 

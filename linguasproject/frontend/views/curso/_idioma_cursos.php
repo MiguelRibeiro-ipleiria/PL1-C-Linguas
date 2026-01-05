@@ -96,22 +96,21 @@ use yii\helpers\Html;
                                                         Ao clicar em "Sim" irá cancelar a sua inscrição no curso "<?= $model->titulo_curso ?>"
                                                         e eliminar os seus resultados nas aulas deste curso!
                                                     </p>
-                                                    <div class="boxflex flex-space-between">
-                                                        <button id="close_dialog">Não</button>
-                                                        <button>
+                                                    <div class="boxflex flex-space-between dialog-buttons-container">
+                                                        <button type="button" id="close_dialog" class="btn-dialog-footer">Não</button>
+
                                                         <?php
                                                         $utilizador = Utilizador::find()->where(['user_id' => \Yii::$app->user->id])->one();
-                                                        $form = ActiveForm::begin(['action' => ['/inscricao/delete', 'utilizador_id' => $utilizador->id,'curso_idcurso' => $model->id]]); ?>
-                                                        <?= Html::submitButton(
-                                                            'Sim',
-                                                            [
-                                                                'class' => 'cta',
-                                                                'id'=> 'confirm_dialog',
-                                                            ]
-                                                        ) ?>
-
+                                                        $form = ActiveForm::begin([
+                                                            'action' => ['/inscricao/delete', 'utilizador_id' => $utilizador->id, 'curso_idcurso' => $model->id],
+                                                            'options' => ['class' => 'form-dialog-footer']
+                                                        ]);
+                                                        ?>
+                                                        <?= Html::submitButton('Sim', [
+                                                            'class' => 'btn-dialog-footer confirm-btn',
+                                                            'id' => 'confirm_dialog',
+                                                        ]) ?>
                                                         <?php ActiveForm::end(); ?>
-                                                        </button>
                                                     </div>
                                                 </dialog>
                                             </div>

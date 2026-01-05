@@ -240,8 +240,26 @@ class CursoController extends Controller
     {
         if(\Yii::$app->user->can('DeleteCourse')) {
 
-            $this->findModel($id)->delete();
+            $curso = $this->findModel($id);
+
+            foreach ($curso->getAulas()->all() as $aula){
+
+                if($aula->AulaEliminadaRequisitos($aula->id)){
+                    $aula->delete();
+                }
+            }
+
+            foreach ($curso->getInscricaos()->all() as $inscricao){
+                $inscricao->delete();
+
+            }
+
+            $curso->delete();
+
             return $this->redirect(['index']);
+
+
+
         }
         else{
             return $this->redirect(['site/no_permisson']);
