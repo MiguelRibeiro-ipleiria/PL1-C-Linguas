@@ -190,7 +190,7 @@ class Inscricao extends \yii\db\ActiveRecord
         $aulas = $curso->aulas;
         $cont = 0;
 
-        if($inscricao != null || $curso != null){
+        if($inscricao == null || $curso == null){
             return false;
         }
 
