@@ -55,7 +55,7 @@ $cursodesativadas = Curso::find()->where(['idioma_id'=>$model->id, 'status_ativo
                             ?>
                         </p>
                     </div>
-                    <img src="<?= '../../../common/UploadBandeiras/' . $model->lingua_bandeira ?>"
+                    <img src="<?= '../../../common/uploadBandeiras/' . $model->lingua_bandeira ?>"
                          class="card-img-top">
                     <h4 class="text-title"><?= $model->lingua_descricao ?></h4>
                     <p><?= $model->lingua_objetivo ?></p>
