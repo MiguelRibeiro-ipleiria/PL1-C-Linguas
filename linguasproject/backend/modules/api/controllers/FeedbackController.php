@@ -9,14 +9,14 @@ use Yii;
 /**
  * Default controller for the `api` module
  */
-class DificuldadeController extends ActiveController
+class FeedbackController extends ActiveController
 {
     /**
      * Renders the index view for the module
      * @return string
      */
 
-    public $modelClass = 'common\models\Dificuldade';
+    public $modelClass = 'common\models\Feedback';
 
     public function actionIndex()
     {
@@ -29,7 +29,7 @@ class DificuldadeController extends ActiveController
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
             'class' => CustomAuth::className(),
-            'except' => ['index', 'view'],  //Excluir a autenticação aos metedos do controllador (excluir aos gets)
+            //'except' => ['index', 'view'],  //Excluir a autenticação aos metedos do controllador (excluir aos gets)
         ];
         return $behaviors;
     }

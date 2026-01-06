@@ -208,4 +208,58 @@ class Inscricao extends \yii\db\ActiveRecord
 
         return $cont;
     }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        //Obter dados do registo em causa
+        $utilizador_id = $this->utilizador_id;
+        $curso_idcurso = $this->curso_idcurso;
+        $data_inscricao = $this->data_inscricao ;
+        $progresso = $this->progresso;
+        $estado = $this->estado;
+
+        $myObj=new \stdClass();
+        $myObj->utilizador_id=$utilizador_id;
+        $myObj->curso_idcurso=$curso_idcurso;
+        $myObj->data_inscricao=$data_inscricao;
+        $myObj->progresso=$progresso;
+        $myObj->estado=$estado;
+        $myJSON = json_encode($myObj);
+        if($insert)
+            $this->FazPublishNoMosquitto("INSCRICOES", "Inscrição Criada:" . $myJSON);
+        else
+            $this->FazPublishNoMosquitto("INSCRICOES", "Inscrição Atualizada:" . $myJSON);
+    }
+
+    public function afterDelete()
+    {
+        parent::afterDelete();
+        $utilizador_id= $this->utilizador_id;
+        $curso_id= $this->curso_idcurso;
+        $myObj=new \stdClass();
+        $myObj->utilizador_id=$utilizador_id;
+        $myObj->curso_idcurso=$curso_id;
+        $myJSON = json_encode($myObj);
+        $this->FazPublishNoMosquitto("INSCRICOES", "Inscrição Eliminada: ". $myJSON);
+    }
+
+
+    public function FazPublishNoMosquitto($canal,$msg)
+    {
+        $server = "127.0.0.1";
+        $port = 1883;
+        $username = ""; // set your username
+        $password = ""; // set your password
+        $client_id = "phpMQTT-publisher"; // unique!
+        $mqtt = new \app\mosquitto\phpMQTT($server, $port, $client_id);
+        if ($mqtt->connect(true, NULL, $username, $password))
+        {
+            $mqtt->publish($canal, $msg, 0);
+            $mqtt->close();
+        }
+        else { file_put_contents("debug.output","Time out!"); }
+    }
+
+
 }

@@ -31,44 +31,22 @@ class CursoController extends ActiveController
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
             'class' => CustomAuth::className(),
-            'except' => ['index', 'view', 'allcursos'],  //Excluir a autenticação aos metedos do controllador (excluir aos gets)
+            'except' => ['index', 'view', 'allcursos', 'countporidioma', 'allcursosporidioma'],  //Excluir a autenticação aos metedos do controllador (excluir aos gets)
         ];
 
         return $behaviors;
     }
 
-        public function checkAccess($action, $model = null, $params = [])
+    public function checkAccess($action, $model = null, $params = [])
     {
-//        if(isset(\Yii::$app->params['id'])){
-//            if($action === "delete"){
-//                if (!Yii::$app->user->can('DeleteLanguage')) {
-//                    if($action === "delete"){
-//                        throw new \yii\web\ForbiddenHttpException('Proibido');
-//                    }
-//                }
-//
-//            }
-//        }
-//        if(isset(\Yii::$app->params['id'])){
-//
-//            if(\Yii::$app->params['id'])
-//            {
-//                if($action === "delete"){
-//                    throw new \yii\web\ForbiddenHttpException('Proibido');
-//                }
-//            }
-//        }
-        // Bloquear DELETE se não tiver permissão
 
+        if ($action === 'view') {
+            $user_id = Yii::$app->params['id'];
+            if($model->user_id !== $user_id ){
+                throw new \yii\web\ForbiddenHttpException('Não tem permissões ver os cursos inscritos deste utilizador');
+            }
+        }
 
-    }
-
-
-    public function actionCount()
-    {
-        $CursosModel = new $this->modelClass;
-        $cursos = $CursosModel::find()->all();
-        return ['count' => count($cursos)];
     }
 
     public function actionAllcursos()
@@ -96,37 +74,48 @@ class CursoController extends ActiveController
 
     }
 
-
-
-    public function actionCountporidioma($idiomanome)
+    public function actionCountporidioma($idioma_id)
     {
         $CursosModel = new $this->modelClass;
-        $idioma = Idioma::find()->where(['lingua_descricao' => $idiomanome])->one();
+        $idioma = Idioma::find()->where(['id' => $idioma_id])->one();
 
         if($idioma == null){
             return "Idioma não encontrado!";
         }
         else{
-            $cursos = $CursosModel::find()->where(['idioma_id' => $idioma->id])->all();
-            return ['count' => count($cursos)];
+            $cursos_all = $CursosModel::find()->where(['idioma_id' => $idioma->id])->all();
+            $cursos_desativos = $CursosModel::find()->where(['idioma_id' => $idioma->id, 'status_ativo' => 0])->all();
+
+            return [
+                'count_all' => count($cursos_all),
+                'count_desativados' => count($cursos_desativos)
+            ];
         }
 
     }
 
-    public function actionCursoporutilizadorid($id)
+    public function actionCursoporutilizadorid($utilizador_id)
     {
         $CursosModel = new $this->modelClass;
-        $utilizador = Utilizador::findOne(['id' => $id]);
+        $utilizador = Utilizador::findOne(['id' => $utilizador_id]);
+
+        if(!$utilizador){
+            throw new \yii\web\NotFoundHttpException("Utilizador não encontrado");
+        }
+        else{
+            $this->checkAccess('view', $utilizador);
+        }
+
 
         $cursos = $CursosModel::find()
             ->innerJoin('inscricao', 'inscricao.curso_idcurso = curso.id')
-            ->where(['inscricao.utilizador_id' => $id])
+            ->where(['inscricao.utilizador_id' => $utilizador_id])
             ->with(['idioma', 'dificuldade'])
             ->asArray()
             ->all();
 
         if (empty($cursos)) {
-            return ['message' => 'Curso não encontrado!'];
+            return "Sem Inscrições";
         }
 
         $result = array_map(function($curso) {
@@ -144,47 +133,25 @@ class CursoController extends ActiveController
         return $result;
     }
 
-    public function actionCursosporidioma($idiomanome)
+    public function actionAllcursosporidioma($idioma_id)
     {
         $CursosModel = new $this->modelClass;
-        $idioma = Idioma::find()->where(['lingua_descricao' => $idiomanome])->one();
+        $idioma = Idioma::find()->where(['id' => $idioma_id])->one();
 
         if($idioma == null){
             return "Idioma não encontrado!";
         }
         else{
             $cursos = $CursosModel::find()->where(['idioma_id' => $idioma->id])->all();
-            return $cursos;
+
+            if($cursos){
+                return $cursos;
+            }
+            else{
+                return "Este idioma não tem cursos";
+            }
         }
     }
-
-
-
-
-    public function actionNomes()
-    {
-        $IdiomaModel = new $this->modelClass;
-        $nomes_idiomas = $IdiomaModel::find()->select(['lingua_descricao'])->all();
-        return $nomes_idiomas;
-    }
-
-    public function actionIdiomapornome($nome)
-    {
-        $IdiomaModel = new $this->modelClass;
-        $idioma = $IdiomaModel::find()->where(['lingua_descricao' => $nome])->one();
-        return $idioma;
-    }
-
-    public function actionDeletepornome($nome){
-        $IdiomaModel = new $this->modelClass;
-        $deleted = $IdiomaModel::deleteAll(['lingua_descricao' => $nome]);
-        if($deleted){
-            return "Idioma ( $nome ) apagado com sucesso!";
-        }else{
-            return "Impossível apagar o Idioma ( $nome )!";
-        }
-    }
-
 
 
 }
