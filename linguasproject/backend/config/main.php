@@ -68,7 +68,6 @@ return [
                     'extraPatterns' => [
                         'GET utilizador/{utilizador_id}/count' => 'countporuser',  // 'count' é 'actionCountPor' - devolve os cursos pelo idioma
                         'GET utilizador/{utilizador_id}' => 'inscricoesporuser',  // 'count' é 'actionCountPor' - devolve os cursos pelo idioma
-                        'GET utilizador/{utilizador_id}/curso/{id}' => 'isinscrito',  // 'count' é 'actionCountPor' - devolve os cursos pelo idioma
                         'POST nova' => 'novainscricao',
                         'DELETE curso/{curso_idcurso}/utilizador/{utilizador_id}' => 'delinscricaoporid',
                         'PUT curso/{curso_idcurso}/utilizador/{utilizador_id}' => 'putdadosporcursoeutilizador',
@@ -133,8 +132,6 @@ return [
                         '{curso_id}' => '<curso_id:\\d+>',
                     ],
                 ],
-
-
 
             ],
         ],
