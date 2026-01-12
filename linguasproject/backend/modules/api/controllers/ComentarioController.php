@@ -55,26 +55,32 @@ class ComentarioController extends ActiveController
 
     }
 
-    public function actionGetcomentarioporaula($aula_id){
-
-        $comentarioModel = new $this->modelClass;
-
+    public function actionGetcomentarioporaula($aula_id)
+    {
         $aula = Aula::findOne($aula_id);
-        if($aula){
-            $comentarios = $comentarioModel::find()->where(['aula_id' => $aula_id])->all();
 
-            if($comentarios) {
-                return $comentarios;
-            }
-            else{
-                return "Sem comentarios";
-            }
-        }
-        else{
-            return "A aula não existe";
+        if (!$aula) {
+            throw new NotFoundHttpException('A aula não existe');
         }
 
+        $comentarios = $this->modelClass::find()
+            ->where(['aula_id' => $aula_id])
+            ->with(['utilizador.user'])
+            ->all();
 
+        $comentariosDaAula = [];
+
+        foreach ($comentarios as $c) {
+            $comentariosDaAula[] = [
+                'id' => $c->id,
+                'descricao_comentario' => $c->descricao_comentario,
+                'aula_id' => $c->aula_id,
+                'hora_criada' => $c->hora_criada,
+                'utilizador' => $c->utilizador->user->username ?? null,
+            ];
+        }
+
+        return $comentariosDaAula;
     }
 
     public function actionPostnovo(){

@@ -106,6 +106,8 @@ class SignupForm extends Model
             $boolroleassigned = $auth->assign($authorRole, $user->getId());
 
 
+
+
         }
         else{
             $boolutilizadorsave = false;

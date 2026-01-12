@@ -176,7 +176,7 @@ class AulaController extends ActiveController
             }
 
             $exercicios_audio[] = [
-                'tipo' => $audio->tipoexercicio->descricao,
+                'tipo' => "Audio",
                 'audio_resource_id' => $audio->audio_resource_id,
                 'aula_id' => $aula->id,
                 'pergunta' => $audio->pergunta,
@@ -219,7 +219,8 @@ class AulaController extends ActiveController
             }
 
             $exercicios_frases[] = [
-                'tipo' => $frase->tipoexercicio->descricao,
+                'id' => $frase->id,
+                'tipo' => "Frase",
                 'aula_id' => $aula->id,
                 'partefrases_1' => $frase->partefrases_1,
                 'partefrases_2' => $frase->partefrases_2,
@@ -262,7 +263,7 @@ class AulaController extends ActiveController
             }
 
             $exercicios_imagem[] = [
-                'tipo' => $imagem->tipoexercicio->descricao,
+                'tipo' => "Imagem",
                 'imagem_resource_id' => $imagem->imagem_resource_id,
                 'aula_id' => $aula->id,
                 'pergunta' => $imagem->pergunta,
