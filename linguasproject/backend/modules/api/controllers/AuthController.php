@@ -14,12 +14,12 @@ class AuthController extends Controller
         $body = \Yii::$app->request->post();
 
         $user = User::findByUsername($body['username'] ?? null);
-        $utilizador = Utilizador::findOne(['user_id' => $user->id]);
 
         if (!$user || !$user->validatePassword($body['password'] ?? '')) {
             return ['status' => 'error', 'message' => 'Invalid credentials'];
         }
-
+        
+        $utilizador = Utilizador::findOne(['user_id' => $user->id]);
         return [
             'status' => 'success',
             'access_token' => $user->auth_key,
