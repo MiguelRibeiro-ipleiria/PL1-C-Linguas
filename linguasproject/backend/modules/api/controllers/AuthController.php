@@ -18,7 +18,7 @@ class AuthController extends Controller
         if (!$user || !$user->validatePassword($body['password'] ?? '')) {
             return ['status' => 'error', 'message' => 'Invalid credentials'];
         }
-        
+
         $utilizador = Utilizador::findOne(['user_id' => $user->id]);
         return [
             'status' => 'success',

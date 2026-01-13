@@ -128,11 +128,11 @@ class AulaController extends ActiveController
             }
 
             if($aula->getImagems()->count() > 0){
-                $exercicio_audio = $aula->getImagems()->count();
+                $exercicio_imagem = $aula->getImagems()->count();
             }
 
             if($aula->getAudios()->count() > 0){
-                $exercicio_imagem = $aula->getAudios()->count();
+                $exercicio_audio = $aula->getAudios()->count();
             }
 
             return [

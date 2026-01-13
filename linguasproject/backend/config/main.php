@@ -50,6 +50,7 @@ return [
             'rules' => [
                 ['class' => 'yii\rest\UrlRule','controller' => 'api/idioma', 'pluralize' => true,],
                 ['class' => 'yii\rest\UrlRule','controller' => 'api/feedback', 'pluralize' => true,],
+
                 ['class' => 'yii\rest\UrlRule','controller' => 'api/curso', 'pluralize' => true,
                     'extraPatterns' => [
                         'GET all' => 'allcursos',  // 'count' é 'actionCount' - conta os idiomas
