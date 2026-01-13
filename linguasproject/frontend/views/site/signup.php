@@ -119,9 +119,14 @@ $this->params['breadcrumbs'][] = $this->title;
                                     ])->label(false) ?>
                                 </div>
 
+                                <br>
+                                <label class="control-label" style="display: block; margin-bottom: 5px; color: #2ed06e; font-weight: bold;">
+                                    <i class="lni lni-world"></i> Escolha uma Língua para lecionar
+                                </label>
+                                <br>
                                 <!-- Idioma -->
                                <div class="form-group ">
-                                    <label><i class="lni lni-world"></i></label>
+
                                     <?= $form->field($model, 'idioma_id')->dropDownList(
                                         ArrayHelper::map(Idioma::find()->asArray()->all(), 'id', 'lingua_descricao'),
                                         ['prompt' => 'Selecione um idioma', 'class' => 'form-controlle']

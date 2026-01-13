@@ -73,7 +73,7 @@ use yii\widgets\ActiveForm;
                                 <p class="title-exercicio-imagem">- <?= $imagem->pergunta ?></p>
                             </div>
                             <div class="img-exercicio">
-                                <img src="<?= '../../../common/UploadImage/' . $imagem->imagemResource->nome_ficheiro ?>" alt="#">
+                                <img src="<?= '../../../common/uploadImage/' . $imagem->imagemResource->nome_ficheiro ?>" alt="#">
                             </div>
                             <div>
                                 <div class="col-12 box-divider">

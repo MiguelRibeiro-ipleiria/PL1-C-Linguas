@@ -9,7 +9,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use common\models\OpcoesAi;
+use common\models\Opcoesai;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
@@ -132,7 +132,7 @@ class ImagemController extends Controller
                     $postOpcoes = $this->request->post('Opcoesai', []);
 
                     foreach ($postOpcoes as $dadosOpcao) {
-                        $opcao = new OpcoesAi();
+                        $opcao = new Opcoesai();
                         $opcao->load(['Opcoesai' => $dadosOpcao]);
 
 
@@ -156,10 +156,10 @@ class ImagemController extends Controller
             }
 
             $opcoes = [
-                new OpcoesAi(),
-                new OpcoesAi(),
-                new OpcoesAi(),
-                new OpcoesAi(),
+                new Opcoesai(),
+                new Opcoesai(),
+                new Opcoesai(),
+                new Opcoesai(),
             ];
 
             return $this->render('create', [
@@ -236,7 +236,15 @@ class ImagemController extends Controller
             foreach ($opcoes as $opcao) {
                 $opcao->delete();
             }
-            $this->findModel($imagem_resource_id, $aula_id)->delete();
+
+            $imagem = $this->findModel($imagem_resource_id, $aula_id);
+            $aula = Aula::findOne($imagem->aula_id);
+            $imagem->delete();
+
+            $aula->numero_de_exercicios = $aula->VerificaNumeroDeExercicios($aula->id);
+            if($aula->save()){
+                return $this->redirect(['index']);
+            }
 
             return $this->redirect(['index']);
         }else{

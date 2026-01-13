@@ -2,7 +2,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 /** @var $user common\models\User */
-
+use common\models\User;
+use common\models\Utilizador;
 
 ?>
 <!DOCTYPE html>
@@ -16,6 +17,12 @@ use yii\widgets\ActiveForm;
 
                   <?php
                     $this->title = 'Informações da Conta';
+
+                    $auth = Yii::$app->authManager;
+                    $user_id = Yii::$app->user->id;
+                    $utilizador = Utilizador::findOne(['user_id' => $user_id]);
+                    $userRoles = $auth->getRolesByUser($user_id);
+                    $role = key($userRoles);
                   ?>
 
     <div class="card card-primary card-outline mb-4">
@@ -90,6 +97,17 @@ use yii\widgets\ActiveForm;
                           id="exampleInputEmail1"
                           aria-describedby="emailHelp"
                           value="<?= $user->utilizador->data_inscricao?>"
+                        />
+                      </div>
+                      <div class="mb-3">
+                      <label for="exampleInputEmail1" class="form-label"
+                        >Role</label>
+                        <input
+                          type="email"
+                          class="form-control"
+                          id="exampleInputEmail1"
+                          aria-describedby="emailHelp"
+                          value="<?= $role?>"
                         />
                       </div>
                       </div>

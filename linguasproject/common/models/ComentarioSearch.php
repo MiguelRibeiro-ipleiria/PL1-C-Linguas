@@ -4,12 +4,12 @@ namespace common\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\comentario;
+use common\models\Comentario;
 
 /**
  * comentarioSearch represents the model behind the search form of `common\models\comentario`.
  */
-class comentarioSearch extends comentario
+class ComentarioSearch extends Comentario
 {
     /**
      * {@inheritdoc}
@@ -43,7 +43,7 @@ class comentarioSearch extends comentario
      */
     public function search($params, $formName = null)
     {
-        $query = comentario::find();
+        $query = Comentario::find();
 
 
         $dataProvider = new ActiveDataProvider([

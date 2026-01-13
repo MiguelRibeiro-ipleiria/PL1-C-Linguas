@@ -129,4 +129,68 @@ class Resultado extends \yii\db\ActiveRecord
         return true;
     }
 
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        //Obter dados do registo em causa
+        $utilizador_id = $this->utilizador_id;
+        $aula_idaula = $this->aula_idaula;
+        $data_inicio = $this->data_inicio ;
+        $data_fim = $this->data_fim;
+        $data_agendamento = $this->data_agendamento;
+        $nota = $this->nota;
+        $estado = $this->estado;
+        $tempo_estimado = $this->tempo_estimado;
+        $respostas_certas = $this->respostas_certas;
+        $respostas_erradas = $this->respostas_erradas;
+
+
+        $myObj=new \stdClass();
+        $myObj->utilizador_id=$utilizador_id;
+        $myObj->aula_idaula=$aula_idaula;
+        $myObj->data_inicio=$data_inicio;
+        $myObj->data_fim=$data_fim;
+        $myObj->data_agendamento=$data_agendamento;
+        $myObj->nota=$nota;
+        $myObj->estado=$estado;
+        $myObj->tempo_estimado=$tempo_estimado;
+        $myObj->respostas_certas=$respostas_certas;
+        $myObj->respostas_erradas=$respostas_erradas;
+
+        $myJSON = json_encode($myObj);
+        if($insert)
+            $this->FazPublishNoMosquitto("RESULTADOS", "Resultado Criado:" . $myJSON);
+        else
+            $this->FazPublishNoMosquitto("RESULTADOS", "Resultado Atualizado:" . $myJSON);
+    }
+
+    public function afterDelete()
+    {
+        parent::afterDelete();
+        $utilizador_id= $this->utilizador_id;
+        $aula_idaula= $this->aula_idaula;
+        $myObj=new \stdClass();
+        $myObj->utilizador_id=$utilizador_id;
+        $myObj->aula_idaula=$aula_idaula;
+        $myJSON = json_encode($myObj);
+        $this->FazPublishNoMosquitto("RESULTADOS", "Resultado Eliminado: ". $myJSON);
+    }
+
+
+    public function FazPublishNoMosquitto($canal,$msg)
+    {
+        $server = "127.0.0.1";
+        $port = 1883;
+        $username = ""; // set your username
+        $password = ""; // set your password
+        $client_id = "phpMQTT-publisher"; // unique!
+        $mqtt = new \app\mosquitto\phpMQTT($server, $port, $client_id);
+        if ($mqtt->connect(true, NULL, $username, $password))
+        {
+            $mqtt->publish($canal, $msg, 0);
+            $mqtt->close();
+        }
+        else { file_put_contents("debug.output","Time out!"); }
+    }
+
 }

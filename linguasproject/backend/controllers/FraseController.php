@@ -222,9 +222,14 @@ class FraseController extends Controller
             foreach ($opcoes as $opcao) {
                 $opcao->delete();
             }
-            $this->findModel($id)->delete();
+            $frase = $this->findModel($id);
+            $aula = Aula::findOne($frase->aula_id);
+            $frase->delete();
 
-            return $this->redirect(['index']);
+            $aula->numero_de_exercicios = $aula->VerificaNumeroDeExercicios($aula->id);
+            if($aula->save()){
+                return $this->redirect(['index']);
+            }
         }
         else{
             return $this->redirect(['site/no_permisson']);

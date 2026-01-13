@@ -41,7 +41,7 @@ class AulaSearch extends Aula
      */
     public function search($params, $formName = null)
     {
-        $query = aula::find();
+        $query = Aula::find();
 
         // add conditions that should always apply here
 

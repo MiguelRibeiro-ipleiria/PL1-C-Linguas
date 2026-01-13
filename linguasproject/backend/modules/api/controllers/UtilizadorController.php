@@ -40,40 +40,19 @@ class UtilizadorController extends ActiveController
 
     public function checkAccess($action, $model = null, $params = [])
     {
-//        if(isset(\Yii::$app->params['id'])){
-//            if($action === "delete"){
-//                if (!Yii::$app->user->can('DeleteLanguage')) {
-//                    if($action === "delete"){
-//                        throw new \yii\web\ForbiddenHttpException('Proibido');
-//                    }
-//                }
-//
-//            }
-//        }
-//        if(isset(\Yii::$app->params['id'])){
-//
-//            if(\Yii::$app->params['id'])
-//            {
-//                if($action === "delete"){
-//                    throw new \yii\web\ForbiddenHttpException('Proibido');
-//                }
-//            }
-//        }
-        // Bloquear DELETE se não tiver permissão
 
-        if ($action === 'delete') {
-            throw new \yii\web\ForbiddenHttpException('Não é permitido apagar utilizadores');
-        }
-
-        if ($action === 'view' || $action === 'update') {
-
+        if ($action === 'view') {
             $user_id = Yii::$app->params['id'];
-
-            if($model->user_id !== $user_id){
-                throw new \yii\web\ForbiddenHttpException('Não tem permissões para aceder ou alterar dados deste utilizador');
+            if($model->user_id !== $user_id ){
+                throw new \yii\web\ForbiddenHttpException('Não tem permissão para ver os dados deste utilizador');
             }
         }
-
+        elseif ($action === 'update') {
+            $user_id = Yii::$app->params['id'];
+            if($model->user_id !== $user_id || $model->user_id == null){
+                throw new \yii\web\ForbiddenHttpException('Não tem permissão para alterar os dados deste utilizador');
+            }
+        }
 
     }
 
@@ -86,28 +65,25 @@ class UtilizadorController extends ActiveController
             ->with(['user', 'idioma'])
             ->one();
 
-        $this->checkAccess('view', $utilizador);
-
-
-
-        if($utilizador != null) {
-
-            $resultado = [
-                    'id' => $utilizador['id'],
-                    'data_nascimento' => $utilizador['data_nascimento'],
-                    'numero_telefone' => $utilizador['numero_telefone'],
-                    'nacionalidade' => $utilizador['nacionalidade'],
-                    'data_inscricao' => $utilizador['data_inscricao'],
-                    'email' => $utilizador['user']['email'] ?? null,
-                    'username' => $utilizador['user']['username'] ?? null,
-                    'idioma'=> $utilizador['idioma']['lingua_descricao'] ?? null,
-                ];
-
-            return $resultado;
-        }
-        else{
+        if(!$utilizador){
             throw new \yii\web\NotFoundHttpException("Utilizador não encontrado");
         }
+        else{
+            $this->checkAccess('view', $utilizador);
+        }
+
+        $resultado = [
+            'id' => $utilizador['id'],
+            'data_nascimento' => $utilizador['data_nascimento'],
+            'numero_telefone' => $utilizador['numero_telefone'],
+            'nacionalidade' => $utilizador['nacionalidade'],
+            'data_inscricao' => $utilizador['data_inscricao'],
+            'email' => $utilizador['user']['email'] ?? null,
+            'username' => $utilizador['user']['username'] ?? null,
+            'idioma'=> $utilizador['idioma']['lingua_descricao'] ?? null,
+        ];
+
+        return $resultado;
 
 
     }
@@ -200,7 +176,7 @@ class UtilizadorController extends ActiveController
 
         $utilizadorModel = new $this->modelClass;
         $utilizador = $utilizadorModel::findOne(['id' => $id]);
-        $this->checkAccess('view', $utilizador);
+        $this->checkAccess('update', $utilizador);
 
         $nova_nacionalidade =\Yii::$app->request->post('nacionalidade');
         $novo_telefone =\Yii::$app->request->post('numero_telefone');

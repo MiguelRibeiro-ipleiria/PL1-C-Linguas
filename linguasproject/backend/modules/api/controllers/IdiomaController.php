@@ -32,38 +32,4 @@ class IdiomaController extends ActiveController
         return $behaviors;
     }
 
-//    public function checkAccess($action, $model = null, $params = [])
-//    {
-////        if(isset(\Yii::$app->params['id'])){
-////            if($action === "delete"){
-////                if (!Yii::$app->user->can('DeleteLanguage')) {
-////                    if($action === "delete"){
-////                        throw new \yii\web\ForbiddenHttpException('Proibido');
-////                    }
-////                }
-////
-////            }
-////        }
-////        if(isset(\Yii::$app->params['id'])){
-////
-////            if(\Yii::$app->params['id'])
-////            {
-////                if($action === "delete"){
-////                    throw new \yii\web\ForbiddenHttpException('Proibido');
-////                }
-////            }
-////        }
-//        // Bloquear DELETE se não tiver permissão
-//
-//        Yii::$app->user = $this->user;
-//        if ($action === 'delete') {
-//            if (!Yii::$app->user->can('DeleteLanguage')) {
-//                throw new \yii\web\ForbiddenHttpException('Não tens permissão para apagar idiomas.');
-//            }
-//        }
-//    }
-
-
-
-
 }

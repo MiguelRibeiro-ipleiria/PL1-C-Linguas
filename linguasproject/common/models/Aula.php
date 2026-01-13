@@ -178,6 +178,14 @@ class Aula extends \yii\db\ActiveRecord
                     $resultado->delete();
                 }
             }
+
+            if($model->getComentarios()->all() != null){
+                foreach ($model->getComentarios()->all() as $comentario){
+                    $comentario->delete();
+                }
+            }
+
+
             return true;
 
         }

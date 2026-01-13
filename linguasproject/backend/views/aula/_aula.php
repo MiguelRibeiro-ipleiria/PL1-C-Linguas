@@ -66,11 +66,40 @@ $auth = Yii::$app->authManager;
                     <div class="row">
                         <div class="col-12">
                             <h4>Comentários</h4>
-                            <a href="<?= Url::to(['/comentario/index', 'aula_id' => $model->id]) ?>" class="btn btn-success">Ver Comentários desta Aula</a>
+                            <div class="post">
+                      <div class="user-block">
+                        <span class="username">
+                          <?php if ($model->getComentarios()->count() <= 0) {
 
+                                echo 'Não há comentários da Aula.';
+                            }
+                            else{
+                                foreach($model->getComentarios()->all() as $comentario){?>
+                            <div class="post">
+                                <div class="user-block">
+
+                                    <span class="username">
+                                <?= $comentario->utilizador->user->username ?>
+                                </span>
+                                    <span class="description"><?=$comentario->hora_criada?></span>
+                                </div>
+                                <!-- /.user-block -->
+                                 <p>
+                                    <?=$comentario->descricao_comentario?>
+                                </p>
+                            </div>
+                                
+                            <?php }} ?>
+                        </span>
+                      </div>
+
+                    </div>
+                            
                         </div>
                     </div>
                 </div>
+
+                
                 <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
                     <h3 class="text-primary"><i class="fas fa-book"></i>   <?= $model->titulo_aula ?></h3>
                     <span class="time text-muted"><i class="fas fa-clock"></i> <?= $model->tempo_estimado ?> de tempo estimado</span>

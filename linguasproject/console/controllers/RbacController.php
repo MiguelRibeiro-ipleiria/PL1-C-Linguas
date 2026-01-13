@@ -12,7 +12,6 @@ class RbacController extends Controller
         $auth->removeAll();
 
         //roles
-
         $admin = $auth->createRole('admin');
         $admin->description = 'Admin do website';
         $auth->add($admin);
@@ -525,6 +524,9 @@ class RbacController extends Controller
         $auth->addChild($admin, $ReadDificuldade);
         $auth->addChild($admin, $DeleteDificuldade);
         $auth->addChild($admin, $UpdateDificuldade);
+
+        //formador
+        $auth->addChild($formador, $ReadDificuldade);
 
 
         /*----------------Comment management-----------*/

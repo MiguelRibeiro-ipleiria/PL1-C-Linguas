@@ -216,7 +216,7 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach(Curso::find()->all() as $curso){
+                                <?php foreach(Curso::find()->limit(5)->all() as $curso){
 
                                 ?>
                                 <tr>
@@ -227,7 +227,7 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
                                      else{
                                         echo'Desativo';
                                      }?></span></td>
-                                    <td><div class="sparkbar" data-color="#00a65a"><?=$inscricaocurso = Inscricao::find()->where(['curso_idcurso'=>$curso->id])->count();?></div></td>
+                                    <td><div class="sparkbar" data-color="#00a65a"><?=$curso->getInscricaos()->count();?></div></td>
                                 </tr>
                                 <?php } ?>
                                 
