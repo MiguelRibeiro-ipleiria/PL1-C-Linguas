@@ -10,8 +10,14 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+/**
+ * ResultadoController gere as notas e desempenhos dos alunos nas respetivas aulas.
+ */
 class ResultadoController extends Controller
 {
+    /**
+     * Define as regras de acesso e comportamentos do controlador.
+     */
     public function behaviors()
     {
         return array_merge(
@@ -20,19 +26,20 @@ class ResultadoController extends Controller
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
-                        'delete' => ['POST'],
+                        'delete' => ['POST'], // Segurança: só permite apagar via pedido POST
                     ],
                 ],
                 'access' => [
                     'class' => AccessControl::class,
                     'denyCallback' => function () {
+                        // Caso o utilizador não tenha acesso, é expulso para o frontend
                         return \Yii::$app->response->redirect(['../../frontend/web/']);
                     },
                     'rules' => [
                         [
                             'allow' => true,
                             'actions' => ['index', 'view', 'create', 'update', 'delete'],
-                            'roles' => ['admin', 'formador'],
+                            'roles' => ['admin', 'formador'], // Apenas cargos elevados gerem resultados
                         ],
                     ],
                 ],
@@ -40,10 +47,13 @@ class ResultadoController extends Controller
         );
     }
 
+    /**
+     * Lista todos os resultados com filtros de pesquisa.
+     */
     public function actionIndex()
     {
+        // Verifica permissão RBAC específica para ler resultados
         if (\Yii::$app->user->can('ReadResultados')) {
-
             $searchModel = new ResultadoSearch();
             $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -52,31 +62,36 @@ class ResultadoController extends Controller
                 'dataProvider' => $dataProvider,
             ]);
         }
-        else{
+        else {
             return $this->redirect(['site/no_permisson']);
         }
     }
 
+    /**
+     * Visualiza um resultado específico através da chave composta (Utilizador + Aula).
+     */
     public function actionView($utilizador_id, $aula_idaula)
     {
         if (\Yii::$app->user->can('ReadResultados')) {
-
             return $this->render('view', [
                 'model' => $this->findModel($utilizador_id, $aula_idaula),
             ]);
         }
-        else{
+        else {
             return $this->redirect(['site/no_permisson']);
         }
     }
 
+    /**
+     * Cria um novo registo de resultado (nota/desempenho).
+     */
     public function actionCreate()
     {
         if (\Yii::$app->user->can('CreateResultados')) {
-
             $model = new Resultado();
 
             if ($this->request->isPost) {
+                // Carrega os dados do formulário e guarda na base de dados
                 if ($model->load($this->request->post()) && $model->save()) {
                     return $this->redirect(['view', 'utilizador_id' => $model->utilizador_id, 'aula_idaula' => $model->aula_idaula]);
                 }
@@ -87,15 +102,17 @@ class ResultadoController extends Controller
             return $this->render('create', [
                 'model' => $model,
             ]);
-        }else{
+        } else {
             return $this->redirect(['site/no_permisson']);
         }
     }
 
+    /**
+     * Atualiza um resultado já existente.
+     */
     public function actionUpdate($utilizador_id, $aula_idaula)
     {
         if (\Yii::$app->user->can('UpdateResultados')) {
-
             $model = $this->findModel($utilizador_id, $aula_idaula);
 
             if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
@@ -106,30 +123,34 @@ class ResultadoController extends Controller
                 'model' => $model,
             ]);
         }
-        else{
+        else {
             return $this->redirect(['site/no_permisson']);
         }
     }
 
+    /**
+     * Elimina um resultado da base de dados.
+     */
     public function actionDelete($utilizador_id, $aula_idaula)
     {
         if (\Yii::$app->user->can('DeleteResultados')) {
-
             $this->findModel($utilizador_id, $aula_idaula)->delete();
-
             return $this->redirect(['index']);
         }
-        else{
+        else {
             return $this->redirect(['site/no_permisson']);
         }
     }
 
+    /**
+     * Método auxiliar para encontrar o modelo pela chave composta.
+     */
     protected function findModel($utilizador_id, $aula_idaula)
     {
         if (($model = Resultado::findOne(['utilizador_id' => $utilizador_id, 'aula_idaula' => $aula_idaula])) !== null) {
             return $model;
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        throw new NotFoundHttpException('A página solicitada não existe.');
     }
 }
