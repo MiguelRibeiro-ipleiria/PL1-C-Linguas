@@ -8,13 +8,11 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-/**
- * InscricaoController implements the CRUD actions for Inscricao model.
- */
+
 class InscricaoController extends Controller
 {
     /**
-     * @inheritDoc
+     * Configuração de comportamentos (Access Control e Verbos HTTP).
      */
     public function behaviors()
     {
@@ -24,19 +22,20 @@ class InscricaoController extends Controller
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
-                        'delete' => ['POST'],
+                        'delete' => ['POST'], // Apenas permite apagar via POST por segurança
                     ],
                 ],
                 'access' => [
                     'class' => AccessControl::class,
                     'denyCallback' => function () {
+                        // Se o acesso for negado, redireciona para a página inicial do frontend
                         return \Yii::$app->response->redirect(['../../frontend/web/']);
                     },
                     'rules' => [
                         [
                             'allow' => true,
                             'actions' => ['index', 'view', 'create', 'update', 'delete'],
-                            'roles' => ['admin', 'formador'],
+                            'roles' => ['admin', 'formador'], // Apenas admins e formadores entram aqui
                         ],
                     ],
                 ],
@@ -45,12 +44,11 @@ class InscricaoController extends Controller
     }
 
     /**
-     * Lists all Inscricao models.
-     *
-     * @return string
+     * Lista todas as inscrições.
      */
     public function actionIndex()
     {
+        // Verificação Rbac
         if(\Yii::$app->user->can('ReadInscricoes')) {
             $searchModel = new InscricaoSearch();
             $dataProvider = $searchModel->search($this->request->queryParams);
@@ -60,44 +58,37 @@ class InscricaoController extends Controller
                 'dataProvider' => $dataProvider,
             ]);
         }
-        else{
+        else {
             return $this->redirect(['site/no_permisson']);
         }
     }
 
     /**
-     * Displays a single Inscricao model.
-     * @param int $utilizador_id Utilizador ID
-     * @param int $curso_idcurso Curso Idcurso
-     * @return string
-     * @throws NotFoundHttpException if the model cannot be found
+     * Mostra os detalhes de uma inscrição específica através da chave composta (User ID e Curso ID).
      */
     public function actionView($utilizador_id, $curso_idcurso)
     {
         if(\Yii::$app->user->can('ReadInscricoes')) {
-
             return $this->render('view', [
                 'model' => $this->findModel($utilizador_id, $curso_idcurso),
             ]);
         }
-        else{
+        else {
             return $this->redirect(['site/no_permisson']);
         }
     }
 
     /**
-     * Creates a new Inscricao model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
+     * Cria uma nova inscrição.
      */
     public function actionCreate()
     {
         if(\Yii::$app->user->can('CreateInscricoes')) {
-
             $model = new Inscricao();
 
             if ($this->request->isPost) {
                 if ($model->load($this->request->post()) && $model->save()) {
+                    // Após guardar, vai para o 'view' da nova inscrição
                     return $this->redirect(['view', 'utilizador_id' => $model->utilizador_id, 'curso_idcurso' => $model->curso_idcurso]);
                 }
             } else {
@@ -108,23 +99,17 @@ class InscricaoController extends Controller
                 'model' => $model,
             ]);
         }
-        else{
+        else {
             return $this->redirect(['site/no_permisson']);
         }
     }
 
     /**
-     * Updates an existing Inscricao model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $utilizador_id Utilizador ID
-     * @param int $curso_idcurso Curso Idcurso
-     * @return string|\yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
+     * Atualiza uma inscrição existente.
      */
     public function actionUpdate($utilizador_id, $curso_idcurso)
     {
         if(\Yii::$app->user->can('UpdateInscricoes')) {
-
             $model = $this->findModel($utilizador_id, $curso_idcurso);
 
             if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
@@ -135,39 +120,27 @@ class InscricaoController extends Controller
                 'model' => $model,
             ]);
         }
-        else{
+        else {
             return $this->redirect(['site/no_permisson']);
         }
     }
 
     /**
-     * Deletes an existing Inscricao model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $utilizador_id Utilizador ID
-     * @param int $curso_idcurso Curso Idcurso
-     * @return \yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
+     * Apaga uma inscrição.
      */
     public function actionDelete($utilizador_id, $curso_idcurso)
     {
         if(\Yii::$app->user->can('DeleteInscricoes')) {
-
             $this->findModel($utilizador_id, $curso_idcurso)->delete();
-
             return $this->redirect(['index']);
         }
-        else{
+        else {
             return $this->redirect(['site/no_permisson']);
         }
     }
 
     /**
-     * Finds the Inscricao model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $utilizador_id Utilizador ID
-     * @param int $curso_idcurso Curso Idcurso
-     * @return Inscricao the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
+     * Procura o modelo baseado na chave primária (composta). Se não encontrar, lança erro 404.
      */
     protected function findModel($utilizador_id, $curso_idcurso)
     {
@@ -175,6 +148,6 @@ class InscricaoController extends Controller
             return $model;
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        throw new NotFoundHttpException('A página solicitada não existe.');
     }
 }
