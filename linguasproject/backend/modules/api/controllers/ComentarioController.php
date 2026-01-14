@@ -77,6 +77,7 @@ class ComentarioController extends ActiveController
                 'aula_id' => $c->aula_id,
                 'hora_criada' => $c->hora_criada,
                 'utilizador' => $c->utilizador->user->username ?? null,
+                'utilizador_id' => $c->utilizador->id ?? null
             ];
         }
 
