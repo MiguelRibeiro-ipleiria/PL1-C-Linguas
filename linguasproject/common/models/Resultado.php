@@ -115,9 +115,24 @@ class Resultado extends \yii\db\ActiveRecord
                 $inscricao = Inscricao::find()->where(['curso_idcurso' => $curso->id, 'utilizador_id' => $resultado->utilizador_id])->one();
                 if(!Inscricao::VerificaEstadoCurso($curso->id, $inscricao->utilizador_id)){
                     $inscricao->estado = "Em curso";
+
+                    $aulas_terminadas_do_curso = $inscricao->CountResultadoDaInscricaoDoCurso($aula->curso_id, $resultado->utilizador_id);
+                    if(count($inscricao->curso->aulas) != 0){
+                        $numero_total_aulas = count($inscricao->curso->aulas);
+                    }
+                    $progresso = (int)(($aulas_terminadas_do_curso / $numero_total_aulas) * 100);
+                    $inscricao->progresso = $progresso;
+
                 }
                 else{
                     $inscricao->estado = "Concluído";
+                    $aulas_terminadas_do_curso = $inscricao->CountResultadoDaInscricaoDoCurso($aula->curso_id, $resultado->utilizador_id);
+                    if(count($inscricao->curso->aulas) != 0){
+                        $numero_total_aulas = count($inscricao->curso->aulas);
+                    }
+                    $progresso = (int)(($aulas_terminadas_do_curso / $numero_total_aulas) * 100);
+                    $inscricao->progresso = $progresso;
+
                 }
                 if(!$inscricao->save()){
                     return false;

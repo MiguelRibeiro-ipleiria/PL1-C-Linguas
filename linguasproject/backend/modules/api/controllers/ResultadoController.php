@@ -110,14 +110,23 @@ class ResultadoController extends ActiveController
                 $aula = Aula::findOne($aula_idaula);
                 $curso = Curso::findOne(['id' => $aula->curso_id]);
 
+                $inscricao = Inscricao::find()->where(['curso_idcurso' => $curso->id, 'utilizador_id' => $utilizador_id])->one();
                 if(Inscricao::VerificaEstadoCurso($curso->id, $utilizador_id)){
-
-                    $inscricao = Inscricao::find()->where(['curso_idcurso' => $curso->id, 'utilizador_id' => $utilizador_id])->one();
                     if($inscricao){
                         $inscricao->estado = "Concluído";
-                        $inscricao->save();
                     }
                 }
+                else{
+                    $inscricao->estado = "Em Curso";
+                }
+
+                $aulas_terminadas_do_curso = $inscricao->CountResultadoDaInscricaoDoCurso($aula->curso_id, $utilizador_id);
+                if(count($inscricao->curso->aulas) != 0){
+                    $numero_total_aulas = count($inscricao->curso->aulas);
+                }
+                $progresso = (int)(($aulas_terminadas_do_curso / $numero_total_aulas) * 100);
+                $inscricao->progresso = $progresso;
+                $inscricao->save();
 
                 return "Resultado atualizado com sucesso";
             }

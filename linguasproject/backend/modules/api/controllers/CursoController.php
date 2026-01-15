@@ -2,6 +2,7 @@
 
 namespace backend\modules\api\controllers;
 
+use common\models\Aula;
 use common\models\Idioma;
 use common\models\Inscricao;
 use common\models\Utilizador;
@@ -59,14 +60,18 @@ class CursoController extends ActiveController
             ->all();
 
         $result = array_map(function($curso) {
+
+            $aula_count = (int) Aula::find()->where(['curso_id' => $curso['id']])->count();
             return [
                 'id' => $curso['id'],
                 'titulo_curso' => $curso['titulo_curso'],
                 'status_ativo' => $curso['status_ativo'],
                 'curso_detalhe' => $curso['curso_detalhe'],
                 'data_criacao' => $curso['data_criacao'],
+                // Usando null coalescing para evitar erros de índice inexistente
                 'idioma' => $curso['idioma']['lingua_descricao'] ?? null,
                 'dificuldade' => $curso['dificuldade']['grau_dificuldade'] ?? null,
+                'aula_count' => $aula_count,
             ];
         }, $cursos);
 
@@ -119,6 +124,8 @@ class CursoController extends ActiveController
         }
 
         $result = array_map(function($curso) {
+            $aula_count = (int) Aula::find()->where(['curso_id' => $curso['id']])->count();
+
             return [
                 'id' => $curso['id'],
                 'titulo_curso' => $curso['titulo_curso'],
@@ -127,6 +134,7 @@ class CursoController extends ActiveController
                 'dificuldade' => $curso['dificuldade']['grau_dificuldade'] ?? null,
                 'curso_detalhe' => $curso['curso_detalhe'] ?? null,
                 'data_criacao' => $curso['data_criacao'] ?? null,
+                'aula_count' => $aula_count,
             ];
         }, $cursos);
 
