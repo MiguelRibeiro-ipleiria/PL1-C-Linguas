@@ -143,22 +143,31 @@ class CursoController extends ActiveController
 
     public function actionAllcursosporidioma($idioma_id)
     {
+
         $CursosModel = new $this->modelClass;
-        $idioma = Idioma::find()->where(['id' => $idioma_id])->one();
 
-        if($idioma == null){
-            return "Idioma não encontrado!";
-        }
-        else{
-            $cursos = $CursosModel::find()->where(['idioma_id' => $idioma->id])->all();
+        $cursos = $CursosModel::find()
+            ->where(['idioma_id' => $idioma_id])
+            ->with(['idioma', 'dificuldade'])
+            ->asArray()
+            ->all();
 
-            if($cursos){
-                return $cursos;
-            }
-            else{
-                return "Este idioma não tem cursos";
-            }
-        }
+        $result = array_map(function($curso) {
+
+            $aula_count = (int) Aula::find()->where(['curso_id' => $curso['id']])->count();
+            return [
+                'id' => $curso['id'],
+                'titulo_curso' => $curso['titulo_curso'],
+                'status_ativo' => $curso['status_ativo'],
+                'curso_detalhe' => $curso['curso_detalhe'],
+                'data_criacao' => $curso['data_criacao'],
+                'idioma' => $curso['idioma']['lingua_descricao'] ?? null,
+                'dificuldade' => $curso['dificuldade']['grau_dificuldade'] ?? null,
+                'aula_count' => $aula_count,
+            ];
+        }, $cursos);
+
+        return $result;
     }
 
 

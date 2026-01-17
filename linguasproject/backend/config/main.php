@@ -133,7 +133,6 @@ return [
                         '{curso_id}' => '<curso_id:\\d+>',
                     ],
                 ],
-
             ],
         ],
 
