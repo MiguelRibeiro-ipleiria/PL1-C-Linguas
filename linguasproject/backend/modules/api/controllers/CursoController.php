@@ -168,6 +168,7 @@ class CursoController extends ActiveController
         }, $cursos);
 
         return $result;
+
     }
 
 
