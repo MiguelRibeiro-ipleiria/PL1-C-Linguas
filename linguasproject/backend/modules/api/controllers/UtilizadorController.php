@@ -157,10 +157,10 @@ class UtilizadorController extends ActiveController
 
                 $perc_total = (int)(($cursos_concluidos_count / $cursos_totais_count) * 100);
 
-                return $perc_total."%";
+                return ['progresso' => $perc_total . "%"];
             }
             else{
-                return "0%";
+                return ['progresso' => "0%"];
             }
 
         }
